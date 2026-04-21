@@ -1,13 +1,108 @@
 Validation
 ==========
 
-.. note::
+CoarseAIR's correctness rests on three legs: (1) code-to-code
+comparisons against the ancestor VVTC code on overlapping systems,
+(2) self-consistency checks (energy conservation, sum rules, detailed
+balance) built into the post-processing, and (3) comparison to
+published QCT rates and experimental data for well-characterised
+benchmarks.
 
-   This page is under construction. Content coming soon.
 
-Planned coverage:
+Reference comparison against VVTC
+---------------------------------
 
-- 3-body validation systems and reference data
-- 4-body validation systems and reference data
-- Regression test suite and continuous integration
-- Code-to-code comparisons with published QCT results
+The ``test/`` directory bundles a head-to-head N + N\ :sub:`2`
+comparison against the VVTC reference code. The comparison is driven
+by the MATLAB script
+
+.. code-block:: text
+
+   test/CompareToVVTC_N3.m
+
+which reads the CoarseAIR rate output and the VVTC reference results
+under ``test/ResultsVVTC_N3/`` and produces side-by-side plots of
+excitation functions and thermal rate coefficients.
+
+Because VVTC uses a different integrator (lower-order Bulirsch–Stoer
+variant and a slightly different trajectory-batching strategy), the
+match is statistical rather than bit-for-bit: agreement within
+statistical error across a broad range of :math:`(v, J)` is the
+success criterion. The current ``Clement-Adiabatic`` branch matches
+VVTC to within Monte-Carlo uncertainty on the full N\ :sub:`3`
+dissociation rate at several representative temperatures.
+
+
+Self-consistency diagnostics
+----------------------------
+
+Three checks are available out-of-the-box in the post-processing
+tooling. They can be run on any CoarseAIR output and should be
+inspected before publishing results.
+
+**Energy conservation.** Each trajectory's final Hamiltonian is
+compared to the initial value; trajectories exceeding the user-set
+tolerance are flagged and excluded from the rate statistics. See
+:doc:`/theory/integrators`.
+
+**Sum rule.** The cross-sections from a single starting level, summed
+over all outgoing channels (elastic + inelastic + exchange +
+dissociation), must equal :math:`\pi b_{\max}^{2}` within statistical
+error. A deviation flags either a classification bug or a
+:math:`b_{\max}` that was set too small. See
+:doc:`/theory/rate_extraction`.
+
+**Detailed balance.** For a pair of states :math:`(v, J)` and
+:math:`(v', J')` at the same temperature, the forward and reverse
+rates should satisfy the degeneracy-weighted, Boltzmann-weighted
+detailed-balance relation. See :doc:`/theory/rate_extraction`.
+
+
+Benchmark systems
+-----------------
+
+Systems routinely used for validation:
+
+- **H + H\ :sub:`2`** (``input/H3/``) — the classical QCT benchmark.
+  Literature reference data spans 1970s–2010s. Ideal for
+  integrator/sampling sanity checks. See :doc:`/examples/h3`.
+- **N + N\ :sub:`2`** (``input/N3/``) — direct comparison to VVTC
+  (``test/``), plus extensive comparison to the UMN / NASA
+  literature.
+- **O + O\ :sub:`2`** (``input/O3/``) — cross-validation between the
+  UMN analytic and NN / GP / BNN machine-learned variants of the same
+  nine electronic surfaces. A regression of rates computed on the NN
+  PES against rates computed on the UMN PES provides a PES-quality
+  estimate independent of the underlying dynamics code.
+- **NaNbNcNd** (``input/NaNbNcNd/``) — audits the identical-atom
+  averaging performed on N\ :sub:`4` by comparing a labelled-atom run
+  to the indistinguishable-atom run. Expected: equality within Monte
+  Carlo error.
+- **O18O18O16** (``input/O18O18O16/``) — isotope-substituted ozone;
+  used to check mass-dependent fractionation in exchange channels.
+
+
+4-body validation
+-----------------
+
+N\ :sub:`4` and O\ :sub:`4` are the most-studied 4-atom systems. Their
+validation relies on:
+
+- Cross-validation between different PES providers (NASA vs UMN vs
+  UMN_PIPNN for N\ :sub:`4`).
+- Consistency checks against the 3-body "satellite" reaction
+  (N + N\ :sub:`2` versus N\ :sub:`2` + N\ :sub:`2` in the regime
+  where the second N\ :sub:`2` is a spectator).
+- Detailed balance across V–V transfer channels.
+
+
+Continuous integration
+----------------------
+
+Continuous integration on each push to the ``Clement-Adiabatic``
+branch is a work-in-progress item on the
+:doc:`/developer/roadmap`. As of this documentation, the regression
+suite is run manually during release preparation. Contributing a GitHub
+Actions workflow that builds CoarseAIR, runs a smoke-sized H\ :sub:`3`
+job, and compares rates to a checked-in reference would be a valuable
+first addition.

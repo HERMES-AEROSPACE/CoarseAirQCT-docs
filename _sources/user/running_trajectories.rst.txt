@@ -1,14 +1,208 @@
 Running Trajectories
 ====================
 
-.. note::
+Once the code is built and the chemistry database is in place, running a
+trajectory campaign comes down to: configuring ``CoarseAIR.inp``,
+choosing a parallelisation strategy in ``CoarseAIR.sh``, and launching
+either locally or through a scheduler.
 
-   This page is under construction. Content coming soon.
+For the details of every input option see :doc:`input_reference`; this
+page focuses on the launch side of the workflow.
 
-Planned coverage:
 
-- Local execution (single-node MPI)
-- Cluster execution (SLURM job script templates)
-- Adaptive impact-parameter sweep (``bmax``) for cross-section sampling
-- Output directory layout and naming conventions
-- Restart & checkpoint strategies
+The launch script ``CoarseAIR.sh``
+----------------------------------
+
+``scripts/launching/CoarseAIR.sh`` is the single entry point for both
+local and cluster runs. Copy it into your run directory and edit the
+variables at the top:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 12 66
+
+   * - Variable
+     - Default
+     - Meaning
+   * - ``NProc``
+     - 1
+     - Processors per node (used by ``parallel``).
+   * - ``ParNodes``
+     - 0
+     - 0 = local bash run. 1 = single PBS/SLURM node. N = submit N
+       per-node jobs.
+   * - ``Scheduler``
+     - ``NONE``
+     - ``NONE`` / ``SLURM`` / ``PBS``.
+   * - ``ProcType``
+     - (blank)
+     - NASA Pleiades processor class — ``san`` or ``ivy``.
+       Ignored off-Pleiades.
+   * - ``Queue``
+     - (blank)
+     - Scheduler queue / partition — ``devel``, ``debug``, ``low``,
+       ``medium``, ``long`` on Pleiades; whatever your site offers
+       elsewhere. Ignored for local runs.
+   * - ``WallTime``
+     - 2
+     - Job wall-time limit, in hours. Ignored for local runs.
+   * - ``SlncFlg``
+     - 0
+     - If 1, suppress stdout (useful inside loops).
+   * - ``MergeAllFlg``
+     - 1
+     - If 1, merge per-processor trajectory files into a single file
+       after completion.
+   * - ``RmTrajFlg``
+     - 0
+     - If 1, delete per-node scratch folders after completion.
+   * - ``BinaryTrajFlg``
+     - 0
+     - If 1, read/write trajectories in binary (faster, smaller).
+
+After editing the header variables, launch with:
+
+.. code-block:: bash
+
+   COARSEAIR_UPDATE; COARSEAIR_release
+   bash ./CoarseAIR.sh
+
+
+Workflow stages
+---------------
+
+The script runs the following stages of the pipeline in order, driven
+by four ``yes/no`` flags in ``CoarseAIR.inp``:
+
+.. code-block:: text
+
+   Generating Energy Levels?        = yes | no
+   Preprocessing Energy Levels List? = yes | no
+   Running Trajectories?             = yes | no
+   Postprocessing Trajectories?      = yes | no
+
+A typical campaign runs in two passes:
+
+1. **First pass.** ``Generating Energy Levels? = yes`` (first time
+   only, for a new chemical system/PES) → ``Preprocessing Energy
+   Levels List? = yes`` → ``Running Trajectories? = yes`` →
+   ``Postprocessing Trajectories? = no``. Produces the raw trajectory
+   files.
+
+2. **Second pass.** All the above set to ``no`` except
+   ``Postprocessing Trajectories? = yes``. Converts the trajectory
+   files into cross-sections (``statistics.csv``) and rates
+   (``Proc*.csv``). Much cheaper than the first pass — runs in
+   minutes even for large campaigns.
+
+Decoupling the two passes is convenient when the user wants to tweak
+the rate-extraction settings (bin boundaries, exchange/inelastic
+splitting, PES disambiguation) without re-running the expensive
+trajectory stage.
+
+
+Local execution
+---------------
+
+With ``ParNodes = 0`` and ``Scheduler = NONE``, the script runs
+everything on the local machine, using GNU ``parallel`` to distribute
+trajectory tasks across ``NProc`` cores. This is appropriate for
+workstations and for single-system smoke tests.
+
+
+Cluster execution
+-----------------
+
+For distributed runs CoarseAIR uses a simple "bag of jobs" pattern:
+each per-node job executes an independent subset of the trajectory
+ensemble, and the output is aggregated during post-processing.
+
+With ``ParNodes = 1``, the script submits a **single** scheduler job
+(PBS or SLURM) that runs the entire ensemble on that one node.
+
+With ``ParNodes = N > 1``, the script submits **N** independent
+scheduler jobs, each running ``(total trajectories) / N`` of the
+ensemble. Useful when a single node cannot finish within the queue's
+wall-time limit.
+
+Templates provided under ``scripts/launching/``:
+
+- ``RunTrajectories-Format.pbs`` / ``-Pleiades.pbs`` — PBS trajectory jobs.
+- ``RunTrajectories-Format-UIUC.pbs`` / ``-UIUC.slurm`` — UIUC cluster.
+- ``PostTrajectories-Format*.{pbs,slurm}`` — post-processing counterparts.
+
+Copy one of these, edit the ``#PBS``/``#SBATCH`` header lines for your
+site (account, partition, wall-time, memory), and point
+``CoarseAIR.sh`` at it via the ``Scheduler`` variable.
+
+
+Parallelisation model
+---------------------
+
+Each trajectory is embarrassingly parallel — no communication between
+trajectories during integration. CoarseAIR exploits this by:
+
+1. Distributing trajectories across nodes via independent jobs
+   (``ParNodes``).
+2. Within a node, distributing trajectories across cores via GNU
+   ``parallel`` (``NProc``).
+3. Within each core, vectorising over a batch of trajectories
+   (``Trajectories%PaQ(NEqtTot, NTraj)``) so the integrator operates
+   on several trajectories simultaneously in memory. See
+   :doc:`/theory/integrators`.
+
+Output from each core lands in its own ``Node_X/Proc_Y/`` subfolder;
+``MergeAllFlg = 1`` combines them into a single file at completion.
+
+
+Bmax and the scattering map
+---------------------------
+
+A common pre-study before a production campaign is to estimate the
+maximum impact parameter :math:`b_{\max}` beyond which no reactive or
+inelastic events occur at the chosen collision energy. The
+``Initial Impact Parameter Model = Normal`` block in ``CoarseAIR.inp``
+takes a single :math:`b_{\max}`; picking it correctly is essential
+(too small truncates the cross-section; too large wastes trajectories
+on non-interacting events).
+
+Procedure: run a short campaign with a generous :math:`b_{\max}` and
+``Initial Impact Parameter Model = Stratified``, inspect the
+outcome-vs-b histogram in post-processing, and set :math:`b_{\max}`
+equal to the largest :math:`b` at which any non-elastic event was
+observed. See :doc:`/theory/sampling` for the theoretical weighting
+and :doc:`/examples/h3` for a worked example.
+
+
+Active learning
+---------------
+
+``scripts/launching/CoarseAIR_ActiveLearning.sh`` runs iterative
+trajectory campaigns: after each iteration the script analyses which
+regions of the level space are under-sampled (large statistical error,
+large model uncertainty from a BNN PES, etc.) and concentrates the next
+batch of trajectories there. Used for BNN-based uncertainty
+quantification studies on O\ :sub:`3`; documented more fully in the
+developer roadmap (:doc:`/developer/roadmap`).
+
+
+Checking a run
+--------------
+
+While a campaign is running, useful diagnostics include:
+
+- ``Node_*/Proc_*/`` subfolder contents — each live trajectory writes
+  out its progress.
+- The ``.log`` files produced when the ``i_Debug = .True.`` flag is
+  compiled in (see section 2.3.3 of the legacy user manual).
+- ``statistics.csv`` convergence — run the post-processing stage with
+  a partial trajectory output to monitor how fast the rates converge.
+- Energy conservation — per-trajectory
+  :math:`\Delta H = |H_{\text{final}} - H_{\text{initial}}|` is
+  recorded and flagged if it exceeds the user tolerance; see
+  :doc:`/theory/integrators`.
+
+If the job is aborted mid-run, restart is at the trajectory-batch
+granularity: trajectories already committed to disk are kept and
+picked up by the next post-processing pass. Resume the campaign by
+re-launching with the same input.

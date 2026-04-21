@@ -1,10 +1,121 @@
 Bibliography
 ============
 
-.. note::
+Canonical references for the CoarseAIR methodology and for the most
+commonly used potential energy surfaces. Use these when citing
+CoarseAIR or any surface it ships.
 
-   This page is under construction. Content coming soon.
 
-Key references for the methods and PES used in CoarseAIR will be collected
-here (both the CoarseAIR implementation papers and the underlying QCT /
-sampling / PES literature).
+CoarseAIR foundations
+---------------------
+
+- S. Venturi,
+  *Machine Learning and Uncertainty Quantification Framework for
+  Predictive Ab Initio Hypersonics*, Ph.D. thesis, University of
+  Illinois at Urbana-Champaign (2021).
+- S. Venturi, R. L. Jaffe, M. Panesi,
+  *Bayesian Machine Learning Approach to the Quantification of
+  Uncertainties on Ab Initio Potential Energy Surfaces*,
+  J. Phys. Chem. A **124** (25), 5129–5146 (2020).
+- S. Venturi, M. P. Sharma, B. Lopez, M. Panesi,
+  *Data-Inspired and Physics-Driven Model Reduction for Dissociation:
+  Application to the O*\ :sub:`2` *+ O System*,
+  J. Phys. Chem. A **124** (41), 8359–8372 (2020).
+- R. L. Jaffe, D. W. Schwenke, M. Panesi,
+  *First Principles Calculation of Heavy Particle Rate Coefficients*,
+  Chapter 2 in *Hypersonic Nonequilibrium Flows: Fundamentals and
+  Recent Advances* (2014).
+
+
+Numerical methods
+-----------------
+
+- A. W. Sandvik,
+  *Numerical Solutions of the Schrödinger Equation*, Boston
+  University lecture notes (2016). Reference for the Numerov method
+  used in level generation.
+- B. R. Johnson,
+  *The renormalized Numerov method applied to calculating bound
+  states of the coupled-channel Schrödinger equation*,
+  J. Chem. Phys. **69**, 4678 (1978). Coupled-channel generalisation.
+- W. H. Press, S. A. Teukolsky, W. T. Vetterling, B. P. Flannery,
+  *Numerical Recipes: The Art of Scientific Computing* (3rd ed.,
+  Cambridge University Press, 2007). Bulirsch–Stoer integrator and
+  modified midpoint method; see :doc:`/theory/integrators`.
+
+
+Potential energy surfaces
+-------------------------
+
+When citing CoarseAIR runs, please also cite the original PES
+reference for the surface actually used. A non-exhaustive list
+follows; for the full set, look at the headers of the individual
+source files under ``src/PESs/``.
+
+**Hydrogen-containing systems**
+
+- A. I. Boothroyd, W. J. Keogh, P. G. Martin, M. R. Peterson,
+  J. Chem. Phys. **104**, 7139 (1996). H\ :sub:`3` BKMP2 surface
+  (``H3_BH``).
+- A. I. Boothroyd, P. G. Martin, W. J. Keogh, M. R. Peterson,
+  J. Chem. Phys. **116**, 666 (2002). H\ :sub:`4` BMKP surface
+  (``H4_BMKP``).
+- A. I. Boothroyd, P. G. Martin, M. R. Peterson,
+  J. Chem. Phys. **119**, 3187 (2003). H\ :sub:`2` + He
+  (``H2He_BMPmod``).
+
+**Nitrogen systems**
+
+- NASA N\ :sub:`3`, N\ :sub:`4` surfaces: Jaffe and co-workers.
+- UMN N\ :sub:`3` / N\ :sub:`4` / N\ :sub:`2`\ O surfaces: Truhlar and
+  co-workers (PIP, PIPNN, PIP-MEG forms).
+
+**Oxygen systems**
+
+- UMN O\ :sub:`3` surfaces (nine electronic states): Varga, Paukku,
+  Truhlar.
+- UMN O\ :sub:`4` surface: Paukku, Yang, Varga, Truhlar.
+- Varandas O\ :sub:`2` diatomic: Varandas and co-workers.
+
+**Carbon-containing systems**
+
+- NASA CO\ :sub:`2` / CO-Ar surfaces: Schwenke, Jaffe.
+- Basel CNO / NO\ :sub:`2` / CO\ :sub:`2` / N\ :sub:`2`\ O surfaces:
+  Meuwly and co-workers.
+- UCI CNO surfaces: University of California, Irvine group.
+- UIUC / GUO CHN surfaces: Illinois / Guo groups.
+
+
+Source-code review
+------------------
+
+Internal documents shipping with the repository:
+
+- ``README/Documentation/CoarseAIR_User_s_Manual.pdf`` — the legacy
+  user's manual by S. Venturi and B. Lopez, documented by
+  D. Steinberg.
+- ``README/Documentation/CoarseAIR_Source_Code_Report.md`` — detailed
+  source-code architecture report (March 2024).
+- ``README/TheoryNotes/`` — hand-written theory notes on coordinate
+  transformations, sampling, trajectory analysis, and Maxwellian
+  statistics.
+
+
+Recommended reading
+-------------------
+
+- D. G. Truhlar, J. T. Muckerman,
+  *Reactive Scattering Cross Sections: Quasiclassical and
+  Semiclassical Methods*, in *Atom–Molecule Collision Theory*,
+  R. B. Bernstein (Ed.), Plenum (1979).
+
+- L. Bonnet, J.-C. Rayez,
+  *Quasiclassical trajectory method for molecular scattering
+  processes*, Chem. Phys. Lett. **277**, 183–190 (1997).
+  Gaussian binning correction (not yet implemented in CoarseAIR).
+
+- M. Panesi, R. L. Jaffe, D. W. Schwenke, T. E. Magin,
+  *Rovibrational internal energy transfer and dissociation of
+  N\ :sub:`2` (1Σ) + N(4S) system in hypersonic flows*,
+  J. Chem. Phys. **138**, 044312 (2013). The N + N\ :sub:`2` rate
+  database that shaped the CoarseAIR design.

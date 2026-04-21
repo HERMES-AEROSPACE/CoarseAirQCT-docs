@@ -1,10 +1,108 @@
 Changelog
 =========
 
-.. note::
+A user-facing summary of significant changes to CoarseAIR, maintained in
+reverse chronological order. For the full commit-level history consult
+``git log`` on the repository.
 
-   This page is under construction. Content coming soon.
 
-A curated, user-facing summary of significant changes — new collision systems,
-PES support, integrator options, output-format changes — will be maintained
-here. Full commit history lives in ``git log``.
+Unreleased (Clement-Adiabatic branch)
+-------------------------------------
+
+Documentation
+~~~~~~~~~~~~~
+
+- Added this Sphinx documentation site
+  (``docs/online-documentation/``) deploying to
+  https://hermes-aerospace.github.io/CoarseAirQCT-docs/.
+- README updated to link the documentation site; legacy user's manual
+  retained under ``README/Documentation/CoarseAIR_User_s_Manual.pdf``
+  for reference.
+
+Features
+~~~~~~~~
+
+- Added inputs and database support for all of: H\ :sub:`2`\ He,
+  H\ :sub:`3`, H\ :sub:`4` — completing the hydrogen-system family.
+
+Bug fixes
+~~~~~~~~~
+
+- Fixed a bug with multiple-PES trajectory integrations (e.g. CNO
+  across :sup:`2`\ A', :sup:`2`\ A'', :sup:`4`\ A'').
+- Resolved an auto-correction issue with the
+  :math:`v_{qn} \pm 1` rounding in
+  ``Mask4InProc_Nb3Atoms`` (replaces an ad-hoc 36-bin
+  workaround with a proper rounding of the semi-classical action
+  integral).
+- Addressed quasi-bound state period-failure at high temperatures
+  (>10 000 K) by falling back to database values when the analytic
+  ``Period`` fails for barely-trapped states.
+- Populated the previously-empty interface functions that wrapped the
+  PES implementations.
+- Fixed ``Iac`` loop bound sign error (``exp(beta*rho)`` STOP
+  condition).
+- Resolved a COMMON-block / MODULE mismatch that caused uninitialised
+  Schwenke coefficients and geometry checks.
+- Corrected type inconsistencies (``level_err``, ``ifixclose``
+  handled as doubles instead of integers).
+- Fixed the ``a_schw`` index range and enabled the previously
+  uninitialised ``ifixclose``.
+- Initialised ``a_H_poly`` before its accumulation loop.
+- Overall repository cleanup and bug audit.
+
+
+Version 1.1 (baseline for this documentation)
+---------------------------------------------
+
+The version inherited by this documentation effort, with the full
+pipeline described in :doc:`/theory/qct` through
+:doc:`/theory/rate_extraction` and the 15 supported collision systems
+enumerated under :doc:`/examples/h3` and neighbours.
+
+Notable inherited features:
+
+- Object-oriented Fortran 2008 architecture with abstract base classes
+  for PES, DiatomicPotential, Molecule, Processes, System, BinsContainer,
+  Degeneracy, and seven Factory classes.
+- Bulirsch-Stoer adaptive integrator with per-trajectory step control
+  (``src/Collision/ODE/``).
+- Multi-surface infrastructure (``PESsContainer`` + per-trajectory
+  ``iPES``) already in place for up to 9 electronic surfaces.
+- 48+ PES implementations spanning analytic (LEPS, MEG, PIP), neural
+  network (NN, PIP-NN), Bayesian neural network, Gaussian process, and
+  dummy (non-reactive) forms.
+- 35+ diatomic potential implementations across H\ :sub:`2`,
+  N\ :sub:`2`, O\ :sub:`2`, CO, NO, CN, CH, HN, HHe.
+- Four impact-parameter sampling strategies (Normal, Random,
+  Stratified, FixedAngMom).
+- Five binning strategies (State-specific, Vib-specific, RoVib-CG,
+  Energy-based, From-File).
+- CSV and binary trajectory output; ``statistics.csv`` + ``Proc*.csv``
+  rate output.
+- Active-learning launch mode
+  (``scripts/launching/CoarseAIR_ActiveLearning.sh``).
+- MATLAB (``extra/MCoarseAIR/``) and Python (external ``PyCoarseAIR``)
+  post-processing tooling.
+
+
+Historical milestones
+---------------------
+
+- **2019 — Initial release (version 1.0).** First object-oriented
+  re-implementation of the NASA Ames VVTC (Vectorized Variable
+  Stepsize Trajectory Code) of D. W. Schwenke, authored by
+  S. Venturi and B. Lopez at the University of Illinois. MIT-licensed.
+
+- **Subsequent releases.** Addition of the UMN O\ :sub:`3` nine-
+  surface database, the BNN-based uncertainty-quantification PES,
+  the extensive N\ :sub:`3` / N\ :sub:`4` / O\ :sub:`3` / O\ :sub:`4`
+  benchmark campaigns, and the PyCoarseAIR companion tool.
+
+
+Looking ahead
+-------------
+
+See :doc:`/developer/roadmap` for in-progress and planned work,
+including the CoarseAIR+ surface-hopping fork and the expected
+integration-benchmark additions.

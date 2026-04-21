@@ -19,6 +19,7 @@
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -47,11 +48,59 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user/getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user/installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user/running_trajectories.html">Running Trajectories</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user/input_reference.html">Input File Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user/postprocessing.html">Post-processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user/getting_started.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/getting_started.html#build-the-code">Build the code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/getting_started.html#run-a-first-example-n-n2-dissociation-at-t-10-000-k">Run a first example — N + N<sub>2</sub> dissociation at T = 10 000 K</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/getting_started.html#inspect-the-output">Inspect the output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/getting_started.html#where-to-go-next">Where to go next</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../user/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user/installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/installation.html#clone-the-repository">Clone the repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/installation.html#build-options">Build options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/installation.html#build-artefacts">Build artefacts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/installation.html#smoke-test">Smoke test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/installation.html#cluster-installation">Cluster installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/installation.html#uninstall-rebuild">Uninstall / rebuild</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../user/running_trajectories.html">Running Trajectories</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user/running_trajectories.html#the-launch-script-coarseair-sh">The launch script <code class="docutils literal notranslate"><span class="pre">CoarseAIR.sh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/running_trajectories.html#workflow-stages">Workflow stages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/running_trajectories.html#local-execution">Local execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/running_trajectories.html#cluster-execution">Cluster execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/running_trajectories.html#parallelisation-model">Parallelisation model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/running_trajectories.html#bmax-and-the-scattering-map">Bmax and the scattering map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/running_trajectories.html#active-learning">Active learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/running_trajectories.html#checking-a-run">Checking a run</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../user/input_reference.html">Input File Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#top-level-pipeline-flags">Top-level pipeline flags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#system-and-atomic-composition-block">System and atomic-composition block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#translational-energy-temperature-block">Translational energy / temperature block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#trajectory-and-sampling-block">Trajectory and sampling block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#pes-block">PES block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#diatomic-potential-block">Diatomic-potential block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#preprocessing-binning-block">Preprocessing / binning block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#post-processing-block">Post-processing block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#process-index-encoding-output">Process-index encoding (output)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#secondary-input-files">Secondary input files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../user/postprocessing.html">Post-processing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#pipeline-overview">Pipeline overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#trajectory-output-files">Trajectory output files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#statistics-csv-cross-sections"><code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> — cross-sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#proc-csv-rate-coefficients"><code class="docutils literal notranslate"><span class="pre">Proc*.csv</span></code> — rate coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#controlling-the-aggregation">Controlling the aggregation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#pycoarseair">PyCoarseAIR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#mcoarseair">MCoarseAIR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#diagnostic-checks">Diagnostic checks</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
 <ul>
@@ -226,17 +275,81 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="about.html">About CoarseAIR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="validation.html">Validation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About CoarseAIR</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="about.html#authorship-and-license">Authorship and license</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#related-codes">Related codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#coarseair-surface-hopping-extension">CoarseAIR+ (surface-hopping extension)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#citation-guidance">Citation guidance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#acknowledgements">Acknowledgements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#contact">Contact</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html">Validation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#reference-comparison-against-vvtc">Reference comparison against VVTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#self-consistency-diagnostics">Self-consistency diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#benchmark-systems">Benchmark systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#body-validation">4-body validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#continuous-integration">Continuous integration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bibliography.html#coarseair-foundations">CoarseAIR foundations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bibliography.html#numerical-methods">Numerical methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bibliography.html#potential-energy-surfaces">Potential energy surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bibliography.html#source-code-review">Source-code review</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bibliography.html#recommended-reading">Recommended reading</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#unreleased-clement-adiabatic-branch">Unreleased (Clement-Adiabatic branch)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bug-fixes">Bug fixes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-1-baseline-for-this-documentation">Version 1.1 (baseline for this documentation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#historical-milestones">Historical milestones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looking-ahead">Looking ahead</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Developer Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../developer/architecture.html">Architecture Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../developer/adding_a_system.html">Adding a New Collision System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../developer/roadmap.html">Development Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/architecture.html">Architecture Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../developer/architecture.html#repository-layout">Repository layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/architecture.html#design-patterns">Design patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/architecture.html#class-hierarchies">Class hierarchies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/architecture.html#core-data-structures">Core data structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/architecture.html#data-flow">Data flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/architecture.html#key-entry-points-for-extension">Key entry points for extension</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/adding_a_system.html">Adding a New Collision System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#phase-1-system-topology">Phase 1 — System topology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#phase-2-pes-and-diatomic-potentials">Phase 2 — PES and diatomic potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#phase-3-database-contents">Phase 3 — Database contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#phase-4-input-template-test-documentation">Phase 4 — Input template, test, documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#a-new-4-atom-pes-of-an-existing-system-minimal-diff">A new 4-atom PES of an existing system — minimal diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#larger-scale-additions-a-new-arrangement-count-5-atom">Larger-scale additions: a new arrangement count (5-atom)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#checklist">Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#current-contents-of-test">Current contents of <code class="docutils literal notranslate"><span class="pre">test/</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#how-to-run-the-regression">How to run the regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#planned-ci-suite">Planned CI suite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#adding-a-new-regression-test">Adding a new regression test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#manual-regression-checklist">Manual regression checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/roadmap.html">Development Roadmap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../developer/roadmap.html#in-progress">In progress</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/roadmap.html#short-term-goals-next-13-months">Short-term goals (next 1–3 months)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/roadmap.html#medium-term-goals-312-months">Medium-term goals (3–12 months)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/roadmap.html#longer-term-directions">Longer-term directions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/roadmap.html#how-to-contribute">How to contribute</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -265,13 +378,108 @@
              
   <section id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading"></a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is under construction. Content coming soon.</p>
-</div>
-<p>A curated, user-facing summary of significant changes — new collision systems,
-PES support, integrator options, output-format changes — will be maintained
-here. Full commit history lives in <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code>.</p>
+<p>A user-facing summary of significant changes to CoarseAIR, maintained in
+reverse chronological order. For the full commit-level history consult
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> on the repository.</p>
+<section id="unreleased-clement-adiabatic-branch">
+<h2>Unreleased (Clement-Adiabatic branch)<a class="headerlink" href="#unreleased-clement-adiabatic-branch" title="Link to this heading"></a></h2>
+<section id="documentation">
+<h3>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Added this Sphinx documentation site
+(<code class="docutils literal notranslate"><span class="pre">docs/online-documentation/</span></code>) deploying to
+<a class="reference external" href="https://hermes-aerospace.github.io/CoarseAirQCT-docs/">https://hermes-aerospace.github.io/CoarseAirQCT-docs/</a>.</p></li>
+<li><p>README updated to link the documentation site; legacy user’s manual
+retained under <code class="docutils literal notranslate"><span class="pre">README/Documentation/CoarseAIR_User_s_Manual.pdf</span></code>
+for reference.</p></li>
+</ul>
+</section>
+<section id="features">
+<h3>Features<a class="headerlink" href="#features" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Added inputs and database support for all of: H<sub>2</sub>He,
+H<sub>3</sub>, H<sub>4</sub> — completing the hydrogen-system family.</p></li>
+</ul>
+</section>
+<section id="bug-fixes">
+<h3>Bug fixes<a class="headerlink" href="#bug-fixes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Fixed a bug with multiple-PES trajectory integrations (e.g. CNO
+across <sup>2</sup>A’, <sup>2</sup>A’’, <sup>4</sup>A’’).</p></li>
+<li><p>Resolved an auto-correction issue with the
+<span class="math notranslate nohighlight">\(v_{qn} \pm 1\)</span> rounding in
+<code class="docutils literal notranslate"><span class="pre">Mask4InProc_Nb3Atoms</span></code> (replaces an ad-hoc 36-bin
+workaround with a proper rounding of the semi-classical action
+integral).</p></li>
+<li><p>Addressed quasi-bound state period-failure at high temperatures
+(&gt;10 000 K) by falling back to database values when the analytic
+<code class="docutils literal notranslate"><span class="pre">Period</span></code> fails for barely-trapped states.</p></li>
+<li><p>Populated the previously-empty interface functions that wrapped the
+PES implementations.</p></li>
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">Iac</span></code> loop bound sign error (<code class="docutils literal notranslate"><span class="pre">exp(beta*rho)</span></code> STOP
+condition).</p></li>
+<li><p>Resolved a COMMON-block / MODULE mismatch that caused uninitialised
+Schwenke coefficients and geometry checks.</p></li>
+<li><p>Corrected type inconsistencies (<code class="docutils literal notranslate"><span class="pre">level_err</span></code>, <code class="docutils literal notranslate"><span class="pre">ifixclose</span></code>
+handled as doubles instead of integers).</p></li>
+<li><p>Fixed the <code class="docutils literal notranslate"><span class="pre">a_schw</span></code> index range and enabled the previously
+uninitialised <code class="docutils literal notranslate"><span class="pre">ifixclose</span></code>.</p></li>
+<li><p>Initialised <code class="docutils literal notranslate"><span class="pre">a_H_poly</span></code> before its accumulation loop.</p></li>
+<li><p>Overall repository cleanup and bug audit.</p></li>
+</ul>
+</section>
+</section>
+<section id="version-1-1-baseline-for-this-documentation">
+<h2>Version 1.1 (baseline for this documentation)<a class="headerlink" href="#version-1-1-baseline-for-this-documentation" title="Link to this heading"></a></h2>
+<p>The version inherited by this documentation effort, with the full
+pipeline described in <a class="reference internal" href="../theory/qct.html"><span class="doc">Quasi-Classical Trajectories</span></a> through
+<a class="reference internal" href="../theory/rate_extraction.html"><span class="doc">Rate &amp; Cross-Section Extraction</span></a> and the 15 supported collision systems
+enumerated under <a class="reference internal" href="../examples/h3.html"><span class="doc">H3 System</span></a> and neighbours.</p>
+<p>Notable inherited features:</p>
+<ul class="simple">
+<li><p>Object-oriented Fortran 2008 architecture with abstract base classes
+for PES, DiatomicPotential, Molecule, Processes, System, BinsContainer,
+Degeneracy, and seven Factory classes.</p></li>
+<li><p>Bulirsch-Stoer adaptive integrator with per-trajectory step control
+(<code class="docutils literal notranslate"><span class="pre">src/Collision/ODE/</span></code>).</p></li>
+<li><p>Multi-surface infrastructure (<code class="docutils literal notranslate"><span class="pre">PESsContainer</span></code> + per-trajectory
+<code class="docutils literal notranslate"><span class="pre">iPES</span></code>) already in place for up to 9 electronic surfaces.</p></li>
+<li><p>48+ PES implementations spanning analytic (LEPS, MEG, PIP), neural
+network (NN, PIP-NN), Bayesian neural network, Gaussian process, and
+dummy (non-reactive) forms.</p></li>
+<li><p>35+ diatomic potential implementations across H<sub>2</sub>,
+N<sub>2</sub>, O<sub>2</sub>, CO, NO, CN, CH, HN, HHe.</p></li>
+<li><p>Four impact-parameter sampling strategies (Normal, Random,
+Stratified, FixedAngMom).</p></li>
+<li><p>Five binning strategies (State-specific, Vib-specific, RoVib-CG,
+Energy-based, From-File).</p></li>
+<li><p>CSV and binary trajectory output; <code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> + <code class="docutils literal notranslate"><span class="pre">Proc*.csv</span></code>
+rate output.</p></li>
+<li><p>Active-learning launch mode
+(<code class="docutils literal notranslate"><span class="pre">scripts/launching/CoarseAIR_ActiveLearning.sh</span></code>).</p></li>
+<li><p>MATLAB (<code class="docutils literal notranslate"><span class="pre">extra/MCoarseAIR/</span></code>) and Python (external <code class="docutils literal notranslate"><span class="pre">PyCoarseAIR</span></code>)
+post-processing tooling.</p></li>
+</ul>
+</section>
+<section id="historical-milestones">
+<h2>Historical milestones<a class="headerlink" href="#historical-milestones" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>2019 — Initial release (version 1.0).</strong> First object-oriented
+re-implementation of the NASA Ames VVTC (Vectorized Variable
+Stepsize Trajectory Code) of D. W. Schwenke, authored by
+S. Venturi and B. Lopez at the University of Illinois. MIT-licensed.</p></li>
+<li><p><strong>Subsequent releases.</strong> Addition of the UMN O<sub>3</sub> nine-
+surface database, the BNN-based uncertainty-quantification PES,
+the extensive N<sub>3</sub> / N<sub>4</sub> / O<sub>3</sub> / O<sub>4</sub>
+benchmark campaigns, and the PyCoarseAIR companion tool.</p></li>
+</ul>
+</section>
+<section id="looking-ahead">
+<h2>Looking ahead<a class="headerlink" href="#looking-ahead" title="Link to this heading"></a></h2>
+<p>See <a class="reference internal" href="../developer/roadmap.html"><span class="doc">Development Roadmap</span></a> for in-progress and planned work,
+including the CoarseAIR+ surface-hopping fork and the expected
+integration-benchmark additions.</p>
+</section>
 </section>
 
 

@@ -1,15 +1,245 @@
 Input File Reference
 ====================
 
+CoarseAIR is driven by three plain-text input files living in the
+``input/`` subfolder of the run directory:
+
+- ``CoarseAIR.inp`` — the main input file. Everything below is about this
+  file.
+- ``GenerateLevels.inp`` — level-generation parameters (first-time runs
+  for a new molecule only).
+- ``PlotPES.inp`` — PES grid for the ``coarseair-plotpes.x`` visualiser.
+
+This page enumerates every section of ``CoarseAIR.inp`` and links each
+line to the code that consumes it. The authoritative parser is
+``src/Input_Class.F90`` (~2400 lines); see it for corner cases.
+
 .. note::
 
-   This page is under construction. Content coming soon.
+   File format rules that apply to every input block:
 
-Planned coverage:
+   - The order of lines does **not** matter, as long as sizing lines
+     (e.g. ``Nb of Species = N``) precede the lines that depend on them.
+   - Indentation does **not** matter.
+   - Whitespace around the ``=`` **does** matter.
+     ``System = O3`` works; ``System=O3`` does not.
 
-- Top-level structure of the CoarseAIR input file
-- System block (atoms, molecules, masses, electronic states)
-- PES block (format, file location, asymptotic channels)
-- Sampling block (energy grid, initial ro-vibrational levels, impact parameter)
-- Integrator block (timestep, integrator choice, tolerances)
-- Output block (trajectory dumps, rate extraction, diagnostics)
+
+Top-level pipeline flags
+------------------------
+
+.. code-block:: text
+
+   Generating Energy Levels?        = yes | no
+   Preprocessing Energy Levels List? = yes | no
+   Running Trajectories?             = yes | no
+   Postprocessing Trajectories?      = yes | no
+
+These four flags are consumed by ``CoarseAIR.sh`` to decide which
+stages of the pipeline to execute. See :doc:`running_trajectories`.
+
+
+System and atomic-composition block
+-----------------------------------
+
+.. code-block:: text
+
+   System               = O3             ! name of the chemical system
+   Nb of Species        = 2
+     Species 1          = O2             ! target
+     Species 2          = O              ! projectile
+   Nb of Atoms          = 3
+     Atom 1             = O
+     Mass [a.u.] of Atom 1 = 29148.94559   ! (example)
+     Atom 2             = O
+     Mass [a.u.] of Atom 2 = 29148.94559
+     Atom 3             = O
+     Mass [a.u.] of Atom 3 = 29148.94559
+   Nb of Molecules      = 1              ! 1 for O3, 3 for CHN, etc.
+     Molecule 1         = O2
+     Nb of Atoms, Molecule 1 = 2
+   Database Path        = /path/to/coarseair/dtb
+   Nb of Initial Molecules = 1           ! 1 for 3-atom, 2 for 4-atom
+
+For isotope-labelled systems, set the atomic mass explicitly here; the
+PES is unchanged but reduced masses differ.
+
+
+Translational energy / temperature block
+----------------------------------------
+
+.. code-block:: text
+
+   Relative Translational Energy Model = Uniform | Boltzmann | FixedTotEn
+   Nb of Translational Temperatures = 3
+     Translational Temperature [K] 1 = 5000
+     Translational Temperature [K] 2 = 10000
+     Translational Temperature [K] 3 = 20000
+   Nb of Internal Temperatures      = 1
+     Internal Temperature [K] 1     = 10000
+
+- ``Uniform`` — fixed collision energy. Use with a
+  ``Translational Energy [Eh] N =`` block instead of temperatures.
+- ``Boltzmann`` — Maxwell–Boltzmann thermal average at the listed
+  translational temperatures (uses inverse-CDF sampling;
+  see :doc:`/theory/sampling`).
+- ``FixedTotEn`` — fixed total energy of the collision.
+
+
+Trajectory and sampling block
+-----------------------------
+
+.. code-block:: text
+
+   Using Proportional Allocation? = yes | no
+   Nb of Total Trajectories       = 1000000         ! if yes
+   Nb of Trajectories per Level / Bin = 1000        ! if no
+
+   Generate a CPU-Clock Dependent Seed? = yes | no
+   Initial Random Nb Seed              = 42         ! if no
+   Initial Distance between Target and Projectile = 25.0   ! a.u.
+
+
+Method blocks:
+
+.. code-block:: text
+
+   Method for Initial Vibrational Quantum Nb = Fixed | Uniform |
+                                               Boltzmann | MostProbable |
+                                               ArbitraryDistribution
+   All / Only Even / Only Odd values for Rotational Quantum Nb = All
+   Initial Impact Parameter Model = Normal | Random |
+                                    Stratified | FixedAngMom
+
+Integration-control block:
+
+.. code-block:: text
+
+   Try to increase stepsize?      = yes | no
+   Backward Integrating?          = no
+   Initial time step              = 1.0             ! a.u.
+   Stepsize increase damping factor = 0.9
+   Max distance between atom pair [bohr] = 50.0
+   Max trajectory time [a.u.]     = 5.0e6
+
+
+PES block
+---------
+
+.. code-block:: text
+
+   Nb of PESs         = 9
+     Model, PES 1      = UMN_11A1
+     Degeneracy, PES 1 = 1
+     Model, PES 2      = UMN_11A2
+     Degeneracy, PES 2 = 1
+     ...
+     Model, PES 9      = UMN_25A1
+     Degeneracy, PES 9 = 5
+
+The factory dispatches on ``Model, PES N``; the available keys are
+listed in ``src/PESs/PES_Factory_Class.F90``. The ``Degeneracy``
+controls how trajectories are distributed across surfaces (see
+:doc:`/theory/sampling` → electronic-surface index).
+
+
+Diatomic-potential block
+------------------------
+
+.. code-block:: text
+
+   Diatomic Potential Model, Molecule 1 = UMN      ! matches PES choice
+
+One entry per molecule. The parser picks the matching diatomic
+potential implementation from ``DiatomicPotential_Factory_Class.F90``.
+
+
+Preprocessing / binning block
+-----------------------------
+
+.. code-block:: text
+
+   Levels File Name, Molecule 1     = FromUMN_Sorted.inp
+   Min Energy for Cutting Levels, Molecule 1 = -1.0     ! Hartree
+   Min Time for Cutting Levels, Molecule 1   = 100.0    ! a.u.
+   Sorting Method, Molecule 1 = State-specific | Vib-specific |
+                                RoVib-CG | From-File
+
+
+The ``Sorting Method`` choice maps to the concrete ``BinsContainer``
+subclass (see :doc:`/theory/sampling` → ro-vibrational state
+selection and the container hierarchy under
+``src/BinnedMolecules/``).
+
+
+Post-processing block
+---------------------
+
+.. code-block:: text
+
+   Distinguish between PESs? = yes | no
+   Preserving Even / Oddness of Condition 1 = yes | no
+   Identical Diatoms?                 = yes | no
+   Writing Trajectory Files in Binary Format? = yes | no
+   Distinguish Exchanges between Each Other?  = yes | no
+   Distinguish Exchanges from Inelastic?      = yes | no
+   Writing Rate Files in Binary Format?       = yes | no
+   Temperature for Distribution Function Computation [K] = 20000
+
+The aggregation flags let you toggle indistinguishable-atom averaging,
+per-PES splitting, and exchange-vs-inelastic disambiguation without
+re-running trajectories. See :doc:`postprocessing` for how each flag
+changes the output.
+
+
+Process-index encoding (output)
+-------------------------------
+
+The rate-coefficient files encode each reactive process with a single
+integer ``d`` that is constructed from the final arrangement (which pair
+of atoms is bonded) and the final-state class (bound / quasi-bound /
+dissociating / predissociating).
+
+For a **3-atom** system, each trajectory contributes to one of four
+inelastic/exchange channels:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 45 55
+
+   * - Channel
+     - Process index ``d``
+   * - Inelastic: :math:`AB_i + C \to AB_j \equiv C`
+     - :math:`d = 1 + d_1`
+   * - Exchange to 2nd pair: :math:`AB_i + C \to AC_k \equiv B`
+     - :math:`d = 1 + (\mathcal{N}_1^G + 1) + d_2`
+   * - Exchange to 3rd pair: :math:`AB_i + C \to BC_l \equiv A`
+     - :math:`d = 1 + (\mathcal{N}_1^G + 1) + (\mathcal{N}_2^G + 1) + d_3`
+
+Here :math:`\mathcal{N}_i^G` is the number of ro-vibrational levels /
+groups in the :math:`i`-th pair's molecule, and :math:`d_m` is the
+final-level index within that pair (with :math:`d_m = 1` reserved for
+dissociation from the ``mol``-th final molecule).
+
+For **4-atom** systems the encoding is the multi-pair analogue — see
+section 7.2.3 of the legacy user manual for the full formulas. Final
+arrangements in trajectory output are encoded as ``16 * m + n``, where
+
+- ``m`` = final atom pair
+  (3-atom: 1=AB, 2=AC, 3=BC), and
+- ``n`` = 0 (bound), 1 (quasi-bound), 2 (dissociating), 3
+  (predissociating).
+
+
+Secondary input files
+---------------------
+
+**GenerateLevels.inp** — consumed only when ``Generating Energy
+Levels? = yes``. Controls the :math:`(v, J)` grid boundaries, the
+radial grid for the diatomic Schrödinger solver, and the output file
+name. Refer to the comments inside the template file.
+
+**PlotPES.inp** — consumed by ``coarseair-plotpes.x``. Controls the
+grid of atomic configurations at which the PES is sampled for
+visualisation. Whether a diatomic or triatomic surface is plotted is
+selected via the line ``PES or Diatomic = PES``.

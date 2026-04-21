@@ -1,13 +1,122 @@
 Regression Tests
 ================
 
-.. note::
+CoarseAIR ships with a small reference-result directory under ``test/``
+that enables a head-to-head regression comparison against its
+predecessor, David Schwenke's VVTC code, on the N + N\ :sub:`2` system.
+This page describes the current regression pathway and the improvements
+planned before merging a more complete CI suite.
 
-   This page is under construction. Content coming soon.
 
-Planned coverage:
+Current contents of ``test/``
+-----------------------------
 
-- Layout of the ``test/`` directory
-- Running the test suite locally
-- Adding new tests when fixing a bug or adding a feature
-- Continuous-integration workflow
+.. code-block:: text
+
+   test/
+   ├── CompareToVVTC_N3.m      MATLAB comparison script
+   └── ResultsVVTC_N3/         VVTC reference N3 rate coefficients
+
+``CompareToVVTC_N3.m`` is a MATLAB script that:
+
+1. Loads CoarseAIR N3 rate output from a user-pointed run directory.
+2. Loads the VVTC reference tables from ``ResultsVVTC_N3/``.
+3. Plots side-by-side excitation functions and thermal rate
+   coefficients, with Monte-Carlo error bars on the CoarseAIR side.
+
+Success criterion: agreement within Monte-Carlo statistical error
+across the :math:`(v, J)` table and across the temperature grid.
+Bit-for-bit equality is *not* expected because VVTC uses a different
+Bulirsch-Stoer variant and a slightly different trajectory-batching
+strategy.
+
+
+How to run the regression
+-------------------------
+
+1. Run CoarseAIR on the N3 system at the VVTC reference temperatures
+   with enough trajectories for tight error bars (≈ :math:`10^5`
+   trajectories per initial level is typical). Template:
+   ``input/N3/NASA/input/``.
+2. Post-process to produce ``Proc*.csv`` (see
+   :doc:`/user/postprocessing`).
+3. Open MATLAB, add ``test/`` to the path, and run ``CompareToVVTC_N3``
+   with the path to your CoarseAIR run directory.
+4. Inspect the produced plots. A successful regression overlays
+   CoarseAIR rates on top of the VVTC reference curves with agreement
+   within the plotted error bars.
+
+
+Planned CI suite
+----------------
+
+The full list of regression tests we want running on each push
+(tracked in :doc:`roadmap`):
+
+- **Build check** — ``COARSEAIR_INSTALL`` finishes without errors on
+  the CI image.
+- **H\ :sub:`3` smoke test** — a ≈ 10-minute run on the BKMP2 PES that
+  verifies levels are generated, trajectories integrate, and rates
+  are produced in the expected file layout. This is the fastest
+  end-to-end sanity check.
+- **N3 rate regression** — a short but statistically meaningful run
+  against a checked-in CoarseAIR reference (not VVTC — the reference
+  is a prior well-converged CoarseAIR result, so the tolerance can be
+  tight).
+- **Multi-surface dispatch test** — an O3 smoke run with 3 of the 9
+  surfaces active, asserting that ``iPES`` is written correctly to
+  the trajectory output and that per-surface counts roughly match
+  the degeneracy weights.
+- **Energy-conservation diagnostic** — assert that fewer than a
+  user-set fraction (e.g. 1 %) of trajectories exceed the tolerance.
+- **Sum-rule check** — assert
+  :math:`\sum_J \sigma_J \simeq \pi b_{\max}^2` within statistical
+  error on an H3 run.
+- **Sphinx doc build** — ``make html`` with ``-W`` passes (already
+  enforced by the docs deployment workflow).
+
+
+Adding a new regression test
+----------------------------
+
+The proposed structure (not yet in place; tracked on the roadmap):
+
+.. code-block:: text
+
+   test/
+   ├── smoke_h3/
+   │   ├── input/                  minimal input
+   │   ├── reference/Proc_*.csv    checked-in reference rates
+   │   └── run_and_compare.sh      driver script
+   ├── smoke_n3/
+   │   ├── ...
+   └── smoke_o3_multisurface/
+       ├── ...
+
+Each test should be:
+
+- Small enough to finish in ~10 minutes on a single modern core.
+- Deterministic (fixed RNG seed, no clock-based seeding).
+- Self-describing (a short README per test explaining what is being
+  checked and the tolerance).
+
+Contributions along these lines are welcome. Open an issue on
+https://github.com/HERMES-AEROSPACE/CoarseAirQCT/issues before
+starting work so the reference-data layout can be agreed in advance.
+
+
+Manual regression checklist
+---------------------------
+
+Pending CI, the following manual checks should be run before any
+non-trivial release:
+
+- [ ] H + H\ :sub:`2` thermal rates at 1 000 / 5 000 / 10 000 K agree
+  with published literature to within the PES uncertainty.
+- [ ] N + N\ :sub:`2` dissociation rates at 10 000 / 20 000 K agree
+  with the Panesi/Jaffe/Schwenke reference (see :doc:`/reference/bibliography`)
+  to within statistical error.
+- [ ] Detailed balance holds at the 2 σ level across a representative
+  sample of forward/reverse pairs.
+- [ ] Running the same input twice with the same RNG seed produces
+  identical output.

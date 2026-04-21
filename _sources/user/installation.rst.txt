@@ -1,14 +1,200 @@
 Installation
 ============
 
-.. note::
+CoarseAIR is a Fortran 2008 code with a CMake build. The same build
+procedure applies on laptops, workstations, the UIUC / HERMES cluster,
+and NASA Pleiades; the only differences are environment-variable
+bootstrap files.
 
-   This page is under construction. Content coming soon.
 
-Planned coverage:
+Prerequisites
+-------------
 
-- Prerequisites and supported compilers
-- Configuring with CMake (``build/`` directory, cache options)
-- Build artifacts (``coarseair`` executable, libraries, modules)
-- Environment variables and ``LinesTo_Add_ToBashrc``
-- Installation checks and smoke tests
+Required:
+
+- **Fortran compiler** — GCC ``gfortran`` (≥ 9 recommended) or Intel
+  ``ifort``. Export ``$FC`` to point at the chosen compiler.
+- **CMake** ≥ 3.0.
+- **OpenBLAS** (linear algebra). Export ``$OBLAS_INC`` and
+  ``$OBLAS_LIB`` to the include and library directories respectively.
+- **GNU parallel** — the ``parallel`` command is used by the launching
+  scripts to distribute trajectory batches over cores.
+- **Python 3** with ``numpy``, ``pandas``, ``matplotlib``, ``csv``,
+  ``h5py``. Install via ``pip3 install numpy pandas matplotlib h5py``.
+  Needed only for post-processing; trajectory runs do not require
+  Python.
+
+Optional:
+
+- **GSL** (GNU Scientific Library) — a few utility routines.
+- **MATLAB** for the ``extra/MCoarseAIR/`` plotting and analysis suite.
+
+Environment bootstrap files are under
+``README/LinesTo_Add_ToBashrc/``:
+
+- ``AddToBashrc.sh`` — generic Linux workstation / laptop.
+- ``AddToBashrc_Pleiades.sh`` — NASA Pleiades (module-loads the
+  right compiler/MPI/BLAS/Python toolchain).
+
+Edit the ``path_to_workspace`` placeholder inside the chosen bashrc file
+to the absolute path of your ``WORKSPACE/`` directory, then append the
+contents to ``~/.bashrc`` and ``source`` it.
+
+
+Clone the repository
+--------------------
+
+.. code-block:: bash
+
+   mkdir -p ~/WORKSPACE/CoarseAIR && cd ~/WORKSPACE/CoarseAIR
+   git clone https://github.com/HERMES-AEROSPACE/CoarseAirQCT.git coarseair
+
+The source tree under ``coarseair/`` is roughly 245 Fortran files
+(~6.8 MB). The chemistry databases live under ``coarseair/dtb/``
+(~1.3 GB of level tables, potential parameters, and ab-initio data);
+expect that the first clone takes a few minutes depending on network.
+
+
+Build options
+-------------
+
+The root ``CMakeLists.txt`` exposes the following switches:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 15 50
+
+   * - Option
+     - Default
+     - Meaning
+   * - ``BUILD_STATIC_LIBRARY``
+     - ON
+     - Produces ``libcoarseair.a`` (usual).
+   * - ``BUILD_SHARED_LIBRARY``
+     - OFF
+     - Produces ``libcoarseair.so`` (rarely needed).
+   * - ``BUILD_APPLICATIONS``
+     - ON
+     - Produces the 8 executables listed below.
+   * - ``BUILD_EXAMPLES``
+     - OFF
+     - Example-specific targets. Off by default.
+   * - ``BUILD_TESTS``
+     - OFF
+     - Regression-test targets. Off by default.
+
+Configure and build via the convenience wrappers — edit
+``scripts/building/BuildingInstalling.sh`` if you need to change build
+flags permanently, otherwise the defaults are fine:
+
+.. code-block:: bash
+
+   COARSEAIR_UPDATE          # refresh environment from BuildingInstalling.sh
+   COARSEAIR_release         # pick release build; "debug" is the alternative
+   COARSEAIR_INSTALL         # configure + build + install
+
+
+Build artefacts
+---------------
+
+Once ``COARSEAIR_INSTALL`` completes, the installation directory is
+
+.. code-block:: text
+
+   ~/WORKSPACE/CoarseAIR/install/coarseair-1.1-<build>-<compiler>/
+       bin/       # 8 executables
+       lib/       # libcoarseair.a
+       mod/       # Fortran .mod files
+       include/   # C-interop headers (if generated)
+
+The 8 executables correspond to stages of the QCT pipeline:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Executable
+     - Purpose
+   * - ``coarseair-initialize.x``
+     - Read the input file and emit configuration for the bash scripts.
+   * - ``coarseair-computelevels.x``
+     - Compute rovibrational energy levels from diatomic potentials.
+   * - ``coarseair-preproclevels.x``
+     - Sort, cut, and group levels into bins (StS / vib-specific /
+       energy-grouped).
+   * - ``coarseair-mergelevels.x``
+     - Merge per-process level files from parallel runs.
+   * - ``coarseair-runtrajectories.x``
+     - Main QCT engine. Integrates trajectories.
+   * - ``coarseair-trajectoriesstats.x``
+     - Compute cross-sections from trajectory output.
+   * - ``coarseair-posttrajectories.x``
+     - Convert cross-sections to rate coefficients.
+   * - ``coarseair-plotpes.x``
+     - Evaluate the PES on a grid for visualisation.
+
+The launch scripts under ``scripts/launching/`` (``CoarseAIR.sh``,
+``RunTrajectories-Format*.pbs``, ``*.slurm``) chain these executables
+in the canonical order.
+
+
+Smoke test
+----------
+
+After the build, run the H\ :sub:`3` smoke test to verify that levels
+are computed, a few trajectories complete, and rates are extracted:
+
+.. code-block:: bash
+
+   mkdir -p ~/WORKSPACE/CoarseAIR/Smoke_H3
+   cd    ~/WORKSPACE/CoarseAIR/Smoke_H3
+   cp -r ~/WORKSPACE/CoarseAIR/coarseair/input/H3/BH/input .
+   cp    ~/WORKSPACE/CoarseAIR/coarseair/scripts/launching/CoarseAIR.sh .
+
+Edit ``input/CoarseAIR.inp``: set ``Database Path =`` to the absolute
+path of ``~/WORKSPACE/CoarseAIR/coarseair/dtb`` and drop the trajectory
+count per level to a small number (e.g. 20) for a fast test. Then:
+
+.. code-block:: bash
+
+   COARSEAIR_UPDATE; COARSEAIR_release
+   bash ./CoarseAIR.sh
+
+Successful output produces a ``Test/`` subdirectory with trajectory
+files. Follow with a second pass (``Running Trajectories? = no``,
+``Postprocessing Trajectories? = yes``) to obtain rates.
+
+
+Cluster installation
+--------------------
+
+The same instructions apply on SLURM and PBS clusters. Site-specific
+notes:
+
+- **NASA Pleiades.** Use the ``AddToBashrc_Pleiades.sh`` bootstrap
+  file. The launch scripts under
+  ``scripts/launching/*-Pleiades.pbs`` request the appropriate
+  queues (``devel``, ``debug``, ``low``, ``medium``, ``long``) and
+  processor classes (``san``/``ivy``).
+- **UIUC cluster.** Templates
+  ``RunTrajectories-Format-UIUC.{pbs,slurm}`` and
+  ``PostTrajectories-Format-UIUC.{pbs,slurm}`` are available for
+  either scheduler.
+- **Other sites.** Copy one of the existing templates and adjust the
+  queue/partition/account lines; the internal commands are portable.
+
+
+Uninstall / rebuild
+-------------------
+
+Clean-rebuild from scratch:
+
+.. code-block:: bash
+
+   rm -rf ~/WORKSPACE/CoarseAIR/coarseair/build
+   rm -rf ~/WORKSPACE/CoarseAIR/install
+   COARSEAIR_INSTALL
+
+Re-run ``COARSEAIR_INSTALL`` after any source-code change — the
+command refreshes environment variables and re-installs the
+executables.

@@ -1,14 +1,260 @@
 Architecture Reference
 ======================
 
-.. note::
+This page is a developer-oriented map of the CoarseAIR source tree,
+the main class hierarchies, and the data flow from input parsing to
+rate-coefficient output. It is intended to help contributors find
+where to make a change and understand how their change propagates
+through the pipeline.
 
-   This page is under construction. Content coming soon.
+For user-facing details of the same pipeline, see the
+:doc:`/theory/qct` chapter onwards.
 
-Planned coverage:
 
-- Source-tree layout (``src/``, ``app/``, ``dtb/``, ``input/``, ``scripts/``)
-- Class hierarchy and key Fortran modules
-- Trajectory pipeline from input parsing to rate output
-- MPI parallelisation model (trajectory-level parallelism)
-- Data structures for PES evaluation and final-state analysis
+Repository layout
+-----------------
+
+.. code-block:: text
+
+   coarseair/
+   ├── CMakeLists.txt          root build configuration
+   ├── LICENSE                 MIT (c) 2019 Simone Venturi
+   ├── app/                    entry points for the 8 executables
+   │   ├── Initialize/         coarseair-initialize.x
+   │   ├── ComputeLevels/      coarseair-computelevels.x
+   │   ├── PreprocLevels/      coarseair-preproclevels.x
+   │   ├── MergeLevels/        coarseair-mergelevels.x
+   │   ├── RunTrajectories/    coarseair-runtrajectories.x   ← QCT core
+   │   ├── TrajectoriesStats/  coarseair-trajectoriesstats.x
+   │   ├── PostTrajectories/   coarseair-posttrajectories.x
+   │   └── PlotPES/            coarseair-plotpes.x
+   │
+   ├── src/                    ~245 Fortran files, ~6.8 MB
+   │   ├── Parameters/         physical constants, precision, I/O globals
+   │   ├── Tools/              GaussQuadrature, heapsort, RKHS, timing
+   │   ├── Tools_BrunoS/       Logger, Error, File, String utilities
+   │   ├── Random/             RNG infrastructure
+   │   ├── Atoms/              Atom_Type
+   │   ├── AtomsPairs/         AtomsPair_Type (pair numbering)
+   │   ├── Molecules/          abstract Molecule + Nb2 diatomic
+   │   ├── Levels/             Level, LevelsContainer, LevelsGenerator
+   │   ├── Degeneracies/       species-specific electronic degeneracies
+   │   ├── BinnedMolecules/    binning strategies (5 subclasses)
+   │   ├── DiatomicPotentials/ 35+ diatomic potential implementations
+   │   ├── PESs/               48+ PES implementations + factory + container
+   │   ├── Collision/          ODE solver, trajectories, state ID, initial
+   │   │                       states, impact parameter, transformations
+   │   ├── Processes/          3-atom / 4-atom process classification
+   │   ├── System/             3-atom / 4-atom system topology
+   │   └── Input_Class.F90     main input parser (~2400 lines)
+   │
+   ├── dtb/                    chemistry database (~1.3 GB)
+   │   ├── Masses/             atomic masses
+   │   ├── Molecules/          32+ diatomic species (levels, parameters, bins)
+   │   └── Systems/            17+ polyatomic systems (PES parameters, ab initio)
+   │
+   ├── config/                 CMake modules, compiler flags, package templates
+   ├── input/                  input templates for 15 chemical systems
+   ├── scripts/                build + launch + preprocessing + postprocessing
+   ├── extra/                  extended tools (MATLAB suite, active learning)
+   ├── Postpro_Ecol/           Python post-processing (ecology of states)
+   ├── test/                   reference results (VVTC N3 comparison)
+   └── README/                 documentation sources (this site + PDFs)
+
+
+Design patterns
+---------------
+
+Four patterns used pervasively across the codebase.
+
+**Abstract base classes with deferred (virtual) procedures.** Every
+major physics component has an abstract type that declares a small set
+of deferred methods; concrete subclasses implement them. The
+integration engine interacts only with the abstract interfaces, so new
+implementations drop in without changes to the dynamics code.
+
+**Factory pattern.** Seven factory classes construct concrete objects
+at runtime based on string keys from the input file:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Factory
+     - Purpose
+   * - ``PES_Factory_Class``
+     - Construct PES objects from ``(system, model)`` keys.
+   * - ``DiatomicPotential_Factory_Class``
+     - Construct diatomic potentials from species + model keys.
+   * - ``Molecule_Factory_Class``
+     - Construct molecule objects.
+   * - ``System_Factory_Class``
+     - Construct Nb3 or Nb4 system topology.
+   * - ``Processes_Factory_Class``
+     - Construct 3-atom or 4-atom process handlers.
+   * - ``Degeneracy_Factory_Class``
+     - Construct species-specific degeneracy calculators.
+   * - ``BinsContainer_Factory_Class``
+     - Construct binning-strategy objects.
+
+**Container pattern.** ``LevelsContainer``, ``PESsContainer``,
+``MoleculesContainer``, and ``BinsContainer`` wrap polymorphic
+objects so they can be stored in Fortran arrays. Required because
+Fortran doesn't natively allow arrays of abstract types.
+
+**Modular separation.** Physics (PES, levels, processes) and
+numerics (ODE solver, trajectories, integrator) are independent.
+They interact only through the ``Collision_Class`` orchestrator.
+
+
+Class hierarchies
+-----------------
+
+**PES**
+
+.. code-block:: text
+
+   PES_Type (abstract)
+   ├── Generic: LEPS_PES_Type, NN_PES_Type, GP_PES_Type, BNN_PES_Type
+   ├── Hydrogen: H3_BH, H4_BMKP, H2He_BMPmod
+   ├── Nitrogen: N3_NASA / N3_UMN / N3_UMN_MBPIPMEG, N3Half_NASA,
+   │             N4_NASA / N4_UMN / N4_UMN_MBPIPMEG3 / N4_UMN_PIPNN,
+   │             N2O_UMN / N2O_Basel
+   ├── Oxygen: O3_UMN (9 surfaces), O3_NN, O4_UMN
+   └── Carbon: CO2_NASA / COAr_NASA, CNO_Basel / CNO_Breno /
+               CNO_UCI_{2A1,2A2,4A2}, CHN_UIUC / CHN_GUO,
+               NO2_Basel / NO2_UMN
+
+**DiatomicPotential**
+
+.. code-block:: text
+
+   DiatomicPotential_Type (abstract)
+   ├── Generic: Morse, ModMorse, Null
+   ├── H2:  Schwenke, Schwenke1988, BMKP
+   ├── N2:  LeRoy, UMN_ForN4, UMN_PIPNN_ForN4, UMN_ForN2O2,
+   │        UMN_PIPMEG_ForN3, UMN_PIPMEG3_ForN4
+   ├── O2:  Varandas, Basel, NASA, UMN, Basel_ForCO2
+   ├── CO:  CO, Breno, UCI, Basel_ForCO2
+   ├── NO:  UMN, Basel, Breno, UCI, UMN_ForNO2_Doub, UMN_ForNO2_Quart
+   ├── CN:  UIUC_2Sig / UIUC_2Pi, GUO_2Sig / GUO_2Pi, Breno, UCI
+   ├── CH:  UIUC_4Sig, UIUC_2Pi
+   ├── HN:  UIUC
+   └── HHe: Dummy
+
+**Other**
+
+.. code-block:: text
+
+   System_Type (abstract)   → Nb3_System_Type, Nb4_System_Type
+   Molecule_Type (abstract) → Nb2_Molecule_Type
+   Processes_Type (abstract)→ Nb3Atoms_Processes_Type,
+                              Nb4Atoms_Processes_Type
+   BinsContainer_Type (abs) → Energy, StS, VibSpec, Hybrid, FromFile
+   PlotPES_Type (abstract)  → Nb3_PlotPES_Type, Nb4_PlotPES_Type
+   Degeneracy_Type (abs)    → H2, N2, O2, CO, NO, CN, CH, HN, HHe, G2
+
+
+Core data structures
+--------------------
+
+**Collision_Type** (``src/Collision/Collision_Class.F90``) —
+central orchestrator. Owns:
+
+- ``NAtoms``, ``NPairs``, ``NPESs``.
+- ``Atoms(:)``, ``Species(:)``, ``Pairs(:)``.
+- ``MoleculesContainer(:)`` (polymorphic molecule wrappers).
+- ``PESsContainer(:)`` (one polymorphic PES per electronic surface).
+- ``Transformation``, ``ImpactParameter``.
+- Methods: ``Initialize``, ``SetInitialConditions``, ``Hamiltonian``,
+  ``Compute_PES``.
+
+**Trajectory_Type** — single trajectory.
+
+- ``PaQ(NEqtTot)`` — phase-space vector (momenta first, coordinates
+  second).
+- ``Rpi(NPairs)`` — inverse pair distances.
+- ``H`` — Hamiltonian (conservation diagnostic).
+- ``dt``, ``t``, ``tmax``, ``RpiMax``.
+
+**Trajectories_Class** — vectorised batch.
+
+- ``PaQ(NEqtTot, NTraj)``.
+- ``iPES(NTraj)`` — per-trajectory electronic-surface index.
+- ``iTrajPES(NPESs)`` — per-surface counter.
+- ``b(NTraj)``, ``H(NTraj)``, ``t(NTraj)``.
+
+**Level_Type** — one rovibrational state.
+
+- ``vqn``, ``jqn``, ``eint``, ``g``.
+- ``rmin``, ``rmax``, ``ri``, ``ro``, ``tau``.
+- ``Q``, ``QInit``, ``To_Bin``.
+
+**Process_Type** — one collision outcome.
+
+- ``ProcType``, ``ExcType`` (elastic / inelastic / exchange /
+  dissociation).
+- ``To_Pair(:)``, ``To_Species(:)``, ``To_Level(:)``.
+- ``Temperature(:)`` — array of rates vs T.
+- ``ArrCoeffs(3)`` — Arrhenius (A, n, Ea).
+
+
+Data flow
+---------
+
+.. code-block:: text
+
+   CoarseAIR.inp
+        │  Input%Initialize()  (src/Input_Class.F90)
+        ▼
+   Collision%Initialize() ──►  Atoms, Species, Pairs
+        │                       │
+        │  Factory dispatch     ├─► PESsContainer (one per electronic surface)
+        │                       ├─► DiatomicPotentials (one per atom pair)
+        │                       ├─► Levels (read or computed)
+        │                       ├─► Bins (via BinsContainer_Factory)
+        │                       └─► Processes (via Processes_Factory)
+        ▼
+   RunTrajectories
+        │
+        │ Loop over mini-batches:
+        │    Collision%SetInitialConditions()
+        │    ODE%Integrate_Trajectories()
+        │       → ODE%Integrate_ODE_1d()  (Bulirsch-Stoer)
+        │          → mmidv()              (modified midpoint)
+        │             → HamiltonODESystem()
+        │                → Collision%Compute_PES(iPES, Q, dVdQ, V, Rpi)
+        │    Collision%Hamiltonian()      (conservation check)
+        │    Traj%AssessConvergence()
+        │
+        ▼  AnalysisTrajPoints → final arrangement, v', J', process type
+   trajectories.csv
+        │
+        ▼  TrajectoriesStats
+   statistics.csv (cross-sections)
+        │
+        ▼  PostTrajectories (Maxwellian integration)
+   Proc*.csv (rate coefficients)
+
+
+Key entry points for extension
+------------------------------
+
+- **Add a new PES** — subclass ``PES_Type``, register in
+  ``PES_Factory_Class``. See :doc:`adding_a_system`.
+- **Add a new integrator** — add a sibling to
+  ``src/Collision/ODE/ODE_Solver.F90``, plumb through
+  ``Integrator_Class``.
+- **Add a new binning strategy** — subclass
+  ``BinsContainer_Type`` under ``src/BinnedMolecules/``, register in
+  ``BinsContainer_Factory_Class``.
+- **Add a new collision arrangement type** (e.g., 5-atom in future) —
+  subclass ``System_Type``, ``Processes_Type``, add a new
+  ``InitialStates`` module, and extend the ``PaQ`` packing.
+- **Add a new PES format** (e.g., Transformer-based ML PES) — subclass
+  ``PES_Type`` and supply ``Compute_0d`` with analytic gradients.
+
+The CoarseAIR+ surface-hopping extension required none of these —
+it plugged into the existing multi-PES infrastructure and only needed
+a hopping-decision callback added to the integration loop. See the
+``project_coarseair_plus`` memory and the CoarseAIR+ documentation.

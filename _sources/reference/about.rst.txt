@@ -1,13 +1,105 @@
 About CoarseAIR
 ===============
 
-.. note::
+CoarseAIR is a Fortran 2008 object-oriented code for state-to-state
+and coarse-grained quasi-classical trajectory (QCT) simulations of
+atomic and molecular collisions on *ab initio* potential energy
+surfaces. It was originally developed to produce the state-resolved
+rate-coefficient databases needed for non-equilibrium aerothermodynamic
+simulations of hypersonic re-entry.
 
-   This page is under construction. Content coming soon.
 
-Planned coverage:
+Authorship and license
+----------------------
 
-- Author & copyright (© 2019 Simone Venturi, MIT License)
-- Current maintainers and contributors
-- Related HERMES Aerospace codes (dmsAIR, PLATO)
-- Citation guidance and key publications
+- **Original author / copyright holder:** Simone Venturi.
+- **License:** MIT (``LICENSE`` file at the repository root).
+- **Code base:** derived from the **VVTC** (Vectorized Variable
+  Stepsize Trajectory Code) of David W. Schwenke at NASA Ames
+  Research Center, re-implemented in modern object-oriented Fortran.
+- **Version:** 1.1.
+- **Repository:** https://github.com/HERMES-AEROSPACE/CoarseAirQCT
+  (private; development happens on the ``Clement-Adiabatic`` branch).
+
+The code is currently maintained under the **HERMES Aerospace research
+group** led by Prof. Marco Panesi. Active contributors include Clement
+Civrais (ongoing extensions; lead of CoarseAIR+).
+
+
+Related codes
+-------------
+
+CoarseAIR is one of three production codes shipped by the HERMES
+group; together they form a multiscale pipeline from ab-initio
+chemistry to hypersonic CFD:
+
+- **CoarseAIR** — produces state-resolved rate coefficients on
+  ab-initio PES via QCT.
+- **dmsAIR** — direct molecular simulation (DSMC of state-resolved
+  kinetics) that consumes CoarseAIR rate databases.
+  https://hermes-aerospace.github.io/dmsAIR-docs/
+- **PLATO** — multi-temperature / state-to-state CFD solver that
+  consumes the same chemistry databases.
+
+A companion post-processing Python tool, **PyCoarseAIR**
+(https://github.com/simoneventuri/PyCoarseAIR), packages CoarseAIR
+output into the HDF5 format the downstream codes expect.
+
+
+CoarseAIR+ (surface-hopping extension)
+--------------------------------------
+
+A separate fork of CoarseAIR — **CoarseAIR+** — adds fewest-switches
+surface hopping (FSSH) for explicit electronic non-adiabatic
+transitions. The initial target system is ozone (O\ :sub:`3`) with
+its nine electronic surfaces; subsequent systems (CO\ :sub:`2`,
+NO\ :sub:`2`, CNO) follow. CoarseAIR+ shares the QCT machinery
+documented on this site; the surface-hopping layer is documented in a
+separate companion site.
+
+
+Citation guidance
+-----------------
+
+If you use CoarseAIR, please cite the references most relevant to your
+work — see :doc:`bibliography` for the full list. The canonical entry
+points are:
+
+- **S. Venturi**, *Machine Learning and Uncertainty Quantification
+  Framework for Predictive Ab Initio Hypersonics*, Ph.D. Thesis,
+  University of Illinois at Urbana-Champaign (2021).
+- **S. Venturi, R. L. Jaffe, M. Panesi**, *Bayesian Machine Learning
+  Approach to the Quantification of Uncertainties on Ab Initio
+  Potential Energy Surfaces*, J. Phys. Chem. A **124** (25),
+  5129–5146 (2020).
+- **S. Venturi, M. P. Sharma, B. Lopez, M. Panesi**,
+  *Data-Inspired and Physics-Driven Model Reduction for Dissociation:
+  Application to the O\ :sub:`2` + O System*, J. Phys. Chem. A
+  **124** (41), 8359–8372 (2020).
+
+If you use a specific PES (e.g. the UMN O\ :sub:`3` surface, the
+NASA N\ :sub:`4` surface), please also cite the original PES paper —
+see :doc:`bibliography`.
+
+
+Acknowledgements
+----------------
+
+The CoarseAIR code directly builds on the numerical methods and
+design choices of David Schwenke's VVTC at NASA Ames, and incorporates
+PES implementations from the groups of Donald Truhlar (University of
+Minnesota), Markus Meuwly (Basel), Hua Guo (University of New Mexico),
+Richard Jaffe (NASA Ames), and Bruno Silva (Aveiro), among others.
+
+The documentation site you are reading was assembled by Clement
+Civrais in the HERMES Aerospace group, with sources in
+``docs/online-documentation/``.
+
+
+Contact
+-------
+
+Questions and bug reports: open an issue at
+https://github.com/HERMES-AEROSPACE/CoarseAirQCT/issues — ideally
+with a reproducible minimum input and the output of
+``coarseair-initialize.x``.

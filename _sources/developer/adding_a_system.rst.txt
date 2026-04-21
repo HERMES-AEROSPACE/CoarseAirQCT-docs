@@ -1,14 +1,189 @@
 Adding a New Collision System
 =============================
 
-.. note::
+This page walks through the steps required to add support for a new
+chemical system — for example adding a fifth diatom +
+three-atom arrangement, or a new four-atom system. It assumes
+familiarity with the :doc:`architecture` page.
 
-   This page is under construction. Content coming soon.
+The work splits into four phases: (1) register the system topology,
+(2) plug in the PES and diatomic potentials, (3) populate the database,
+(4) add an input template, regression test, and documentation page.
 
-Planned coverage:
 
-- Required input-file structure for a new system
-- Implementing or plugging in a new PES module
-- Defining asymptotic channels and arrangement codes
-- Registering the system in the build / input-parsing layer
-- Adding a regression test and a documentation example page
+Phase 1 — System topology
+-------------------------
+
+Most additions are 3-atom or 4-atom systems, for which
+``Nb3_System_Type`` and ``Nb4_System_Type`` already exist. You
+usually need to:
+
+- Open ``src/System/Nb3_System_Class.F90`` (or ``Nb4``) and verify the
+  atom-pair numbering convention is consistent with your system. The
+  convention is fixed (see :doc:`/theory/qct`) but some systems use a
+  non-canonical atom ordering in their input — document any such
+  deviation.
+- If your system is genuinely new in shape (e.g. first 5-atom system
+  ever), you'll need a new ``Nb5_System_Type`` and a new ``PaQ``
+  packing. That is a larger project — see the last section.
+
+
+Phase 2 — PES and diatomic potentials
+-------------------------------------
+
+The most common case. You have a set of PES parameters (analytic) or
+a trained neural network, and want CoarseAIR to call it.
+
+**Step 2a — implement the PES subclass.**
+
+Create ``src/PESs/<System>_<Provider>_PES_Class.F90`` as a subclass of
+``PES_Type``. Implement:
+
+- ``Initialize_PES`` — read parameter files, allocate
+  pair-potential objects.
+- ``Compute_0d(Q, V, dVdQ, Rpi)`` — the hot-path evaluation
+  (potential value, gradient, inverse pair distances).
+- ``Potential_0d(Q)`` — potential only (plotting path).
+- Optional: ``TriatPotential_0d`` / ``DiatPotential_0d`` if your
+  surface has an explicit many-body / two-body decomposition.
+
+Use an existing subclass as template — for analytic many-body surfaces
+``O3_UMN_PES_Class.F90`` is a good reference; for neural networks,
+``O3_NN_PES_Class.F90``.
+
+**Step 2b — register in the factory.**
+
+In ``src/PESs/PES_Factory_Class.F90``, add a branch in the
+``Construct_PES`` dispatch that matches your ``(system, model)``
+string pair and allocates an instance of your new subclass.
+
+**Step 2c — if your PES needs a new diatomic potential:**
+
+- Subclass ``DiatomicPotential_Type`` under
+  ``src/DiatomicPotentials/``. Implement ``Compute_Vd_dVd(R)``,
+  ``Period(v, J)``, ``ActionIntegral``, ``TurningPoint``,
+  ``FindMinimum``, ``FindMaximum``.
+- Register in ``DiatomicPotential_Factory_Class.F90``.
+
+**Step 2d — rebuild.**
+
+.. code-block:: bash
+
+   COARSEAIR_INSTALL
+
+The executables pick up your new class automatically via the factory.
+
+
+Phase 3 — Database contents
+---------------------------
+
+For a new system, populate:
+
+- ``dtb/Systems/<System>/<Provider>/`` — PES parameters, trained
+  weights, ab initio reference points.
+- ``dtb/Molecules/<Species>/`` — if your system introduces a diatomic
+  that CoarseAIR does not yet support, add:
+
+  - ``Params/`` — diatomic potential parameters.
+  - ``levels_cut.inp`` — pre-computed rovibrational levels.
+  - ``Bins_N/`` — binning data for various coarse-graining
+    resolutions.
+
+If you lack pre-computed levels, set ``Generating Energy Levels? =
+yes`` in the input and let ``coarseair-computelevels.x`` generate
+them on first run (covered in :doc:`/user/running_trajectories`).
+
+
+Phase 4 — Input template, test, documentation
+---------------------------------------------
+
+**Step 4a — input template.**
+
+Create ``input/<System>/<Provider>/input/``:
+
+- ``CoarseAIR.inp`` — all of the blocks described in
+  :doc:`/user/input_reference`, specialised to your system.
+- ``GenerateLevels.inp`` if levels need computing.
+- ``PlotPES.inp`` if your PES has a diagnostic grid.
+
+Start from an existing template for a similar-shape system
+(``input/N3/NASA/input/`` for a 3-atom example, ``input/N4/UMN/input/``
+for a 4-atom one) and edit fields rather than starting from scratch.
+
+**Step 4b — regression test.**
+
+Add a reference result under ``test/`` (tiny ensemble, well-converged,
+checked in). The simplest format is a CSV of :math:`k(T)` values for
+one or two representative initial states. When porting to CI, the
+CoarseAIR output at commit time is compared against this file.
+
+**Step 4c — documentation page.**
+
+Create ``docs/online-documentation/examples/<system>.rst`` following
+the pattern of the existing 15 example pages. At minimum describe:
+
+- atoms and distinguishability;
+- available kinetic processes (inelastic / exchange / dissociation);
+- multi-surface structure if any;
+- PES and diatomic-potential model names;
+- typical use case / literature.
+
+Then add the new entry to the ``examples/`` toctree in
+``docs/online-documentation/index.rst``.
+
+Finally, commit and push — the Sphinx deployment workflow will
+regenerate the online documentation automatically.
+
+
+A new 4-atom PES of an existing system — minimal diff
+-----------------------------------------------------
+
+If you are simply adding a new PES variant for an already-supported
+system (e.g. a new NN training of the N\ :sub:`4` surface), only a
+subset of the above is required:
+
+1. ``src/PESs/N4_<NewProvider>_PES_Class.F90``, implementing
+   ``Compute_0d``.
+2. One-line branch in ``PES_Factory_Class.F90``.
+3. New directory under ``dtb/Systems/N4/<NewProvider>/`` with weights.
+4. One extra ``Model, PES N = ...`` line in the input template.
+
+No changes are needed to the integrator, the arrangement classifier,
+or the rate extraction — they are PES-agnostic.
+
+
+Larger-scale additions: a new arrangement count (5-atom)
+--------------------------------------------------------
+
+A genuinely new shape — e.g. 5-atom collisions — touches far more of
+the code base:
+
+- ``src/System/Nb5_System_Class.F90`` (new).
+- ``src/Processes/Nb5Atoms_Processes_Class.F90`` (new).
+- ``src/Collision/InitialStates/StateInitXXX_Module.F90`` (new
+  initial-condition sampler).
+- ``Collision%PaQ`` packing extended (``NEqtVar = 12``,
+  ``NEqtTot = 24`` for 5-atom).
+- ``MolecularState_Class`` final-state classifier extended to handle
+  5-atom arrangement combinatorics.
+- Updated factories and input parser.
+
+This is a significant project — budget weeks, not days, and plan to
+extend the regression suite before merging.
+
+
+Checklist
+---------
+
+Before requesting review of a new-system PR:
+
+- [ ] ``COARSEAIR_INSTALL`` builds cleanly on a fresh clone.
+- [ ] The system's H\ :sub:`3`-equivalent smoke test passes (a small
+  trajectory run producing the expected structure of
+  ``trajectories.csv`` / ``statistics.csv`` / ``Proc*.csv``).
+- [ ] Energy conservation diagnostic reports < 1 % drift across
+  representative trajectories.
+- [ ] Regression reference file is checked in and manually reviewed.
+- [ ] A new ``examples/<system>.rst`` page exists, the ``index.rst``
+  toctree includes it, and ``make html`` produces no Sphinx
+  warnings.

@@ -1,14 +1,277 @@
 Post-processing
 ===============
 
-.. note::
+Once trajectories have been integrated, the post-processing stage
+converts raw outcomes into cross-sections and rate coefficients. This
+page describes the output file layout, the two built-in statistics
+stages, and the Python / MATLAB analysis tooling shipped alongside the
+code.
 
-   This page is under construction. Content coming soon.
+The underlying estimator (Bernoulli cross-section with binomial-variance
+standard deviation) is derived in :doc:`/theory/rate_extraction`.
 
-Planned coverage:
 
-- The ``Postpro_Ecol`` utility
-- Computing cross-sections and rate coefficients from trajectory output
-- State-to-state binning and arrangement-resolved rates
-- Convergence diagnostics and error bars
-- Plotting helpers and example Python scripts
+Pipeline overview
+-----------------
+
+Two successive executables consume trajectory output:
+
+1. ``coarseair-trajectoriesstats.x`` — reads trajectory files,
+   accumulates per-channel cross-sections into ``statistics.csv``.
+2. ``coarseair-posttrajectories.x`` — reads ``statistics.csv`` and
+   energy grids, produces the ``Proc*.csv`` rate files.
+
+Both are invoked automatically by ``CoarseAIR.sh`` when
+``Postprocessing Trajectories? = yes`` in the input.
+
+
+Trajectory output files
+-----------------------
+
+Location:
+
+.. code-block:: text
+
+   Test/T_<TTran>_<TInt>/Bins_X_Y/Node_X/Proc_Y/trajectories.csv
+
+Each line is one trajectory with 10 columns:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 6 16 78
+
+   * - #
+     - Column
+     - Meaning
+   * - 1
+     - Trajectory index
+     - 1-based within the Node/Proc slot.
+   * - 2
+     - PES index
+     - Matches ``iPES`` — the electronic surface used for this
+       trajectory.
+   * - 3
+     - :math:`b_{\max}`
+     - Maximum impact parameter sampled for this trajectory.
+   * - 4
+     - :math:`b_i`
+     - The specific impact parameter of this trajectory.
+   * - 5
+     - :math:`J_i`
+     - Initial rotational quantum number of the target.
+   * - 6
+     - :math:`v_i`
+     - Initial vibrational quantum number of the target.
+   * - 7
+     - ``arr_i``
+     - Initial arrangement code (``16 * m + n`` — see
+       :doc:`input_reference`).
+   * - 8
+     - :math:`J_f`
+     - Final rotational quantum number (not necessarily integer —
+       round in post-processing).
+   * - 9
+     - :math:`v_f`
+     - Final vibrational quantum number (same caveat).
+   * - 10
+     - ``arr_f``
+     - Final arrangement code.
+
+If ``BinaryTrajFlg = 1`` in ``CoarseAIR.sh``, trajectory files are
+written in a platform-specific binary format for speed; set
+``Writing Trajectory Files in Binary Format? = yes`` in
+``CoarseAIR.inp`` so ``coarseair-trajectoriesstats.x`` reads the same
+format back.
+
+Extra artefacts under ``Bins_X_Y/Node_X/Proc_X/`` include per-trajectory
+``XXEvo.vtk.<timestep>`` files that Paraview / MATLAB can replay for a
+visual trajectory animation.
+
+
+``statistics.csv`` — cross-sections
+-----------------------------------
+
+Location:
+
+.. code-block:: text
+
+   Test/T_<TTran>_<TInt>/Bins_<iBin>_<jBin>/statistics.csv
+
+Each row is one initial–final channel; each numeric column group encodes
+the ro-vibrational state of the involved molecules. For a 4-atom
+system :math:`A_i + B_j \to C_k + D_l`:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 40 50
+
+   * - #
+     - Column
+     - Meaning
+   * - 1
+     - :math:`J_k`
+     - Final rotational number of molecule C.
+   * - 2
+     - :math:`v_k`
+     - Final vibrational number of molecule C.
+   * - 3
+     - :math:`J_l`
+     - Final J of molecule D (blank for 3-atom).
+   * - 4
+     - :math:`v_l`
+     - Final v of molecule D (blank for 3-atom).
+   * - 5
+     - Final arrangement
+     - Product arrangement code.
+   * - 6–9
+     - Initial molecule A
+     - :math:`J_i, v_i` (then B: :math:`J_j, v_j` for 4-atom).
+   * - 10
+     - Initial arrangement
+     - Starting arrangement code.
+   * - 11
+     - :math:`\sigma`
+     - Cross-section estimate (a.u.\ :sup:`2`).
+   * - 12
+     - :math:`\sigma^{SD}`
+     - Standard deviation (a.u.\ :sup:`2`).
+
+For a 3-atom system the two "molecule B" and "molecule D" columns are
+omitted.
+
+
+``Proc*.csv`` — rate coefficients
+---------------------------------
+
+Location:
+
+.. code-block:: text
+
+   Text/<System>/Rates/T_<TTran>_<TInt>/Proc_<iProc>.csv
+
+where ``iProc`` identifies the initial state (``iProc = i`` for
+3-atom systems, or ``iProc = (i - 1) * N_Bins^B + j`` for 4-atom
+systems).
+
+Header block (top of the file) includes metadata:
+
+- ``System:`` — the chemical system.
+- ``PES:`` — the surface used, or ``Merged`` if multiple PES are summed.
+- ``In. Molecules:`` — reactants.
+- ``No Processes:`` — number of process rows below.
+- ``No Trajectories:`` — trajectories summed into this file.
+- ``In. Lev.s/Bins:`` — initial level/bin indices.
+- ``Part. Func.s Ratios:`` — contribution of these initial states to
+  the molecule's partition function.
+- ``Tran Temperature:`` / ``Int Temperature:`` — temperatures used.
+
+Data rows:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 40 40
+
+   * - Column
+     - Symbol
+     - Units
+   * - 1
+     - Process index ``d``
+     - (integer)
+   * - 2
+     - :math:`k_{i,j}` or :math:`k_{ij,kl}`
+     - cm³/s
+   * - 3
+     - Standard deviation :math:`k^{SD}`
+     - cm³/s
+
+The ``d`` encoding splits inelastic / exchange / dissociation channels
+and is documented in :doc:`input_reference`.
+
+
+Controlling the aggregation
+---------------------------
+
+Seven ``CoarseAIR.inp`` flags control how raw trajectory outcomes are
+aggregated into statistics:
+
+- ``Distinguish between PESs?`` — if yes, produce one statistics file
+  per electronic surface (plus a merged one).
+- ``Preserving Even / Oddness of Condition 1?`` — apply nuclear-spin
+  selection rules (relevant for homonuclear diatoms).
+- ``Identical Diatoms?`` — for 4-atom systems, symmetrise over
+  equivalent diatoms (e.g. N\ :sub:`2` + N\ :sub:`2`). Both diatoms
+  must be treated identically (same binning).
+- ``Distinguish Exchanges between Each Other?`` — for identical-atom
+  systems, treat different permutations as separate exchange reactions
+  (labelled mode) vs. sum them (indistinguishable mode).
+- ``Distinguish Exchanges from Inelastic?`` — treat same-element atom
+  exchange as exchange (rather than inelastic).
+- ``Writing Rate Files in Binary Format?`` — binary output for speed.
+- ``Temperature for Distribution Function Computation [K]`` — extra
+  equilibrium distribution for diagnostics.
+
+Because none of these flags change the trajectory output, they can be
+toggled between post-processing passes without re-running the
+expensive trajectory stage.
+
+
+PyCoarseAIR
+-----------
+
+For downstream analysis, Simone Venturi maintains `PyCoarseAIR
+<https://github.com/simoneventuri/PyCoarseAIR>`_ — a Python tool that
+reads raw CoarseAIR output and assembles it into kinetic databases
+compatible with the PLATO master-equation solver.
+
+Workflow:
+
+1. Download the chemistry system's HDF5 database from
+   https://www.chess.aerospace.illinois.edu/databases.
+2. Install dependencies: ``pip3 install numpy pandas matplotlib h5py``.
+3. Edit ``PyCoarseAIRFldr/exec/PyCoarseAir.py`` to set the local
+   paths (``PyCoarseAIRFldr``, ``DtbHDF5Fldr``, ``DtbWriteFldr``,
+   ``OutputWriteFldr``).
+4. Run:
+
+   .. code-block:: bash
+
+      cd PyCoarseAIRFldr/exec
+      python3 ./PyCoarseAir.py ../input/<System>/
+
+Outputs:
+
+- ``PyCoarseAIRFldr/kinetic/<System>/`` — rate coefficients in PLATO
+  format.
+- ``PyCoarseAIRFldr/thermo/<System>/`` — level / group distribution
+  functions at the configured initial temperature.
+
+Both PLATO (CFD) and dmsAIR (DSMC) consume these files directly — see
+:doc:`/reference/about` for the HERMES-Aerospace tool stack.
+
+
+MCoarseAIR
+----------
+
+``extra/MCoarseAIR/`` contains a MATLAB suite for plotting and
+statistical analysis of CoarseAIR output — PES visualisation,
+vibrational-ladder plots, Arrhenius fits, and Bayesian-NN uncertainty
+studies. Add ``MCoarseAIR/`` to the MATLAB path and open
+``RunAnalysis.m`` as the entry point.
+
+
+Diagnostic checks
+-----------------
+
+Before trusting a run, inspect:
+
+- **Energy conservation** per trajectory. See
+  :doc:`/theory/integrators`.
+- **Sum rule**: cross-sections for all outgoing channels from one
+  starting level should sum to :math:`\pi b_{\max}^2`. See
+  :doc:`/theory/rate_extraction`.
+- **Detailed balance** between forward and reverse rates at the same
+  temperature — within statistical error. Persistent violations flag
+  classification bugs or zero-point-energy artefacts.
+
+All three checks are available in the MATLAB and Python post-processing
+tools.

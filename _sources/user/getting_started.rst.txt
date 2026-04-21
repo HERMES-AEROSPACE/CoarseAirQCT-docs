@@ -1,13 +1,162 @@
 Getting Started
 ===============
 
-.. note::
+This page walks through a minimal end-to-end CoarseAIR run: installing
+dependencies, building the code, copying an example input, running a small
+trajectory batch for N + N\ :sub:`2`, and inspecting the resulting rate
+coefficient. Allow about 30–60 minutes if installing from scratch.
 
-   This page is under construction. Content coming soon.
+For full installation detail see :doc:`installation`, for all input
+options see :doc:`input_reference`, and for cluster execution see
+:doc:`running_trajectories`.
 
-Planned coverage:
 
-- Prerequisites (compilers, MPI, HDF5, BLAS/LAPACK)
-- Cloning the repository and initial configuration
-- A minimal walkthrough: running the H3 example end-to-end
-- Inspecting output files and plotting a first cross-section
+Prerequisites
+-------------
+
+Make sure the following are installed and on your ``$PATH`` or
+``$LD_LIBRARY_PATH``:
+
+- A **Fortran compiler** — GCC ``gfortran`` or Intel ``ifort``.
+  Set the environment variable ``$FC`` to point at it.
+- **OpenBLAS** (https://www.openblas.net/). Set ``$OBLAS_INC`` and
+  ``$OBLAS_LIB``.
+- **GNU parallel** (https://www.gnu.org/software/parallel/). The
+  ``parallel`` command must resolve to the executable.
+- **Python 3** with ``numpy``, ``pandas``, ``matplotlib``, ``csv``,
+  ``h5py`` (for post-processing).
+- **CMake** ≥ 3.0.
+
+On NASA Pleiades, copy the provided
+``coarseair/README/LinesTo_Add_ToBashrc/AddToBashrc_Pleiades.sh``
+snippet into your ``~/.bashrc`` and you are done.
+
+
+Build the code
+--------------
+
+1. Create a workspace directory and clone the repository inside it:
+
+   .. code-block:: bash
+
+      mkdir -p ~/WORKSPACE/CoarseAIR && cd ~/WORKSPACE/CoarseAIR
+      git clone https://github.com/HERMES-AEROSPACE/CoarseAirQCT.git coarseair
+
+2. Append the provided bashrc lines to your shell startup file (edit the
+   ``path_to_workspace`` inside that file to point at
+   ``~/WORKSPACE/``):
+
+   .. code-block:: bash
+
+      cat ~/WORKSPACE/CoarseAIR/coarseair/README/LinesTo_Add_ToBashrc/AddToBashrc.sh \
+          >> ~/.bashrc
+      source ~/.bashrc
+
+3. Configure and install:
+
+   .. code-block:: bash
+
+      COARSEAIR_UPDATE
+      COARSEAIR_release
+      COARSEAIR_INSTALL
+
+   ``COARSEAIR_INSTALL`` configures, builds, and installs the 8 executables
+   under ``install/coarseair-1.1-release-<compiler>/bin/``.
+
+
+Run a first example — N + N\ :sub:`2` dissociation at T = 10 000 K
+------------------------------------------------------------------
+
+The input suite under ``input/N3/NASA/input/`` is a good first target —
+small enough to finish in a few minutes on a laptop, illustrates the
+full workflow.
+
+1. Create a run folder and stage the inputs:
+
+   .. code-block:: bash
+
+      mkdir -p ~/WORKSPACE/CoarseAIR/Run_N3
+      cd ~/WORKSPACE/CoarseAIR/Run_N3
+      cp -r ~/WORKSPACE/CoarseAIR/coarseair/input/N3/NASA/input .
+      cp ~/WORKSPACE/CoarseAIR/coarseair/scripts/launching/CoarseAIR.sh .
+
+2. Edit ``input/CoarseAIR.inp``:
+
+   - ``Translational Temperature [K] 1 =`` → pick 10000.
+   - ``Database Path =`` → absolute path to
+     ``~/WORKSPACE/CoarseAIR/coarseair/dtb``.
+   - ``Nb of Trajectories per Level / Bin =`` → 100 (for a smoke test).
+
+3. Refresh environment and launch:
+
+   .. code-block:: bash
+
+      COARSEAIR_UPDATE; COARSEAIR_release
+      bash ./CoarseAIR.sh
+
+4. Convert the trajectory output into rates (second pass over the
+   same input):
+
+   .. code-block:: bash
+
+      # In input/CoarseAIR.inp:
+      #   Preprocessing Energy Levels List?  = no
+      #   Running Trajectories?              = no
+      #   Postprocessing Trajectories?       = yes
+      bash ./CoarseAIR.sh
+
+
+Inspect the output
+------------------
+
+After the post-processing pass the rate coefficient file lives under
+
+.. code-block:: text
+
+   Test/System/N3/Rates/T_10000_10000/Proc*.csv
+
+(the actual folder names depend on the input temperatures). Each CSV has a
+header block with run metadata, then three columns per process index:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 40 40
+
+   * - Column
+     - Symbol
+     - Meaning
+   * - 1
+     - Process index ``d``
+     - See :doc:`input_reference` for the 3-atom / 4-atom encoding.
+   * - 2
+     - :math:`k_{i,j}`
+     - Rate coefficient, cm³/s.
+   * - 3
+     - :math:`k_{i,j}^{SD}`
+     - Standard deviation, cm³/s.
+
+Plot a first excitation function: read the CSV with pandas and plot
+:math:`k` against :math:`j` for a chosen :math:`v` bin. A minimal
+snippet:
+
+.. code-block:: python
+
+   import pandas as pd, matplotlib.pyplot as plt
+   df = pd.read_csv('Proc_1.csv', skiprows=12, names=['d', 'k', 'kSD'])
+   plt.errorbar(df['d'], df['k'], yerr=df['kSD'], fmt='o')
+   plt.yscale('log')
+   plt.xlabel('process index d'); plt.ylabel('k [cm^3/s]')
+   plt.show()
+
+
+Where to go next
+----------------
+
+- :doc:`installation` — full cluster / NASA / UIUC setup notes.
+- :doc:`input_reference` — every line of ``CoarseAIR.inp`` explained.
+- :doc:`running_trajectories` — SLURM/PBS submission templates and
+  stratified-impact-parameter studies.
+- :doc:`postprocessing` — statistics.csv format, rate conversion,
+  PyCoarseAIR, and MCoarseAIR tooling.
+- :doc:`/examples/h3` — a more pedagogical walkthrough on the
+  H + H\ :sub:`2` benchmark.
