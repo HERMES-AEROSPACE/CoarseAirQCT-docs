@@ -21,9 +21,40 @@ Authorship and license
 - **Repository:** https://github.com/HERMES-AEROSPACE/CoarseAirQCT
   (private; development happens on the ``Clement-Adiabatic`` branch).
 
-The code is currently maintained under the **HERMES Aerospace research
-group** led by Prof. Marco Panesi. Active contributors include Clement
-Civrais (ongoing extensions; lead of CoarseAIR+).
+
+Development team
+----------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 28 50
+
+   * - Name
+     - Role
+     - Affiliation
+   * - **Prof. Marco Panesi**
+     - Principal Investigator
+     - HERMES Aerospace research group, University of California,
+       Irvine (UCI)
+   * - **Simone Venturi**
+     - Initial developer
+     - Atomic Machine
+   * - **Bruno Lopez**
+     - Initial developer
+     - Metacomp Technologies Inc.
+   * - **Clement Civrais**
+     - Lead developer (current)
+     - University of California, Irvine (UCI)
+   * - **Robyn Macdonald**
+     - Developer
+     - University of Colorado, Boulder
+
+Simone Venturi and Bruno Lopez authored the original CoarseAIR code
+at the University of Illinois Urbana-Champaign; Clement Civrais now
+leads ongoing development at UCI (including the CoarseAIR+ surface-
+hopping extension), with Robyn Macdonald contributing from CU
+Boulder. The project is directed by Prof. Marco Panesi, PI of the
+HERMES Aerospace research group.
 
 
 Related codes
@@ -89,9 +120,10 @@ The CoarseAIR code directly builds on the numerical methods and
 design choices of David Schwenke's VVTC at NASA Ames, and incorporates
 PES implementations from the groups of Donald Truhlar (University of
 Minnesota), Markus Meuwly (Basel), Hua Guo (University of New Mexico),
-Richard Jaffe (NASA Ames), and Bruno Silva (Aveiro), among others.
+Richard Jaffe (NASA Ames), and António Varandas (Aveiro), among
+others.
 
-The documentation site you are reading was assembled by Clement
+The documentation site you are reading is maintained by Clement
 Civrais in the HERMES Aerospace group, with sources in
 ``docs/online-documentation/``.
 
