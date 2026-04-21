@@ -1,14 +1,159 @@
 Quasi-Classical Trajectories
 ============================
 
-.. note::
+CoarseAIR computes state-to-state cross-sections and rate coefficients using
+the **Quasi-Classical Trajectory (QCT)** method: the nuclear dynamics are
+integrated classically on a single Born–Oppenheimer potential energy surface
+(PES), while the initial and final internal states are *quantised*
+semi-classically. This chapter sets out the theoretical framework CoarseAIR
+implements, referencing the specific data structures and code paths involved.
 
-   This page is under construction. Content coming soon.
 
-Planned coverage:
+Classical-limit approximation
+-----------------------------
 
-- Hamiltonian formulation in Jacobi / internuclear coordinates
-- Classical-limit approximation and its regime of validity
-- Asymptotic state definition (ro-vibrational quantum numbers)
-- Final-state analysis and semi-classical binning
-- Energy conservation as a numerical diagnostic
+For collisions at thermal or super-thermal energies typical of re-entry and
+high-enthalpy flows, nuclear de Broglie wavelengths are much smaller than the
+length scales of the PES features probed. In that regime the nuclei can be
+treated as classical point masses moving on a single adiabatic PES — the QCT
+approximation. CoarseAIR solves Hamilton's equations for each trajectory and
+then bins the resulting final states onto quantised ro-vibrational levels.
+
+The approximation breaks down where quantum effects dominate — tunnelling,
+zero-point leakage, resonances, interference between reactive pathways, and
+coupled electronic states — but it is well-established as a cost-effective,
+fully state-resolved method for the temperature range targeted here
+(:math:`\sim\!1\,000` K to :math:`\sim\!20\,000` K). Nonadiabatic effects are
+addressed separately in the CoarseAIR+ fork via fewest-switches surface
+hopping.
+
+
+Coordinates and pair numbering
+------------------------------
+
+**3-atom systems** have three atoms A, B, C, with three atom pairs:
+
+.. math::
+
+   \text{pair 1} = (A, B), \qquad \text{pair 2} = (A, C), \qquad
+   \text{pair 3} = (B, C).
+
+**4-atom systems** have four atoms A, B, C, D, and six atom pairs:
+
+.. math::
+
+   1 = (A, B), \quad 2 = (A, C), \quad 3 = (A, D),
+   \quad 4 = (B, C), \quad 5 = (B, D), \quad 6 = (C, D).
+
+This is the convention used throughout the input files, the ``AtomsPair``
+module (``src/AtomsPairs/``), and the processes classification in
+``src/Processes/``.
+
+CoarseAIR stores each trajectory in a **phase-space vector** ``PaQ`` of length
+``NEqtTot`` packed as momenta first, coordinates second:
+
+- 3-atom system: ``NEqtVar = 6``, ``NEqtTot = 12``
+  (6 momentum components :math:`p_i` + 6 Jacobi-like coordinates :math:`Q_i`).
+- 4-atom system: ``NEqtVar = 9``, ``NEqtTot = 18``.
+
+Centre-of-mass motion has been removed, and the internal coordinates are
+expressed in a body-fixed frame where the target molecule sits at the origin
+and the projectile enters along the :math:`z` axis at an offset :math:`b`
+(the impact parameter). See :doc:`sampling` for the transformation from
+asymptotic collision coordinates to the full ``PaQ`` vector.
+
+
+Hamiltonian
+-----------
+
+Each trajectory obeys
+
+.. math::
+
+   H(\mathbf{p}, \mathbf{Q}) \;=\;
+   \sum_{k} \frac{p_k^2}{2\,m_k^{\text{eff}}}
+   \;+\; V\!\left( \mathbf{Q} \right),
+
+where the effective masses :math:`m_k^{\text{eff}}` (stored as ``mMiMn`` on
+the PES object) come from the Jacobi-coordinate transformation and
+:math:`V(\mathbf{Q})` is the PES evaluation on the surface the trajectory is
+currently assigned to. Hamilton's equations
+
+.. math::
+
+   \frac{dQ_k}{dt} \;=\; \frac{\partial H}{\partial p_k},
+   \qquad
+   \frac{dp_k}{dt} \;=\; -\frac{\partial H}{\partial Q_k}
+
+are integrated by the Bulirsch–Stoer scheme described in :doc:`integrators`.
+The force term :math:`\partial V / \partial Q_k` is delivered by the PES
+module (``src/Collision/ODE/ODE_System.F90`` →
+``Collision%Compute_PES(iPES, Q, dVdQ, V, Rpi)``), which dispatches to the
+appropriate PES object:
+
+.. code-block:: fortran
+
+   ! Per-trajectory PES dispatch (simplified)
+   call PESsContainer( iPES(iTraj) )%PES%Compute( Q, dVdQ, V, Rpi )
+
+The scalar ``iPES(iTraj)`` stores the electronic surface index that
+trajectory ``iTraj`` runs on. In adiabatic CoarseAIR this index is fixed at
+initialisation; in CoarseAIR+ it may change mid-trajectory via a surface-hop
+event.
+
+
+Per-trajectory pipeline
+-----------------------
+
+For each trajectory the code executes the following sequence
+(``src/Collision/Integrator_Class.F90``):
+
+1. **Initial-state sampling.** Select initial ro-vibrational quantum numbers
+   :math:`(v, J)`, impact parameter :math:`b`, collision energy :math:`E`,
+   orientation angles, and PES index. See :doc:`sampling`.
+2. **Build the initial** ``PaQ`` **vector** in the body-fixed frame, with
+   projectile at separation :math:`D_{\text{init}}` along :math:`x`.
+3. **Propagate** ``PaQ`` forward in time via Bulirsch–Stoer until one of two
+   convergence criteria trips:
+
+   - :math:`t \geq t_{\max}` (hard time limit), or
+   - some inter-atomic distance exceeds ``RpiMax`` (products fully
+     separated).
+
+4. **Identify the final arrangement** by sorting inter-atomic distances and
+   running the effective-potential classifier. See
+   :doc:`arrangement_classification`.
+5. **Quantise the final state** semi-classically:
+
+   .. math::
+
+      v' + \tfrac{1}{2}
+      \;=\; \frac{1}{\pi\hbar}
+      \oint p\,dq,
+      \qquad
+      J'(J'+1)\hbar^2 \;\leftarrow\; \|\mathbf{L}\|^{2}.
+
+   The action integral :math:`\oint p\,dq` is evaluated by the diatomic
+   potential object (``DiatomicPotential%ActionIntegral``); the angular
+   momentum :math:`\mathbf{L}` is computed from the final atomic velocities
+   in the product diatom's CM frame.
+
+The outputs per trajectory are: the process type (elastic, inelastic,
+exchange, dissociation), the final :math:`(v', J')`, the PES index
+``iPES``, the impact parameter :math:`b`, and the final Hamiltonian for
+energy-conservation audit.
+
+
+What CoarseAIR does *not* do (at this level)
+--------------------------------------------
+
+- **No nonadiabatic transitions** in the main adiabatic branch. Each
+  trajectory stays on the surface assigned at initialisation. The full
+  multi-surface machinery is exercised only for degeneracy-weighted
+  branching, not for dynamical hops — see :doc:`pes_formats` and the
+  CoarseAIR+ documentation.
+- **No zero-point leakage control.** CoarseAIR uses standard histogram
+  binning of final actions; no Gaussian-binning or zero-point-energy
+  correction is applied in the base workflow.
+- **No quantum interference.** Reactive branches are counted independently;
+  no phase information is tracked.

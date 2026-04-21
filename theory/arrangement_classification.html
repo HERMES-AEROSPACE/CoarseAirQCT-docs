@@ -19,6 +19,7 @@
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -55,31 +56,174 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="qct.html">Quasi-Classical Trajectories</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sampling.html">Sampling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="integrators.html">Trajectory Integrators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pes_formats.html">PES Formats</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Arrangement Classification</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rate_extraction.html">Rate &amp; Cross-Section Extraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qct.html">Quasi-Classical Trajectories</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#classical-limit-approximation">Classical-limit approximation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#coordinates-and-pair-numbering">Coordinates and pair numbering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#hamiltonian">Hamiltonian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#per-trajectory-pipeline">Per-trajectory pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sampling.html">Sampling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#ro-vibrational-state-v-j">Ro-vibrational state <span class="math notranslate nohighlight">\((v, J)\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#collision-energy-e">Collision energy <span class="math notranslate nohighlight">\(E\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#impact-parameter-b">Impact parameter <span class="math notranslate nohighlight">\(b\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#relative-velocity-decomposition">Relative-velocity decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#orientation-sampling-euler-angles">Orientation sampling (Euler angles)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#electronic-surface-index-ipes">Electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="integrators.html">Trajectory Integrators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="integrators.html#the-bulirschstoer-scheme">The Bulirsch–Stoer scheme</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrators.html#hamilton-s-equations-as-coded">Hamilton’s equations, as coded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrators.html#per-trajectory-step-control">Per-trajectory step control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrators.html#convergence-criteria">Convergence criteria</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrators.html#energy-conservation-diagnostic">Energy-conservation diagnostic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrators.html#alternative-integrators">Alternative integrators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pes_formats.html">PES Formats</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#the-pes-abstract-base-class">The PES abstract base class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#factory-mechanism">Factory mechanism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#functional-families-currently-supported">Functional families currently supported</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#diatomic-pair-potentials">Diatomic pair potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#multi-surface-handling">Multi-surface handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#adding-a-new-pes">Adding a new PES</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Arrangement Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-identify-the-final-arrangement">Step 1 — Identify the final arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-classify-each-candidate-diatom">Step 2 — Classify each candidate diatom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-quantise-the-ro-vibrational-state-if-bound">Step 3 — Quantise the ro-vibrational state (if bound)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-classify-the-process">Step 4 — Classify the process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#indistinguishable-atom-systems">Indistinguishable-atom systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-pitfalls">Common pitfalls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rate_extraction.html">Rate &amp; Cross-Section Extraction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#cross-section-estimator">Cross-section estimator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#variance-and-uncertainty">Variance and uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#thermal-rate-coefficient">Thermal rate coefficient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#state-to-state-grouped-and-arrhenius-outputs">State-to-state, grouped, and Arrhenius outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#complementarity-and-mass-balance-checks">Complementarity and mass-balance checks</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../examples/chn.html">CHN System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/cno.html">CNO System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/co2.html">CO₂ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/coar.html">CO + Ar System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/ggg.html">GGG (Generic Three-Body) System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/h2he.html">H₂ + He System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/h3.html">H₃ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/h4.html">H₄ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/n2o.html">N₂O System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/n3.html">N₃ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/n4.html">N₄ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/nanbncnd.html">NaNbNcNd (Distinguishable-Nitrogen) System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/no2.html">NO₂ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/o18o18o16.html">¹⁸O ¹⁸O ¹⁶O (Isotope-Labelled Ozone) System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/o3.html">O₃ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/o4.html">O₄ System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/chn.html">CHN System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#pes-models">PES models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/cno.html">CNO System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#multi-surface-structure">Multi-surface structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#pes-models">PES models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/co2.html">CO<sub>2</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#multi-surface-structure">Multi-surface structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#pes-models">PES models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/coar.html">CO + Ar System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/h2he.html">H<sub>2</sub> + He System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/h3.html">H<sub>3</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/h4.html">H<sub>4</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/n2o.html">N<sub>2</sub>O System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#multi-surface-structure">Multi-surface structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/n3.html">N<sub>3</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#multi-surface-structure">Multi-surface structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/n4.html">N<sub>4</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#relation-to-n3">Relation to N<sub>3</sub></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/nanbncnd.html">N<sub>a</sub>N<sub>b</sub>N<sub>c</sub>N<sub>d</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#why-a-labelled-run">Why a labelled run?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/no2.html">NO<sub>2</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#multi-surface-structure">Multi-surface structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/o18o18o16.html">Isotopically Labelled Ozone (O18-O18-O16)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#why-isotopes-matter">Why isotopes matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/o3.html">O<sub>3</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#multi-surface-structure">Multi-surface structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#typical-use">Typical use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/o4.html">O<sub>4</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#typical-use">Typical use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#see-also">See also</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul>
@@ -122,17 +266,211 @@
              
   <section id="arrangement-classification">
 <h1>Arrangement Classification<a class="headerlink" href="#arrangement-classification" title="Link to this heading"></a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is under construction. Content coming soon.</p>
-</div>
-<p>Planned coverage:</p>
+<p>After a trajectory converges (either <span class="math notranslate nohighlight">\(t \geq t_{\max}\)</span> or the
+products have separated beyond <code class="docutils literal notranslate"><span class="pre">RpiMax</span></code>), CoarseAIR has to decide what
+the collision produced: which atoms ended up bonded, in what
+ro-vibrational state, and therefore which kinetic process this trajectory
+represents. This chapter describes the classification algorithm and the
+outcome categories it can assign.</p>
+<p>All of the logic lives in
+<code class="docutils literal notranslate"><span class="pre">src/Collision/MolecularState/MolecularState_Class.F90</span></code> and
+<code class="docutils literal notranslate"><span class="pre">src/Collision/Trajectories/TrajectoryPoint_Class.F90</span></code>.</p>
+<section id="step-1-identify-the-final-arrangement">
+<h2>Step 1 — Identify the final arrangement<a class="headerlink" href="#step-1-identify-the-final-arrangement" title="Link to this heading"></a></h2>
+<p>The arrangement — which atoms are bonded to which — is found by sorting
+the inter-atomic distances. A <strong>heapsort</strong> orders the pairs by
+<span class="math notranslate nohighlight">\(R_{ij}\)</span>; the smallest distance flags the most tightly-bound pair,
+which forms the product diatom (for 3-atom systems) or pair of diatoms
+(for 4-atom systems).</p>
+<p>The arrangement is encoded as an integer <strong>arrangement code</strong>. For a
+3-atom system ABC with pairs labelled <span class="math notranslate nohighlight">\(\{1, 2, 3\}\)</span> (see
+<a class="reference internal" href="qct.html"><span class="doc">Quasi-Classical Trajectories</span></a>), the possible arrangements are:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15.0%" />
+<col style="width: 30.0%" />
+<col style="width: 55.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Code</p></th>
+<th class="head"><p>Bonded pair</p></th>
+<th class="head"><p>Physical meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>pair 1 (AB)</p></td>
+<td><p>A–B bound, C free</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>pair 2 (AC)</p></td>
+<td><p>A–C bound, B free</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>pair 3 (BC)</p></td>
+<td><p>B–C bound, A free</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>none</p></td>
+<td><p>full dissociation (A + B + C)</p></td>
+</tr>
+</tbody>
+</table>
+<p>For a 4-atom system the code covers all four possible diatom-pair
+partitions of {A, B, C, D} (AB/CD, AC/BD, AD/BC), plus partial- and full-
+dissociation outcomes.</p>
+</section>
+<section id="step-2-classify-each-candidate-diatom">
+<h2>Step 2 — Classify each candidate diatom<a class="headerlink" href="#step-2-classify-each-candidate-diatom" title="Link to this heading"></a></h2>
+<p>Given the bonded pair, CoarseAIR classifies its internal state as
+<em>bound</em>, <em>quasi-bound</em>, or <em>dissociated</em> using the effective-potential
+picture. With reduced mass <span class="math notranslate nohighlight">\(\mu\)</span> and final rotational quantum
+number <span class="math notranslate nohighlight">\(J'\)</span> (inferred from the total angular momentum — see below),
+the effective radial potential is</p>
+<div class="math notranslate nohighlight">
+\[V_{\text{eff}}(R)
+   \;=\; V_{\text{diat}}(R)
+      \;+\; V_{\text{c}}(R),
+\qquad
+V_{\text{c}}(R)
+   \;=\; \frac{(J' + \tfrac{1}{2})^2}{2\mu R^2}\]</div>
+<p>(the Langer correction <span class="math notranslate nohighlight">\(J(J+1) \to (J+\tfrac{1}{2})^2\)</span> is used
+throughout). The diatomic potential object locates the critical points:</p>
 <ul class="simple">
-<li><p>Arrangement codes used in CoarseAIR output</p></li>
-<li><p>Geometric criteria for classifying final trajectory outcomes</p></li>
-<li><p>Handling of long-lived complexes and borderline cases</p></li>
-<li><p>Per-arrangement cross-section and rate-coefficient filtering</p></li>
+<li><p><span class="math notranslate nohighlight">\(R_{\min}\)</span>, <span class="math notranslate nohighlight">\(V_{\min}\)</span> — inner well minimum
+(<code class="docutils literal notranslate"><span class="pre">FindMinimum</span></code>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(R_{\max}\)</span>, <span class="math notranslate nohighlight">\(V_{\max}\)</span> — centrifugal barrier maximum
+(<code class="docutils literal notranslate"><span class="pre">FindMaximum</span></code>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(V_\infty\)</span> — asymptotic potential.</p></li>
 </ul>
+<p>The trajectory’s internal energy in the candidate diatom is</p>
+<div class="math notranslate nohighlight">
+\[E_{\text{int}} \;=\; E_{\text{int,K}} + V_{\text{diat}}(R_{\text{bond}}),\]</div>
+<p>where <span class="math notranslate nohighlight">\(E_{\text{int,K}}\)</span> is the kinetic energy in the diatom’s CM
+frame. CoarseAIR then applies the decision tree:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>if R_bond &gt; R_max:                       --&gt; DISSOCIATED
+else:
+   if E_int &gt; V_max:                     --&gt; DISSOCIATED (over the barrier)
+   elif V_infty &lt; E_int &lt;= V_max:        --&gt; QUASI-BOUND  (above the asymptote
+                                                           but trapped behind
+                                                           the centrifugal
+                                                           barrier)
+   else (E_int &lt;= V_infty):              --&gt; BOUND
+</pre></div>
+</div>
+<p>The three outcomes are all physically meaningful:</p>
+<ul class="simple">
+<li><p><strong>Bound</strong> — a genuine product diatom. Proceed to step 3.</p></li>
+<li><p><strong>Quasi-bound</strong> — a metastable state that may eventually tunnel out
+of the centrifugal well. CoarseAIR counts it as a bound product but
+flags it in the output; post-processing can choose to treat it
+separately. This matters for near-dissociation levels, especially at
+low <span class="math notranslate nohighlight">\(J\)</span>.</p></li>
+<li><p><strong>Dissociated</strong> — no stable diatom; the trajectory contributes to a
+dissociation or full-atomisation channel.</p></li>
+</ul>
+</section>
+<section id="step-3-quantise-the-ro-vibrational-state-if-bound">
+<h2>Step 3 — Quantise the ro-vibrational state (if bound)<a class="headerlink" href="#step-3-quantise-the-ro-vibrational-state-if-bound" title="Link to this heading"></a></h2>
+<p>For a bound (or quasi-bound) diatom, CoarseAIR assigns a final
+vibrational quantum number <span class="math notranslate nohighlight">\(v'\)</span> via the WKB action integral</p>
+<div class="math notranslate nohighlight">
+\[v' + \tfrac{1}{2}
+\;=\; \frac{1}{\pi\hbar}
+      \oint p(R)\, dR
+\;=\; \frac{1}{\pi\hbar} \int_{R_{\text{in}}}^{R_{\text{out}}}
+      \sqrt{2\mu\,[E_{\text{int}} - V_{\text{eff}}(R)]}\, dR,\]</div>
+<p>computed by <code class="docutils literal notranslate"><span class="pre">DiatomicPotential%ActionIntegral</span></code>. The value is histogrammed
+to the nearest integer (standard histogram binning, no Gaussian-binning
+correction in the base code).</p>
+<p>The rotational quantum number <span class="math notranslate nohighlight">\(J'\)</span> comes from the total angular
+momentum of the product diatom in its CM frame:</p>
+<div class="math notranslate nohighlight">
+\[\|\mathbf{L}\|^2 \;=\; \left(J' + \tfrac{1}{2}\right)^2 \hbar^2.\]</div>
+<p>Both quantities feed into the pre-computed level table to map the outcome
+onto a specific state index (or bin index in coarse-grained mode — see
+<a class="reference internal" href="sampling.html"><span class="doc">Sampling</span></a>).</p>
+</section>
+<section id="step-4-classify-the-process">
+<h2>Step 4 — Classify the process<a class="headerlink" href="#step-4-classify-the-process" title="Link to this heading"></a></h2>
+<p>Given the initial and final state indices, the process type follows:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 78.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Process</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Elastic</strong></p></td>
+<td><p>Same initial and final pair, same <span class="math notranslate nohighlight">\((v, J)\)</span> up to binning
+tolerance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Inelastic</strong></p></td>
+<td><p>Same pair (no atom exchange), but different <span class="math notranslate nohighlight">\((v, J)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Exchange</strong></p></td>
+<td><p>Different pair — the identity of the bonded atoms changed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Dissociation</strong></p></td>
+<td><p>No bound pair survives (3-atom: A + B + C; 4-atom: breakdown to
+atoms or atom + diatom subsets).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Exchange-dissociation</strong></p></td>
+<td><p>4-atom only: one of the two product diatoms has dissociated while
+the other reformed as an exchanged pair (e.g. AB + CD → AC + B + D).</p></td>
+</tr>
+</tbody>
+</table>
+<p>The <code class="docutils literal notranslate"><span class="pre">Processes_Type</span></code> hierarchy under <code class="docutils literal notranslate"><span class="pre">src/Processes/</span></code> holds the
+cross-section and rate-coefficient accumulator for each process category;
+3-atom and 4-atom systems use distinct subclasses
+(<code class="docutils literal notranslate"><span class="pre">Nb3Atoms_Processes_Class</span></code>, <code class="docutils literal notranslate"><span class="pre">Nb4Atoms_Processes_Class</span></code>) because the
+outcome space differs.</p>
+</section>
+<section id="indistinguishable-atom-systems">
+<h2>Indistinguishable-atom systems<a class="headerlink" href="#indistinguishable-atom-systems" title="Link to this heading"></a></h2>
+<p>When some atoms are chemically identical (e.g. H<sub>3</sub>, N<sub>3</sub>,
+O<sub>3</sub>, H<sub>4</sub>, N<sub>4</sub>, O<sub>4</sub>), the arrangement code
+alone is ambiguous: was this an <em>exchange</em> or just a re-labelling of the
+same diatom? CoarseAIR handles this in two ways:</p>
+<ol class="arabic simple">
+<li><p><strong>Indistinguishable mode</strong> — the cross-sections for exchange channels
+are summed together, matching the physical observable. This is the
+default for symmetric systems.</p></li>
+<li><p><strong>Labelled mode</strong> — atoms are artificially tagged (e.g. NaNbNcNd is
+the labelled counterpart of N<sub>4</sub>, and O18O18O16 labels ozone
+by isotope). The code then tracks each exchange pathway separately.
+Labelled runs are used to audit the indistinguishable-mode averaging
+and to compute isotope-specific rates.</p></li>
+</ol>
+<p>Both modes use the same classification algorithm; the difference lives
+in how the output is aggregated during post-processing.</p>
+</section>
+<section id="common-pitfalls">
+<h2>Common pitfalls<a class="headerlink" href="#common-pitfalls" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Long-lived complexes.</strong> On deep-well PES surfaces (C-containing
+systems, quasi-bound O<sub>3</sub> ensembles) a trajectory can spend
+tens of picoseconds in a four-atom complex before separating. If
+<code class="docutils literal notranslate"><span class="pre">tmax</span></code> is too short, the classification fires on the complex itself
+and labels the outcome as a mis-attributed “elastic” or
+“quasi-bound” event. Inspect the distribution of final times before
+trusting complex-rich systems.</p></li>
+<li><p><strong>Centrifugal barrier close to</strong> <span class="math notranslate nohighlight">\(E_{\text{int}}\)</span>. The
+quasi-bound / dissociated boundary is a thin one for near-dissociation
+levels; small numerical noise in <span class="math notranslate nohighlight">\(E_{\text{int}}\)</span> can flip the
+classification. The <code class="docutils literal notranslate"><span class="pre">CheckMaxAndMin</span></code> and <code class="docutils literal notranslate"><span class="pre">CheckTurningPoints</span></code>
+validators flag borderline cases.</p></li>
+<li><p><strong>Zero-point leakage.</strong> Classical trajectories do not respect the
+<span class="math notranslate nohighlight">\(v = 0\)</span> zero-point energy; low-energy vibrational populations
+are under-represented. This is a well-known QCT artefact; see the
+cross-references in <a class="reference internal" href="../reference/bibliography.html"><span class="doc">Bibliography</span></a>.</p></li>
+</ul>
+</section>
 </section>
 
 

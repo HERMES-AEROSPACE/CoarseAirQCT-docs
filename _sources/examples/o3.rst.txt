@@ -1,10 +1,132 @@
-O₃ System
-=========
+O\ :sub:`3` System
+==================
 
-.. note::
+The **O₃** system is a three-body arrangement of three indistinguishable
+oxygen atoms. It is the largest electronic-manifold system CoarseAIR
+supports in the adiabatic pipeline, with **nine independent electronic
+surfaces**. Input files live under ``input/O3/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the **O₃** system,
-using the input files provided in ``input/O3/``. The multi-surface / surface
-hopping extension is covered in the CoarseAIR+ documentation.
+- Atoms: **O, O, O** (all identical).
+- Collision entry: O + O\ :sub:`2`.
+
+Kinetic processes
+-----------------
+
+- **Inelastic scattering** — :math:`\mathrm{O}_{2}(v, J) + \mathrm{O}
+  \to \mathrm{O}_{2}(v', J') + \mathrm{O}`.
+- **Reactive exchange** — identical-atom swap; summed to a single
+  channel in indistinguishable mode (see :doc:`/examples/o18o18o16`
+  for the labelled variant).
+- **Dissociation / recombination** — :math:`\mathrm{O}_{2} + \mathrm{O}
+  \leftrightarrow 3\,\mathrm{O}`.
+
+Multi-surface structure
+-----------------------
+
+CoarseAIR instantiates all nine O\ :sub:`3` surfaces in a single run
+and distributes trajectories across them by their electronic
+degeneracies:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 8 18 14 12 24 24
+
+   * - #
+     - Surface
+     - Symmetry
+     - Spin
+     - UMN model tag
+     - NN model tag
+   * - 1
+     - 1 :sup:`1`\ A'
+     - A'
+     - singlet
+     - ``UMN_11A1``
+     - ``NN_11A1``
+   * - 2
+     - 1 :sup:`1`\ A''
+     - A''
+     - singlet
+     - ``UMN_11A2``
+     - ``NN_11A2``
+   * - 3
+     - :sup:`3`\ A'
+     - A'
+     - triplet
+     - ``UMN_13A1``
+     - ``NN_13A1``
+   * - 4
+     - :sup:`3`\ A''
+     - A''
+     - triplet
+     - ``UMN_13A2``
+     - ``NN_13A2``
+   * - 5
+     - :sup:`5`\ A'
+     - A'
+     - quintet
+     - ``UMN_15A1``
+     - ``NN_15A1``
+   * - 6
+     - :sup:`5`\ A''
+     - A''
+     - quintet
+     - ``UMN_15A2``
+     - ``NN_15A2``
+   * - 7
+     - 2 :sup:`1`\ A'
+     - A'
+     - singlet
+     - ``UMN_21A1``
+     - ``NN_21A1``
+   * - 8
+     - 2 :sup:`3`\ A'
+     - A'
+     - triplet
+     - ``UMN_23A1``
+     - ``NN_23A1``
+   * - 9
+     - 2 :sup:`5`\ A'
+     - A'
+     - quintet
+     - ``UMN_25A1``
+     - ``NN_25A1``
+
+In the adiabatic workflow, each trajectory stays on its assigned
+surface — nonadiabatic couplings between these surfaces are not
+modelled. Surface hopping between these nine states is the central
+feature of CoarseAIR+ (see separate documentation).
+
+PES models
+----------
+
+Available functional families (see :doc:`/theory/pes_formats`):
+
+- ``UMN`` — analytic MEG expansion, the reference surfaces.
+- ``NN`` — neural-network regressions of ab initio points.
+- ``BNN`` — Bayesian-NN ensembles (for uncertainty quantification).
+- ``GP`` — Gaussian process, three noise-level variants.
+- ``LEPS`` — historical benchmark.
+
+All families cover the full set of nine electronic surfaces.
+
+Diatomic partner: ``O2_UMN`` (or the variant consistent with the chosen
+triatomic PES).
+
+Typical use
+-----------
+
+O\ :sub:`3` is relevant to stratospheric chemistry, hypersonic re-entry
+through oxygen-rich atmospheres (Earth, Mars' CO\ :sub:`2` :math:`\to`
+O\ :sub:`2` kinetics), and the ongoing study of the ozone isotope
+anomaly. It is also the target of the CoarseAIR+ surface-hopping
+development.
+
+See also
+--------
+
+- :doc:`/examples/o18o18o16` — isotope-labelled variant.
+- :doc:`/examples/o4` — diatom–diatom O\ :sub:`2` + O\ :sub:`2` companion.

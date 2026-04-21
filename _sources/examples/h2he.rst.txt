@@ -1,9 +1,46 @@
-H₂ + He System
-==============
+H\ :sub:`2` + He System
+=======================
 
-.. note::
+The **H₂ + He** system is a three-body, **non-reactive** arrangement used
+to study rotational and vibrational relaxation of molecular hydrogen by
+helium. Input files live under ``input/H2He/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the **H₂ + He**
-system, using the input files provided in ``input/H2He/``.
+- Atoms: **H, H, He**. The two H atoms are identical; He is chemically
+  inert.
+- Collision entry: H\ :sub:`2` + He.
+- Pair numbering: pair 1 = H-H (reactive bond), pairs 2 and 3 =
+  H-He (dummy pair potentials).
+
+Kinetic processes
+-----------------
+
+- **Rotational relaxation** — :math:`\mathrm{H}_{2}(J) + \mathrm{He}
+  \to \mathrm{H}_{2}(J') + \mathrm{He}` at the same :math:`v`.
+- **Vibrational relaxation** — :math:`\mathrm{H}_{2}(v, J) + \mathrm{He}
+  \to \mathrm{H}_{2}(v', J') + \mathrm{He}`.
+- No exchange channel (He cannot form a stable bond to H on the PES
+  considered).
+- Dissociation :math:`\mathrm{H}_{2}(v, J) + \mathrm{He} \to \mathrm{H}
+  + \mathrm{H} + \mathrm{He}` accessible at very high energy.
+
+Because the two H atoms are identical, the two "equivalent" final-state
+pathways are aggregated in indistinguishable mode.
+
+PES models
+----------
+
+Available: ``BMPmod`` (a modified Boothroyd–Martin–Peterson PES).
+
+Diatomic partners: ``H2_BMKP`` (H\ :sub:`2`), ``HHe_Dummy`` (inert).
+
+Typical use
+-----------
+
+H\ :sub:`2` + He is a benchmark system for astrophysical and
+laser-cooling applications, where rotational populations of H\
+:sub:`2` are probed in cold, He-rich environments. The small number
+of active degrees of freedom makes it an excellent sanity check for the
+CoarseAIR integration pipeline.

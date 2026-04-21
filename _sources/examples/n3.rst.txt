@@ -1,9 +1,53 @@
-N₃ System
-=========
+N\ :sub:`3` System
+==================
 
-.. note::
+The **N₃** system is a three-body arrangement of three indistinguishable
+nitrogen atoms. It is the main system for air-chemistry N\ :sub:`2`
+dissociation studies. Input files live under ``input/N3/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the **N₃** system,
-using the input files provided in ``input/N3/``.
+- Atoms: **N, N, N** (all identical).
+- Collision entry: N + N\ :sub:`2`.
+
+Kinetic processes
+-----------------
+
+- **Inelastic scattering** — :math:`\mathrm{N}_{2}(v, J) + \mathrm{N}
+  \to \mathrm{N}_{2}(v', J') + \mathrm{N}`.
+- **Reactive exchange** (identical-atom) — summed into a single channel
+  in indistinguishable mode.
+- **Dissociation / recombination** — :math:`\mathrm{N}_{2} + \mathrm{N}
+  \leftrightarrow 3\,\mathrm{N}`. This is the primary dissociation
+  channel of molecular nitrogen in the stratosphere and re-entry shock
+  layer.
+
+Multi-surface structure
+-----------------------
+
+N\ :sub:`3` has multiple low-lying electronic surfaces (singlet, triplet,
+quintet) that all contribute to dissociation at high :math:`T`. The
+NASA and UMN surfaces each cover several; trajectories are distributed
+across them with degeneracy weights at initialisation. See
+:doc:`/theory/sampling`.
+
+PES models
+----------
+
+Available:
+
+- ``NASA`` — NASA Ames analytic surface.
+- ``UMN`` — University of Minnesota surface (MEG expansion).
+- ``UMN_MBPIPMEG`` — PIP-augmented variant.
+
+Diatomic partners: ``N2_UMN_ForN3``, ``N2_UMN_PIPMEG_ForN3`` (matching
+the full PES).
+
+Typical use
+-----------
+
+N + N\ :sub:`2` dissociation is *the* central rate in hypersonic air
+chemistry. CoarseAIR state-to-state N\ :sub:`3` rates are used as inputs
+to master-equation dissociation studies (e.g. in dmsAIR) and provide the
+reference dataset for coarse-grained model reduction.

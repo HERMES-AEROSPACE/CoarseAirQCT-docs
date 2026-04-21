@@ -1,10 +1,51 @@
-H₃ System
-=========
+H\ :sub:`3` System
+==================
 
-.. note::
+The **H₃** system is a three-body arrangement of three indistinguishable
+hydrogen atoms. It is the classical benchmark of QCT literature and is
+the recommended first example for new users. Input files live under
+``input/H3/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the **H₃** system,
-using the input files provided in ``input/H3/``. It is the recommended
-first-time example for new users.
+- Atoms: **H, H, H** (all identical).
+- Collision entry: H + H\ :sub:`2`.
+- All three possible "atom plus diatom" pairings are equivalent by
+  atomic permutation.
+
+Kinetic processes
+-----------------
+
+- **Inelastic scattering** — :math:`\mathrm{H}_{2}(v, J) + \mathrm{H}
+  \to \mathrm{H}_{2}(v', J') + \mathrm{H}`.
+- **Reactive exchange** — identical-atom exchange:
+  :math:`\mathrm{H}_a\mathrm{H}_b + \mathrm{H}_c \to
+  \mathrm{H}_a\mathrm{H}_c + \mathrm{H}_b`
+  etc. In indistinguishable mode, the three outgoing pathways are
+  summed to a single "exchange" channel.
+- **Dissociation / recombination** — :math:`\mathrm{H}_{2} + \mathrm{H}
+  \leftrightarrow 3\,\mathrm{H}`.
+
+Because all three atoms are identical, H\ :sub:`3` is the ideal test of
+CoarseAIR's indistinguishable-atom accounting. A labelled-atom run (all
+three H atoms treated as distinguishable) can be compared against the
+indistinguishable result as a self-consistency check.
+
+PES models
+----------
+
+Available: ``BH`` (Boothroyd–Keogh–Martin–Peterson / BKMP2 variant),
+``LEPS`` (historical).
+
+Diatomic partner: ``H2_Schwenke1988``.
+
+Typical use
+-----------
+
+H + H\ :sub:`2` has been computed by countless QCT codes since the
+1970s; reference cross-sections and rates exist in the literature across
+a wide temperature range. It is the first system any serious QCT
+validation exercise should run, and CoarseAIR's H\ :sub:`3` numbers
+should be compared against the body of published results before running
+production studies on chemically heavier systems.

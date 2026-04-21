@@ -1,9 +1,53 @@
-NO₂ System
-==========
+NO\ :sub:`2` System
+===================
 
-.. note::
+The **NO₂** system is a three-body arrangement with one nitrogen and
+two indistinguishable oxygens. Input files live under ``input/NO2/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the **NO₂** system,
-using the input files provided in ``input/NO2/``.
+- Atoms: **N, O, O** (the two O's are identical).
+- Collision entries: NO + O or O\ :sub:`2` + N.
+
+Kinetic processes
+-----------------
+
+- **Inelastic scattering** on the incoming arrangement.
+- **Reactive exchange** between the two distinct arrangements:
+
+  .. math::
+
+     \mathrm{NO} + \mathrm{O} \;\leftrightarrow\;
+     \mathrm{O}_{2} + \mathrm{N}.
+
+  This is the second Zel'dovich reaction, complementing the
+  N\ :sub:`2`\ O pathway (:doc:`/examples/n2o`).
+- **Dissociation** — full atomisation :math:`\to` N + O + O.
+
+Multi-surface structure
+-----------------------
+
+NO\ :sub:`2` has multiple low-lying doublet and quartet electronic
+surfaces:
+
+- :math:`{}^{2}A'` (``UMN_2Ap``)
+- :math:`{}^{4}A'` (``UMN_4Ap``)
+
+plus the corresponding :math:`{}^{2,4}A''` components. Multi-surface
+runs are degeneracy-weighted in the adiabatic pipeline.
+
+PES models
+----------
+
+Available: ``UMN`` (with 2A' and 4A' surface labels), ``Basel``.
+
+Diatomic partners: ``NO_UMN_ForNO2_Doub``, ``NO_UMN_ForNO2_Quart``,
+``O2_UMN`` (or Basel equivalents).
+
+Typical use
+-----------
+
+Together with N\ :sub:`2`\ O, the NO\ :sub:`2` channel closes the
+"extended Zel'dovich" cycle for NO production in high-temperature air
+kinetics.

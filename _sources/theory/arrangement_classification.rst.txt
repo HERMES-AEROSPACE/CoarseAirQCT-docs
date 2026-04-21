@@ -1,13 +1,217 @@
 Arrangement Classification
 ==========================
 
-.. note::
+After a trajectory converges (either :math:`t \geq t_{\max}` or the
+products have separated beyond ``RpiMax``), CoarseAIR has to decide what
+the collision produced: which atoms ended up bonded, in what
+ro-vibrational state, and therefore which kinetic process this trajectory
+represents. This chapter describes the classification algorithm and the
+outcome categories it can assign.
 
-   This page is under construction. Content coming soon.
+All of the logic lives in
+``src/Collision/MolecularState/MolecularState_Class.F90`` and
+``src/Collision/Trajectories/TrajectoryPoint_Class.F90``.
 
-Planned coverage:
 
-- Arrangement codes used in CoarseAIR output
-- Geometric criteria for classifying final trajectory outcomes
-- Handling of long-lived complexes and borderline cases
-- Per-arrangement cross-section and rate-coefficient filtering
+Step 1 — Identify the final arrangement
+---------------------------------------
+
+The arrangement — which atoms are bonded to which — is found by sorting
+the inter-atomic distances. A **heapsort** orders the pairs by
+:math:`R_{ij}`; the smallest distance flags the most tightly-bound pair,
+which forms the product diatom (for 3-atom systems) or pair of diatoms
+(for 4-atom systems).
+
+The arrangement is encoded as an integer **arrangement code**. For a
+3-atom system ABC with pairs labelled :math:`\{1, 2, 3\}` (see
+:doc:`qct`), the possible arrangements are:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 15 30 55
+
+   * - Code
+     - Bonded pair
+     - Physical meaning
+   * - 1
+     - pair 1 (AB)
+     - A–B bound, C free
+   * - 2
+     - pair 2 (AC)
+     - A–C bound, B free
+   * - 3
+     - pair 3 (BC)
+     - B–C bound, A free
+   * - 0
+     - none
+     - full dissociation (A + B + C)
+
+For a 4-atom system the code covers all four possible diatom-pair
+partitions of {A, B, C, D} (AB/CD, AC/BD, AD/BC), plus partial- and full-
+dissociation outcomes.
+
+
+Step 2 — Classify each candidate diatom
+---------------------------------------
+
+Given the bonded pair, CoarseAIR classifies its internal state as
+*bound*, *quasi-bound*, or *dissociated* using the effective-potential
+picture. With reduced mass :math:`\mu` and final rotational quantum
+number :math:`J'` (inferred from the total angular momentum — see below),
+the effective radial potential is
+
+.. math::
+
+   V_{\text{eff}}(R)
+      \;=\; V_{\text{diat}}(R)
+         \;+\; V_{\text{c}}(R),
+   \qquad
+   V_{\text{c}}(R)
+      \;=\; \frac{(J' + \tfrac{1}{2})^2}{2\mu R^2}
+
+(the Langer correction :math:`J(J+1) \to (J+\tfrac{1}{2})^2` is used
+throughout). The diatomic potential object locates the critical points:
+
+- :math:`R_{\min}`, :math:`V_{\min}` — inner well minimum
+  (``FindMinimum``).
+- :math:`R_{\max}`, :math:`V_{\max}` — centrifugal barrier maximum
+  (``FindMaximum``).
+- :math:`V_\infty` — asymptotic potential.
+
+The trajectory's internal energy in the candidate diatom is
+
+.. math::
+
+   E_{\text{int}} \;=\; E_{\text{int,K}} + V_{\text{diat}}(R_{\text{bond}}),
+
+where :math:`E_{\text{int,K}}` is the kinetic energy in the diatom's CM
+frame. CoarseAIR then applies the decision tree:
+
+.. code-block:: text
+
+   if R_bond > R_max:                       --> DISSOCIATED
+   else:
+      if E_int > V_max:                     --> DISSOCIATED (over the barrier)
+      elif V_infty < E_int <= V_max:        --> QUASI-BOUND  (above the asymptote
+                                                              but trapped behind
+                                                              the centrifugal
+                                                              barrier)
+      else (E_int <= V_infty):              --> BOUND
+
+The three outcomes are all physically meaningful:
+
+- **Bound** — a genuine product diatom. Proceed to step 3.
+- **Quasi-bound** — a metastable state that may eventually tunnel out
+  of the centrifugal well. CoarseAIR counts it as a bound product but
+  flags it in the output; post-processing can choose to treat it
+  separately. This matters for near-dissociation levels, especially at
+  low :math:`J`.
+- **Dissociated** — no stable diatom; the trajectory contributes to a
+  dissociation or full-atomisation channel.
+
+
+Step 3 — Quantise the ro-vibrational state (if bound)
+-----------------------------------------------------
+
+For a bound (or quasi-bound) diatom, CoarseAIR assigns a final
+vibrational quantum number :math:`v'` via the WKB action integral
+
+.. math::
+
+   v' + \tfrac{1}{2}
+   \;=\; \frac{1}{\pi\hbar}
+         \oint p(R)\, dR
+   \;=\; \frac{1}{\pi\hbar} \int_{R_{\text{in}}}^{R_{\text{out}}}
+         \sqrt{2\mu\,[E_{\text{int}} - V_{\text{eff}}(R)]}\, dR,
+
+computed by ``DiatomicPotential%ActionIntegral``. The value is histogrammed
+to the nearest integer (standard histogram binning, no Gaussian-binning
+correction in the base code).
+
+The rotational quantum number :math:`J'` comes from the total angular
+momentum of the product diatom in its CM frame:
+
+.. math::
+
+   \|\mathbf{L}\|^2 \;=\; \left(J' + \tfrac{1}{2}\right)^2 \hbar^2.
+
+Both quantities feed into the pre-computed level table to map the outcome
+onto a specific state index (or bin index in coarse-grained mode — see
+:doc:`sampling`).
+
+
+Step 4 — Classify the process
+-----------------------------
+
+Given the initial and final state indices, the process type follows:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 78
+
+   * - Process
+     - Definition
+   * - **Elastic**
+     - Same initial and final pair, same :math:`(v, J)` up to binning
+       tolerance.
+   * - **Inelastic**
+     - Same pair (no atom exchange), but different :math:`(v, J)`.
+   * - **Exchange**
+     - Different pair — the identity of the bonded atoms changed.
+   * - **Dissociation**
+     - No bound pair survives (3-atom: A + B + C; 4-atom: breakdown to
+       atoms or atom + diatom subsets).
+   * - **Exchange-dissociation**
+     - 4-atom only: one of the two product diatoms has dissociated while
+       the other reformed as an exchanged pair (e.g. AB + CD → AC + B + D).
+
+The ``Processes_Type`` hierarchy under ``src/Processes/`` holds the
+cross-section and rate-coefficient accumulator for each process category;
+3-atom and 4-atom systems use distinct subclasses
+(``Nb3Atoms_Processes_Class``, ``Nb4Atoms_Processes_Class``) because the
+outcome space differs.
+
+
+Indistinguishable-atom systems
+------------------------------
+
+When some atoms are chemically identical (e.g. H\ :sub:`3`, N\ :sub:`3`,
+O\ :sub:`3`, H\ :sub:`4`, N\ :sub:`4`, O\ :sub:`4`), the arrangement code
+alone is ambiguous: was this an *exchange* or just a re-labelling of the
+same diatom? CoarseAIR handles this in two ways:
+
+1. **Indistinguishable mode** — the cross-sections for exchange channels
+   are summed together, matching the physical observable. This is the
+   default for symmetric systems.
+
+2. **Labelled mode** — atoms are artificially tagged (e.g. NaNbNcNd is
+   the labelled counterpart of N\ :sub:`4`, and O18O18O16 labels ozone
+   by isotope). The code then tracks each exchange pathway separately.
+   Labelled runs are used to audit the indistinguishable-mode averaging
+   and to compute isotope-specific rates.
+
+Both modes use the same classification algorithm; the difference lives
+in how the output is aggregated during post-processing.
+
+
+Common pitfalls
+---------------
+
+- **Long-lived complexes.** On deep-well PES surfaces (C-containing
+  systems, quasi-bound O\ :sub:`3` ensembles) a trajectory can spend
+  tens of picoseconds in a four-atom complex before separating. If
+  ``tmax`` is too short, the classification fires on the complex itself
+  and labels the outcome as a mis-attributed "elastic" or
+  "quasi-bound" event. Inspect the distribution of final times before
+  trusting complex-rich systems.
+
+- **Centrifugal barrier close to** :math:`E_{\text{int}}`. The
+  quasi-bound / dissociated boundary is a thin one for near-dissociation
+  levels; small numerical noise in :math:`E_{\text{int}}` can flip the
+  classification. The ``CheckMaxAndMin`` and ``CheckTurningPoints``
+  validators flag borderline cases.
+
+- **Zero-point leakage.** Classical trajectories do not respect the
+  :math:`v = 0` zero-point energy; low-energy vibrational populations
+  are under-represented. This is a well-known QCT artefact; see the
+  cross-references in :doc:`/reference/bibliography`.

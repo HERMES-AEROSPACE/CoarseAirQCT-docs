@@ -48,7 +48,6 @@ are required and conventional rate models break down.
    examples/cno
    examples/co2
    examples/coar
-   examples/ggg
    examples/h2he
    examples/h3
    examples/h4

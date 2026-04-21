@@ -1,9 +1,0 @@
-GGG (Generic Three-Body) System
-===============================
-
-.. note::
-
-   This page is under construction. Content coming soon.
-
-This example walks through a CoarseAIR calculation for the generic three-body
-**GGG** test system, using the input files provided in ``input/GGG/``.

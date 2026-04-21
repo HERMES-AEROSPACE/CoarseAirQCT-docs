@@ -1,9 +1,57 @@
-H₄ System
-=========
+H\ :sub:`4` System
+==================
 
-.. note::
+The **H₄** system is a four-body arrangement of four indistinguishable
+hydrogen atoms colliding as two diatoms. Input files live under
+``input/H4/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the **H₄**
-four-body system, using the input files provided in ``input/H4/``.
+- Atoms: **H, H, H, H** — labelled :math:`(H_a, H_b, H_c, H_d)` for
+  bookkeeping, but treated as identical in post-processing.
+- Collision entry: H\ :sub:`2` + H\ :sub:`2` (specifically
+  :math:`H_a H_b + H_c H_d`).
+- Six atom pairs; three possible diatom-pair partitions of the four
+  atoms:
+  :math:`(ab)(cd)`, :math:`(ac)(bd)`, :math:`(ad)(bc)`.
+
+Kinetic processes
+-----------------
+
+- **Inelastic scattering** on the incoming partition, with no atom
+  exchange:
+
+  .. math::
+
+     \mathrm{H}_{2}(v_1, J_1) + \mathrm{H}_{2}(v_2, J_2)
+     \;\to\;
+     \mathrm{H}_{2}(v'_1, J'_1) + \mathrm{H}_{2}(v'_2, J'_2).
+- **Reactive exchange** — the outgoing diatoms contain different atom
+  pairings:
+
+  .. math::
+
+     H_a H_b + H_c H_d \;\leftrightarrow\;
+     H_a H_c + H_b H_d \;\leftrightarrow\;
+     H_a H_d + H_b H_c.
+
+- **Four-atom dissociation** — :math:`\mathrm{H}_{2} + \mathrm{H}_{2}
+  \to \mathrm{H}_{2} + 2\,\mathrm{H}` (single dissociation) or
+  :math:`\to 4\,\mathrm{H}` (full atomisation).
+
+PES models
+----------
+
+Available: ``BMKP`` (Boothroyd–Martin–Keogh–Peterson H\ :sub:`4` PES).
+
+Diatomic partner: ``H2_BMKP``.
+
+Typical use
+-----------
+
+H\ :sub:`2` + H\ :sub:`2` provides four-atom benchmarks for
+vibrational-vibrational (V–V) transfer and for coarse-grained modelling
+of molecular hydrogen kinetics. Because the chemistry is identical-atom
+throughout, it is a good vehicle for stress-testing the 4-atom
+arrangement classifier (see :doc:`/theory/arrangement_classification`).

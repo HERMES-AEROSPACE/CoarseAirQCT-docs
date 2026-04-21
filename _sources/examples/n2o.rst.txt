@@ -1,9 +1,52 @@
-N₂O System
-==========
+N\ :sub:`2`\ O System
+=====================
 
-.. note::
+The **N₂O** system is a three-body arrangement with two nitrogens and
+one oxygen. The two N atoms are indistinguishable. Input files live
+under ``input/N2O/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the **N₂O** system,
-using the input files provided in ``input/N2O/``.
+- Atoms: **N, N, O**. The two N atoms are chemically identical.
+- Collision entries: N\ :sub:`2` + O or NO + N.
+
+Kinetic processes
+-----------------
+
+- **Inelastic scattering** on the incoming arrangement:
+  N\ :sub:`2`\ (v, J) + O, or NO(v, J) + N.
+- **Reactive exchange** between the two distinct arrangements:
+
+  .. math::
+
+     \mathrm{N}_{2} + \mathrm{O} \;\leftrightarrow\;
+     \mathrm{NO} + \mathrm{N}.
+
+  This is the Zel'dovich-family reaction and is a key channel for NO
+  formation in high-temperature air.
+- **Dissociation** — full atomisation :math:`\to` N + N + O.
+
+The two "NO + N" pathways (NO\ :sub:`a` + N\ :sub:`b` and NO\ :sub:`b`
++ N\ :sub:`a`) are summed in indistinguishable mode.
+
+Multi-surface structure
+-----------------------
+
+Low-lying N\ :sub:`2`\ O surfaces of relevance: :math:`{}^{1}A'`
+(``Basel_13A1``), :math:`{}^{1}A''` (``Basel_13A2``). Multi-surface
+runs are degeneracy-weighted.
+
+PES models
+----------
+
+Available: ``Basel`` (multiple surface labels), ``UMN``.
+
+Diatomic partners: ``N2_UMN_ForN2O2``, ``NO_UMN``, ``O2_UMN_ForN2O2``.
+
+Typical use
+-----------
+
+N\ :sub:`2` + O :math:`\to` NO + N drives the formation of NO in the
+shock layer of hypersonic re-entry and is one of the canonical "extended
+Zel'dovich" reactions in air chemistry.

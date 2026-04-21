@@ -1,9 +1,47 @@
 CHN System
 ==========
 
-.. note::
+The **CHN** system is a three-body arrangement of three *distinguishable*
+atoms: carbon, hydrogen, nitrogen. Input files live under ``input/CHN/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the **CHN** system,
-using the input files provided in ``input/CHN/``.
+- Atoms: **C, H, N** (all distinguishable).
+- Collision entries: CH + N, HN + C, or CN + H (depending on which pair is
+  taken as the initial diatom).
+- Atom-pair numbering (see :doc:`/theory/qct`):
+  :math:`(A, B, C) = (C, H, N)` →
+  pair 1 = CH, pair 2 = CN, pair 3 = HN.
+
+Kinetic processes
+-----------------
+
+The reactive pathway proceeds through the **HCN / HNC** intermediate and
+produces all three possible diatom arrangements:
+
+- **Inelastic scattering** — :math:`XY(v, J) + Z \to XY(v', J') + Z` on
+  the incoming arrangement.
+- **Reactive exchange** between the three arrangements:
+
+  .. math::
+
+     \mathrm{CH} + \mathrm{N} \;\leftrightarrow\;
+     \mathrm{CN} + \mathrm{H} \;\leftrightarrow\;
+     \mathrm{HN} + \mathrm{C}.
+
+- **Dissociation** — :math:`XY + Z \to X + Y + Z`, typically at high
+  collision energy or high :math:`T`.
+
+All three diatomic channels are chemically distinct (different binding
+energies and vibrational structure), so labelled vs indistinguishable
+averaging does not apply — every pathway is resolved on its own.
+
+PES models
+----------
+
+Available surfaces: ``LEPS`` (London–Eyring–Polanyi–Sato, historical),
+``NN`` (neural-network regression of CASSCF ab-initio points). Example
+inputs target reactive kinetics around :math:`T \sim 7500` K.
+
+Diatomic partners: ``CH_UIUC``, ``CN_UIUC_2Sig``, ``HN_UIUC``.

@@ -1,9 +1,51 @@
-CO₂ System
-==========
+CO\ :sub:`2` System
+===================
 
-.. note::
+The **CO₂** system is a three-body arrangement with one carbon and two
+*indistinguishable* oxygens. Input files live under ``input/CO2/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the **CO₂** system,
-using the input files provided in ``input/CO2/``.
+- Atoms: **C, O, O**. The two oxygens are chemically identical.
+- Collision entries: CO + O or O\ :sub:`2` + C.
+- Because the two O atoms are identical, the two "CO + O" pathways
+  (CO\ :sub:`a` + O\ :sub:`b` vs CO\ :sub:`b` + O\ :sub:`a`) are summed
+  at post-processing (indistinguishable mode).
+
+Kinetic processes
+-----------------
+
+- **Inelastic scattering** of CO by O, or of O\ :sub:`2` by C.
+- **Reactive exchange**:
+
+  .. math::
+
+     \mathrm{CO} + \mathrm{O} \;\leftrightarrow\;
+     \mathrm{O}_{2} + \mathrm{C}.
+
+  This is the key "CO\ :sub:`2` formation / dissociation" channel for
+  Martian-entry chemistry.
+- **Dissociation** — C + O + O at high energy.
+
+Multi-surface structure
+-----------------------
+
+CO\ :sub:`2` has several low-lying electronic surfaces that contribute
+at high temperature. CoarseAIR can run up to five in parallel:
+
+- Basel: :math:`{}^{3}A'` (``Basel_3A1``), :math:`{}^{3}A''`
+  (``Basel_3A2``).
+- NASA: :math:`{}^{1}A'` (``NASA_13A1``), :math:`{}^{1}A''`
+  (``NASA_13A2``), :math:`{}^{2}A''` (``NASA_23A2``).
+
+As for all multi-surface systems, trajectories are degeneracy-weighted;
+nonadiabatic couplings are a CoarseAIR+ concern.
+
+PES models
+----------
+
+Available: ``Basel``, ``NASA`` (multiple spin-orbit labels — see above).
+
+Diatomic partners: ``CO_Basel_ForCO2``, ``O2_Basel_ForCO2``, or the NASA
+variants as appropriate.

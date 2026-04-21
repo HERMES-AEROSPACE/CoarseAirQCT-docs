@@ -1,9 +1,55 @@
-N₄ System
-=========
+N\ :sub:`4` System
+==================
 
-.. note::
+The **N₄** system is a four-body arrangement of four indistinguishable
+nitrogen atoms colliding as two diatoms. It is the canonical
+N\ :sub:`2`\ –N\ :sub:`2` system for air-chemistry studies. Input files
+live under ``input/N4/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the **N₄**
-four-body system, using the input files provided in ``input/N4/``.
+- Atoms: **N, N, N, N** (all identical).
+- Collision entry: N\ :sub:`2` + N\ :sub:`2`.
+- Three possible diatom-pair partitions (see
+  :doc:`/theory/arrangement_classification`).
+
+Kinetic processes
+-----------------
+
+- **Inelastic scattering** — two-molecule V–V and V–R–T transfer, no
+  atom exchange.
+- **Reactive exchange** — four-atom identical-atom swap; summed into a
+  single exchange channel in indistinguishable mode.
+- **Single dissociation** — :math:`\mathrm{N}_{2} + \mathrm{N}_{2} \to
+  \mathrm{N}_{2} + 2\,\mathrm{N}`.
+- **Full dissociation / atomisation** — :math:`\to 4\,\mathrm{N}`.
+
+PES models
+----------
+
+Available:
+
+- ``NASA`` — NASA Ames four-body surface.
+- ``UMN`` — Minnesota many-body surface.
+- ``UMN_MBPIPMEG3`` — PIP + MEG mixed-basis variant.
+- ``UMN_PIPNN`` — permutation-invariant neural network.
+
+Diatomic partners: ``N2_UMN_ForN4``, ``N2_UMN_PIPMEG3_ForN4``,
+``N2_UMN_PIPNN_ForN4`` (matching the chosen PES).
+
+Relation to N\ :sub:`3`
+-----------------------
+
+N\ :sub:`3` (N + N\ :sub:`2`) captures atom–diatom processes;
+N\ :sub:`4` (N\ :sub:`2` + N\ :sub:`2`) captures diatom–diatom
+processes including V–V transfer and dissociation in the presence of a
+second diatom partner. Both are needed for a complete air-chemistry
+kinetics database.
+
+See also
+--------
+
+- :doc:`/examples/n3` — the 3-atom companion.
+- :doc:`/examples/nanbncnd` — a distinguishable-atom variant of
+  N\ :sub:`4` used to audit identical-atom averaging.

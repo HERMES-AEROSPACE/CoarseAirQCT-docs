@@ -1,10 +1,65 @@
-NaNbNcNd (Distinguishable-Nitrogen) System
-==========================================
+N\ :sub:`a`\ N\ :sub:`b`\ N\ :sub:`c`\ N\ :sub:`d` System
+=========================================================
 
-.. note::
+The **NaNbNcNd** system is a four-body arrangement of four
+**artificially labelled** (but chemically identical) nitrogen atoms.
+Input files live under ``input/NaNbNcNd/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the
-**NaNbNcNd** (distinguishable-atom N₄) system, using the input files
-provided in ``input/NaNbNcNd/``.
+- Atoms: :math:`N_a, N_b, N_c, N_d` — all the same chemical element,
+  same mass, but tagged as distinguishable at the classifier level.
+- Collision entry: :math:`N_a N_b + N_c N_d`.
+
+Kinetic processes
+-----------------
+
+Because the atoms are treated as distinguishable, each exchange channel
+is tracked on its own:
+
+- **Inelastic** — :math:`N_a N_b + N_c N_d \to N_a N_b + N_c N_d`
+  with internal-state changes.
+- **Exchange** — resolved into the three partition families:
+
+  .. math::
+
+     N_a N_b + N_c N_d \;\leftrightarrow\;
+     \begin{cases}
+       N_a N_c + N_b N_d \\
+       N_a N_d + N_b N_c
+     \end{cases}.
+
+- **Partial dissociation** — e.g. :math:`N_a N_b + N_c + N_d`.
+- **Full atomisation** — :math:`N_a + N_b + N_c + N_d`.
+
+Why a labelled run?
+-------------------
+
+The production N\ :sub:`4` runs aggregate all identical-atom exchanges
+into a single "exchange" channel. The labelled variant is used to
+**audit** this aggregation: a NaNbNcNd run summed over its labelled
+pathways must reproduce the indistinguishable N\ :sub:`4` result to
+within statistical error. Discrepancies flag either:
+
+- a classification bug in the 4-atom arrangement routine
+  (:doc:`/theory/arrangement_classification`),
+- an incorrect identical-atom averaging factor in the rate post-
+  processing, or
+- inconsistent trajectory counts across partitions.
+
+The same pattern appears for isotope-labelled ozone, handled in
+:doc:`/examples/o18o18o16`.
+
+PES models
+----------
+
+Same PES set as N\ :sub:`4` (``NASA``, ``UMN``, ``UMN_MBPIPMEG3``,
+``UMN_PIPNN``) — the labelled run reuses the symmetric surface and only
+affects post-processing accounting.
+
+See also
+--------
+
+- :doc:`/examples/n4` — the production (indistinguishable) run.
+- :doc:`/examples/o18o18o16` — the isotope-labelled ozone analogue.

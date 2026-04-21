@@ -1,14 +1,193 @@
 PES Formats
 ===========
 
-.. note::
+CoarseAIR separates the PES *interface* from the PES *implementation*: the
+trajectory integrator only ever calls a small set of virtual methods on an
+abstract ``PES_Type`` object, while the concrete sub-class handles the
+actual functional form. The design allows 40+ surface implementations —
+spanning analytic many-body expansions, neural networks, Gaussian
+processes, and Bayesian ensembles — to be swapped in from the input file
+without any rebuild.
 
-   This page is under construction. Content coming soon.
+This chapter describes the PES abstract base class, the factory mechanism,
+the functional families currently supported, and the multi-surface
+infrastructure that enables both degeneracy-weighted branching and (in
+CoarseAIR+) surface hopping.
 
-Planned coverage:
 
-- Supported analytic forms (LEPS, DMBE, many-body expansions)
-- Neural-network potentials (interface and file format)
-- DPEM (diabatic potential-energy matrix) surfaces for multi-state systems
-- How to plug in a new PES module
-- Unit conventions and sign conventions
+The PES abstract base class
+---------------------------
+
+Every surface implements ``PES_Type`` (``src/PESs/PES_Class.F90``), whose
+deferred methods are:
+
+- ``Compute_0d(Q, V, dVdQ, Rpi)`` — one-point evaluation returning the
+  scalar potential :math:`V`, its gradient :math:`\partial V / \partial Q`,
+  and the inverse inter-atomic distances :math:`R_{pi}^{-1}` used by the
+  bond-distance analysis.
+- ``Potential_0d(Q)`` — potential only, for diagnostics and plotting.
+- ``TriatPotential_0d`` / ``DiatPotential_0d`` — many-body / two-body
+  decomposition (where the surface is written as
+  :math:`V = V_{\text{diat}} + V_{\text{triat}}` or analogous for
+  4-atom systems).
+- ``TransToCart_3Atoms`` / ``TransToCart_4Atoms`` — coordinate
+  transformation helpers.
+
+A PES object also owns an array of ``DiatomicPotential_Type`` objects (one
+per atom pair) for the two-body contribution — these are the second-order
+asymptotic limits the full PES must recover as one atom separates.
+
+
+Factory mechanism
+-----------------
+
+Selection of the concrete PES at run time is handled by
+``PES_Factory_Class`` (``src/PESs/PES_Factory_Class.F90``). The factory
+keys on *system name* + *model string*:
+
+.. code-block:: text
+
+   System: O3
+   PES Model: UMN_13A2    -> constructs an O3_UMN_PES_Type for the 3A''
+                             surface with the UMN parametrisation
+   PES Model: NN_11A1     -> constructs an O3_NN_PES_Type for the 1A'
+                             surface with the NN parametrisation
+   System: CNO
+   PES Model: UCI_2A1     -> constructs a CNO_UCI_2A1_PES_Type
+
+The factory is also responsible for instantiating the pair-wise
+``DiatomicPotential`` objects consistent with each PES (e.g. the O\
+:sub:`3` UMN surface asymptotes to the UMN O\ :sub:`2` diatomic potential).
+
+
+Functional families currently supported
+---------------------------------------
+
+**Analytic many-body expansions** — the majority of UMN, Basel, NASA,
+Varandas, and Breno surfaces fall in this class. The surface is written as
+
+.. math::
+
+   V(\mathbf{Q}) \;=\; \sum_{i<j} V_{ij}^{(2)}(R_{ij})
+                     \;+\; V^{(3)}\!\left(\{R_{ij}\}\right),
+
+where :math:`V^{(3)}` is a polynomial in mixed-exponential-Gaussian (MEG)
+or permutation-invariant polynomial (PIP) basis functions. UMN surfaces
+for N\ :sub:`3`, O\ :sub:`3`, and O\ :sub:`4` use 56–200+ expansion
+coefficients.
+
+**Neural-network surfaces** — feed-forward networks trained on ab-initio
+points:
+
+- ``NN_PES_Type`` (generic), ``O3_NN_PES_Type``, etc.
+- Architecture: bond-order input features → two hidden layers with
+  :math:`\tanh` activation → scalar output.
+- Weights ``W1, W2, W3`` and biases ``b1, b2, b3`` are read from the
+  database at initialisation; ``Scaling_MEAN`` / ``Scaling_SD`` normalise
+  the input features.
+- Gradients are back-propagated analytically (no finite differences), so
+  ``Compute_0d`` remains exact.
+
+**Permutation-invariant NN (PIP-NN)** — a PIP layer is prepended to the
+NN so the surface is by construction symmetric under atom permutations.
+Used by the N\ :sub:`4` ``UMN_PIPNN`` and similar surfaces.
+
+**Gaussian process (GP) surfaces** — kernel-based non-parametric
+regression. Available for O\ :sub:`3` in three noise-level variants.
+Gradients are computed by differentiating the kernel. Slower per-call
+than NN but with native uncertainty estimates.
+
+**Bayesian neural network (BNN) ensembles** — O\ :sub:`3` BNN surfaces
+carry 50–300 sampled weight configurations. The mean surface is used for
+dynamics; the spread across the ensemble provides uncertainty estimates
+used by the MATLAB uncertainty-quantification post-processing pipeline
+(``extra/MCoarseAIR/``).
+
+**LEPS surfaces** — London-Eyring-Polanyi-Sato form, retained for
+historical benchmarks on H\ :sub:`3` and O\ :sub:`3`.
+
+**Dummy / non-reactive surfaces** — H\ :sub:`2`\ –He and CO–Ar use
+inert-atom "dummy" diatomic potentials (constant or purely repulsive at
+short range) so the non-reactive atom contributes only to kinetic energy
+exchange.
+
+
+Diatomic pair potentials
+------------------------
+
+``DiatomicPotential_Type``
+(``src/DiatomicPotentials/DiatomicPotential_Class.F90``) provides:
+
+- ``Compute_Vd_dVd(R)`` — potential and its first derivative
+  (``elemental``).
+- ``Period(v, J)`` — vibrational period for a given level, used during
+  level-generation and final-state quantisation.
+- ``ActionIntegral(v, J)`` / ``ActionIntegralGamma`` — WKB action
+  integrals :math:`\oint p\, dq` underlying semi-classical quantisation.
+- ``TurningPoint``, ``FindMinimum``, ``FindMaximum`` — critical-point
+  location on the effective potential (needed by the arrangement
+  classifier, see :doc:`arrangement_classification`).
+
+Supported functional forms include Morse, modified-Morse, Schwenke,
+Schwenke-1988, BMKP (H\ :sub:`2`), LeRoy (N\ :sub:`2`), Varandas
+(O\ :sub:`2`), and dozens of group-specific parametrisations (UMN,
+Basel, UCI, UIUC, GUO, NASA, Breno). Each chemical system's input file
+references the diatomic potential model consistent with its many-body
+PES.
+
+
+Multi-surface handling
+----------------------
+
+CoarseAIR supports running trajectories on *multiple* electronic surfaces
+in the same batch. Key data structures (``src/Collision/Collision_Class.F90``
+and ``src/Collision/Trajectories/Trajectories_Class.F90``):
+
+- ``Collision%PESsContainer(1:NPESs)`` — polymorphic array holding each
+  surface object. All surfaces are instantiated at initialisation time.
+- ``Trajectories%iPES(1:NTraj)`` — integer mapping from trajectory
+  index to surface index. Each trajectory evaluates ``V`` on its own
+  surface.
+- ``Trajectories%iTrajPES(1:NPESs)`` — counter of how many trajectories
+  are currently on each surface (for statistics / reporting).
+
+The per-trajectory PES call in ``HamiltonODESystem`` is:
+
+.. code-block:: fortran
+
+   ! The crux of multi-surface dispatch (simplified):
+   do iTraj = 1, NTraj
+      call Collision%PESsContainer( iPES(iTraj) )%PES% &
+           Compute( Q(:,iTraj), V(iTraj), dVdQ(:,iTraj), Rpi(:,iTraj) )
+   end do
+
+In adiabatic CoarseAIR, ``iPES(iTraj)`` is set at initialisation by
+``SetPESIndx()`` (with the degeneracy-weighted distribution described in
+:doc:`sampling`) and is **never modified** during integration — each
+trajectory stays on its assigned surface until termination.
+
+In CoarseAIR+ the same infrastructure is reused, but ``iPES(iTraj)`` is
+updated inside the integration loop by a fewest-switches surface-hopping
+(FSSH) algorithm. The adiabatic code already writes ``iPES`` per
+trajectory to the output, so the post-processing pipeline handles
+multi-surface data transparently; the only extension needed in
+CoarseAIR+ is the hopping decision and the post-hop velocity rescaling.
+
+
+Adding a new PES
+----------------
+
+To wire in a new surface:
+
+1. Create a subclass of ``PES_Type`` under ``src/PESs/``, implementing
+   ``Compute_0d`` (and optionally the potential-only methods). Place
+   pair-potential assignments in ``Initialize_PES``.
+2. Register the new model name in ``PES_Factory_Class`` so the factory
+   can dispatch from the input string.
+3. If the surface has new parameter files, place them under
+   ``dtb/Systems/<System>/<Model>/``.
+4. Rebuild CoarseAIR (``COARSEAIR_INSTALL``) — the new surface is now
+   selectable from any input file for that system.
+
+A step-by-step walkthrough with a worked example is in
+:doc:`/developer/adding_a_system`.

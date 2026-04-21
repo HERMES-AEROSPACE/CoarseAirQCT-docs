@@ -19,6 +19,7 @@
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -55,31 +56,174 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="qct.html">Quasi-Classical Trajectories</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sampling.html">Sampling</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Trajectory Integrators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pes_formats.html">PES Formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="arrangement_classification.html">Arrangement Classification</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rate_extraction.html">Rate &amp; Cross-Section Extraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qct.html">Quasi-Classical Trajectories</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#classical-limit-approximation">Classical-limit approximation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#coordinates-and-pair-numbering">Coordinates and pair numbering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#hamiltonian">Hamiltonian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#per-trajectory-pipeline">Per-trajectory pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sampling.html">Sampling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#ro-vibrational-state-v-j">Ro-vibrational state <span class="math notranslate nohighlight">\((v, J)\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#collision-energy-e">Collision energy <span class="math notranslate nohighlight">\(E\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#impact-parameter-b">Impact parameter <span class="math notranslate nohighlight">\(b\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#relative-velocity-decomposition">Relative-velocity decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#orientation-sampling-euler-angles">Orientation sampling (Euler angles)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#electronic-surface-index-ipes">Electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Trajectory Integrators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-bulirschstoer-scheme">The Bulirsch–Stoer scheme</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hamilton-s-equations-as-coded">Hamilton’s equations, as coded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#per-trajectory-step-control">Per-trajectory step control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#convergence-criteria">Convergence criteria</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#energy-conservation-diagnostic">Energy-conservation diagnostic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alternative-integrators">Alternative integrators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pes_formats.html">PES Formats</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#the-pes-abstract-base-class">The PES abstract base class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#factory-mechanism">Factory mechanism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#functional-families-currently-supported">Functional families currently supported</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#diatomic-pair-potentials">Diatomic pair potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#multi-surface-handling">Multi-surface handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#adding-a-new-pes">Adding a new PES</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arrangement_classification.html">Arrangement Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#step-1-identify-the-final-arrangement">Step 1 — Identify the final arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#step-2-classify-each-candidate-diatom">Step 2 — Classify each candidate diatom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#step-3-quantise-the-ro-vibrational-state-if-bound">Step 3 — Quantise the ro-vibrational state (if bound)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#step-4-classify-the-process">Step 4 — Classify the process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#indistinguishable-atom-systems">Indistinguishable-atom systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#common-pitfalls">Common pitfalls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rate_extraction.html">Rate &amp; Cross-Section Extraction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#cross-section-estimator">Cross-section estimator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#variance-and-uncertainty">Variance and uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#thermal-rate-coefficient">Thermal rate coefficient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#state-to-state-grouped-and-arrhenius-outputs">State-to-state, grouped, and Arrhenius outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#complementarity-and-mass-balance-checks">Complementarity and mass-balance checks</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../examples/chn.html">CHN System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/cno.html">CNO System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/co2.html">CO₂ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/coar.html">CO + Ar System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/ggg.html">GGG (Generic Three-Body) System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/h2he.html">H₂ + He System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/h3.html">H₃ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/h4.html">H₄ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/n2o.html">N₂O System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/n3.html">N₃ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/n4.html">N₄ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/nanbncnd.html">NaNbNcNd (Distinguishable-Nitrogen) System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/no2.html">NO₂ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/o18o18o16.html">¹⁸O ¹⁸O ¹⁶O (Isotope-Labelled Ozone) System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/o3.html">O₃ System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/o4.html">O₄ System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/chn.html">CHN System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#pes-models">PES models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/cno.html">CNO System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#multi-surface-structure">Multi-surface structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#pes-models">PES models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/co2.html">CO<sub>2</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#multi-surface-structure">Multi-surface structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#pes-models">PES models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/coar.html">CO + Ar System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/h2he.html">H<sub>2</sub> + He System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/h3.html">H<sub>3</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/h4.html">H<sub>4</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/n2o.html">N<sub>2</sub>O System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#multi-surface-structure">Multi-surface structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/n3.html">N<sub>3</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#multi-surface-structure">Multi-surface structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/n4.html">N<sub>4</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#relation-to-n3">Relation to N<sub>3</sub></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/nanbncnd.html">N<sub>a</sub>N<sub>b</sub>N<sub>c</sub>N<sub>d</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#why-a-labelled-run">Why a labelled run?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/no2.html">NO<sub>2</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#multi-surface-structure">Multi-surface structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#typical-use">Typical use</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/o18o18o16.html">Isotopically Labelled Ozone (O18-O18-O16)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#why-isotopes-matter">Why isotopes matter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/o3.html">O<sub>3</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#multi-surface-structure">Multi-surface structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#typical-use">Typical use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/o4.html">O<sub>4</sub> System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#arrangement">Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#kinetic-processes">Kinetic processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#typical-use">Typical use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#see-also">See also</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul>
@@ -122,18 +266,137 @@
              
   <section id="trajectory-integrators">
 <h1>Trajectory Integrators<a class="headerlink" href="#trajectory-integrators" title="Link to this heading"></a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is under construction. Content coming soon.</p>
+<p>CoarseAIR uses a <strong>Bulirsch–Stoer</strong> (BS) scheme to advance each trajectory
+in time. The scheme combines the modified midpoint method with
+Richardson / rational-polynomial extrapolation, producing high-order
+accuracy without per-order code paths. It is implemented in
+<code class="docutils literal notranslate"><span class="pre">src/Collision/ODE/ODE_Solver.F90</span></code> with the right-hand side
+(Hamilton’s equations) in <code class="docutils literal notranslate"><span class="pre">src/Collision/ODE/ODE_System.F90</span></code>.</p>
+<p>This page summarises the numerical method, the per-trajectory step
+control, and the energy-conservation diagnostic used to validate
+integration quality.</p>
+<section id="the-bulirschstoer-scheme">
+<h2>The Bulirsch–Stoer scheme<a class="headerlink" href="#the-bulirschstoer-scheme" title="Link to this heading"></a></h2>
+<p>Given the Hamiltonian flow</p>
+<div class="math notranslate nohighlight">
+\[\frac{d\,\mathbf{PaQ}}{dt} \;=\; \mathbf{F}(\mathbf{PaQ}),\]</div>
+<p>BS advances the state from <span class="math notranslate nohighlight">\(t\)</span> to <span class="math notranslate nohighlight">\(t + H\)</span> (large step <code class="docutils literal notranslate"><span class="pre">H</span></code>)
+by trying several sub-steppings of that interval — <span class="math notranslate nohighlight">\(H/n_1\)</span>,
+<span class="math notranslate nohighlight">\(H/n_2\)</span>, …, using an even-spaced grid:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>nseq = [ 2, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96 ]
+</pre></div>
 </div>
-<p>Planned coverage:</p>
+<p>Each sub-stepping produces a provisional end-state <span class="math notranslate nohighlight">\(\mathbf{PaQ}(H; n_k)\)</span>.
+These provisional values, viewed as a function of the step size
+<span class="math notranslate nohighlight">\(h_k = H / n_k\)</span>, are extrapolated to the continuum limit <span class="math notranslate nohighlight">\(h_k
+\to 0\)</span> by a <strong>rational-polynomial extrapolation</strong> (a variant of Neville’s
+algorithm). The difference between successive extrapolated values provides
+a built-in error estimate <code class="docutils literal notranslate"><span class="pre">errmax</span></code> for the whole step.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">errmax</span> <span class="pre">&lt;</span> <span class="pre">1</span></code> (normalised against the user tolerances <code class="docutils literal notranslate"><span class="pre">atol</span></code> and
+<code class="docutils literal notranslate"><span class="pre">rtol</span></code>), the step is accepted and <span class="math notranslate nohighlight">\(H\)</span> is enlarged for the next
+step. Otherwise the step is rejected and <span class="math notranslate nohighlight">\(H\)</span> is halved. A lower
+bound on <span class="math notranslate nohighlight">\(H\)</span> prevents integrator stalling.</p>
+<p>Inside each sub-stepping, the modified midpoint routine (<code class="docutils literal notranslate"><span class="pre">mmidv</span></code>) takes
+<span class="math notranslate nohighlight">\(n_k\)</span> constant-size half-steps with</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{PaQ}_{m+1} \;=\; \mathbf{PaQ}_{m-1}
+                       \;+\; 2\,h_k\, \mathbf{F}(\mathbf{PaQ}_m).\]</div>
+<p>The RHS <span class="math notranslate nohighlight">\(\mathbf{F}\)</span> is evaluated via <code class="docutils literal notranslate"><span class="pre">HamiltonODESystem</span></code> in
+<code class="docutils literal notranslate"><span class="pre">ODE_System.F90</span></code>, which calls <code class="docutils literal notranslate"><span class="pre">Collision%Compute_PES</span></code> to obtain the
+PES value and gradient on the trajectory’s assigned electronic surface
+(see <a class="reference internal" href="pes_formats.html"><span class="doc">PES Formats</span></a>).</p>
+</section>
+<section id="hamilton-s-equations-as-coded">
+<h2>Hamilton’s equations, as coded<a class="headerlink" href="#hamilton-s-equations-as-coded" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">HamiltonODESystem</span></code> assembles the right-hand side component-by-component:</p>
+<div class="math notranslate nohighlight">
+\[\frac{dQ_k}{dt} \;=\;  \frac{p_k}{m_k^{\text{eff}}},
+\qquad
+\frac{dp_k}{dt} \;=\; -\frac{\partial V}{\partial Q_k}.\]</div>
 <ul class="simple">
-<li><p>Available integrators in CoarseAIR</p></li>
-<li><p>Symplectic vs. non-symplectic schemes, conservation properties</p></li>
-<li><p>Adaptive timestep control</p></li>
-<li><p>Integrator benchmarks (energy drift, wall-clock cost)</p></li>
-<li><p>Recommendations by system size and collision energy</p></li>
+<li><p>The kinetic term uses the effective masses <code class="docutils literal notranslate"><span class="pre">mMiMn</span></code> pre-computed by the
+PES object during initialisation (they encode the Jacobi mass factors).</p></li>
+<li><p>The potential gradient <span class="math notranslate nohighlight">\(\partial V / \partial Q_k\)</span> is returned
+directly by the PES module, so each PES implementation is responsible for
+providing analytic derivatives (NN PES surfaces use back-propagation; MEG
+surfaces differentiate the polynomial basis analytically; GP surfaces
+differentiate the kernel).</p></li>
 </ul>
+<p>Both <code class="docutils literal notranslate"><span class="pre">mmidv</span></code> and <code class="docutils literal notranslate"><span class="pre">HamiltonODESystem</span></code> are declared <code class="docutils literal notranslate"><span class="pre">PURE</span></code> — they
+cannot have side effects. This is important for vectorisation over
+trajectories but means surface-hopping (which mutates <code class="docutils literal notranslate"><span class="pre">iPES</span></code>) cannot be
+implemented inside them; see the CoarseAIR+ documentation for the
+insertion-point analysis.</p>
+</section>
+<section id="per-trajectory-step-control">
+<h2>Per-trajectory step control<a class="headerlink" href="#per-trajectory-step-control" title="Link to this heading"></a></h2>
+<p>CoarseAIR vectorises over a batch of trajectories
+(<code class="docutils literal notranslate"><span class="pre">Trajectories%PaQ(NEqtTot,</span> <span class="pre">NTraj)</span></code>) but maintains an <strong>independent
+adaptive step size</strong> per trajectory. That is, each trajectory carries its
+own <code class="docutils literal notranslate"><span class="pre">Traj%dt</span></code>, and slower-evolving trajectories are not slowed down by
+faster-evolving ones.</p>
+<p>The step-rejection, step-enlargement, and refinement levels are all done
+per trajectory. When a sub-set of the batch has converged (either reached
+<code class="docutils literal notranslate"><span class="pre">tmax</span></code> or separated beyond <code class="docutils literal notranslate"><span class="pre">RpiMax</span></code>), those slots are marked done;
+remaining trajectories continue until they also converge or the
+<code class="docutils literal notranslate"><span class="pre">itermax</span></code> outer safety bound is reached.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>do while (iter &lt; itermax) &amp;&amp; (not all trajectories converged)
+   ODE%Integrate( Traj )            ! advance one BS step
+   Collision%Hamiltonian( Traj )    ! compute H for conservation check
+   Traj%AssessConvergence()         ! flag done if tmax or RpiMax reached
+end do
+</pre></div>
+</div>
+<p>(From <code class="docutils literal notranslate"><span class="pre">README/TheoryNotes/Integration.txt</span></code>.)</p>
+</section>
+<section id="convergence-criteria">
+<h2>Convergence criteria<a class="headerlink" href="#convergence-criteria" title="Link to this heading"></a></h2>
+<p>A trajectory is declared converged when <em>either</em>:</p>
+<ul class="simple">
+<li><p><strong>Time-based:</strong> <span class="math notranslate nohighlight">\(t \geq t_{\max}\)</span>. <code class="docutils literal notranslate"><span class="pre">tmax</span></code> is a safety cap,
+typically chosen much longer than the expected collision duration.</p></li>
+<li><p><strong>Distance-based:</strong> <span class="math notranslate nohighlight">\(1/R_{\text{pair}} &lt; 1/R_{\max}\)</span> for the
+outgoing fragments, i.e. products have separated far enough that
+no further dynamics can change the final state classification.</p></li>
+</ul>
+<p>After convergence, <code class="docutils literal notranslate"><span class="pre">Integrator%AnalysisTrajPoints</span></code> drives the
+final-state identification (see <a class="reference internal" href="arrangement_classification.html"><span class="doc">Arrangement Classification</span></a>).</p>
+</section>
+<section id="energy-conservation-diagnostic">
+<h2>Energy-conservation diagnostic<a class="headerlink" href="#energy-conservation-diagnostic" title="Link to this heading"></a></h2>
+<p>At every accepted step CoarseAIR records the current Hamiltonian</p>
+<div class="math notranslate nohighlight">
+\[H(\mathbf{p}, \mathbf{Q}) \;=\; T(\mathbf{p}) + V(\mathbf{Q}),\]</div>
+<p>computed by <code class="docutils literal notranslate"><span class="pre">Collision%Hamiltonian</span></code>. For each trajectory the code
+monitors</p>
+<div class="math notranslate nohighlight">
+\[\Delta H \;=\; | H_{\text{final}} - H_{\text{initial}} |,\]</div>
+<p>and reports it as part of the trajectory output. A trajectory with
+<span class="math notranslate nohighlight">\(\Delta H\)</span> exceeding the user tolerance is flagged as “bad”, is
+excluded from the rate statistics, and contributes to a quality metric
+printed at the end of the run.</p>
+<p>High rejection rates usually indicate one of:</p>
+<ul class="simple">
+<li><p>Tolerances (<code class="docutils literal notranslate"><span class="pre">atol</span></code>, <code class="docutils literal notranslate"><span class="pre">rtol</span></code>) that are too loose for the system’s
+stiffness.</p></li>
+<li><p>A PES discontinuity or a finite-difference gradient that doesn’t match
+the analytic value.</p></li>
+<li><p>A <span class="math notranslate nohighlight">\(t_{\max}\)</span> that’s shorter than the actual collision duration
+for long-lived complexes (common for deep-well systems like O<sub>3</sub> and C-containing systems).</p></li>
+</ul>
+<p>Energy conservation is <strong>the</strong> primary health check of a QCT run and
+should always be inspected before trusting the derived rates.</p>
+</section>
+<section id="alternative-integrators">
+<h2>Alternative integrators<a class="headerlink" href="#alternative-integrators" title="Link to this heading"></a></h2>
+<p>The current production code exposes only the Bulirsch–Stoer path.
+Experimental branches of the code (not on <code class="docutils literal notranslate"><span class="pre">Clement-Adiabatic</span></code>) contain
+symplectic integrators (Verlet / leapfrog) that conserve energy by
+construction but deliver worse final-state accuracy at the same cost for
+the strongly anharmonic potentials CoarseAIR targets. Benchmarks of the
+available integrators on H<sub>3</sub> and N<sub>3</sub> are planned for a
+future revision of this documentation.</p>
+</section>
 </section>
 
 

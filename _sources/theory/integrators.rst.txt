@@ -1,14 +1,170 @@
 Trajectory Integrators
 ======================
 
-.. note::
+CoarseAIR uses a **Bulirsch–Stoer** (BS) scheme to advance each trajectory
+in time. The scheme combines the modified midpoint method with
+Richardson / rational-polynomial extrapolation, producing high-order
+accuracy without per-order code paths. It is implemented in
+``src/Collision/ODE/ODE_Solver.F90`` with the right-hand side
+(Hamilton's equations) in ``src/Collision/ODE/ODE_System.F90``.
 
-   This page is under construction. Content coming soon.
+This page summarises the numerical method, the per-trajectory step
+control, and the energy-conservation diagnostic used to validate
+integration quality.
 
-Planned coverage:
 
-- Available integrators in CoarseAIR
-- Symplectic vs. non-symplectic schemes, conservation properties
-- Adaptive timestep control
-- Integrator benchmarks (energy drift, wall-clock cost)
-- Recommendations by system size and collision energy
+The Bulirsch–Stoer scheme
+-------------------------
+
+Given the Hamiltonian flow
+
+.. math::
+
+   \frac{d\,\mathbf{PaQ}}{dt} \;=\; \mathbf{F}(\mathbf{PaQ}),
+
+BS advances the state from :math:`t` to :math:`t + H` (large step ``H``)
+by trying several sub-steppings of that interval — :math:`H/n_1`,
+:math:`H/n_2`, ..., using an even-spaced grid:
+
+.. code-block:: text
+
+   nseq = [ 2, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96 ]
+
+Each sub-stepping produces a provisional end-state :math:`\mathbf{PaQ}(H; n_k)`.
+These provisional values, viewed as a function of the step size
+:math:`h_k = H / n_k`, are extrapolated to the continuum limit :math:`h_k
+\to 0` by a **rational-polynomial extrapolation** (a variant of Neville's
+algorithm). The difference between successive extrapolated values provides
+a built-in error estimate ``errmax`` for the whole step.
+
+If ``errmax < 1`` (normalised against the user tolerances ``atol`` and
+``rtol``), the step is accepted and :math:`H` is enlarged for the next
+step. Otherwise the step is rejected and :math:`H` is halved. A lower
+bound on :math:`H` prevents integrator stalling.
+
+Inside each sub-stepping, the modified midpoint routine (``mmidv``) takes
+:math:`n_k` constant-size half-steps with
+
+.. math::
+
+   \mathbf{PaQ}_{m+1} \;=\; \mathbf{PaQ}_{m-1}
+                          \;+\; 2\,h_k\, \mathbf{F}(\mathbf{PaQ}_m).
+
+The RHS :math:`\mathbf{F}` is evaluated via ``HamiltonODESystem`` in
+``ODE_System.F90``, which calls ``Collision%Compute_PES`` to obtain the
+PES value and gradient on the trajectory's assigned electronic surface
+(see :doc:`pes_formats`).
+
+
+Hamilton's equations, as coded
+------------------------------
+
+``HamiltonODESystem`` assembles the right-hand side component-by-component:
+
+.. math::
+
+   \frac{dQ_k}{dt} \;=\;  \frac{p_k}{m_k^{\text{eff}}},
+   \qquad
+   \frac{dp_k}{dt} \;=\; -\frac{\partial V}{\partial Q_k}.
+
+- The kinetic term uses the effective masses ``mMiMn`` pre-computed by the
+  PES object during initialisation (they encode the Jacobi mass factors).
+- The potential gradient :math:`\partial V / \partial Q_k` is returned
+  directly by the PES module, so each PES implementation is responsible for
+  providing analytic derivatives (NN PES surfaces use back-propagation; MEG
+  surfaces differentiate the polynomial basis analytically; GP surfaces
+  differentiate the kernel).
+
+Both ``mmidv`` and ``HamiltonODESystem`` are declared ``PURE`` — they
+cannot have side effects. This is important for vectorisation over
+trajectories but means surface-hopping (which mutates ``iPES``) cannot be
+implemented inside them; see the CoarseAIR+ documentation for the
+insertion-point analysis.
+
+
+Per-trajectory step control
+---------------------------
+
+CoarseAIR vectorises over a batch of trajectories
+(``Trajectories%PaQ(NEqtTot, NTraj)``) but maintains an **independent
+adaptive step size** per trajectory. That is, each trajectory carries its
+own ``Traj%dt``, and slower-evolving trajectories are not slowed down by
+faster-evolving ones.
+
+The step-rejection, step-enlargement, and refinement levels are all done
+per trajectory. When a sub-set of the batch has converged (either reached
+``tmax`` or separated beyond ``RpiMax``), those slots are marked done;
+remaining trajectories continue until they also converge or the
+``itermax`` outer safety bound is reached.
+
+.. code-block:: text
+
+   do while (iter < itermax) && (not all trajectories converged)
+      ODE%Integrate( Traj )            ! advance one BS step
+      Collision%Hamiltonian( Traj )    ! compute H for conservation check
+      Traj%AssessConvergence()         ! flag done if tmax or RpiMax reached
+   end do
+
+(From ``README/TheoryNotes/Integration.txt``.)
+
+
+Convergence criteria
+--------------------
+
+A trajectory is declared converged when *either*:
+
+- **Time-based:** :math:`t \geq t_{\max}`. ``tmax`` is a safety cap,
+  typically chosen much longer than the expected collision duration.
+- **Distance-based:** :math:`1/R_{\text{pair}} < 1/R_{\max}` for the
+  outgoing fragments, i.e. products have separated far enough that
+  no further dynamics can change the final state classification.
+
+After convergence, ``Integrator%AnalysisTrajPoints`` drives the
+final-state identification (see :doc:`arrangement_classification`).
+
+
+Energy-conservation diagnostic
+------------------------------
+
+At every accepted step CoarseAIR records the current Hamiltonian
+
+.. math::
+
+   H(\mathbf{p}, \mathbf{Q}) \;=\; T(\mathbf{p}) + V(\mathbf{Q}),
+
+computed by ``Collision%Hamiltonian``. For each trajectory the code
+monitors
+
+.. math::
+
+   \Delta H \;=\; | H_{\text{final}} - H_{\text{initial}} |,
+
+and reports it as part of the trajectory output. A trajectory with
+:math:`\Delta H` exceeding the user tolerance is flagged as "bad", is
+excluded from the rate statistics, and contributes to a quality metric
+printed at the end of the run.
+
+High rejection rates usually indicate one of:
+
+- Tolerances (``atol``, ``rtol``) that are too loose for the system's
+  stiffness.
+- A PES discontinuity or a finite-difference gradient that doesn't match
+  the analytic value.
+- A :math:`t_{\max}` that's shorter than the actual collision duration
+  for long-lived complexes (common for deep-well systems like O\
+  :sub:`3` and C-containing systems).
+
+Energy conservation is **the** primary health check of a QCT run and
+should always be inspected before trusting the derived rates.
+
+
+Alternative integrators
+-----------------------
+
+The current production code exposes only the Bulirsch–Stoer path.
+Experimental branches of the code (not on ``Clement-Adiabatic``) contain
+symplectic integrators (Verlet / leapfrog) that conserve energy by
+construction but deliver worse final-state accuracy at the same cost for
+the strongly anharmonic potentials CoarseAIR targets. Benchmarks of the
+available integrators on H\ :sub:`3` and N\ :sub:`3` are planned for a
+future revision of this documentation.

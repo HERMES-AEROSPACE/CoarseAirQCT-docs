@@ -1,13 +1,197 @@
 Rate & Cross-Section Extraction
 ===============================
 
-.. note::
+After trajectory integration and final-state classification, CoarseAIR
+converts the raw "which-process-happened" counters into statistically
+well-defined cross-sections and rate coefficients. This chapter derives
+the estimators the code uses, their variance, and the thermal-averaging
+procedure that produces the final :math:`k(T)`.
 
-   This page is under construction. Content coming soon.
+The implementation is in ``src/Processes/`` (per-process accumulators)
+and in the ``TrajectoriesStats`` / ``PostTrajectories`` application
+stages.
 
-Planned coverage:
 
-- State-to-state cross-section formula from QCT ensembles
-- Thermal rate-coefficient evaluation (Maxwellian integration)
-- Statistical error estimation and convergence studies
-- Grouping strategies (bin-lumping, coarse-grained models)
+Cross-section estimator
+-----------------------
+
+Consider a specific initial state :math:`(v, J)` on a specific PES at a
+fixed collision energy :math:`E`. Suppose we ran :math:`N_i` trajectories
+at each impact-parameter bin :math:`i` (with annulus
+:math:`[b_{i-1}, b_i]`), and :math:`N_{iJ}` of them produced the target
+process :math:`J` — an inelastic transition to a specific :math:`(v', J')`,
+an exchange channel, a dissociation outcome, etc.
+
+Within bin :math:`i` the probability of process :math:`J` is estimated
+by the Bernoulli proportion
+
+.. math::
+
+   \hat{P}_{iJ} \;=\; \frac{N_{iJ}}{N_i}.
+
+Writing the cross-section as an integral over the impact-parameter plane,
+
+.. math::
+
+   \sigma_J
+      \;=\; \int_0^{2\pi}\!\!\int_0^\infty
+            \tilde{P}_J(b, \theta)\, b\, db\, d\theta
+      \;\approx\; \sum_i A_{\text{ring},i}\, \hat{P}_{iJ},
+
+with annulus area :math:`A_{\text{ring},i} = \pi (b_i^2 - b_{i-1}^2)`. The
+CoarseAIR estimator is therefore
+
+.. math::
+
+   \boxed{\;
+   \hat{\sigma}_J \;=\; \sum_{i} \pi \left(b_i^2 - b_{i-1}^2\right)
+                        \frac{N_{iJ}}{N_i}
+   \;}
+
+with :math:`b_0 = 0`. The summation runs over all impact-parameter bins
+up to :math:`b_{\max}` (see :doc:`sampling`).
+
+
+Variance and uncertainty
+------------------------
+
+Because each trajectory in bin :math:`i` is an independent Bernoulli trial
+with success probability :math:`P_{iJ}`, the count :math:`N_{iJ}` has
+binomial variance :math:`N_i\, P_{iJ}\,(1 - P_{iJ})`. Propagating to the
+cross-section estimator,
+
+.. math::
+
+   \operatorname{Var}(\hat{\sigma}_J)
+     \;=\; \sum_i A_{\text{ring},i}^{2}\,
+           \frac{\hat{P}_{iJ}(1 - \hat{P}_{iJ})}{N_i},
+
+so the standard deviation is
+
+.. math::
+
+   \boxed{\;
+   \operatorname{SD}(\hat{\sigma}_J)
+     \;=\; \sqrt{\sum_i A_{\text{ring},i}^{2}\,
+                 \frac{\hat{P}_{iJ}\,(1 - \hat{P}_{iJ})}{N_i}}
+   \;}
+
+The relative statistical error of a rare event scales as
+:math:`1/\sqrt{N\, P_J}`, so low-probability channels (e.g. dissociation
+at low :math:`T`) require many trajectories to reach tolerable error
+bars. This is a primary reason for stratified impact-parameter sampling
+(see :doc:`sampling`) — concentrating trajectories at small :math:`b`,
+where reaction is more likely, reduces the variance at fixed cost.
+
+For two *complementary* processes :math:`J` and :math:`J'`
+(e.g. "exchange" versus "everything else"), :math:`N_{iJ} + N_{iJ'} = N_i`
+gives the simplified form
+
+.. math::
+
+   \operatorname{SD}(\hat{\sigma}_J)
+     \;=\; \sqrt{\sum_i \frac{\hat{\sigma}_{iJ}\, \hat{\sigma}_{iJ'}}{N_i}},
+
+used as a cross-check inside the code.
+
+
+Thermal rate coefficient
+------------------------
+
+The thermal rate constant at temperature :math:`T` is the
+Maxwell–Boltzmann average
+
+.. math::
+
+   k(T) \;=\; \left\langle \sigma\, w \right\rangle
+          \;=\; 4\pi \int_0^\infty \sigma(w)\, f(w)\, w^3\, dw,
+   \qquad
+   f(w) \;=\; \left(\frac{m_e}{2\pi k_B T}\right)^{3/2}
+              \exp\!\left(-\frac{m_e w^2}{2 k_B T}\right),
+
+where :math:`m_e` is the reduced mass of the collision.
+
+If the user runs trajectories at a fixed grid of collision energies,
+CoarseAIR performs the integral numerically (Gauss-Legendre quadrature,
+``Tools/GaussQuadrature``) on :math:`E = \tfrac{1}{2} m_e w^2`.
+
+If the user runs trajectories in **thermal mode**, collision energies are
+drawn directly from the Maxwellian via inverse-CDF sampling (see
+:doc:`sampling`). Substituting :math:`E = k_B T\, \hat{E}`, the rate
+collapses to a simple Monte Carlo average:
+
+.. math::
+
+   \boxed{\;
+   k(T) \;\approx\;
+     \sqrt{\frac{8 k_B T}{\mu \pi}}\;
+     \frac{1}{N}\sum_{p=1}^{N} \sigma\!\left(\hat{E}_p\right)
+   \;}
+
+where :math:`N` is the total number of trajectories at that temperature.
+No quadrature is needed — the energy distribution is built into the
+sampling itself.
+
+This is the formula used by ``PostTrajectories`` to produce the final
+:math:`k(T)` tables from a thermal run.
+
+
+State-to-state, grouped, and Arrhenius outputs
+----------------------------------------------
+
+CoarseAIR produces three levels of coarse-grained output; see
+:doc:`/user/postprocessing` for the file layout.
+
+- **State-to-state (StS).** One rate per pair of levels:
+  :math:`k_{(v, J) \to (v', J')}(T)`. Largest output; suitable for direct
+  use in state-to-state master-equation solvers
+  (:doc:`/reference/about` → dmsAIR).
+- **Grouped rates.** Rates are summed into bins defined by the binning
+  strategy used at input (vibrational, energy-based, or user-provided
+  groups). Typically :math:`10^3`–:math:`10^4` rates per temperature.
+- **Arrhenius fits.** Effective three-parameter :math:`A, n, E_a` fits
+  in the form
+
+  .. math::
+
+     k(T) \;=\; A\, T^{n}\, \exp(-E_a / k_B T),
+
+  are generated per process and stored in the ``Process%ArrCoeffs(3)``
+  field. Useful for multiscale solvers where the full temperature
+  dependence is needed in closed form.
+
+Error bars propagate consistently across all three aggregations — the
+binomial variance from the cross-section stage is carried through
+grouping and summation by standard Gaussian error propagation.
+
+
+Complementarity and mass-balance checks
+---------------------------------------
+
+CoarseAIR exploits two self-consistency checks that users should always
+inspect before trusting a run:
+
+1. **Sum rule across outcomes** — for every starting level, the
+   cross-sections for all outgoing channels (elastic + inelastic +
+   exchange + dissociation) should sum to :math:`\pi b_{\max}^2` within
+   statistical error. Deviations flag either a too-small :math:`b_{\max}`
+   (reactive cross-section is cut off) or a classification bug.
+
+2. **Detailed balance** — for a pair of states :math:`(v, J)` and
+   :math:`(v', J')` at the same temperature,
+
+   .. math::
+
+      g_{vJ}\, k_{vJ \to v'J'}(T)\,
+      \exp\!\left(-E_{vJ}/k_B T\right)
+      \;=\;
+      g_{v'J'}\, k_{v'J' \to vJ}(T)\,
+      \exp\!\left(-E_{v'J'}/k_B T\right),
+
+   where :math:`g` are the rotational degeneracies. Violations are
+   expected within the QCT statistical error; persistent systematic
+   violations (>2–3 σ) point at zero-point-energy artefacts or
+   classification errors.
+
+Both checks are available as diagnostics in the post-processing Python
+and MATLAB tooling.

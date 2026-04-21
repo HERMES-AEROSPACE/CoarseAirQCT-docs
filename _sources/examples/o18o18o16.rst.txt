@@ -1,11 +1,65 @@
-¹⁸O ¹⁸O ¹⁶O (Isotope-Labelled Ozone) System
-============================================
+Isotopically Labelled Ozone (O18-O18-O16)
+=========================================
 
-.. note::
+The **O18O18O16** system is the isotope-labelled companion of O\
+:sub:`3`. It uses the same underlying O–O–O potential surfaces but
+treats the three atoms as distinguishable by mass. Input files live
+under ``input/O18O18O16/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the isotope-labelled
-**¹⁸O ¹⁸O ¹⁶O** ozone system, using the input files provided in
-``input/O18O18O16/``. This setup is used to study isotope effects in ozone
-formation kinetics.
+- Atoms: two :sup:`18`\ O atoms and one :sup:`16`\ O atom.
+- Collision entries (all three possible):
+
+  .. math::
+
+     {}^{18}\mathrm{O}\,{}^{18}\mathrm{O} + {}^{16}\mathrm{O}, \quad
+     {}^{18}\mathrm{O}\,{}^{16}\mathrm{O} + {}^{18}\mathrm{O}, \quad
+     {}^{16}\mathrm{O}\,{}^{18}\mathrm{O} + {}^{18}\mathrm{O}.
+
+  These entries are energetically distinguishable because reduced
+  masses differ, even though the PES is identical to standard
+  O\ :sub:`3`.
+
+Kinetic processes
+-----------------
+
+All the standard O\ :sub:`3` channels (see :doc:`/examples/o3`), but
+now resolved by isotopic composition:
+
+- **Isotopic exchange**:
+
+  .. math::
+
+     {}^{18}\mathrm{O}\,{}^{18}\mathrm{O} + {}^{16}\mathrm{O}
+       \;\leftrightarrow\;
+     {}^{18}\mathrm{O}\,{}^{16}\mathrm{O} + {}^{18}\mathrm{O}.
+
+- Inelastic scattering within each isotopologue.
+- Dissociation / recombination with mass-specific :math:`k(T)`.
+
+Why isotopes matter
+-------------------
+
+The "ozone isotope anomaly" — the strong mass-independent fractionation
+observed in atmospheric ozone — is one of the open puzzles of
+atmospheric chemistry. State-resolved QCT rates on the full set of
+isotopically labelled channels are a key input to models that attempt
+to reproduce the anomaly from first principles. O18O18O16 is the
+benchmark for this class of studies.
+
+PES models
+----------
+
+Same nine UMN electronic surfaces as O\ :sub:`3`
+(:doc:`/examples/o3`). The labelling only affects reduced masses and
+the post-processing aggregation; the PES functional form is identical.
+
+Diatomic partners: ``O2_UMN`` (the same diatomic potential, with the
+isotope-adjusted reduced mass).
+
+See also
+--------
+
+- :doc:`/examples/o3` — the chemically-identical (all :sup:`16`\ O) variant.

@@ -1,9 +1,46 @@
 CO + Ar System
 ==============
 
-.. note::
+The **CO + Ar** system is a three-body, **non-reactive** arrangement used
+to study rotational and vibrational relaxation of carbon monoxide by
+argon. Input files live under ``input/COAr/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the **CO + Ar**
-system, using the input files provided in ``input/COAr/``.
+- Atoms: **C, O, Ar** (all distinguishable).
+- Collision entry: CO + Ar. No reactive rearrangement is possible at the
+  energies and PES accuracies considered — Ar is chemically inert.
+- Pair numbering: pair 1 = CO (reactive bond), pairs 2 and 3 =
+  C-Ar / O-Ar (van-der-Waals, treated with dummy diatomic potentials).
+
+Kinetic processes
+-----------------
+
+- **Rotational relaxation** — :math:`\mathrm{CO}(J) + \mathrm{Ar}
+  \to \mathrm{CO}(J') + \mathrm{Ar}` at the same :math:`v`.
+- **Vibrational relaxation** — :math:`\mathrm{CO}(v, J) + \mathrm{Ar}
+  \to \mathrm{CO}(v', J') + \mathrm{Ar}`.
+- No exchange channel (Ar cannot form a stable bond to C or O on this PES).
+- Dissociation (:math:`\mathrm{CO} \to \mathrm{C} + \mathrm{O}` catalysed
+  by Ar) is accessible at high energy but is usually negligible relative
+  to inelastic channels for the conditions this input targets.
+
+The C-Ar and O-Ar "diatomic" potentials are configured as dummy pair
+potentials so the Ar atom contributes only to the kinetic-energy exchange,
+not to reactive bonding. See :doc:`/theory/pes_formats` for the dummy
+mechanism.
+
+PES models
+----------
+
+Available: ``NASA`` (CO-Ar three-body PES from NASA Ames).
+
+Diatomic partners: ``CO`` (true diatomic), ``Ar-C`` and ``Ar-O`` (dummy).
+
+Typical use
+-----------
+
+CO–Ar is a common benchmark for nonequilibrium CO vibrational kinetics
+in hypersonic flows and laser-pumped CO diagnostics. Results from this
+system are often used to calibrate simpler Landau–Teller models.

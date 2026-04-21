@@ -1,9 +1,53 @@
-O₄ System
-=========
+O\ :sub:`4` System
+==================
 
-.. note::
+The **O₄** system is a four-body arrangement of four indistinguishable
+oxygen atoms colliding as two diatoms. Input files live under
+``input/O4/``.
 
-   This page is under construction. Content coming soon.
+Arrangement
+-----------
 
-This example walks through a full CoarseAIR calculation for the **O₄**
-four-body system, using the input files provided in ``input/O4/``.
+- Atoms: **O, O, O, O** (all identical).
+- Collision entry: O\ :sub:`2` + O\ :sub:`2`.
+
+Kinetic processes
+-----------------
+
+- **Inelastic scattering** — V–V, V–R, and V–T energy transfer between
+  the two colliding O\ :sub:`2` molecules with no atom exchange.
+- **Reactive exchange** — four-atom identical-atom swap; summed to a
+  single exchange channel in indistinguishable mode.
+- **Single dissociation** — :math:`\mathrm{O}_{2} + \mathrm{O}_{2} \to
+  \mathrm{O}_{2} + 2\,\mathrm{O}`.
+- **Full atomisation** — :math:`\to 4\,\mathrm{O}`.
+- **Van-der-Waals O\ :sub:`4` complex formation** — long-lived
+  four-atom intermediates can form on deep-well surfaces, affecting
+  exchange rates; inspect the final-time distribution for long-lived
+  events (see :doc:`/theory/arrangement_classification`).
+
+PES models
+----------
+
+Available: ``UMN`` — University of Minnesota O\ :sub:`4` surface
+(same functional framework as the O\ :sub:`3` / O\ :sub:`18`\
+:sub:`,16` systems).
+
+Diatomic partner: ``O2_UMN`` (matching the multi-body PES).
+
+Typical use
+-----------
+
+O\ :sub:`2` + O\ :sub:`2` provides the four-atom closure of the
+oxygen-chemistry dataset — pair it with O\ :sub:`3` results for the
+full O\ :sub:`2` dissociation / recombination picture at a given
+temperature. It also enables V–V rate coefficients needed for O\
+:sub:`2` vibrational-ladder master-equation studies in hypersonic
+aerothermodynamics.
+
+See also
+--------
+
+- :doc:`/examples/o3` — three-atom O + O\ :sub:`2` companion.
+- :doc:`/examples/o18o18o16` — isotope-labelled O\ :sub:`3` for the
+  ozone isotope anomaly.

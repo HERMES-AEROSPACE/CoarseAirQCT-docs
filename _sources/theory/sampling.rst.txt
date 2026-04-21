@@ -1,14 +1,176 @@
 Sampling
 ========
 
-.. note::
+Each trajectory needs six pieces of information before integration can start:
+the initial ro-vibrational state :math:`(v, J)` of the target diatom, the
+collision energy :math:`E`, the impact parameter :math:`b`, three orientation
+Euler angles, and the electronic-surface index ``iPES``. This chapter
+describes how CoarseAIR samples each of them.
 
-   This page is under construction. Content coming soon.
+The relevant code lives under ``src/Collision/InitialStates/`` —
+specifically ``StateInitDiatomAtom_Module.F90`` (3-body) and
+``StateInitDiatomDiatom_Module.F90`` (4-body).
 
-Planned coverage:
 
-- Initial ro-vibrational state sampling
-- Orientation (Euler-angle) Monte Carlo sampling
-- Impact parameter sampling (uniform in :math:`b^2` up to :math:`b_{\max}`)
-- Collision energy grid selection for cross-section evaluation
-- Maxwellian-averaged sampling for thermal rate coefficients
+Ro-vibrational state :math:`(v, J)`
+-----------------------------------
+
+Internal states come from the pre-computed level database
+(``dtb/Molecules/<species>/Bins_*/levels_cut.inp``). CoarseAIR offers four
+selection strategies, chosen by the ``Bins/Nb of PESs`` and related input
+blocks and implemented in ``src/BinnedMolecules/``:
+
+- **State-to-State (StS)** — one bin per :math:`(v, J)` level. This gives
+  full state-resolved output but is expensive at high temperature.
+- **Vibrational Specific (VibSpec)** — bins are labelled by :math:`v` only;
+  rotational sub-levels within each :math:`v` are distributed by
+  their Boltzmann weight. Standard for vibrational-ladder studies.
+- **Energy-based** — bins group levels within internal-energy windows. Used
+  for coarse-grained models (group-specific rates).
+- **Hybrid / FromFile** — user-supplied partitioning, read directly from a
+  file listing levels per bin.
+
+Within a selected bin, the specific starting level is drawn with probability
+proportional to its degeneracy-weighted Boltzmann factor.
+
+
+Collision energy :math:`E`
+--------------------------
+
+CoarseAIR supports two regimes:
+
+**Fixed-energy grid** — the user specifies a list of collision energies in
+the input file. Trajectories are run at each listed :math:`E`. Used for
+computing excitation functions :math:`\sigma_J(E)` directly.
+
+**Maxwell–Boltzmann thermal sampling** — energies are drawn from the
+translational Maxwellian at temperature :math:`T`. Starting from
+
+.. math::
+
+   k(T) \;=\; 4\pi \!\int_0^\infty \sigma(w)\, f(w)\, w^3\, dw,
+   \qquad
+   f(w) \;=\; \left(\frac{m_e}{2\pi k_B T}\right)^{3/2}
+              \exp\!\left(-\frac{m_e w^2}{2 k_B T}\right),
+
+a change of variables to the reduced energy :math:`\hat{E} = E/(k_B T)`
+gives the probability density
+
+.. math::
+
+   P(\hat{E}) \;=\; \hat{E}\, e^{-\hat{E}},
+   \qquad
+   F(\hat{E}) \;=\; 1 - e^{-\hat{E}}\,(\hat{E} + 1).
+
+CoarseAIR draws uniform :math:`U \sim \mathcal{U}[0,1]`, inverts the CDF by
+Newton–Raphson to obtain :math:`\hat{E}`, and sets
+:math:`E = \hat{E}\, k_B T`. The thermal rate is then
+
+.. math::
+
+   k(T) \;\approx\; \sqrt{\frac{8 k_B T}{\mu\pi}}\;
+                    \frac{1}{N}\sum_{p=1}^{N} \sigma(\hat{E}_p),
+
+where :math:`\mu` is the reduced mass of the collision. The inverse-CDF
+sampling is coded in ``src/Random/`` and called from the initial-state
+modules.
+
+
+Impact parameter :math:`b`
+--------------------------
+
+By standard kinematics, the differential cross-section in :math:`b` carries
+weight :math:`2\pi b\,db`, so uniform sampling *in* :math:`b^2` over
+:math:`[0, b_{\max}^2]` reproduces the correct weighting without further
+Jacobians. CoarseAIR's input offers four impact-parameter models:
+
+- ``Normal`` — uniform in :math:`b^2`, single :math:`b_{\max}`. Simplest and
+  default for most dissociation / inelastic studies.
+- ``Random`` — uniform :math:`b`, requires Jacobian reweighting during rate
+  extraction. Mainly for diagnostic use.
+- ``Stratified`` — :math:`b` is split into concentric annuli
+  :math:`[b_{i-1}, b_i]` with pre-assigned trajectory counts :math:`N_i`.
+  Reduces variance at small :math:`b` where reaction is most likely.
+- ``FixedAngMom`` — :math:`b` is chosen to reproduce a target orbital
+  angular momentum, useful for reactive-scattering studies at specified
+  :math:`\ell`.
+
+The value of :math:`b_{\max}` is system- and energy-dependent; a brief
+pre-run "scattering map" (see :doc:`/examples/h3`) establishes the smallest
+:math:`b` at which *no* reactive/inelastic events occur, and that value sets
+:math:`b_{\max}`.
+
+
+Relative-velocity decomposition
+-------------------------------
+
+Given :math:`E`, :math:`b`, and the initial separation :math:`D_{\text{init}}`
+along the :math:`x` axis in the body-fixed frame, the relative velocity
+magnitude and components are
+
+.. math::
+
+   V_{e_R} \;=\; \sqrt{\frac{2 E}{\mu}}, \qquad
+   V_{e_z} \;=\; -V_{e_R}\,\frac{b}{D_{\text{init}}}, \qquad
+   V_{e_x} \;=\; -V_{e_R}\,\sqrt{1 - \frac{b^2}{D_{\text{init}}^2}}.
+
+The minus signs encode the convention that the projectile approaches the
+target (which sits at the origin). :math:`V_{e_y} = 0` is imposed by
+placing the collision plane to coincide with :math:`x`–:math:`z`.
+
+The projectile's initial Cartesian position and velocity vectors are then
+split between target and projectile reduced-mass fractions:
+
+.. math::
+
+   \mathbf{R}_T \;=\; -\frac{m_P}{m_T + m_P}\, D_{\text{init}}\, \hat{\mathbf{x}},
+   \qquad
+   \mathbf{R}_P \;=\; +\frac{m_T}{m_T + m_P}\, D_{\text{init}}\, \hat{\mathbf{x}}.
+
+
+Orientation sampling (Euler angles)
+-----------------------------------
+
+The target diatom's orientation in the body-fixed frame is randomised by
+three successive Euler rotations. Using the standard :math:`z`-:math:`y`-
+:math:`z` convention :math:`(\alpha, \beta, \gamma)`:
+
+.. math::
+
+   \begin{pmatrix} x'\\ y'\\ z' \end{pmatrix}
+   \;=\;
+   R_z(\gamma)\, R_y(\beta)\, R_z(\alpha)
+   \begin{pmatrix} x\\ y\\ z \end{pmatrix}.
+
+With :math:`\alpha, \gamma` uniform on :math:`[0, 2\pi)` and
+:math:`\cos\beta` uniform on :math:`[-1, 1]` (to sample the sphere
+uniformly), the resulting orientation is isotropic. The angles are drawn
+independently per trajectory. For 4-atom systems the same scheme is applied
+to both colliding diatoms independently.
+
+
+Electronic-surface index ``iPES``
+---------------------------------
+
+When multiple electronic surfaces are active (e.g. O\ :sub:`3` with 9
+surfaces, CNO with 3, CO\ :sub:`2` with 5), CoarseAIR distributes
+trajectories across surfaces proportionally to their electronic
+degeneracies.
+
+At initialisation, the routine ``SetPESIndx()`` (called from the collision
+class) assigns each trajectory an ``iPES`` drawn from the discrete
+distribution
+
+.. math::
+
+   P(\text{iPES} = s) \;=\; \frac{g_s}{\sum_{s'} g_{s'}},
+
+where :math:`g_s` is the degeneracy of surface :math:`s` specified in the
+input file. The per-PES trajectory counter
+``Traj%iTrajPES(1:NPESs)`` tracks how many trajectories have been assigned
+to each surface, so the final statistics (cross-sections, rates) are
+weighted consistently.
+
+In adiabatic CoarseAIR, ``iPES(iTraj)`` never changes after this initial
+assignment — see :doc:`pes_formats` for the multi-surface machinery and the
+CoarseAIR+ documentation for surface-hopping extensions.
