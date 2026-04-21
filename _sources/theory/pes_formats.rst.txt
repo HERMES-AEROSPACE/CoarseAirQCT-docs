@@ -191,3 +191,86 @@ To wire in a new surface:
 
 A step-by-step walkthrough with a worked example is in
 :doc:`/developer/adding_a_system`.
+
+
+Functional-form details
+-----------------------
+
+**Mixed Exponential Gaussian (MEG) basis.** UMN surfaces for
+O\ :sub:`3`, O\ :sub:`4`, N\ :sub:`3`, N\ :sub:`4` write the
+many-body contribution :math:`V^{(N)}` as a polynomial in the
+Morse-like variables
+
+.. math::
+
+   y_{ij} \;=\; e^{-\alpha (R_{ij} - R_{ij}^{\text{ref}})}\,
+                e^{-(R_{ij} - R_{ij}^{\text{ref}})^{2}/\beta^{2}},
+
+with the exponent producing the correct long-range decay and the
+Gaussian factor damping the variable at short range. The full
+many-body potential is a symmetric polynomial in the
+:math:`\{y_{ij}\}` up to some degree (typically 6–9), with 50–200
+expansion coefficients fitted to ab-initio data. The MEG variables
+enter the PES code under ``src/PESs/`` as the ``a``, ``ab``,
+``ra``, ``rb`` parameters of each ``X_UMN_PES_Class.F90``.
+
+**Permutation-Invariant Polynomials (PIP).** For a system with
+:math:`n` identical atoms (H\ :sub:`3`, N\ :sub:`4`, O\ :sub:`4`),
+the PES must be invariant under every permutation of those atoms'
+labels. A general polynomial in the inter-atomic distances is
+*not* invariant; PIPs are constructed as symmetric polynomial
+generators — i.e. products of elementary symmetric polynomials in
+the MEG variables — so that every basis function is already
+permutation-symmetric. The N\ :sub:`4` ``UMN_PIPNN`` surface
+combines a PIP layer with an NN regression on top, preserving the
+permutation symmetry exactly in the learned representation.
+
+**Neural-network forward pass.** The generic ``NN_PES_Type``
+implements a two-hidden-layer feed-forward network
+
+.. math::
+
+   V(\mathbf{Q}) \;=\;
+      \mathbf{W}_3\,
+      \tanh\!\bigl(\mathbf{W}_2\,
+         \tanh(\mathbf{W}_1\,\mathbf{x} + \mathbf{b}_1) + \mathbf{b}_2
+      \bigr)
+      \;+\; \mathbf{b}_3,
+
+where :math:`\mathbf{x}` is the vector of normalised bond-order
+input features. The gradient :math:`\partial V / \partial \mathbf{Q}`
+is computed analytically by backpropagation (not by finite
+differences), so ``Compute_0d`` returns exact derivatives at
+machine precision. Weights and biases are read from the
+``dtb/Systems/<Sys>/NN/`` directory at initialisation.
+
+**Bayesian NN ensembles.** The ``BNN`` variants stack up to 300
+independent NN samples drawn from the posterior over weights
+(trained offline by the HERMES uncertainty-quantification tooling).
+The mean surface is used for trajectory propagation; the spread
+across the ensemble is the per-point PES uncertainty, consumed by
+the MATLAB UQ pipeline under ``extra/MCoarseAIR/``. The runtime
+cost scales linearly in the number of samples, so production BNN
+runs typically limit the ensemble size to 50.
+
+**Gaussian process kernels.** The ``GP_PES_Type`` evaluates
+
+.. math::
+
+   V(\mathbf{Q}) \;=\; \sum_{i=1}^{N_{\text{train}}}
+                       \alpha_i\,k(\mathbf{Q}, \mathbf{Q}_i),
+
+with :math:`k` a squared-exponential or Matérn-5/2 kernel over the
+inter-atomic distances. The weights :math:`\alpha_i` are
+pre-computed from the training set so runtime inference is a simple
+weighted sum; the gradient is the kernel derivative, also available
+in closed form. The three O\ :sub:`3` GP variants shipped in
+``dtb/Systems/O3/GP/`` differ in the assumed ab-initio noise level
+and the kernel length-scale.
+
+**Dummy (non-reactive) diatomic potentials.** For CO–Ar and
+H\ :sub:`2`–He the "extra" atom-pair potentials are set to a
+purely-repulsive short-range form that never supports a bound
+state, so the classifier can never assign an AB-fragment that
+includes the inert atom. Used to represent inert collision
+partners without requiring a full three-body PES fit.

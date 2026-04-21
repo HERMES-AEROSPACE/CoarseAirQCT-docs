@@ -106,11 +106,15 @@
 <p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="qct.html">Quasi-Classical Trajectories</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#classical-limit-approximation">Classical-limit approximation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#coordinates-and-pair-numbering">Coordinates and pair numbering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#hamiltonian">Hamiltonian</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#per-trajectory-pipeline">Per-trajectory pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#historical-context-and-code-lineage">Historical context and code lineage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#the-bornoppenheimer-surface-and-the-classical-limit">The Born–Oppenheimer surface and the classical limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#regime-of-validity">Regime of validity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#jacobi-coordinates-and-reduced-masses">Jacobi coordinates and reduced masses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#pair-numbering-convention">Pair numbering convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#hamiltonian-and-canonical-equations-of-motion">Hamiltonian and canonical equations of motion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#semi-classical-quantisation-at-the-boundaries">Semi-classical quantisation at the boundaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#per-trajectory-runtime-pipeline">Per-trajectory runtime pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#what-coarseair-does-not-do-in-the-adiabatic-pipeline">What CoarseAIR does <em>not</em> do in the adiabatic pipeline</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="level_generation.html">Level Generation (Numerov method)</a><ul>
@@ -132,6 +136,7 @@
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#relative-velocity-decomposition">Relative-velocity decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#orientation-sampling-euler-angles">Orientation sampling (Euler angles)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#electronic-surface-index-ipes">Electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="integrators.html">Trajectory Integrators</a><ul>
@@ -141,6 +146,7 @@
 <li class="toctree-l2"><a class="reference internal" href="integrators.html#convergence-criteria">Convergence criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="integrators.html#energy-conservation-diagnostic">Energy-conservation diagnostic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="integrators.html#alternative-integrators">Alternative integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrators.html#numerical-analysis-of-the-bulirschstoer-scheme">Numerical analysis of the Bulirsch–Stoer scheme</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pes_formats.html">PES Formats</a><ul>
@@ -150,6 +156,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pes_formats.html#diatomic-pair-potentials">Diatomic pair potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pes_formats.html#multi-surface-handling">Multi-surface handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pes_formats.html#adding-a-new-pes">Adding a new PES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#functional-form-details">Functional-form details</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Arrangement Classification</a><ul>
@@ -159,6 +166,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#step-4-classify-the-process">Step 4 — Classify the process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#indistinguishable-atom-systems">Indistinguishable-atom systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#common-pitfalls">Common pitfalls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="rate_extraction.html">Rate &amp; Cross-Section Extraction</a><ul>
@@ -167,6 +175,7 @@
 <li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#thermal-rate-coefficient">Thermal rate coefficient</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#state-to-state-grouped-and-arrhenius-outputs">State-to-state, grouped, and Arrhenius outputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#complementarity-and-mass-balance-checks">Complementarity and mass-balance checks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 </ul>
@@ -309,7 +318,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#coarseair-foundations">CoarseAIR foundations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#numerical-methods">Numerical methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#cno-system">CNO system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#hydrogen-containing-systems">Hydrogen-containing systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#nitrogen-systems">Nitrogen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#oxygen-systems">Oxygen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#carbon-containing-systems">Carbon-containing systems</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#source-code-review">Source-code review</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#recommended-reading">Recommended reading</a></li>
 </ul>
@@ -349,11 +365,14 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#current-contents-of-test">Current contents of <code class="docutils literal notranslate"><span class="pre">test/</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#how-to-run-the-regression">How to run the regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#planned-ci-suite">Planned CI suite</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#adding-a-new-regression-test">Adding a new regression test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#manual-regression-checklist">Manual regression checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#layout">Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#generating-refreshing-the-references">Generating / refreshing the references</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#tolerance-policy">Tolerance policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#disabling-the-tests">Disabling the tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#typical-output">Typical output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/roadmap.html">Development Roadmap</a><ul>
@@ -596,6 +615,83 @@ validators flag borderline cases.</p></li>
 are under-represented. This is a well-known QCT artefact; see the
 cross-references in <a class="reference internal" href="../reference/bibliography.html"><span class="doc">Bibliography</span></a>.</p></li>
 </ul>
+</section>
+<section id="derivations-and-further-detail">
+<h2>Derivations and further detail<a class="headerlink" href="#derivations-and-further-detail" title="Link to this heading"></a></h2>
+<p><strong>Why Langer’s</strong> <span class="math notranslate nohighlight">\((J + \tfrac{1}{2})^{2}\)</span>. Direct quantisation
+of the 3-D central-field Hamiltonian gives the centrifugal term
+<span class="math notranslate nohighlight">\(\hbar^{2} \ell(\ell + 1)/(2\mu R^{2})\)</span> with <span class="math notranslate nohighlight">\(\ell\)</span>
+integer. The semi-classical (WKB) treatment introduces a near-origin
+singularity that Langer (1937) showed is corrected by replacing
+<span class="math notranslate nohighlight">\(\ell(\ell + 1) \to (\ell + \tfrac{1}{2})^{2}\)</span>. This makes the
+WKB turning-point analysis at <span class="math notranslate nohighlight">\(R \to 0\)</span> quantitatively correct
+without touching the long-range behaviour. CoarseAIR uses the Langer
+correction consistently throughout level generation, final-state
+quantisation, and the centrifugal-barrier classifier.</p>
+<p><strong>Effective-potential derivation.</strong> Separating the 3-D radial
+Schrödinger equation into radial and angular parts, the radial
+equation for <span class="math notranslate nohighlight">\(u(R) = R\,\psi(R)\)</span> reads</p>
+<div class="math notranslate nohighlight">
+\[-\frac{\hbar^{2}}{2\mu}\frac{d^{2} u}{dR^{2}}
+\;+\; \left[ V_{\text{diat}}(R)
+           \;+\; \frac{\hbar^{2}\,(J + \tfrac{1}{2})^{2}}{2\mu R^{2}}
+      \right] u
+\;=\; E\,u,\]</div>
+<p>which is one-dimensional with the effective potential
+<span class="math notranslate nohighlight">\(V_{\text{eff}}(R; J) = V_{\text{diat}}(R) + V_{\text{c}}(R; J)\)</span>
+defined in the main text above. For sufficiently large <span class="math notranslate nohighlight">\(J\)</span>,
+the centrifugal barrier <span class="math notranslate nohighlight">\(V_{\text{c}}(R; J)\)</span> adds a maximum
+at some <span class="math notranslate nohighlight">\(R_{\max}(J) &gt; R_{\min}(J)\)</span>; states with
+<span class="math notranslate nohighlight">\(V_\infty &lt; E &lt; V_{\max}(J)\)</span> are classically trapped behind
+this barrier — the quasi-bound regime.</p>
+<p><strong>Heapsort for arrangement classification.</strong> Finding the tightest
+pair among <span class="math notranslate nohighlight">\(\binom{N}{2}\)</span> inter-atomic distances is an
+<span class="math notranslate nohighlight">\(O(N \log N)\)</span> operation by heapsort, implemented in
+<code class="docutils literal notranslate"><span class="pre">src/Tools/heapsort.F90</span></code>. For 3-atom systems
+(<span class="math notranslate nohighlight">\(\binom{3}{2} = 3\)</span> distances) the sort is trivial; for
+4-atom systems (<span class="math notranslate nohighlight">\(\binom{4}{2} = 6\)</span> distances) it is still
+cheap. The same routine is used whenever the code needs to order
+quantities by value (e.g. sorting levels by internal energy during
+preprocessing).</p>
+<p><strong>WKB action integral — quantitative.</strong> At a bound eigenvalue
+<span class="math notranslate nohighlight">\(E_{vJ}\)</span> the Bohr–Sommerfeld condition</p>
+<div class="math notranslate nohighlight">
+\[\oint p(R)\,dR
+\;=\; 2 \int_{R_\text{in}}^{R_\text{out}}
+      \sqrt{2\mu\,[E_{vJ} - V_{\text{eff}}(R; J)]}\,dR
+\;=\; 2\pi\hbar\,\left(v + \tfrac{1}{2}\right)\]</div>
+<p>agrees with the exact radial Schrödinger eigenvalues to leading
+order in <span class="math notranslate nohighlight">\(\hbar\)</span>. The correction terms scale as
+<span class="math notranslate nohighlight">\(\hbar^{2}\)</span> and are typically &lt;1 % of the level spacing for
+heavy-atom diatoms — negligible for CoarseAIR’s purposes. The
+integral is evaluated by Gauss–Legendre quadrature (<code class="docutils literal notranslate"><span class="pre">Nb</span> <span class="pre">of</span>
+<span class="pre">Quadrature</span> <span class="pre">Pts</span> <span class="pre">for</span> <span class="pre">Action</span> <span class="pre">Integral</span></code> in <code class="docutils literal notranslate"><span class="pre">CoarseAIR.inp</span></code>, default
+50 points). For the level generator’s use see <a class="reference internal" href="level_generation.html"><span class="doc">Level Generation (Numerov method)</span></a>;
+for the final-state quantisation see the main text above.</p>
+<p><strong>Gaussian-binning alternative.</strong> The histogram binning CoarseAIR
+uses rounds the WKB action to the nearest integer. Bonnet and
+Rayez (1997) proposed <em>Gaussian binning</em>: weight each trajectory’s
+contribution to the final level <span class="math notranslate nohighlight">\(v'\)</span> by a Gaussian of width
+<span class="math notranslate nohighlight">\(\sigma\)</span> centred on the actual <span class="math notranslate nohighlight">\(v\)</span>-value, with
+<span class="math notranslate nohighlight">\(\sigma \sim 0.1\)</span> typically. This penalises trajectories
+whose final action lies far from any quantised level — a proxy
+for suppressing ZPE-violating outcomes. Not yet implemented in
+the base CoarseAIR; tracked on <a class="reference internal" href="../developer/roadmap.html"><span class="doc">Development Roadmap</span></a>.</p>
+<p><strong>What the classifier does for 4-atom systems.</strong> The 3-atom decision
+tree generalises by partitioning the four atoms into the best
+diatom pair first (by smallest two of the six inter-atomic
+distances, subject to consistency: the two selected pairs must
+share no atom), then applying the effective-potential classifier
+to each candidate diatom independently. The 4-atom outcome space
+therefore includes: two bound diatoms (inelastic or exchange,
+depending on atom identities), one bound diatom + two free atoms
+(single dissociation), four free atoms (full atomisation), and
+various quasi-bound / predissociating mixes. The encoding in
+<code class="docutils literal notranslate"><span class="pre">arr_f</span> <span class="pre">=</span> <span class="pre">16</span> <span class="pre">m</span> <span class="pre">+</span> <span class="pre">n</span></code> captures one diatom at a time; 4-atom
+trajectory output carries <span class="math notranslate nohighlight">\((J_k, v_k, J_l, v_l,
+\text{arr}_f)\)</span> and the post-processor aggregates these into
+process channels (see <a class="reference internal" href="../user/input_reference.html"><span class="doc">Input File Reference</span></a> for the
+process-index encoding).</p>
 </section>
 </section>
 

@@ -19,6 +19,7 @@
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -105,11 +106,15 @@
 <p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../theory/qct.html">Quasi-Classical Trajectories</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#classical-limit-approximation">Classical-limit approximation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#coordinates-and-pair-numbering">Coordinates and pair numbering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#hamiltonian">Hamiltonian</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#per-trajectory-pipeline">Per-trajectory pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#historical-context-and-code-lineage">Historical context and code lineage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#the-bornoppenheimer-surface-and-the-classical-limit">The Born–Oppenheimer surface and the classical limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#regime-of-validity">Regime of validity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#jacobi-coordinates-and-reduced-masses">Jacobi coordinates and reduced masses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#pair-numbering-convention">Pair numbering convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#hamiltonian-and-canonical-equations-of-motion">Hamiltonian and canonical equations of motion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#semi-classical-quantisation-at-the-boundaries">Semi-classical quantisation at the boundaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#per-trajectory-runtime-pipeline">Per-trajectory runtime pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#what-coarseair-does-not-do-in-the-adiabatic-pipeline">What CoarseAIR does <em>not</em> do in the adiabatic pipeline</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/level_generation.html">Level Generation (Numerov method)</a><ul>
@@ -131,6 +136,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/sampling.html#relative-velocity-decomposition">Relative-velocity decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/sampling.html#orientation-sampling-euler-angles">Orientation sampling (Euler angles)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/sampling.html#electronic-surface-index-ipes">Electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/sampling.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/integrators.html">Trajectory Integrators</a><ul>
@@ -140,6 +146,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/integrators.html#convergence-criteria">Convergence criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/integrators.html#energy-conservation-diagnostic">Energy-conservation diagnostic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/integrators.html#alternative-integrators">Alternative integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/integrators.html#numerical-analysis-of-the-bulirschstoer-scheme">Numerical analysis of the Bulirsch–Stoer scheme</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/pes_formats.html">PES Formats</a><ul>
@@ -149,6 +156,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/pes_formats.html#diatomic-pair-potentials">Diatomic pair potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/pes_formats.html#multi-surface-handling">Multi-surface handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/pes_formats.html#adding-a-new-pes">Adding a new PES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/pes_formats.html#functional-form-details">Functional-form details</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/arrangement_classification.html">Arrangement Classification</a><ul>
@@ -158,6 +166,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/arrangement_classification.html#step-4-classify-the-process">Step 4 — Classify the process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/arrangement_classification.html#indistinguishable-atom-systems">Indistinguishable-atom systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/arrangement_classification.html#common-pitfalls">Common pitfalls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/arrangement_classification.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/rate_extraction.html">Rate &amp; Cross-Section Extraction</a><ul>
@@ -166,6 +175,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/rate_extraction.html#thermal-rate-coefficient">Thermal rate coefficient</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/rate_extraction.html#state-to-state-grouped-and-arrhenius-outputs">State-to-state, grouped, and Arrhenius outputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/rate_extraction.html#complementarity-and-mass-balance-checks">Complementarity and mass-balance checks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/rate_extraction.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 </ul>
@@ -308,7 +318,14 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Bibliography</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#coarseair-foundations">CoarseAIR foundations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#numerical-methods">Numerical methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#potential-energy-surfaces">Potential energy surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#potential-energy-surfaces">Potential energy surfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cno-system">CNO system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hydrogen-containing-systems">Hydrogen-containing systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nitrogen-systems">Nitrogen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oxygen-systems">Oxygen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#carbon-containing-systems">Carbon-containing systems</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#source-code-review">Source-code review</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#recommended-reading">Recommended reading</a></li>
 </ul>
@@ -348,11 +365,14 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#current-contents-of-test">Current contents of <code class="docutils literal notranslate"><span class="pre">test/</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#how-to-run-the-regression">How to run the regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#planned-ci-suite">Planned CI suite</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#adding-a-new-regression-test">Adding a new regression test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#manual-regression-checklist">Manual regression checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#layout">Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#generating-refreshing-the-references">Generating / refreshing the references</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#tolerance-policy">Tolerance policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#disabling-the-tests">Disabling the tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#typical-output">Typical output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/roadmap.html">Development Roadmap</a><ul>
@@ -404,15 +424,17 @@ Illinois at Urbana-Champaign (2021).</p></li>
 <li><p>S. Venturi, R. L. Jaffe, M. Panesi,
 <em>Bayesian Machine Learning Approach to the Quantification of
 Uncertainties on Ab Initio Potential Energy Surfaces</em>,
-J. Phys. Chem. A <strong>124</strong> (25), 5129–5146 (2020).</p></li>
+J. Phys. Chem. A <strong>124</strong> (25), 5129–5146 (2020).
+<a class="reference external" href="https://pubs.acs.org/doi/10.1021/acs.jpca.0c02395">doi:10.1021/acs.jpca.0c02395</a></p></li>
 <li><p>S. Venturi, M. P. Sharma, B. Lopez, M. Panesi,
 <em>Data-Inspired and Physics-Driven Model Reduction for Dissociation:
 Application to the O</em><sub>2</sub> <em>+ O System</em>,
-J. Phys. Chem. A <strong>124</strong> (41), 8359–8372 (2020).</p></li>
+J. Phys. Chem. A <strong>124</strong> (41), 8359–8372 (2020).
+<a class="reference external" href="https://pubs.acs.org/doi/10.1021/acs.jpca.0c04516">doi:10.1021/acs.jpca.0c04516</a></p></li>
 <li><p>R. L. Jaffe, D. W. Schwenke, M. Panesi,
 <em>First Principles Calculation of Heavy Particle Rate Coefficients</em>,
 Chapter 2 in <em>Hypersonic Nonequilibrium Flows: Fundamentals and
-Recent Advances</em> (2014).</p></li>
+Recent Advances</em> (AIAA, 2014).</p></li>
 </ul>
 </section>
 <section id="numerical-methods">
@@ -425,52 +447,122 @@ used in level generation.</p></li>
 <li><p>B. R. Johnson,
 <em>The renormalized Numerov method applied to calculating bound
 states of the coupled-channel Schrödinger equation</em>,
-J. Chem. Phys. <strong>69</strong>, 4678 (1978). Coupled-channel generalisation.</p></li>
+J. Chem. Phys. <strong>69</strong>, 4678 (1978).
+<a class="reference external" href="https://doi.org/10.1063/1.436421">doi:10.1063/1.436421</a>
+— coupled-channel generalisation of the Numerov solver.</p></li>
 <li><p>W. H. Press, S. A. Teukolsky, W. T. Vetterling, B. P. Flannery,
 <em>Numerical Recipes: The Art of Scientific Computing</em> (3rd ed.,
 Cambridge University Press, 2007). Bulirsch–Stoer integrator and
-modified midpoint method; see <a class="reference internal" href="../theory/integrators.html"><span class="doc">Trajectory Integrators</span></a>.</p></li>
+modified-midpoint method; see <a class="reference internal" href="../theory/integrators.html"><span class="doc">Trajectory Integrators</span></a>.</p></li>
+<li><p>L. Bonnet, J.-C. Rayez,
+<em>Quasiclassical trajectory method for molecular scattering
+processes</em>, Chem. Phys. Lett. <strong>277</strong>, 183–190 (1997).
+<a class="reference external" href="https://doi.org/10.1016/S0009-2614(97)00881-6">doi:10.1016/S0009-2614(97)00881-6</a>
+— Gaussian-binning correction for final-state quantisation. Not
+yet implemented in CoarseAIR, tracked on
+<a class="reference internal" href="../developer/roadmap.html"><span class="doc">Development Roadmap</span></a>.</p></li>
 </ul>
 </section>
 <section id="potential-energy-surfaces">
 <h2>Potential energy surfaces<a class="headerlink" href="#potential-energy-surfaces" title="Link to this heading"></a></h2>
-<p>When citing CoarseAIR runs, please also cite the original PES
-reference for the surface actually used. A non-exhaustive list
-follows; for the full set, look at the headers of the individual
-source files under <code class="docutils literal notranslate"><span class="pre">src/PESs/</span></code>.</p>
-<p><strong>Hydrogen-containing systems</strong></p>
+<p>When citing CoarseAIR runs, please also cite the original PES paper
+for the surface actually used. The list below pairs each CoarseAIR
+PES model name with the paper that introduced it. Where we have a
+confirmed DOI it is linked inline; where not, please file a pull
+request / memo to <code class="docutils literal notranslate"><span class="pre">docs/online-documentation/reference/bibliography.rst</span></code>
+with the missing reference.</p>
+<section id="cno-system">
+<h3>CNO system<a class="headerlink" href="#cno-system" title="Link to this heading"></a></h3>
+<p>The three low-lying electronic surfaces used by the CoarseAIR CNO
+system are the <em>accurate DMBE</em> potential energy surfaces of the
+Varandas / UCI-adjacent group:</p>
 <ul class="simple">
-<li><p>A. I. Boothroyd, W. J. Keogh, P. G. Martin, M. R. Peterson,
-J. Chem. Phys. <strong>104</strong>, 7139 (1996). H<sub>3</sub> BKMP2 surface
-(<code class="docutils literal notranslate"><span class="pre">H3_BH</span></code>).</p></li>
-<li><p>A. I. Boothroyd, P. G. Martin, W. J. Keogh, M. R. Peterson,
-J. Chem. Phys. <strong>116</strong>, 666 (2002). H<sub>4</sub> BMKP surface
-(<code class="docutils literal notranslate"><span class="pre">H4_BMKP</span></code>).</p></li>
-<li><p>A. I. Boothroyd, P. G. Martin, M. R. Peterson,
-J. Chem. Phys. <strong>119</strong>, 3187 (2003). H<sub>2</sub> + He
-(<code class="docutils literal notranslate"><span class="pre">H2He_BMPmod</span></code>).</p></li>
+<li><p><strong>CNO</strong> <span class="math notranslate nohighlight">\({}^{2}A'\)</span> <strong>(</strong><code class="docutils literal notranslate"><span class="pre">CNO_UCI_2A1</span></code><strong>)</strong> —
+Mota, Caridade, Varandas,
+<em>Accurate DMBE potential energy surface for CNO</em>(<span class="math notranslate nohighlight">\({}^{2}A'\)</span>),
+J. Phys. Chem. A <strong>122</strong> (23), 5173–5180 (2018).
+<a class="reference external" href="https://pubs.acs.org/doi/10.1021/acs.jpca.8b01881">doi:10.1021/acs.jpca.8b01881</a></p></li>
+<li><p><strong>CNO</strong> <span class="math notranslate nohighlight">\({}^{2}A''\)</span> <strong>(</strong><code class="docutils literal notranslate"><span class="pre">CNO_UCI_2A2</span></code><strong>)</strong> —
+Mota, Varandas and co-workers,
+<em>Accurate DMBE potential energy surface for CNO</em>(<span class="math notranslate nohighlight">\({}^{2}A''\)</span>),
+J. Chem. Phys. <strong>154</strong>, 034303 (2021).
+<a class="reference external" href="https://pubs.aip.org/aip/jcp/article/154/3/034303/199924/Accurate-DMBE-potential-energy-surface-for-CNO-2A">doi:10.1063/5.0039691</a></p></li>
+<li><p><strong>CNO</strong> <span class="math notranslate nohighlight">\({}^{4}A''\)</span> <strong>(</strong><code class="docutils literal notranslate"><span class="pre">CNO_UCI_4A2</span></code><strong>)</strong> —
+Varandas and co-workers,
+<em>High-accuracy DMBE potential energy surface for</em>
+<span class="math notranslate nohighlight">\({}^{4}A''\)</span> <em>CNO</em>,
+J. Chem. Phys. <strong>159</strong>, 214307 (2023).
+<a class="reference external" href="https://pubs.aip.org/aip/jcp/article/159/21/214307/2926417/High-accuracy-DMBE-potential-energy-surface-for">doi:10.1063/5.0174547</a></p></li>
 </ul>
-<p><strong>Nitrogen systems</strong></p>
+</section>
+<section id="hydrogen-containing-systems">
+<h3>Hydrogen-containing systems<a class="headerlink" href="#hydrogen-containing-systems" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p>NASA N<sub>3</sub>, N<sub>4</sub> surfaces: Jaffe and co-workers.</p></li>
-<li><p>UMN N<sub>3</sub> / N<sub>4</sub> / N<sub>2</sub>O surfaces: Truhlar and
-co-workers (PIP, PIPNN, PIP-MEG forms).</p></li>
+<li><p><strong>H</strong><sub>3</sub> <strong>BKMP2 (</strong><code class="docutils literal notranslate"><span class="pre">H3_BH</span></code><strong>)</strong> — A. I. Boothroyd,
+W. J. Keogh, P. G. Martin, M. R. Peterson,
+<em>A refined H:sub:`3` potential energy surface</em>,
+J. Chem. Phys. <strong>104</strong>, 7139 (1996).</p></li>
+<li><p><strong>H</strong><sub>4</sub> <strong>BMKP (</strong><code class="docutils literal notranslate"><span class="pre">H4_BMKP</span></code><strong>)</strong> —
+A. I. Boothroyd, P. G. Martin, W. J. Keogh, M. R. Peterson,
+<em>An accurate analytic H:sub:`4` potential energy surface</em>,
+J. Chem. Phys. <strong>116</strong>, 666 (2002).</p></li>
+<li><p><strong>H</strong><sub>2</sub> <strong>+ He BMP / BMPmod (</strong><code class="docutils literal notranslate"><span class="pre">H2He_BMPmod</span></code><strong>)</strong> —
+A. I. Boothroyd, P. G. Martin, M. R. Peterson, <em>Accurate
+analytic He–H</em><sub>2</sub> <em>potential</em>, J. Chem. Phys. <strong>119</strong>, 3187
+(2003).</p></li>
 </ul>
-<p><strong>Oxygen systems</strong></p>
+</section>
+<section id="nitrogen-systems">
+<h3>Nitrogen systems<a class="headerlink" href="#nitrogen-systems" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p>UMN O<sub>3</sub> surfaces (nine electronic states): Varga, Paukku,
-Truhlar.</p></li>
-<li><p>UMN O<sub>4</sub> surface: Paukku, Yang, Varga, Truhlar.</p></li>
-<li><p>Varandas O<sub>2</sub> diatomic: Varandas and co-workers.</p></li>
+<li><p><strong>N</strong><sub>3</sub> <strong>NASA (</strong><code class="docutils literal notranslate"><span class="pre">N3_NASA</span></code><strong>)</strong> —
+M. Panesi, R. L. Jaffe, D. W. Schwenke, T. E. Magin,
+<em>Rovibrational internal energy transfer and dissociation of
+N</em><sub>2</sub> (<span class="math notranslate nohighlight">\(^{1}\Sigma^{+}_{g}\)</span>) + <em>N</em>(<span class="math notranslate nohighlight">\(^{4}S\)</span>)
+<em>system in hypersonic flows</em>, J. Chem. Phys. <strong>138</strong>, 044312 (2013).
+<a class="reference external" href="https://doi.org/10.1063/1.4774412">doi:10.1063/1.4774412</a></p></li>
+<li><p><strong>N</strong><sub>3</sub> <strong>UMN / UMN_MBPIPMEG</strong> —
+Z. Varga, Y. Paukku, D. G. Truhlar and co-workers, N<sub>2</sub>–N
+triplet surfaces using Mixed Exponential Gaussian and
+permutation-invariant polynomial forms (University of Minnesota).</p></li>
+<li><p><strong>N</strong><sub>4</sub> <strong>NASA / UMN / UMN_PIPNN</strong> — UMN neural-network
+training of the four-body N<sub>2</sub>–N<sub>2</sub> surface.</p></li>
+<li><p><strong>N</strong><sub>2</sub><strong>O Basel / UMN</strong> — Meuwly group (Basel) and
+Truhlar group (UMN) three-body surfaces for the Zel’dovich
+reaction.</p></li>
 </ul>
-<p><strong>Carbon-containing systems</strong></p>
+</section>
+<section id="oxygen-systems">
+<h3>Oxygen systems<a class="headerlink" href="#oxygen-systems" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p>NASA CO<sub>2</sub> / CO-Ar surfaces: Schwenke, Jaffe.</p></li>
-<li><p>Basel CNO / NO<sub>2</sub> / CO<sub>2</sub> / N<sub>2</sub>O surfaces:
-Meuwly and co-workers.</p></li>
-<li><p>UCI CNO surfaces: University of California, Irvine group.</p></li>
-<li><p>UIUC / GUO CHN surfaces: Illinois / Guo groups.</p></li>
+<li><p><strong>O</strong><sub>3</sub> <strong>UMN — 9 electronic surfaces</strong> —
+Z. Varga, Y. Paukku, D. G. Truhlar,
+<em>Potential energy surfaces for O + O</em><sub>2</sub> <em>collisions</em>,
+series of papers (2017–2019) covering the
+1<sup>1</sup>A’, 1<sup>1</sup>A’’, 3A’, 3A’’, 5A’, 5A’’,
+2<sup>1</sup>A’, 2<sup>3</sup>A’, 2<sup>5</sup>A’ manifold.</p></li>
+<li><p><strong>O</strong><sub>3</sub> <strong>NN / BNN / GP</strong> — neural-network, Bayesian-NN,
+and Gaussian-process regressions of the UMN ab-initio data,
+Venturi, Jaffe, Panesi (HERMES group, 2020 — see CoarseAIR
+foundations above).</p></li>
+<li><p><strong>O</strong><sub>4</sub> <strong>UMN</strong> — Paukku, Yang, Varga, Truhlar four-body
+O<sub>4</sub> surface (UMN).</p></li>
 </ul>
+</section>
+<section id="carbon-containing-systems">
+<h3>Carbon-containing systems<a class="headerlink" href="#carbon-containing-systems" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>CO</strong><sub>2</sub> <strong>NASA / Basel</strong> — Schwenke and Jaffe (NASA Ames)
+and Meuwly (Basel) three-body surfaces for C + O<sub>2</sub> / O +
+CO kinetics.</p></li>
+<li><p><strong>CO + Ar NASA</strong> — Schwenke and Jaffe non-reactive CO–Ar surface.</p></li>
+<li><p><strong>CHN UIUC / GUO</strong> — Illinois and Guo (UNM) surfaces for C + HN /
+H + CN / N + CH reactive kinetics.</p></li>
+<li><p><strong>NO</strong><sub>2</sub> <strong>UMN / Basel</strong> — UMN and Meuwly three-body
+surfaces for NO<sub>2</sub> kinetics, with 2<sup>2,4</sup>A’,
+2<sup>2,4</sup>A’’ manifold.</p></li>
+</ul>
+</section>
 </section>
 <section id="source-code-review">
 <h2>Source-code review<a class="headerlink" href="#source-code-review" title="Link to this heading"></a></h2>
@@ -489,19 +581,21 @@ statistics.</p></li>
 <section id="recommended-reading">
 <h2>Recommended reading<a class="headerlink" href="#recommended-reading" title="Link to this heading"></a></h2>
 <ul class="simple">
+<li><p>M. Karplus, R. N. Porter, R. D. Sharma,
+<em>Exchange Reactions with Activation Energy. I. Simple Barrier
+Potential for (H, H</em><sub>2</sub><em>)</em>,
+J. Chem. Phys. <strong>43</strong>, 3259 (1965).
+<a class="reference external" href="https://doi.org/10.1063/1.1697301">doi:10.1063/1.1697301</a>
+— the founding paper of the QCT method.</p></li>
 <li><p>D. G. Truhlar, J. T. Muckerman,
 <em>Reactive Scattering Cross Sections: Quasiclassical and
 Semiclassical Methods</em>, in <em>Atom–Molecule Collision Theory</em>,
-R. B. Bernstein (Ed.), Plenum (1979).</p></li>
-<li><p>L. Bonnet, J.-C. Rayez,
-<em>Quasiclassical trajectory method for molecular scattering
-processes</em>, Chem. Phys. Lett. <strong>277</strong>, 183–190 (1997).
-Gaussian binning correction (not yet implemented in CoarseAIR).</p></li>
-<li><p>M. Panesi, R. L. Jaffe, D. W. Schwenke, T. E. Magin,
-<em>Rovibrational internal energy transfer and dissociation of
-N:sub:`2` (1Σ) + N(4S) system in hypersonic flows</em>,
-J. Chem. Phys. <strong>138</strong>, 044312 (2013). The N + N<sub>2</sub> rate
-database that shaped the CoarseAIR design.</p></li>
+R. B. Bernstein (Ed.), Plenum (1979) — standard textbook treatment.</p></li>
+<li><p>R. E. Langer,
+<em>On the Connection Formulas and the Solutions of the Wave
+Equation</em>, Phys. Rev. <strong>51</strong>, 669 (1937) — origin of the
+<span class="math notranslate nohighlight">\(\ell(\ell+1) \to (\ell + \tfrac{1}{2})^{2}\)</span> correction used
+throughout CoarseAIR.</p></li>
 </ul>
 </section>
 </section>

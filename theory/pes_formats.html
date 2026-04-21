@@ -106,11 +106,15 @@
 <p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="qct.html">Quasi-Classical Trajectories</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#classical-limit-approximation">Classical-limit approximation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#coordinates-and-pair-numbering">Coordinates and pair numbering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#hamiltonian">Hamiltonian</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#per-trajectory-pipeline">Per-trajectory pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#historical-context-and-code-lineage">Historical context and code lineage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#the-bornoppenheimer-surface-and-the-classical-limit">The Born–Oppenheimer surface and the classical limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#regime-of-validity">Regime of validity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#jacobi-coordinates-and-reduced-masses">Jacobi coordinates and reduced masses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#pair-numbering-convention">Pair numbering convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#hamiltonian-and-canonical-equations-of-motion">Hamiltonian and canonical equations of motion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#semi-classical-quantisation-at-the-boundaries">Semi-classical quantisation at the boundaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#per-trajectory-runtime-pipeline">Per-trajectory runtime pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#what-coarseair-does-not-do-in-the-adiabatic-pipeline">What CoarseAIR does <em>not</em> do in the adiabatic pipeline</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="level_generation.html">Level Generation (Numerov method)</a><ul>
@@ -132,6 +136,7 @@
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#relative-velocity-decomposition">Relative-velocity decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#orientation-sampling-euler-angles">Orientation sampling (Euler angles)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#electronic-surface-index-ipes">Electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="integrators.html">Trajectory Integrators</a><ul>
@@ -141,6 +146,7 @@
 <li class="toctree-l2"><a class="reference internal" href="integrators.html#convergence-criteria">Convergence criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="integrators.html#energy-conservation-diagnostic">Energy-conservation diagnostic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="integrators.html#alternative-integrators">Alternative integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrators.html#numerical-analysis-of-the-bulirschstoer-scheme">Numerical analysis of the Bulirsch–Stoer scheme</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">PES Formats</a><ul>
@@ -150,6 +156,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#diatomic-pair-potentials">Diatomic pair potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multi-surface-handling">Multi-surface handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-new-pes">Adding a new PES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#functional-form-details">Functional-form details</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="arrangement_classification.html">Arrangement Classification</a><ul>
@@ -159,6 +166,7 @@
 <li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#step-4-classify-the-process">Step 4 — Classify the process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#indistinguishable-atom-systems">Indistinguishable-atom systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#common-pitfalls">Common pitfalls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="rate_extraction.html">Rate &amp; Cross-Section Extraction</a><ul>
@@ -167,6 +175,7 @@
 <li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#thermal-rate-coefficient">Thermal rate coefficient</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#state-to-state-grouped-and-arrhenius-outputs">State-to-state, grouped, and Arrhenius outputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#complementarity-and-mass-balance-checks">Complementarity and mass-balance checks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 </ul>
@@ -309,7 +318,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#coarseair-foundations">CoarseAIR foundations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#numerical-methods">Numerical methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#cno-system">CNO system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#hydrogen-containing-systems">Hydrogen-containing systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#nitrogen-systems">Nitrogen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#oxygen-systems">Oxygen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#carbon-containing-systems">Carbon-containing systems</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#source-code-review">Source-code review</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#recommended-reading">Recommended reading</a></li>
 </ul>
@@ -349,11 +365,14 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#current-contents-of-test">Current contents of <code class="docutils literal notranslate"><span class="pre">test/</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#how-to-run-the-regression">How to run the regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#planned-ci-suite">Planned CI suite</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#adding-a-new-regression-test">Adding a new regression test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#manual-regression-checklist">Manual regression checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#layout">Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#generating-refreshing-the-references">Generating / refreshing the references</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#tolerance-policy">Tolerance policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#disabling-the-tests">Disabling the tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#typical-output">Typical output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/roadmap.html">Development Roadmap</a><ul>
@@ -554,6 +573,73 @@ selectable from any input file for that system.</p></li>
 </ol>
 <p>A step-by-step walkthrough with a worked example is in
 <a class="reference internal" href="../developer/adding_a_system.html"><span class="doc">Adding a New Collision System</span></a>.</p>
+</section>
+<section id="functional-form-details">
+<h2>Functional-form details<a class="headerlink" href="#functional-form-details" title="Link to this heading"></a></h2>
+<p><strong>Mixed Exponential Gaussian (MEG) basis.</strong> UMN surfaces for
+O<sub>3</sub>, O<sub>4</sub>, N<sub>3</sub>, N<sub>4</sub> write the
+many-body contribution <span class="math notranslate nohighlight">\(V^{(N)}\)</span> as a polynomial in the
+Morse-like variables</p>
+<div class="math notranslate nohighlight">
+\[y_{ij} \;=\; e^{-\alpha (R_{ij} - R_{ij}^{\text{ref}})}\,
+             e^{-(R_{ij} - R_{ij}^{\text{ref}})^{2}/\beta^{2}},\]</div>
+<p>with the exponent producing the correct long-range decay and the
+Gaussian factor damping the variable at short range. The full
+many-body potential is a symmetric polynomial in the
+<span class="math notranslate nohighlight">\(\{y_{ij}\}\)</span> up to some degree (typically 6–9), with 50–200
+expansion coefficients fitted to ab-initio data. The MEG variables
+enter the PES code under <code class="docutils literal notranslate"><span class="pre">src/PESs/</span></code> as the <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">ab</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ra</span></code>, <code class="docutils literal notranslate"><span class="pre">rb</span></code> parameters of each <code class="docutils literal notranslate"><span class="pre">X_UMN_PES_Class.F90</span></code>.</p>
+<p><strong>Permutation-Invariant Polynomials (PIP).</strong> For a system with
+<span class="math notranslate nohighlight">\(n\)</span> identical atoms (H<sub>3</sub>, N<sub>4</sub>, O<sub>4</sub>),
+the PES must be invariant under every permutation of those atoms’
+labels. A general polynomial in the inter-atomic distances is
+<em>not</em> invariant; PIPs are constructed as symmetric polynomial
+generators — i.e. products of elementary symmetric polynomials in
+the MEG variables — so that every basis function is already
+permutation-symmetric. The N<sub>4</sub> <code class="docutils literal notranslate"><span class="pre">UMN_PIPNN</span></code> surface
+combines a PIP layer with an NN regression on top, preserving the
+permutation symmetry exactly in the learned representation.</p>
+<p><strong>Neural-network forward pass.</strong> The generic <code class="docutils literal notranslate"><span class="pre">NN_PES_Type</span></code>
+implements a two-hidden-layer feed-forward network</p>
+<div class="math notranslate nohighlight">
+\[V(\mathbf{Q}) \;=\;
+   \mathbf{W}_3\,
+   \tanh\!\bigl(\mathbf{W}_2\,
+      \tanh(\mathbf{W}_1\,\mathbf{x} + \mathbf{b}_1) + \mathbf{b}_2
+   \bigr)
+   \;+\; \mathbf{b}_3,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is the vector of normalised bond-order
+input features. The gradient <span class="math notranslate nohighlight">\(\partial V / \partial \mathbf{Q}\)</span>
+is computed analytically by backpropagation (not by finite
+differences), so <code class="docutils literal notranslate"><span class="pre">Compute_0d</span></code> returns exact derivatives at
+machine precision. Weights and biases are read from the
+<code class="docutils literal notranslate"><span class="pre">dtb/Systems/&lt;Sys&gt;/NN/</span></code> directory at initialisation.</p>
+<p><strong>Bayesian NN ensembles.</strong> The <code class="docutils literal notranslate"><span class="pre">BNN</span></code> variants stack up to 300
+independent NN samples drawn from the posterior over weights
+(trained offline by the HERMES uncertainty-quantification tooling).
+The mean surface is used for trajectory propagation; the spread
+across the ensemble is the per-point PES uncertainty, consumed by
+the MATLAB UQ pipeline under <code class="docutils literal notranslate"><span class="pre">extra/MCoarseAIR/</span></code>. The runtime
+cost scales linearly in the number of samples, so production BNN
+runs typically limit the ensemble size to 50.</p>
+<p><strong>Gaussian process kernels.</strong> The <code class="docutils literal notranslate"><span class="pre">GP_PES_Type</span></code> evaluates</p>
+<div class="math notranslate nohighlight">
+\[V(\mathbf{Q}) \;=\; \sum_{i=1}^{N_{\text{train}}}
+                    \alpha_i\,k(\mathbf{Q}, \mathbf{Q}_i),\]</div>
+<p>with <span class="math notranslate nohighlight">\(k\)</span> a squared-exponential or Matérn-5/2 kernel over the
+inter-atomic distances. The weights <span class="math notranslate nohighlight">\(\alpha_i\)</span> are
+pre-computed from the training set so runtime inference is a simple
+weighted sum; the gradient is the kernel derivative, also available
+in closed form. The three O<sub>3</sub> GP variants shipped in
+<code class="docutils literal notranslate"><span class="pre">dtb/Systems/O3/GP/</span></code> differ in the assumed ab-initio noise level
+and the kernel length-scale.</p>
+<p><strong>Dummy (non-reactive) diatomic potentials.</strong> For CO–Ar and
+H<sub>2</sub>–He the “extra” atom-pair potentials are set to a
+purely-repulsive short-range form that never supports a bound
+state, so the classifier can never assign an AB-fragment that
+includes the inert atom. Used to represent inert collision
+partners without requiring a full three-body PES fit.</p>
 </section>
 </section>
 

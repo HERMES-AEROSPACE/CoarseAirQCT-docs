@@ -1,122 +1,204 @@
 Regression Tests
 ================
 
-CoarseAIR ships with a small reference-result directory under ``test/``
-that enables a head-to-head regression comparison against its
-predecessor, David Schwenke's VVTC code, on the N + N\ :sub:`2` system.
-This page describes the current regression pathway and the improvements
-planned before merging a more complete CI suite.
+CoarseAIR ships with a lightweight, deterministic trajectory-level
+regression suite under ``test/``. The goal is narrow but useful: run
+a handful of trajectories on every supported collision system with a
+fixed RNG seed, and compare the resulting trajectory output against a
+checked-in reference. Any change — byte-for-byte within tolerance —
+flags a regression. Designed to run in well under 10 minutes on a
+modern workstation, so it can be invoked after every recompile.
+
+**The suite is opt-in.** The build system never invokes it
+automatically; ``bash test/regression.sh`` is a developer-facing
+command.
 
 
-Current contents of ``test/``
------------------------------
+Layout
+------
 
 .. code-block:: text
 
    test/
-   ├── CompareToVVTC_N3.m      MATLAB comparison script
-   └── ResultsVVTC_N3/         VVTC reference N3 rate coefficients
+   ├── README.md                    summary and usage
+   ├── regression.sh                main driver (bash)
+   ├── compare.py                   trajectory comparison tool (Python)
+   ├── .gitignore                   ignores test/scratch/
+   └── systems/
+       ├── CHN/
+       │   ├── config.sh            per-system overrides
+       │   └── reference/
+       │       └── trajectories.csv reference output (committed)
+       ├── CNO/
+       ├── …                        one directory per system
+       └── O4/
 
-``CompareToVVTC_N3.m`` is a MATLAB script that:
+Each ``config.sh`` specifies the production input file to use as a
+template and the overrides applied at run time:
 
-1. Loads CoarseAIR N3 rate output from a user-pointed run directory.
-2. Loads the VVTC reference tables from ``ResultsVVTC_N3/``.
-3. Plots side-by-side excitation functions and thermal rate
-   coefficients, with Monte-Carlo error bars on the CoarseAIR side.
+.. code-block:: bash
 
-Success criterion: agreement within Monte-Carlo statistical error
-across the :math:`(v, J)` table and across the temperature grid.
-Bit-for-bit equality is *not* expected because VVTC uses a different
-Bulirsch-Stoer variant and a slightly different trajectory-batching
-strategy.
+   SOURCE_INPUT_DIR="input/N3/NASA/input"
+   SOURCE_INPUT_FILE="CoarseAIR.inp"
+   SEED=42
+   N_TRAJECTORIES=10
+   STARTING_LEVEL=1
+   FINAL_LEVEL=1
 
+The runner copies that input into a scratch directory
+(``test/scratch/<SYSTEM>/``) and applies a standardised set of
+overrides via a Python sed helper:
 
-How to run the regression
--------------------------
+- ``Database Path`` — pinned to the in-tree ``dtb/``.
+- ``Generating / Preprocessing / Running / Postprocessing`` flags
+  — only the trajectory stage runs.
+- ``Initial Random Nb Seed`` — pinned to the seed from ``config.sh``
+  (no clock-based seeding).
+- ``Nb of Trajectories per Level / Bin`` — pinned to 10.
+- ``Starting Level`` / ``Final Level`` for molecule 1 — pinned to 1
+  so exactly one starting level is exercised.
 
-1. Run CoarseAIR on the N3 system at the VVTC reference temperatures
-   with enough trajectories for tight error bars (≈ :math:`10^5`
-   trajectories per initial level is typical). Template:
-   ``input/N3/NASA/input/``.
-2. Post-process to produce ``Proc*.csv`` (see
-   :doc:`/user/postprocessing`).
-3. Open MATLAB, add ``test/`` to the path, and run ``CompareToVVTC_N3``
-   with the path to your CoarseAIR run directory.
-4. Inspect the produced plots. A successful regression overlays
-   CoarseAIR rates on top of the VVTC reference curves with agreement
-   within the plotted error bars.
+The production input on disk is **never** mutated.
 
 
-Planned CI suite
+Usage
+-----
+
+From the repository root:
+
+.. code-block:: bash
+
+   # Run the whole suite:
+   bash test/regression.sh
+
+   # Run only one system:
+   bash test/regression.sh --only N3
+
+   # Run several systems:
+   bash test/regression.sh --only H3 N3 O3
+
+   # Looser tolerance for cross-compiler runs:
+   bash test/regression.sh --tolerance 1e-5
+
+   # Verbose (show CoarseAIR stdout/stderr):
+   bash test/regression.sh --verbose
+
+Exit code is 0 if every test passes, 1 if any fail.
+
+
+Generating / refreshing the references
+--------------------------------------
+
+The first time the suite is run, the reference files don't exist yet
+and each system reports ``SKIP  <SYS>  (no reference — run with
+--update to generate)``. To populate them, run:
+
+.. code-block:: bash
+
+   bash test/regression.sh --update
+
+Review the produced ``test/systems/<SYSTEM>/reference/trajectories.csv``
+files, commit them, and future runs will compare against them.
+
+The same command is used after any intentional numerical change
+(PES bug fix, sampler improvement, integrator upgrade) — re-run with
+``--update`` once the build is known-good and commit the refreshed
+references with a clear note on *why* the numerics changed.
+
+
+Tolerance policy
 ----------------
 
-The full list of regression tests we want running on each push
-(tracked in :doc:`roadmap`):
+The trajectory file has 10 columns (see
+:doc:`/user/postprocessing`). The comparator applies:
 
-- **Build check** — ``COARSEAIR_INSTALL`` finishes without errors on
-  the CI image.
-- **H\ :sub:`3` smoke test** — a ≈ 10-minute run on the BKMP2 PES that
-  verifies levels are generated, trajectories integrate, and rates
-  are produced in the expected file layout. This is the fastest
-  end-to-end sanity check.
-- **N3 rate regression** — a short but statistically meaningful run
-  against a checked-in CoarseAIR reference (not VVTC — the reference
-  is a prior well-converged CoarseAIR result, so the tolerance can be
-  tight).
-- **Multi-surface dispatch test** — an O3 smoke run with 3 of the 9
-  surfaces active, asserting that ``iPES`` is written correctly to
-  the trajectory output and that per-surface counts roughly match
-  the degeneracy weights.
-- **Energy-conservation diagnostic** — assert that fewer than a
-  user-set fraction (e.g. 1 %) of trajectories exceed the tolerance.
-- **Sum-rule check** — assert
-  :math:`\sum_J \sigma_J \simeq \pi b_{\max}^2` within statistical
-  error on an H3 run.
-- **Sphinx doc build** — ``make html`` with ``-W`` passes (already
-  enforced by the docs deployment workflow).
+- **Exact match** for the six integer columns (trajectory index,
+  PES index, initial :math:`v / J`, initial and final arrangement
+  codes).
+- **Relative tolerance** (default :math:`10^{-8}`, configurable via
+  ``--tolerance``) for the four float columns (:math:`b_{\max}`,
+  :math:`b_i`, :math:`v_f`, :math:`J_f`).
+
+Default :math:`10^{-8}` is tight enough to catch real bugs while
+remaining robust to unavoidable last-bit FP drift on the same compiler.
+Loosen for cross-compiler comparisons; tighten for bit-for-bit
+checks.
 
 
-Adding a new regression test
-----------------------------
+Disabling the tests
+-------------------
 
-The proposed structure (not yet in place; tracked on the roadmap):
+Three mechanisms:
+
+1. **Don't run the script.** The build never invokes it.
+2. **Environment variable.** Set ``COARSEAIR_SKIP_TESTS=1``. The
+   runner detects this and exits 0 immediately without running any
+   system.
+3. **Per-system skip.** To temporarily skip one system without
+   removing its config, delete that system's
+   ``reference/trajectories.csv`` — the runner reports
+   ``SKIP  <SYS>  (no reference)``.
+
+
+Typical output
+--------------
+
+A successful run looks like:
 
 .. code-block:: text
 
-   test/
-   ├── smoke_h3/
-   │   ├── input/                  minimal input
-   │   ├── reference/Proc_*.csv    checked-in reference rates
-   │   └── run_and_compare.sh      driver script
-   ├── smoke_n3/
-   │   ├── ...
-   └── smoke_o3_multisurface/
-       ├── ...
+   PASS  test/scratch/CHN/.../trajectories.csv       (10 trajectories)
+   PASS  test/scratch/CNO/.../trajectories.csv       (10 trajectories)
+   PASS  test/scratch/CO2/.../trajectories.csv       (10 trajectories)
+   …
+   PASS  test/scratch/O4/.../trajectories.csv        (10 trajectories)
 
-Each test should be:
+   === regression summary ===
+     passed: 15
+     failed: 0
 
-- Small enough to finish in ~10 minutes on a single modern core.
-- Deterministic (fixed RNG seed, no clock-based seeding).
-- Self-describing (a short README per test explaining what is being
-  checked and the tolerance).
+A regression is flagged on stderr with the column, row, and magnitude
+of the first discrepancy:
 
-Contributions along these lines are welcome. Open an issue on
-https://github.com/HERMES-AEROSPACE/CoarseAirQCT/issues before
-starting work so the reference-data layout can be agreed in advance.
+.. code-block:: text
+
+   FAIL  test/scratch/O3/.../trajectories.csv
+      col 8 (float, rtol=1.0e-08): 3 mismatch(es); first at row 2:
+      actual=1.234567890123e+01 expected=1.234567891234e+01
+      (abs=1.111e-07, rel=9.000e-09)
 
 
-Manual regression checklist
----------------------------
+What it does and does not catch
+-------------------------------
 
-Pending CI, the following manual checks should be run before any
-non-trivial release:
+Caught by this suite (among others):
 
-- [ ] H + H\ :sub:`2` thermal rates at 1 000 / 5 000 / 10 000 K agree
-  with published literature to within the PES uncertainty.
-- [ ] N + N\ :sub:`2` dissociation rates at 10 000 / 20 000 K agree
-  with the Panesi/Jaffe/Schwenke reference (see :doc:`/reference/bibliography`)
-  to within statistical error.
-- [ ] Detailed balance holds at the 2 σ level across a representative
-  sample of forward/reverse pairs.
-- [ ] Running the same input twice with the same RNG seed produces
-  identical output.
+- PES gradient bug changing the trajectory path.
+- Integrator refactoring that shifts timestep selection.
+- Initial-state sampler change that reorders trajectories.
+- Coordinate-transformation bug in the Jacobi setup.
+- Arrangement-classification change.
+
+Not directly caught (need dedicated tests elsewhere):
+
+- Rate-extraction bugs (post-processing is not exercised).
+- Level-generation bugs (levels are read from the pre-computed
+  database).
+- Cluster/scheduler-related bugs (local runs only).
+- Compiler-induced FP drift beyond the tolerance.
+
+For rate-extraction regression tests specifically, add a follow-up
+stage that runs ``coarseair-trajectoriesstats.x`` and
+``coarseair-posttrajectories.x`` on the trajectory output and
+compares the resulting rate files; see the roadmap in
+:doc:`roadmap`.
+
+
+Historical note: the VVTC comparison
+------------------------------------
+
+The previous ``test/`` directory contained ``CompareToVVTC_N3.m``
+and reference CSVs from David Schwenke's VVTC code. Those files
+have been removed — their manual MATLAB-driven comparison has been
+superseded by the automated multi-system suite described above. Git
+history preserves them if needed for reference.

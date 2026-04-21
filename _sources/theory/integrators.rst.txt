@@ -176,3 +176,86 @@ construction but deliver worse final-state accuracy at the same cost for
 the strongly anharmonic potentials CoarseAIR targets. Benchmarks of the
 available integrators on H\ :sub:`3` and N\ :sub:`3` are planned for a
 future revision of this documentation.
+
+
+Numerical analysis of the Bulirsch–Stoer scheme
+-----------------------------------------------
+
+**Why the modified midpoint?** For the smooth ODE
+:math:`\dot y = f(y)`, the modified midpoint scheme on a sub-interval
+:math:`[0, H]` with :math:`n` sub-steps :math:`h = H/n` produces
+
+.. math::
+
+   y_0, \quad y_1 = y_0 + h\,f(y_0), \quad
+   y_{m+1} = y_{m-1} + 2h\,f(y_m), \quad m = 1, \dots, n - 1,
+
+followed by the smoothing step
+:math:`\bar y_n = \tfrac{1}{2}[y_n + y_{n-1} + h\,f(y_n)]`. The
+smoothed result :math:`\bar y_n(H; h)` has the remarkable property
+that its Taylor expansion in :math:`h` contains only **even** powers:
+
+.. math::
+
+   \bar y_n(H; h)
+   \;=\; y_{\text{exact}}(H)
+   \;+\; a_2\,h^{2} + a_4\,h^{4} + a_6\,h^{6} + \dots
+
+This is what lets Richardson-style extrapolation across several
+sub-steppings produce high-order accuracy cheaply — each
+extrapolation eliminates the next even-order error term.
+
+**Rational-polynomial extrapolation.** Given :math:`k` provisional
+endpoints :math:`\{\bar y_n(H; h_i)\}_{i=1}^{k}` at step sizes
+:math:`h_i = H / n_i`, BS fits a **rational function**
+:math:`R(h) = \sum_{j} a_j h^{2j} / (1 + \sum_j b_j h^{2j})` through
+the :math:`k` points and evaluates :math:`R(0)` as the extrapolated
+estimate. Rational fits outperform polynomial fits on near-singular
+problems (close encounters, steep PES gradients) and are the reason
+CoarseAIR tolerates significantly wider step sizes than a fixed-order
+Runge–Kutta would. The extrapolation table is built by the
+Neville-like Bulirsch–Stoer–Nollau recurrence — see the Numerical
+Recipes reference in :doc:`/reference/bibliography`.
+
+**Local error estimate.** The difference between the last two
+extrapolated values,
+:math:`\varepsilon = \|R^{(k)}(0) - R^{(k-1)}(0)\|`, provides a
+built-in estimate of the local extrapolation error. Normalising
+component-wise against the user tolerance
+
+.. math::
+
+   \mathrm{errmax}
+   \;=\; \max_\alpha \left|\frac{\varepsilon_\alpha}
+                                {\text{atol} +
+                                 \text{rtol}\,|y_\alpha|}\right|,
+
+the step is **accepted** when :math:`\mathrm{errmax} < 1` and
+**rejected** otherwise. On acceptance, CoarseAIR enlarges :math:`H`
+for the next step by a factor proportional to
+:math:`\mathrm{errmax}^{-1/(2k+1)}` (capped at a small multiplicative
+growth factor to avoid overshoot); on rejection, :math:`H` is
+halved, the provisional sub-steppings are discarded, and the step
+is retried.
+
+**Order selection.** The cost per step scales with the number of
+function evaluations (each :math:`n_k`-step sub-stepping costs
+:math:`n_k + 1` PES calls) while the achievable accuracy grows
+with the number :math:`k` of sub-steppings used in the
+extrapolation. CoarseAIR hard-codes the sub-stepping sequence
+``nseq = [2, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96]`` and uses up to
+:math:`k = 3` extrapolation levels (``Nb of extrapolation steps``
+input flag), yielding effective methods of order ~6–10 depending
+on where the step-size control settles.
+
+**The PURE attribute and its consequences.** Both ``mmidv`` and
+``HamiltonODESystem`` are declared ``PURE`` — no side effects, no
+modification of module-level state. This buys auto-vectorisation
+over the trajectory batch dimension for free (the compiler can
+unroll the implicit loop across trajectories into SIMD instructions)
+and it also buys thread-safety, but it comes at a cost: surface-
+hopping algorithms that must mutate ``iPES`` during the sub-step
+cannot be implemented inside these routines. CoarseAIR+ therefore
+relaxes the ``PURE`` attribute on one or both of these routines to
+allow an FSSH callback — see the CoarseAIR+ documentation for the
+insertion-point analysis.

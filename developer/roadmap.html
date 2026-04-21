@@ -104,11 +104,15 @@
 <p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../theory/qct.html">Quasi-Classical Trajectories</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#classical-limit-approximation">Classical-limit approximation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#coordinates-and-pair-numbering">Coordinates and pair numbering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#hamiltonian">Hamiltonian</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#per-trajectory-pipeline">Per-trajectory pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#historical-context-and-code-lineage">Historical context and code lineage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#the-bornoppenheimer-surface-and-the-classical-limit">The Born–Oppenheimer surface and the classical limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#regime-of-validity">Regime of validity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#jacobi-coordinates-and-reduced-masses">Jacobi coordinates and reduced masses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#pair-numbering-convention">Pair numbering convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#hamiltonian-and-canonical-equations-of-motion">Hamiltonian and canonical equations of motion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#semi-classical-quantisation-at-the-boundaries">Semi-classical quantisation at the boundaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#per-trajectory-runtime-pipeline">Per-trajectory runtime pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#what-coarseair-does-not-do-in-the-adiabatic-pipeline">What CoarseAIR does <em>not</em> do in the adiabatic pipeline</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/level_generation.html">Level Generation (Numerov method)</a><ul>
@@ -130,6 +134,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/sampling.html#relative-velocity-decomposition">Relative-velocity decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/sampling.html#orientation-sampling-euler-angles">Orientation sampling (Euler angles)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/sampling.html#electronic-surface-index-ipes">Electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/sampling.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/integrators.html">Trajectory Integrators</a><ul>
@@ -139,6 +144,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/integrators.html#convergence-criteria">Convergence criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/integrators.html#energy-conservation-diagnostic">Energy-conservation diagnostic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/integrators.html#alternative-integrators">Alternative integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/integrators.html#numerical-analysis-of-the-bulirschstoer-scheme">Numerical analysis of the Bulirsch–Stoer scheme</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/pes_formats.html">PES Formats</a><ul>
@@ -148,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/pes_formats.html#diatomic-pair-potentials">Diatomic pair potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/pes_formats.html#multi-surface-handling">Multi-surface handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/pes_formats.html#adding-a-new-pes">Adding a new PES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/pes_formats.html#functional-form-details">Functional-form details</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/arrangement_classification.html">Arrangement Classification</a><ul>
@@ -157,6 +164,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/arrangement_classification.html#step-4-classify-the-process">Step 4 — Classify the process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/arrangement_classification.html#indistinguishable-atom-systems">Indistinguishable-atom systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/arrangement_classification.html#common-pitfalls">Common pitfalls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/arrangement_classification.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/rate_extraction.html">Rate &amp; Cross-Section Extraction</a><ul>
@@ -165,6 +173,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/rate_extraction.html#thermal-rate-coefficient">Thermal rate coefficient</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/rate_extraction.html#state-to-state-grouped-and-arrhenius-outputs">State-to-state, grouped, and Arrhenius outputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/rate_extraction.html#complementarity-and-mass-balance-checks">Complementarity and mass-balance checks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/rate_extraction.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 </ul>
@@ -307,7 +316,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#coarseair-foundations">CoarseAIR foundations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#numerical-methods">Numerical methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#cno-system">CNO system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#hydrogen-containing-systems">Hydrogen-containing systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#nitrogen-systems">Nitrogen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#oxygen-systems">Oxygen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#carbon-containing-systems">Carbon-containing systems</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#source-code-review">Source-code review</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#recommended-reading">Recommended reading</a></li>
 </ul>
@@ -347,11 +363,14 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="regression_tests.html">Regression Tests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#current-contents-of-test">Current contents of <code class="docutils literal notranslate"><span class="pre">test/</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#how-to-run-the-regression">How to run the regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#planned-ci-suite">Planned CI suite</a></li>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#adding-a-new-regression-test">Adding a new regression test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#manual-regression-checklist">Manual regression checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#layout">Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#generating-refreshing-the-references">Generating / refreshing the references</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#tolerance-policy">Tolerance policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#disabling-the-tests">Disabling the tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#typical-output">Typical output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Development Roadmap</a><ul>

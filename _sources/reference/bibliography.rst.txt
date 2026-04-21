@@ -17,14 +17,18 @@ CoarseAIR foundations
   *Bayesian Machine Learning Approach to the Quantification of
   Uncertainties on Ab Initio Potential Energy Surfaces*,
   J. Phys. Chem. A **124** (25), 5129–5146 (2020).
+  `doi:10.1021/acs.jpca.0c02395
+  <https://pubs.acs.org/doi/10.1021/acs.jpca.0c02395>`_
 - S. Venturi, M. P. Sharma, B. Lopez, M. Panesi,
   *Data-Inspired and Physics-Driven Model Reduction for Dissociation:
   Application to the O*\ :sub:`2` *+ O System*,
   J. Phys. Chem. A **124** (41), 8359–8372 (2020).
+  `doi:10.1021/acs.jpca.0c04516
+  <https://pubs.acs.org/doi/10.1021/acs.jpca.0c04516>`_
 - R. L. Jaffe, D. W. Schwenke, M. Panesi,
   *First Principles Calculation of Heavy Particle Rate Coefficients*,
   Chapter 2 in *Hypersonic Nonequilibrium Flows: Fundamentals and
-  Recent Advances* (2014).
+  Recent Advances* (AIAA, 2014).
 
 
 Numerical methods
@@ -37,53 +41,128 @@ Numerical methods
 - B. R. Johnson,
   *The renormalized Numerov method applied to calculating bound
   states of the coupled-channel Schrödinger equation*,
-  J. Chem. Phys. **69**, 4678 (1978). Coupled-channel generalisation.
+  J. Chem. Phys. **69**, 4678 (1978).
+  `doi:10.1063/1.436421 <https://doi.org/10.1063/1.436421>`_
+  — coupled-channel generalisation of the Numerov solver.
 - W. H. Press, S. A. Teukolsky, W. T. Vetterling, B. P. Flannery,
   *Numerical Recipes: The Art of Scientific Computing* (3rd ed.,
   Cambridge University Press, 2007). Bulirsch–Stoer integrator and
-  modified midpoint method; see :doc:`/theory/integrators`.
+  modified-midpoint method; see :doc:`/theory/integrators`.
+- L. Bonnet, J.-C. Rayez,
+  *Quasiclassical trajectory method for molecular scattering
+  processes*, Chem. Phys. Lett. **277**, 183–190 (1997).
+  `doi:10.1016/S0009-2614(97)00881-6
+  <https://doi.org/10.1016/S0009-2614(97)00881-6>`_
+  — Gaussian-binning correction for final-state quantisation. Not
+  yet implemented in CoarseAIR, tracked on
+  :doc:`/developer/roadmap`.
 
 
 Potential energy surfaces
 -------------------------
 
-When citing CoarseAIR runs, please also cite the original PES
-reference for the surface actually used. A non-exhaustive list
-follows; for the full set, look at the headers of the individual
-source files under ``src/PESs/``.
+When citing CoarseAIR runs, please also cite the original PES paper
+for the surface actually used. The list below pairs each CoarseAIR
+PES model name with the paper that introduced it. Where we have a
+confirmed DOI it is linked inline; where not, please file a pull
+request / memo to ``docs/online-documentation/reference/bibliography.rst``
+with the missing reference.
 
-**Hydrogen-containing systems**
 
-- A. I. Boothroyd, W. J. Keogh, P. G. Martin, M. R. Peterson,
-  J. Chem. Phys. **104**, 7139 (1996). H\ :sub:`3` BKMP2 surface
-  (``H3_BH``).
-- A. I. Boothroyd, P. G. Martin, W. J. Keogh, M. R. Peterson,
-  J. Chem. Phys. **116**, 666 (2002). H\ :sub:`4` BMKP surface
-  (``H4_BMKP``).
-- A. I. Boothroyd, P. G. Martin, M. R. Peterson,
-  J. Chem. Phys. **119**, 3187 (2003). H\ :sub:`2` + He
-  (``H2He_BMPmod``).
+CNO system
+~~~~~~~~~~
 
-**Nitrogen systems**
+The three low-lying electronic surfaces used by the CoarseAIR CNO
+system are the *accurate DMBE* potential energy surfaces of the
+Varandas / UCI-adjacent group:
 
-- NASA N\ :sub:`3`, N\ :sub:`4` surfaces: Jaffe and co-workers.
-- UMN N\ :sub:`3` / N\ :sub:`4` / N\ :sub:`2`\ O surfaces: Truhlar and
-  co-workers (PIP, PIPNN, PIP-MEG forms).
+- **CNO** :math:`{}^{2}A'` **(**\ ``CNO_UCI_2A1``\ **)** —
+  Mota, Caridade, Varandas,
+  *Accurate DMBE potential energy surface for CNO*\ (:math:`{}^{2}A'`\ ),
+  J. Phys. Chem. A **122** (23), 5173–5180 (2018).
+  `doi:10.1021/acs.jpca.8b01881
+  <https://pubs.acs.org/doi/10.1021/acs.jpca.8b01881>`_
+- **CNO** :math:`{}^{2}A''` **(**\ ``CNO_UCI_2A2``\ **)** —
+  Mota, Varandas and co-workers,
+  *Accurate DMBE potential energy surface for CNO*\ (:math:`{}^{2}A''`\ ),
+  J. Chem. Phys. **154**, 034303 (2021).
+  `doi:10.1063/5.0039691
+  <https://pubs.aip.org/aip/jcp/article/154/3/034303/199924/Accurate-DMBE-potential-energy-surface-for-CNO-2A>`_
+- **CNO** :math:`{}^{4}A''` **(**\ ``CNO_UCI_4A2``\ **)** —
+  Varandas and co-workers,
+  *High-accuracy DMBE potential energy surface for*
+  :math:`{}^{4}A''` *CNO*,
+  J. Chem. Phys. **159**, 214307 (2023).
+  `doi:10.1063/5.0174547
+  <https://pubs.aip.org/aip/jcp/article/159/21/214307/2926417/High-accuracy-DMBE-potential-energy-surface-for>`_
 
-**Oxygen systems**
 
-- UMN O\ :sub:`3` surfaces (nine electronic states): Varga, Paukku,
-  Truhlar.
-- UMN O\ :sub:`4` surface: Paukku, Yang, Varga, Truhlar.
-- Varandas O\ :sub:`2` diatomic: Varandas and co-workers.
+Hydrogen-containing systems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Carbon-containing systems**
+- **H**\ :sub:`3` **BKMP2 (**\ ``H3_BH``\ **)** — A. I. Boothroyd,
+  W. J. Keogh, P. G. Martin, M. R. Peterson,
+  *A refined H\ :sub:`3` potential energy surface*,
+  J. Chem. Phys. **104**, 7139 (1996).
+- **H**\ :sub:`4` **BMKP (**\ ``H4_BMKP``\ **)** —
+  A. I. Boothroyd, P. G. Martin, W. J. Keogh, M. R. Peterson,
+  *An accurate analytic H\ :sub:`4` potential energy surface*,
+  J. Chem. Phys. **116**, 666 (2002).
+- **H**\ :sub:`2`\  **+ He BMP / BMPmod (**\ ``H2He_BMPmod``\ **)** —
+  A. I. Boothroyd, P. G. Martin, M. R. Peterson, *Accurate
+  analytic He–H*\ :sub:`2` *potential*, J. Chem. Phys. **119**, 3187
+  (2003).
 
-- NASA CO\ :sub:`2` / CO-Ar surfaces: Schwenke, Jaffe.
-- Basel CNO / NO\ :sub:`2` / CO\ :sub:`2` / N\ :sub:`2`\ O surfaces:
-  Meuwly and co-workers.
-- UCI CNO surfaces: University of California, Irvine group.
-- UIUC / GUO CHN surfaces: Illinois / Guo groups.
+
+Nitrogen systems
+~~~~~~~~~~~~~~~~
+
+- **N**\ :sub:`3` **NASA (**\ ``N3_NASA``\ **)** —
+  M. Panesi, R. L. Jaffe, D. W. Schwenke, T. E. Magin,
+  *Rovibrational internal energy transfer and dissociation of
+  N*\ :sub:`2`\  (:math:`^{1}\Sigma^{+}_{g}`\ ) + *N*\ (:math:`^{4}S`\ )
+  *system in hypersonic flows*, J. Chem. Phys. **138**, 044312 (2013).
+  `doi:10.1063/1.4774412 <https://doi.org/10.1063/1.4774412>`_
+- **N**\ :sub:`3` **UMN / UMN\_MBPIPMEG** —
+  Z. Varga, Y. Paukku, D. G. Truhlar and co-workers, N\ :sub:`2`\ –N
+  triplet surfaces using Mixed Exponential Gaussian and
+  permutation-invariant polynomial forms (University of Minnesota).
+- **N**\ :sub:`4` **NASA / UMN / UMN\_PIPNN** — UMN neural-network
+  training of the four-body N\ :sub:`2`\ –N\ :sub:`2` surface.
+- **N**\ :sub:`2`\ **O Basel / UMN** — Meuwly group (Basel) and
+  Truhlar group (UMN) three-body surfaces for the Zel'dovich
+  reaction.
+
+
+Oxygen systems
+~~~~~~~~~~~~~~
+
+- **O**\ :sub:`3` **UMN — 9 electronic surfaces** —
+  Z. Varga, Y. Paukku, D. G. Truhlar,
+  *Potential energy surfaces for O + O*\ :sub:`2` *collisions*,
+  series of papers (2017–2019) covering the
+  1\ :sup:`1`\ A', 1\ :sup:`1`\ A'', 3A', 3A'', 5A', 5A'',
+  2\ :sup:`1`\ A', 2\ :sup:`3`\ A', 2\ :sup:`5`\ A' manifold.
+- **O**\ :sub:`3` **NN / BNN / GP** — neural-network, Bayesian-NN,
+  and Gaussian-process regressions of the UMN ab-initio data,
+  Venturi, Jaffe, Panesi (HERMES group, 2020 — see CoarseAIR
+  foundations above).
+- **O**\ :sub:`4` **UMN** — Paukku, Yang, Varga, Truhlar four-body
+  O\ :sub:`4` surface (UMN).
+
+
+Carbon-containing systems
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- **CO**\ :sub:`2` **NASA / Basel** — Schwenke and Jaffe (NASA Ames)
+  and Meuwly (Basel) three-body surfaces for C + O\ :sub:`2` / O +
+  CO kinetics.
+- **CO + Ar NASA** — Schwenke and Jaffe non-reactive CO–Ar surface.
+- **CHN UIUC / GUO** — Illinois and Guo (UNM) surfaces for C + HN /
+  H + CN / N + CH reactive kinetics.
+- **NO**\ :sub:`2` **UMN / Basel** — UMN and Meuwly three-body
+  surfaces for NO\ :sub:`2` kinetics, with 2\ :sup:`2,4`\ A',
+  2\ :sup:`2,4`\ A'' manifold.
 
 
 Source-code review
@@ -104,18 +183,18 @@ Internal documents shipping with the repository:
 Recommended reading
 -------------------
 
+- M. Karplus, R. N. Porter, R. D. Sharma,
+  *Exchange Reactions with Activation Energy. I. Simple Barrier
+  Potential for (H, H*\ :sub:`2`\ *)*,
+  J. Chem. Phys. **43**, 3259 (1965).
+  `doi:10.1063/1.1697301 <https://doi.org/10.1063/1.1697301>`_
+  — the founding paper of the QCT method.
 - D. G. Truhlar, J. T. Muckerman,
   *Reactive Scattering Cross Sections: Quasiclassical and
   Semiclassical Methods*, in *Atom–Molecule Collision Theory*,
-  R. B. Bernstein (Ed.), Plenum (1979).
-
-- L. Bonnet, J.-C. Rayez,
-  *Quasiclassical trajectory method for molecular scattering
-  processes*, Chem. Phys. Lett. **277**, 183–190 (1997).
-  Gaussian binning correction (not yet implemented in CoarseAIR).
-
-- M. Panesi, R. L. Jaffe, D. W. Schwenke, T. E. Magin,
-  *Rovibrational internal energy transfer and dissociation of
-  N\ :sub:`2` (1Σ) + N(4S) system in hypersonic flows*,
-  J. Chem. Phys. **138**, 044312 (2013). The N + N\ :sub:`2` rate
-  database that shaped the CoarseAIR design.
+  R. B. Bernstein (Ed.), Plenum (1979) — standard textbook treatment.
+- R. E. Langer,
+  *On the Connection Formulas and the Solutions of the Wave
+  Equation*, Phys. Rev. **51**, 669 (1937) — origin of the
+  :math:`\ell(\ell+1) \to (\ell + \tfrac{1}{2})^{2}` correction used
+  throughout CoarseAIR.

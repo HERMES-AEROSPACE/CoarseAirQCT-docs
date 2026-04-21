@@ -106,11 +106,15 @@
 <p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../theory/qct.html">Quasi-Classical Trajectories</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#classical-limit-approximation">Classical-limit approximation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#coordinates-and-pair-numbering">Coordinates and pair numbering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#hamiltonian">Hamiltonian</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#per-trajectory-pipeline">Per-trajectory pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#historical-context-and-code-lineage">Historical context and code lineage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#the-bornoppenheimer-surface-and-the-classical-limit">The Born–Oppenheimer surface and the classical limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#regime-of-validity">Regime of validity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#jacobi-coordinates-and-reduced-masses">Jacobi coordinates and reduced masses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#pair-numbering-convention">Pair numbering convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#hamiltonian-and-canonical-equations-of-motion">Hamiltonian and canonical equations of motion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#semi-classical-quantisation-at-the-boundaries">Semi-classical quantisation at the boundaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#per-trajectory-runtime-pipeline">Per-trajectory runtime pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#what-coarseair-does-not-do-in-the-adiabatic-pipeline">What CoarseAIR does <em>not</em> do in the adiabatic pipeline</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/level_generation.html">Level Generation (Numerov method)</a><ul>
@@ -132,6 +136,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/sampling.html#relative-velocity-decomposition">Relative-velocity decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/sampling.html#orientation-sampling-euler-angles">Orientation sampling (Euler angles)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/sampling.html#electronic-surface-index-ipes">Electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/sampling.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/integrators.html">Trajectory Integrators</a><ul>
@@ -141,6 +146,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/integrators.html#convergence-criteria">Convergence criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/integrators.html#energy-conservation-diagnostic">Energy-conservation diagnostic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/integrators.html#alternative-integrators">Alternative integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/integrators.html#numerical-analysis-of-the-bulirschstoer-scheme">Numerical analysis of the Bulirsch–Stoer scheme</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/pes_formats.html">PES Formats</a><ul>
@@ -150,6 +156,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/pes_formats.html#diatomic-pair-potentials">Diatomic pair potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/pes_formats.html#multi-surface-handling">Multi-surface handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/pes_formats.html#adding-a-new-pes">Adding a new PES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/pes_formats.html#functional-form-details">Functional-form details</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/arrangement_classification.html">Arrangement Classification</a><ul>
@@ -159,6 +166,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/arrangement_classification.html#step-4-classify-the-process">Step 4 — Classify the process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/arrangement_classification.html#indistinguishable-atom-systems">Indistinguishable-atom systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/arrangement_classification.html#common-pitfalls">Common pitfalls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/arrangement_classification.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/rate_extraction.html">Rate &amp; Cross-Section Extraction</a><ul>
@@ -167,6 +175,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/rate_extraction.html#thermal-rate-coefficient">Thermal rate coefficient</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/rate_extraction.html#state-to-state-grouped-and-arrhenius-outputs">State-to-state, grouped, and Arrhenius outputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/rate_extraction.html#complementarity-and-mass-balance-checks">Complementarity and mass-balance checks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/rate_extraction.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 </ul>
@@ -309,7 +318,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#coarseair-foundations">CoarseAIR foundations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#numerical-methods">Numerical methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#cno-system">CNO system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#hydrogen-containing-systems">Hydrogen-containing systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#nitrogen-systems">Nitrogen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#oxygen-systems">Oxygen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#carbon-containing-systems">Carbon-containing systems</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#source-code-review">Source-code review</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#recommended-reading">Recommended reading</a></li>
 </ul>
@@ -349,11 +365,14 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Regression Tests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#current-contents-of-test">Current contents of <code class="docutils literal notranslate"><span class="pre">test/</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#how-to-run-the-regression">How to run the regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#planned-ci-suite">Planned CI suite</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#adding-a-new-regression-test">Adding a new regression test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#manual-regression-checklist">Manual regression checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#layout">Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generating-refreshing-the-references">Generating / refreshing the references</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tolerance-policy">Tolerance policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#disabling-the-tests">Disabling the tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#typical-output">Typical output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">Development Roadmap</a><ul>
@@ -392,115 +411,179 @@
              
   <section id="regression-tests">
 <h1>Regression Tests<a class="headerlink" href="#regression-tests" title="Link to this heading"></a></h1>
-<p>CoarseAIR ships with a small reference-result directory under <code class="docutils literal notranslate"><span class="pre">test/</span></code>
-that enables a head-to-head regression comparison against its
-predecessor, David Schwenke’s VVTC code, on the N + N<sub>2</sub> system.
-This page describes the current regression pathway and the improvements
-planned before merging a more complete CI suite.</p>
-<section id="current-contents-of-test">
-<h2>Current contents of <code class="docutils literal notranslate"><span class="pre">test/</span></code><a class="headerlink" href="#current-contents-of-test" title="Link to this heading"></a></h2>
+<p>CoarseAIR ships with a lightweight, deterministic trajectory-level
+regression suite under <code class="docutils literal notranslate"><span class="pre">test/</span></code>. The goal is narrow but useful: run
+a handful of trajectories on every supported collision system with a
+fixed RNG seed, and compare the resulting trajectory output against a
+checked-in reference. Any change — byte-for-byte within tolerance —
+flags a regression. Designed to run in well under 10 minutes on a
+modern workstation, so it can be invoked after every recompile.</p>
+<p><strong>The suite is opt-in.</strong> The build system never invokes it
+automatically; <code class="docutils literal notranslate"><span class="pre">bash</span> <span class="pre">test/regression.sh</span></code> is a developer-facing
+command.</p>
+<section id="layout">
+<h2>Layout<a class="headerlink" href="#layout" title="Link to this heading"></a></h2>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>test/
-├── CompareToVVTC_N3.m      MATLAB comparison script
-└── ResultsVVTC_N3/         VVTC reference N3 rate coefficients
+├── README.md                    summary and usage
+├── regression.sh                main driver (bash)
+├── compare.py                   trajectory comparison tool (Python)
+├── .gitignore                   ignores test/scratch/
+└── systems/
+    ├── CHN/
+    │   ├── config.sh            per-system overrides
+    │   └── reference/
+    │       └── trajectories.csv reference output (committed)
+    ├── CNO/
+    ├── …                        one directory per system
+    └── O4/
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">CompareToVVTC_N3.m</span></code> is a MATLAB script that:</p>
-<ol class="arabic simple">
-<li><p>Loads CoarseAIR N3 rate output from a user-pointed run directory.</p></li>
-<li><p>Loads the VVTC reference tables from <code class="docutils literal notranslate"><span class="pre">ResultsVVTC_N3/</span></code>.</p></li>
-<li><p>Plots side-by-side excitation functions and thermal rate
-coefficients, with Monte-Carlo error bars on the CoarseAIR side.</p></li>
-</ol>
-<p>Success criterion: agreement within Monte-Carlo statistical error
-across the <span class="math notranslate nohighlight">\((v, J)\)</span> table and across the temperature grid.
-Bit-for-bit equality is <em>not</em> expected because VVTC uses a different
-Bulirsch-Stoer variant and a slightly different trajectory-batching
-strategy.</p>
-</section>
-<section id="how-to-run-the-regression">
-<h2>How to run the regression<a class="headerlink" href="#how-to-run-the-regression" title="Link to this heading"></a></h2>
-<ol class="arabic simple">
-<li><p>Run CoarseAIR on the N3 system at the VVTC reference temperatures
-with enough trajectories for tight error bars (≈ <span class="math notranslate nohighlight">\(10^5\)</span>
-trajectories per initial level is typical). Template:
-<code class="docutils literal notranslate"><span class="pre">input/N3/NASA/input/</span></code>.</p></li>
-<li><p>Post-process to produce <code class="docutils literal notranslate"><span class="pre">Proc*.csv</span></code> (see
-<a class="reference internal" href="../user/postprocessing.html"><span class="doc">Post-processing</span></a>).</p></li>
-<li><p>Open MATLAB, add <code class="docutils literal notranslate"><span class="pre">test/</span></code> to the path, and run <code class="docutils literal notranslate"><span class="pre">CompareToVVTC_N3</span></code>
-with the path to your CoarseAIR run directory.</p></li>
-<li><p>Inspect the produced plots. A successful regression overlays
-CoarseAIR rates on top of the VVTC reference curves with agreement
-within the plotted error bars.</p></li>
-</ol>
-</section>
-<section id="planned-ci-suite">
-<h2>Planned CI suite<a class="headerlink" href="#planned-ci-suite" title="Link to this heading"></a></h2>
-<p>The full list of regression tests we want running on each push
-(tracked in <a class="reference internal" href="roadmap.html"><span class="doc">Development Roadmap</span></a>):</p>
-<ul class="simple">
-<li><p><strong>Build check</strong> — <code class="docutils literal notranslate"><span class="pre">COARSEAIR_INSTALL</span></code> finishes without errors on
-the CI image.</p></li>
-<li><p><strong>H:sub:`3` smoke test</strong> — a ≈ 10-minute run on the BKMP2 PES that
-verifies levels are generated, trajectories integrate, and rates
-are produced in the expected file layout. This is the fastest
-end-to-end sanity check.</p></li>
-<li><p><strong>N3 rate regression</strong> — a short but statistically meaningful run
-against a checked-in CoarseAIR reference (not VVTC — the reference
-is a prior well-converged CoarseAIR result, so the tolerance can be
-tight).</p></li>
-<li><p><strong>Multi-surface dispatch test</strong> — an O3 smoke run with 3 of the 9
-surfaces active, asserting that <code class="docutils literal notranslate"><span class="pre">iPES</span></code> is written correctly to
-the trajectory output and that per-surface counts roughly match
-the degeneracy weights.</p></li>
-<li><p><strong>Energy-conservation diagnostic</strong> — assert that fewer than a
-user-set fraction (e.g. 1 %) of trajectories exceed the tolerance.</p></li>
-<li><p><strong>Sum-rule check</strong> — assert
-<span class="math notranslate nohighlight">\(\sum_J \sigma_J \simeq \pi b_{\max}^2\)</span> within statistical
-error on an H3 run.</p></li>
-<li><p><strong>Sphinx doc build</strong> — <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code> with <code class="docutils literal notranslate"><span class="pre">-W</span></code> passes (already
-enforced by the docs deployment workflow).</p></li>
-</ul>
-</section>
-<section id="adding-a-new-regression-test">
-<h2>Adding a new regression test<a class="headerlink" href="#adding-a-new-regression-test" title="Link to this heading"></a></h2>
-<p>The proposed structure (not yet in place; tracked on the roadmap):</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>test/
-├── smoke_h3/
-│   ├── input/                  minimal input
-│   ├── reference/Proc_*.csv    checked-in reference rates
-│   └── run_and_compare.sh      driver script
-├── smoke_n3/
-│   ├── ...
-└── smoke_o3_multisurface/
-    ├── ...
+<p>Each <code class="docutils literal notranslate"><span class="pre">config.sh</span></code> specifies the production input file to use as a
+template and the overrides applied at run time:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">SOURCE_INPUT_DIR</span><span class="o">=</span><span class="s2">&quot;input/N3/NASA/input&quot;</span>
+<span class="nv">SOURCE_INPUT_FILE</span><span class="o">=</span><span class="s2">&quot;CoarseAIR.inp&quot;</span>
+<span class="nv">SEED</span><span class="o">=</span><span class="m">42</span>
+<span class="nv">N_TRAJECTORIES</span><span class="o">=</span><span class="m">10</span>
+<span class="nv">STARTING_LEVEL</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">FINAL_LEVEL</span><span class="o">=</span><span class="m">1</span>
 </pre></div>
 </div>
-<p>Each test should be:</p>
+<p>The runner copies that input into a scratch directory
+(<code class="docutils literal notranslate"><span class="pre">test/scratch/&lt;SYSTEM&gt;/</span></code>) and applies a standardised set of
+overrides via a Python sed helper:</p>
 <ul class="simple">
-<li><p>Small enough to finish in ~10 minutes on a single modern core.</p></li>
-<li><p>Deterministic (fixed RNG seed, no clock-based seeding).</p></li>
-<li><p>Self-describing (a short README per test explaining what is being
-checked and the tolerance).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Database</span> <span class="pre">Path</span></code> — pinned to the in-tree <code class="docutils literal notranslate"><span class="pre">dtb/</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Generating</span> <span class="pre">/</span> <span class="pre">Preprocessing</span> <span class="pre">/</span> <span class="pre">Running</span> <span class="pre">/</span> <span class="pre">Postprocessing</span></code> flags
+— only the trajectory stage runs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Initial</span> <span class="pre">Random</span> <span class="pre">Nb</span> <span class="pre">Seed</span></code> — pinned to the seed from <code class="docutils literal notranslate"><span class="pre">config.sh</span></code>
+(no clock-based seeding).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Nb</span> <span class="pre">of</span> <span class="pre">Trajectories</span> <span class="pre">per</span> <span class="pre">Level</span> <span class="pre">/</span> <span class="pre">Bin</span></code> — pinned to 10.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Starting</span> <span class="pre">Level</span></code> / <code class="docutils literal notranslate"><span class="pre">Final</span> <span class="pre">Level</span></code> for molecule 1 — pinned to 1
+so exactly one starting level is exercised.</p></li>
 </ul>
-<p>Contributions along these lines are welcome. Open an issue on
-<a class="reference external" href="https://github.com/HERMES-AEROSPACE/CoarseAirQCT/issues">https://github.com/HERMES-AEROSPACE/CoarseAirQCT/issues</a> before
-starting work so the reference-data layout can be agreed in advance.</p>
+<p>The production input on disk is <strong>never</strong> mutated.</p>
 </section>
-<section id="manual-regression-checklist">
-<h2>Manual regression checklist<a class="headerlink" href="#manual-regression-checklist" title="Link to this heading"></a></h2>
-<p>Pending CI, the following manual checks should be run before any
-non-trivial release:</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>From the repository root:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run the whole suite:</span>
+bash<span class="w"> </span>test/regression.sh
+
+<span class="c1"># Run only one system:</span>
+bash<span class="w"> </span>test/regression.sh<span class="w"> </span>--only<span class="w"> </span>N3
+
+<span class="c1"># Run several systems:</span>
+bash<span class="w"> </span>test/regression.sh<span class="w"> </span>--only<span class="w"> </span>H3<span class="w"> </span>N3<span class="w"> </span>O3
+
+<span class="c1"># Looser tolerance for cross-compiler runs:</span>
+bash<span class="w"> </span>test/regression.sh<span class="w"> </span>--tolerance<span class="w"> </span>1e-5
+
+<span class="c1"># Verbose (show CoarseAIR stdout/stderr):</span>
+bash<span class="w"> </span>test/regression.sh<span class="w"> </span>--verbose
+</pre></div>
+</div>
+<p>Exit code is 0 if every test passes, 1 if any fail.</p>
+</section>
+<section id="generating-refreshing-the-references">
+<h2>Generating / refreshing the references<a class="headerlink" href="#generating-refreshing-the-references" title="Link to this heading"></a></h2>
+<p>The first time the suite is run, the reference files don’t exist yet
+and each system reports <code class="docutils literal notranslate"><span class="pre">SKIP</span>&#160; <span class="pre">&lt;SYS&gt;</span>&#160; <span class="pre">(no</span> <span class="pre">reference</span> <span class="pre">—</span> <span class="pre">run</span> <span class="pre">with</span>
+<span class="pre">--update</span> <span class="pre">to</span> <span class="pre">generate)</span></code>. To populate them, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash<span class="w"> </span>test/regression.sh<span class="w"> </span>--update
+</pre></div>
+</div>
+<p>Review the produced <code class="docutils literal notranslate"><span class="pre">test/systems/&lt;SYSTEM&gt;/reference/trajectories.csv</span></code>
+files, commit them, and future runs will compare against them.</p>
+<p>The same command is used after any intentional numerical change
+(PES bug fix, sampler improvement, integrator upgrade) — re-run with
+<code class="docutils literal notranslate"><span class="pre">--update</span></code> once the build is known-good and commit the refreshed
+references with a clear note on <em>why</em> the numerics changed.</p>
+</section>
+<section id="tolerance-policy">
+<h2>Tolerance policy<a class="headerlink" href="#tolerance-policy" title="Link to this heading"></a></h2>
+<p>The trajectory file has 10 columns (see
+<a class="reference internal" href="../user/postprocessing.html"><span class="doc">Post-processing</span></a>). The comparator applies:</p>
 <ul class="simple">
-<li><p>[ ] H + H<sub>2</sub> thermal rates at 1 000 / 5 000 / 10 000 K agree
-with published literature to within the PES uncertainty.</p></li>
-<li><p>[ ] N + N<sub>2</sub> dissociation rates at 10 000 / 20 000 K agree
-with the Panesi/Jaffe/Schwenke reference (see <a class="reference internal" href="../reference/bibliography.html"><span class="doc">Bibliography</span></a>)
-to within statistical error.</p></li>
-<li><p>[ ] Detailed balance holds at the 2 σ level across a representative
-sample of forward/reverse pairs.</p></li>
-<li><p>[ ] Running the same input twice with the same RNG seed produces
-identical output.</p></li>
+<li><p><strong>Exact match</strong> for the six integer columns (trajectory index,
+PES index, initial <span class="math notranslate nohighlight">\(v / J\)</span>, initial and final arrangement
+codes).</p></li>
+<li><p><strong>Relative tolerance</strong> (default <span class="math notranslate nohighlight">\(10^{-8}\)</span>, configurable via
+<code class="docutils literal notranslate"><span class="pre">--tolerance</span></code>) for the four float columns (<span class="math notranslate nohighlight">\(b_{\max}\)</span>,
+<span class="math notranslate nohighlight">\(b_i\)</span>, <span class="math notranslate nohighlight">\(v_f\)</span>, <span class="math notranslate nohighlight">\(J_f\)</span>).</p></li>
 </ul>
+<p>Default <span class="math notranslate nohighlight">\(10^{-8}\)</span> is tight enough to catch real bugs while
+remaining robust to unavoidable last-bit FP drift on the same compiler.
+Loosen for cross-compiler comparisons; tighten for bit-for-bit
+checks.</p>
+</section>
+<section id="disabling-the-tests">
+<h2>Disabling the tests<a class="headerlink" href="#disabling-the-tests" title="Link to this heading"></a></h2>
+<p>Three mechanisms:</p>
+<ol class="arabic simple">
+<li><p><strong>Don’t run the script.</strong> The build never invokes it.</p></li>
+<li><p><strong>Environment variable.</strong> Set <code class="docutils literal notranslate"><span class="pre">COARSEAIR_SKIP_TESTS=1</span></code>. The
+runner detects this and exits 0 immediately without running any
+system.</p></li>
+<li><p><strong>Per-system skip.</strong> To temporarily skip one system without
+removing its config, delete that system’s
+<code class="docutils literal notranslate"><span class="pre">reference/trajectories.csv</span></code> — the runner reports
+<code class="docutils literal notranslate"><span class="pre">SKIP</span>&#160; <span class="pre">&lt;SYS&gt;</span>&#160; <span class="pre">(no</span> <span class="pre">reference)</span></code>.</p></li>
+</ol>
+</section>
+<section id="typical-output">
+<h2>Typical output<a class="headerlink" href="#typical-output" title="Link to this heading"></a></h2>
+<p>A successful run looks like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>PASS  test/scratch/CHN/.../trajectories.csv       (10 trajectories)
+PASS  test/scratch/CNO/.../trajectories.csv       (10 trajectories)
+PASS  test/scratch/CO2/.../trajectories.csv       (10 trajectories)
+…
+PASS  test/scratch/O4/.../trajectories.csv        (10 trajectories)
+
+=== regression summary ===
+  passed: 15
+  failed: 0
+</pre></div>
+</div>
+<p>A regression is flagged on stderr with the column, row, and magnitude
+of the first discrepancy:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>FAIL  test/scratch/O3/.../trajectories.csv
+   col 8 (float, rtol=1.0e-08): 3 mismatch(es); first at row 2:
+   actual=1.234567890123e+01 expected=1.234567891234e+01
+   (abs=1.111e-07, rel=9.000e-09)
+</pre></div>
+</div>
+</section>
+<section id="what-it-does-and-does-not-catch">
+<h2>What it does and does not catch<a class="headerlink" href="#what-it-does-and-does-not-catch" title="Link to this heading"></a></h2>
+<p>Caught by this suite (among others):</p>
+<ul class="simple">
+<li><p>PES gradient bug changing the trajectory path.</p></li>
+<li><p>Integrator refactoring that shifts timestep selection.</p></li>
+<li><p>Initial-state sampler change that reorders trajectories.</p></li>
+<li><p>Coordinate-transformation bug in the Jacobi setup.</p></li>
+<li><p>Arrangement-classification change.</p></li>
+</ul>
+<p>Not directly caught (need dedicated tests elsewhere):</p>
+<ul class="simple">
+<li><p>Rate-extraction bugs (post-processing is not exercised).</p></li>
+<li><p>Level-generation bugs (levels are read from the pre-computed
+database).</p></li>
+<li><p>Cluster/scheduler-related bugs (local runs only).</p></li>
+<li><p>Compiler-induced FP drift beyond the tolerance.</p></li>
+</ul>
+<p>For rate-extraction regression tests specifically, add a follow-up
+stage that runs <code class="docutils literal notranslate"><span class="pre">coarseair-trajectoriesstats.x</span></code> and
+<code class="docutils literal notranslate"><span class="pre">coarseair-posttrajectories.x</span></code> on the trajectory output and
+compares the resulting rate files; see the roadmap in
+<a class="reference internal" href="roadmap.html"><span class="doc">Development Roadmap</span></a>.</p>
+</section>
+<section id="historical-note-the-vvtc-comparison">
+<h2>Historical note: the VVTC comparison<a class="headerlink" href="#historical-note-the-vvtc-comparison" title="Link to this heading"></a></h2>
+<p>The previous <code class="docutils literal notranslate"><span class="pre">test/</span></code> directory contained <code class="docutils literal notranslate"><span class="pre">CompareToVVTC_N3.m</span></code>
+and reference CSVs from David Schwenke’s VVTC code. Those files
+have been removed — their manual MATLAB-driven comparison has been
+superseded by the automated multi-system suite described above. Git
+history preserves them if needed for reference.</p>
 </section>
 </section>
 

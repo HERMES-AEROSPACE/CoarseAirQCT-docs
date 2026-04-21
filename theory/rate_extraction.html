@@ -106,11 +106,15 @@
 <p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="qct.html">Quasi-Classical Trajectories</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#classical-limit-approximation">Classical-limit approximation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#coordinates-and-pair-numbering">Coordinates and pair numbering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#hamiltonian">Hamiltonian</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#per-trajectory-pipeline">Per-trajectory pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#historical-context-and-code-lineage">Historical context and code lineage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#the-bornoppenheimer-surface-and-the-classical-limit">The Born–Oppenheimer surface and the classical limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#regime-of-validity">Regime of validity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#jacobi-coordinates-and-reduced-masses">Jacobi coordinates and reduced masses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#pair-numbering-convention">Pair numbering convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#hamiltonian-and-canonical-equations-of-motion">Hamiltonian and canonical equations of motion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#semi-classical-quantisation-at-the-boundaries">Semi-classical quantisation at the boundaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#per-trajectory-runtime-pipeline">Per-trajectory runtime pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#what-coarseair-does-not-do-in-the-adiabatic-pipeline">What CoarseAIR does <em>not</em> do in the adiabatic pipeline</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="level_generation.html">Level Generation (Numerov method)</a><ul>
@@ -132,6 +136,7 @@
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#relative-velocity-decomposition">Relative-velocity decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#orientation-sampling-euler-angles">Orientation sampling (Euler angles)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#electronic-surface-index-ipes">Electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="integrators.html">Trajectory Integrators</a><ul>
@@ -141,6 +146,7 @@
 <li class="toctree-l2"><a class="reference internal" href="integrators.html#convergence-criteria">Convergence criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="integrators.html#energy-conservation-diagnostic">Energy-conservation diagnostic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="integrators.html#alternative-integrators">Alternative integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrators.html#numerical-analysis-of-the-bulirschstoer-scheme">Numerical analysis of the Bulirsch–Stoer scheme</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pes_formats.html">PES Formats</a><ul>
@@ -150,6 +156,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pes_formats.html#diatomic-pair-potentials">Diatomic pair potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pes_formats.html#multi-surface-handling">Multi-surface handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pes_formats.html#adding-a-new-pes">Adding a new PES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#functional-form-details">Functional-form details</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="arrangement_classification.html">Arrangement Classification</a><ul>
@@ -159,6 +166,7 @@
 <li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#step-4-classify-the-process">Step 4 — Classify the process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#indistinguishable-atom-systems">Indistinguishable-atom systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#common-pitfalls">Common pitfalls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Rate &amp; Cross-Section Extraction</a><ul>
@@ -167,6 +175,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#thermal-rate-coefficient">Thermal rate coefficient</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#state-to-state-grouped-and-arrhenius-outputs">State-to-state, grouped, and Arrhenius outputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#complementarity-and-mass-balance-checks">Complementarity and mass-balance checks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 </ul>
@@ -309,7 +318,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#coarseair-foundations">CoarseAIR foundations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#numerical-methods">Numerical methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#cno-system">CNO system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#hydrogen-containing-systems">Hydrogen-containing systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#nitrogen-systems">Nitrogen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#oxygen-systems">Oxygen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#carbon-containing-systems">Carbon-containing systems</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#source-code-review">Source-code review</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#recommended-reading">Recommended reading</a></li>
 </ul>
@@ -349,11 +365,14 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#current-contents-of-test">Current contents of <code class="docutils literal notranslate"><span class="pre">test/</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#how-to-run-the-regression">How to run the regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#planned-ci-suite">Planned CI suite</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#adding-a-new-regression-test">Adding a new regression test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#manual-regression-checklist">Manual regression checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#layout">Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#generating-refreshing-the-references">Generating / refreshing the references</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#tolerance-policy">Tolerance policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#disabling-the-tests">Disabling the tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#typical-output">Typical output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/roadmap.html">Development Roadmap</a><ul>
@@ -540,6 +559,77 @@ classification errors.</p>
 </ol>
 <p>Both checks are available as diagnostics in the post-processing Python
 and MATLAB tooling.</p>
+</section>
+<section id="derivations-and-further-detail">
+<h2>Derivations and further detail<a class="headerlink" href="#derivations-and-further-detail" title="Link to this heading"></a></h2>
+<p><strong>Bernoulli variance derivation.</strong> Each of the <span class="math notranslate nohighlight">\(N_i\)</span>
+trajectories in impact-parameter bin <span class="math notranslate nohighlight">\(i\)</span> is an independent
+Bernoulli trial with success probability <span class="math notranslate nohighlight">\(P_{iJ}\)</span> (the
+trajectory either produces process <span class="math notranslate nohighlight">\(J\)</span> or it doesn’t). The
+number of successes <span class="math notranslate nohighlight">\(N_{iJ}\)</span> therefore follows a binomial
+distribution with mean <span class="math notranslate nohighlight">\(N_i P_{iJ}\)</span> and variance
+<span class="math notranslate nohighlight">\(N_i P_{iJ}(1 - P_{iJ})\)</span>. Writing the cross-section estimator
+as the linear combination
+<span class="math notranslate nohighlight">\(\hat\sigma_J = \sum_i A_{\text{ring},i}\,N_{iJ}/N_i\)</span> and
+using independence across bins,</p>
+<div class="math notranslate nohighlight">
+\[\operatorname{Var}(\hat\sigma_J)
+\;=\; \sum_i A_{\text{ring},i}^{2}\,
+      \frac{P_{iJ}(1 - P_{iJ})}{N_i}.\]</div>
+<p>Substituting the sample proportion
+<span class="math notranslate nohighlight">\(\hat P_{iJ} = N_{iJ}/N_i\)</span> gives the standard-deviation
+estimator used by CoarseAIR’s rate post-processing. The formula
+assumes strictly independent trajectories — impact parameters
+drawn independently from the sampling distribution, with no shared
+random draws between trajectories. CoarseAIR’s mini-batch-parallel
+execution preserves this independence because each mini-batch
+re-seeds from the master RNG stream.</p>
+<p><strong>Complementary-process correlation.</strong> If processes <span class="math notranslate nohighlight">\(J\)</span>
+and <span class="math notranslate nohighlight">\(J'\)</span> are complementary (<span class="math notranslate nohighlight">\(N_{iJ} + N_{iJ'} = N_i\)</span>),
+then <span class="math notranslate nohighlight">\(P_{iJ} + P_{iJ'} = 1\)</span> exactly, and the binomial variance
+can be rewritten as
+<span class="math notranslate nohighlight">\(\operatorname{Var}(N_{iJ}/N_i) = \hat P_{iJ}\hat P_{iJ'}/N_i\)</span>.
+Summing over bins gives the compact cross-check</p>
+<div class="math notranslate nohighlight">
+\[\operatorname{SD}(\hat\sigma_J)
+\;=\; \sqrt{\sum_i \frac{\hat\sigma_{iJ}\,\hat\sigma_{iJ'}}{N_i}}.\]</div>
+<p><strong>Maxwell-Boltzmann change of variables.</strong> Starting from
+<span class="math notranslate nohighlight">\(k(T) = \int d^{3}\mathbf{w}\,f(\mathbf{w})\,|\mathbf{w}|\,
+\sigma(|\mathbf{w}|)\)</span> with isotropic Maxwellian
+<span class="math notranslate nohighlight">\(f(\mathbf{w}) = (\mu/2\pi k_B T)^{3/2} \exp(-\mu w^{2}/2k_B T)\)</span>,
+passing to spherical coordinates and substituting
+<span class="math notranslate nohighlight">\(E = \tfrac{1}{2}\mu w^{2}\)</span>, <span class="math notranslate nohighlight">\(\hat E = E/k_B T\)</span> gives</p>
+<div class="math notranslate nohighlight">
+\[k(T) \;=\; \sqrt{\frac{8 k_B T}{\mu\pi}}\,
+           \int_0^\infty \hat E\,e^{-\hat E}\,\sigma(\hat E)\,d\hat E.\]</div>
+<p>When the Monte Carlo sampler draws <span class="math notranslate nohighlight">\(\hat E\)</span> directly from
+<span class="math notranslate nohighlight">\(\hat E\,e^{-\hat E}\)</span> via the inverse-CDF procedure (see
+<a class="reference internal" href="sampling.html"><span class="doc">Sampling</span></a>), the integral collapses to an arithmetic mean of
+<span class="math notranslate nohighlight">\(\sigma(\hat E)\)</span> over the drawn sample — the formula used by
+<code class="docutils literal notranslate"><span class="pre">coarseair-posttrajectories.x</span></code> in thermal mode.</p>
+<p><strong>Detailed balance across levels.</strong> For an ideal gas in
+thermodynamic equilibrium, microscopic reversibility of collisions
+imposes</p>
+<div class="math notranslate nohighlight">
+\[g_{vJ}\,k_{vJ\to v'J'}(T)\,e^{-E_{vJ}/k_B T}
+\;=\;
+g_{v'J'}\,k_{v'J'\to vJ}(T)\,e^{-E_{v'J'}/k_B T}\]</div>
+<p>on the ensemble-averaged rates (not the individual trajectories).
+Systematic violations well outside the Monte Carlo statistical
+error (more than 2–3 standard deviations) indicate either a
+classification bug or a QCT artefact such as zero-point-energy
+leakage — the single most sensitive diagnostic for production
+rate datasets.</p>
+<p><strong>Arrhenius fit.</strong> For each process <span class="math notranslate nohighlight">\(d\)</span>, CoarseAIR fits</p>
+<div class="math notranslate nohighlight">
+\[\ln k(T) \;=\; \ln A \;+\; n\,\ln T \;-\; \frac{E_a}{k_B T}\]</div>
+<p>by unweighted least squares over the sampled temperatures,
+producing <span class="math notranslate nohighlight">\((A, n, E_a)\)</span> stored in <code class="docutils literal notranslate"><span class="pre">Process%ArrCoeffs</span></code>.
+Extrapolation far outside the sampled temperature range is
+unreliable — the pre-exponential <span class="math notranslate nohighlight">\(n\)</span> is especially sensitive
+to the sampled range. For multi-regime behaviour a piecewise or
+modified-Arrhenius form is more appropriate; that fit is not
+produced automatically.</p>
 </section>
 </section>
 

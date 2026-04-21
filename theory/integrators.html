@@ -106,11 +106,15 @@
 <p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="qct.html">Quasi-Classical Trajectories</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#classical-limit-approximation">Classical-limit approximation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#coordinates-and-pair-numbering">Coordinates and pair numbering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#hamiltonian">Hamiltonian</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#per-trajectory-pipeline">Per-trajectory pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qct.html#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#historical-context-and-code-lineage">Historical context and code lineage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#the-bornoppenheimer-surface-and-the-classical-limit">The Born–Oppenheimer surface and the classical limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#regime-of-validity">Regime of validity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#jacobi-coordinates-and-reduced-masses">Jacobi coordinates and reduced masses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#pair-numbering-convention">Pair numbering convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#hamiltonian-and-canonical-equations-of-motion">Hamiltonian and canonical equations of motion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#semi-classical-quantisation-at-the-boundaries">Semi-classical quantisation at the boundaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#per-trajectory-runtime-pipeline">Per-trajectory runtime pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qct.html#what-coarseair-does-not-do-in-the-adiabatic-pipeline">What CoarseAIR does <em>not</em> do in the adiabatic pipeline</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="level_generation.html">Level Generation (Numerov method)</a><ul>
@@ -132,6 +136,7 @@
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#relative-velocity-decomposition">Relative-velocity decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#orientation-sampling-euler-angles">Orientation sampling (Euler angles)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#electronic-surface-index-ipes">Electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Trajectory Integrators</a><ul>
@@ -141,6 +146,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#convergence-criteria">Convergence criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#energy-conservation-diagnostic">Energy-conservation diagnostic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#alternative-integrators">Alternative integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#numerical-analysis-of-the-bulirschstoer-scheme">Numerical analysis of the Bulirsch–Stoer scheme</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pes_formats.html">PES Formats</a><ul>
@@ -150,6 +156,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pes_formats.html#diatomic-pair-potentials">Diatomic pair potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pes_formats.html#multi-surface-handling">Multi-surface handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pes_formats.html#adding-a-new-pes">Adding a new PES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#functional-form-details">Functional-form details</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="arrangement_classification.html">Arrangement Classification</a><ul>
@@ -159,6 +166,7 @@
 <li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#step-4-classify-the-process">Step 4 — Classify the process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#indistinguishable-atom-systems">Indistinguishable-atom systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#common-pitfalls">Common pitfalls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="rate_extraction.html">Rate &amp; Cross-Section Extraction</a><ul>
@@ -167,6 +175,7 @@
 <li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#thermal-rate-coefficient">Thermal rate coefficient</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#state-to-state-grouped-and-arrhenius-outputs">State-to-state, grouped, and Arrhenius outputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#complementarity-and-mass-balance-checks">Complementarity and mass-balance checks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 </ul>
@@ -309,7 +318,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#coarseair-foundations">CoarseAIR foundations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#numerical-methods">Numerical methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#cno-system">CNO system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#hydrogen-containing-systems">Hydrogen-containing systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#nitrogen-systems">Nitrogen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#oxygen-systems">Oxygen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#carbon-containing-systems">Carbon-containing systems</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#source-code-review">Source-code review</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#recommended-reading">Recommended reading</a></li>
 </ul>
@@ -349,11 +365,14 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#current-contents-of-test">Current contents of <code class="docutils literal notranslate"><span class="pre">test/</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#how-to-run-the-regression">How to run the regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#planned-ci-suite">Planned CI suite</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#adding-a-new-regression-test">Adding a new regression test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#manual-regression-checklist">Manual regression checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#layout">Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#generating-refreshing-the-references">Generating / refreshing the references</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#tolerance-policy">Tolerance policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#disabling-the-tests">Disabling the tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#typical-output">Typical output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/roadmap.html">Development Roadmap</a><ul>
@@ -530,6 +549,74 @@ construction but deliver worse final-state accuracy at the same cost for
 the strongly anharmonic potentials CoarseAIR targets. Benchmarks of the
 available integrators on H<sub>3</sub> and N<sub>3</sub> are planned for a
 future revision of this documentation.</p>
+</section>
+<section id="numerical-analysis-of-the-bulirschstoer-scheme">
+<h2>Numerical analysis of the Bulirsch–Stoer scheme<a class="headerlink" href="#numerical-analysis-of-the-bulirschstoer-scheme" title="Link to this heading"></a></h2>
+<p><strong>Why the modified midpoint?</strong> For the smooth ODE
+<span class="math notranslate nohighlight">\(\dot y = f(y)\)</span>, the modified midpoint scheme on a sub-interval
+<span class="math notranslate nohighlight">\([0, H]\)</span> with <span class="math notranslate nohighlight">\(n\)</span> sub-steps <span class="math notranslate nohighlight">\(h = H/n\)</span> produces</p>
+<div class="math notranslate nohighlight">
+\[y_0, \quad y_1 = y_0 + h\,f(y_0), \quad
+y_{m+1} = y_{m-1} + 2h\,f(y_m), \quad m = 1, \dots, n - 1,\]</div>
+<p>followed by the smoothing step
+<span class="math notranslate nohighlight">\(\bar y_n = \tfrac{1}{2}[y_n + y_{n-1} + h\,f(y_n)]\)</span>. The
+smoothed result <span class="math notranslate nohighlight">\(\bar y_n(H; h)\)</span> has the remarkable property
+that its Taylor expansion in <span class="math notranslate nohighlight">\(h\)</span> contains only <strong>even</strong> powers:</p>
+<div class="math notranslate nohighlight">
+\[\bar y_n(H; h)
+\;=\; y_{\text{exact}}(H)
+\;+\; a_2\,h^{2} + a_4\,h^{4} + a_6\,h^{6} + \dots\]</div>
+<p>This is what lets Richardson-style extrapolation across several
+sub-steppings produce high-order accuracy cheaply — each
+extrapolation eliminates the next even-order error term.</p>
+<p><strong>Rational-polynomial extrapolation.</strong> Given <span class="math notranslate nohighlight">\(k\)</span> provisional
+endpoints <span class="math notranslate nohighlight">\(\{\bar y_n(H; h_i)\}_{i=1}^{k}\)</span> at step sizes
+<span class="math notranslate nohighlight">\(h_i = H / n_i\)</span>, BS fits a <strong>rational function</strong>
+<span class="math notranslate nohighlight">\(R(h) = \sum_{j} a_j h^{2j} / (1 + \sum_j b_j h^{2j})\)</span> through
+the <span class="math notranslate nohighlight">\(k\)</span> points and evaluates <span class="math notranslate nohighlight">\(R(0)\)</span> as the extrapolated
+estimate. Rational fits outperform polynomial fits on near-singular
+problems (close encounters, steep PES gradients) and are the reason
+CoarseAIR tolerates significantly wider step sizes than a fixed-order
+Runge–Kutta would. The extrapolation table is built by the
+Neville-like Bulirsch–Stoer–Nollau recurrence — see the Numerical
+Recipes reference in <a class="reference internal" href="../reference/bibliography.html"><span class="doc">Bibliography</span></a>.</p>
+<p><strong>Local error estimate.</strong> The difference between the last two
+extrapolated values,
+<span class="math notranslate nohighlight">\(\varepsilon = \|R^{(k)}(0) - R^{(k-1)}(0)\|\)</span>, provides a
+built-in estimate of the local extrapolation error. Normalising
+component-wise against the user tolerance</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{errmax}
+\;=\; \max_\alpha \left|\frac{\varepsilon_\alpha}
+                             {\text{atol} +
+                              \text{rtol}\,|y_\alpha|}\right|,\]</div>
+<p>the step is <strong>accepted</strong> when <span class="math notranslate nohighlight">\(\mathrm{errmax} &lt; 1\)</span> and
+<strong>rejected</strong> otherwise. On acceptance, CoarseAIR enlarges <span class="math notranslate nohighlight">\(H\)</span>
+for the next step by a factor proportional to
+<span class="math notranslate nohighlight">\(\mathrm{errmax}^{-1/(2k+1)}\)</span> (capped at a small multiplicative
+growth factor to avoid overshoot); on rejection, <span class="math notranslate nohighlight">\(H\)</span> is
+halved, the provisional sub-steppings are discarded, and the step
+is retried.</p>
+<p><strong>Order selection.</strong> The cost per step scales with the number of
+function evaluations (each <span class="math notranslate nohighlight">\(n_k\)</span>-step sub-stepping costs
+<span class="math notranslate nohighlight">\(n_k + 1\)</span> PES calls) while the achievable accuracy grows
+with the number <span class="math notranslate nohighlight">\(k\)</span> of sub-steppings used in the
+extrapolation. CoarseAIR hard-codes the sub-stepping sequence
+<code class="docutils literal notranslate"><span class="pre">nseq</span> <span class="pre">=</span> <span class="pre">[2,</span> <span class="pre">4,</span> <span class="pre">6,</span> <span class="pre">8,</span> <span class="pre">12,</span> <span class="pre">16,</span> <span class="pre">24,</span> <span class="pre">32,</span> <span class="pre">48,</span> <span class="pre">64,</span> <span class="pre">96]</span></code> and uses up to
+<span class="math notranslate nohighlight">\(k = 3\)</span> extrapolation levels (<code class="docutils literal notranslate"><span class="pre">Nb</span> <span class="pre">of</span> <span class="pre">extrapolation</span> <span class="pre">steps</span></code>
+input flag), yielding effective methods of order ~6–10 depending
+on where the step-size control settles.</p>
+<p><strong>The PURE attribute and its consequences.</strong> Both <code class="docutils literal notranslate"><span class="pre">mmidv</span></code> and
+<code class="docutils literal notranslate"><span class="pre">HamiltonODESystem</span></code> are declared <code class="docutils literal notranslate"><span class="pre">PURE</span></code> — no side effects, no
+modification of module-level state. This buys auto-vectorisation
+over the trajectory batch dimension for free (the compiler can
+unroll the implicit loop across trajectories into SIMD instructions)
+and it also buys thread-safety, but it comes at a cost: surface-
+hopping algorithms that must mutate <code class="docutils literal notranslate"><span class="pre">iPES</span></code> during the sub-step
+cannot be implemented inside these routines. CoarseAIR+ therefore
+relaxes the <code class="docutils literal notranslate"><span class="pre">PURE</span></code> attribute on one or both of these routines to
+allow an FSSH callback — see the CoarseAIR+ documentation for the
+insertion-point analysis.</p>
 </section>
 </section>
 

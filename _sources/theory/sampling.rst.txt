@@ -174,3 +174,97 @@ weighted consistently.
 In adiabatic CoarseAIR, ``iPES(iTraj)`` never changes after this initial
 assignment — see :doc:`pes_formats` for the multi-surface machinery and the
 CoarseAIR+ documentation for surface-hopping extensions.
+
+
+Derivations and further detail
+------------------------------
+
+**Why uniform in** :math:`b^2`. The differential reactive cross-section
+at impact parameter :math:`b` is, by definition, :math:`2\pi b\,P(b)\,db`
+where :math:`P(b)` is the reaction probability. Monte Carlo estimation
+of :math:`\sigma = \int 2\pi b\,P(b)\,db` has minimum variance when
+the sampling density matches :math:`2\pi b`, i.e. when :math:`b` is
+drawn with PDF proportional to :math:`b`. Substituting
+:math:`u = b^2`, :math:`du = 2b\,db`, this becomes a *uniform*
+distribution on :math:`u \in [0, b_{\max}^2]`. Equivalently, to
+generate such a :math:`b`, draw :math:`U \sim \mathcal{U}[0,1]` and
+set :math:`b = b_{\max}\sqrt{U}`. CoarseAIR's ``Normal`` impact-
+parameter model does exactly this; the ``Random`` model by contrast
+samples :math:`b` uniformly and requires an explicit Jacobian
+reweighting downstream.
+
+**Stratified sampling variance reduction.** Splitting the domain
+:math:`[0, b_{\max}^2]` into :math:`K` disjoint strata of fractional
+weight :math:`w_i` and allocating :math:`N_i` trajectories to each
+stratum gives the estimator
+:math:`\hat\sigma = \pi b_{\max}^2 \sum_i w_i\, \hat P_i` with
+variance
+
+.. math::
+
+   \operatorname{Var}(\hat\sigma)
+   \;=\; (\pi b_{\max}^{2})^{2}\,
+         \sum_{i=1}^{K} \frac{w_i^{2}\,P_i(1 - P_i)}{N_i}.
+
+This is strictly smaller than the unstratified variance whenever the
+:math:`P_i` differ across strata — the usual case, since reaction
+probability drops steeply with :math:`b`. The optimal Neyman
+allocation :math:`N_i \propto w_i\sqrt{P_i(1-P_i)}` is approximated
+in practice by allocating roughly twice as many trajectories to
+small-:math:`b` strata as to large-:math:`b` ones; the exact
+per-stratum counts are a user choice in ``CoarseAIR.inp``.
+
+**Inverse-CDF sampling derivation.** Starting from the 3-D
+Maxwellian speed density
+:math:`f(w)\,4\pi w^{2}\,dw` with :math:`f(w) = (m/2\pi k_B T)^{3/2}
+\exp(-m w^{2}/2k_B T)`, the substitution :math:`E = \tfrac{1}{2}m w^{2}`
+(so :math:`w\,dw = dE/m`) gives the *collision-rate weighted* energy
+density
+
+.. math::
+
+   p(E)\,dE \;=\;
+   \frac{1}{(k_B T)^{2}}\,E\,e^{-E/k_B T}\,dE
+   \;=\; \hat{E}\,e^{-\hat{E}}\,d\hat{E},
+
+where :math:`\hat{E} = E/k_B T`. Its cumulative distribution
+:math:`F(\hat{E}) = 1 - (1 + \hat{E})\,e^{-\hat{E}}` does not admit a
+closed-form inverse, so CoarseAIR solves :math:`F(\hat{E}) = U` with
+:math:`U\sim\mathcal{U}[0,1]` by Newton–Raphson iteration: starting
+from the initial guess :math:`\hat{E}_0 = -\ln(1-U)` (which is
+exact if :math:`p = e^{-\hat{E}}` were used in place of the
+collision-weighted density), the update
+
+.. math::
+
+   \hat{E}_{n+1} \;=\; \hat{E}_{n} \;-\;
+     \frac{F(\hat{E}_n) - U}{\hat{E}_n\,e^{-\hat{E}_n}}
+
+converges quadratically in about 5 iterations to :math:`10^{-12}`
+relative accuracy. The code lives in the RNG utilities under
+``src/Random/``.
+
+**Isotropy of the Euler sampling.** Uniform :math:`\alpha, \gamma
+\in [0, 2\pi)` with :math:`\cos\beta \sim \mathcal{U}[-1, 1]`
+produces an SO(3)-invariant distribution of molecular
+orientations. A quick way to see this: the Haar measure on SO(3),
+expressed in Euler angles, is :math:`dg = \sin\beta\,d\alpha\,d\beta\,
+d\gamma / (8\pi^2)`. Changing variables to :math:`u = \cos\beta`
+gives :math:`dg = du\,d\alpha\,d\gamma / (8\pi^2)`, so the product
+measure of uniform :math:`\alpha, \gamma` and uniform :math:`u`
+reproduces Haar — i.e. isotropic orientation. This matters for
+getting the correct unweighted average of reactive cross-sections
+over molecular orientation.
+
+**Proportional vs equal allocation.** With ``Using Proportional
+Allocation? = yes``, the total trajectory budget
+:math:`N_\text{tot}` is distributed across levels proportionally
+to their Boltzmann weights :math:`g_i e^{-E_i/k_B T_\text{int}}`.
+This concentrates trajectories where the population is actually
+large — efficient for thermal rate coefficients but wasteful for
+state-to-state studies where every level needs tight error bars.
+With ``Using Proportional Allocation? = no`` and ``Nb of
+Trajectories per Level / Bin`` specified, every level receives the
+same trajectory count. Both modes produce statistically consistent
+thermal rates; the choice is a variance-reduction question, not a
+correctness one.

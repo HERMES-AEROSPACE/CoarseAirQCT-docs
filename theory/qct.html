@@ -106,11 +106,15 @@
 <p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quasi-Classical Trajectories</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#classical-limit-approximation">Classical-limit approximation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#coordinates-and-pair-numbering">Coordinates and pair numbering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#hamiltonian">Hamiltonian</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#per-trajectory-pipeline">Per-trajectory pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#historical-context-and-code-lineage">Historical context and code lineage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-bornoppenheimer-surface-and-the-classical-limit">The Born–Oppenheimer surface and the classical limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#regime-of-validity">Regime of validity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#jacobi-coordinates-and-reduced-masses">Jacobi coordinates and reduced masses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pair-numbering-convention">Pair numbering convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hamiltonian-and-canonical-equations-of-motion">Hamiltonian and canonical equations of motion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#semi-classical-quantisation-at-the-boundaries">Semi-classical quantisation at the boundaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#per-trajectory-runtime-pipeline">Per-trajectory runtime pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-coarseair-does-not-do-in-the-adiabatic-pipeline">What CoarseAIR does <em>not</em> do in the adiabatic pipeline</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="level_generation.html">Level Generation (Numerov method)</a><ul>
@@ -132,6 +136,7 @@
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#relative-velocity-decomposition">Relative-velocity decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#orientation-sampling-euler-angles">Orientation sampling (Euler angles)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#electronic-surface-index-ipes">Electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="integrators.html">Trajectory Integrators</a><ul>
@@ -141,6 +146,7 @@
 <li class="toctree-l2"><a class="reference internal" href="integrators.html#convergence-criteria">Convergence criteria</a></li>
 <li class="toctree-l2"><a class="reference internal" href="integrators.html#energy-conservation-diagnostic">Energy-conservation diagnostic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="integrators.html#alternative-integrators">Alternative integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrators.html#numerical-analysis-of-the-bulirschstoer-scheme">Numerical analysis of the Bulirsch–Stoer scheme</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pes_formats.html">PES Formats</a><ul>
@@ -150,6 +156,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pes_formats.html#diatomic-pair-potentials">Diatomic pair potentials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pes_formats.html#multi-surface-handling">Multi-surface handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pes_formats.html#adding-a-new-pes">Adding a new PES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pes_formats.html#functional-form-details">Functional-form details</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="arrangement_classification.html">Arrangement Classification</a><ul>
@@ -159,6 +166,7 @@
 <li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#step-4-classify-the-process">Step 4 — Classify the process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#indistinguishable-atom-systems">Indistinguishable-atom systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#common-pitfalls">Common pitfalls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangement_classification.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="rate_extraction.html">Rate &amp; Cross-Section Extraction</a><ul>
@@ -167,6 +175,7 @@
 <li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#thermal-rate-coefficient">Thermal rate coefficient</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#state-to-state-grouped-and-arrhenius-outputs">State-to-state, grouped, and Arrhenius outputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#complementarity-and-mass-balance-checks">Complementarity and mass-balance checks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rate_extraction.html#derivations-and-further-detail">Derivations and further detail</a></li>
 </ul>
 </li>
 </ul>
@@ -309,7 +318,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#coarseair-foundations">CoarseAIR foundations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#numerical-methods">Numerical methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#potential-energy-surfaces">Potential energy surfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#cno-system">CNO system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#hydrogen-containing-systems">Hydrogen-containing systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#nitrogen-systems">Nitrogen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#oxygen-systems">Oxygen systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#carbon-containing-systems">Carbon-containing systems</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#source-code-review">Source-code review</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#recommended-reading">Recommended reading</a></li>
 </ul>
@@ -349,11 +365,14 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#current-contents-of-test">Current contents of <code class="docutils literal notranslate"><span class="pre">test/</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#how-to-run-the-regression">How to run the regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#planned-ci-suite">Planned CI suite</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#adding-a-new-regression-test">Adding a new regression test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#manual-regression-checklist">Manual regression checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#layout">Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#generating-refreshing-the-references">Generating / refreshing the references</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#tolerance-policy">Tolerance policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#disabling-the-tests">Disabling the tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#typical-output">Typical output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/roadmap.html">Development Roadmap</a><ul>
@@ -392,136 +411,317 @@
              
   <section id="quasi-classical-trajectories">
 <h1>Quasi-Classical Trajectories<a class="headerlink" href="#quasi-classical-trajectories" title="Link to this heading"></a></h1>
-<p>CoarseAIR computes state-to-state cross-sections and rate coefficients using
-the <strong>Quasi-Classical Trajectory (QCT)</strong> method: the nuclear dynamics are
-integrated classically on a single Born–Oppenheimer potential energy surface
-(PES), while the initial and final internal states are <em>quantised</em>
-semi-classically. This chapter sets out the theoretical framework CoarseAIR
-implements, referencing the specific data structures and code paths involved.</p>
-<section id="classical-limit-approximation">
-<h2>Classical-limit approximation<a class="headerlink" href="#classical-limit-approximation" title="Link to this heading"></a></h2>
-<p>For collisions at thermal or super-thermal energies typical of re-entry and
-high-enthalpy flows, nuclear de Broglie wavelengths are much smaller than the
-length scales of the PES features probed. In that regime the nuclei can be
-treated as classical point masses moving on a single adiabatic PES — the QCT
-approximation. CoarseAIR solves Hamilton’s equations for each trajectory and
-then bins the resulting final states onto quantised ro-vibrational levels.</p>
-<p>The approximation breaks down where quantum effects dominate — tunnelling,
-zero-point leakage, resonances, interference between reactive pathways, and
-coupled electronic states — but it is well-established as a cost-effective,
-fully state-resolved method for the temperature range targeted here
-(<span class="math notranslate nohighlight">\(\sim\!1\,000\)</span> K to <span class="math notranslate nohighlight">\(\sim\!20\,000\)</span> K). Nonadiabatic effects are
-addressed separately in the CoarseAIR+ fork via fewest-switches surface
-hopping.</p>
-</section>
-<section id="coordinates-and-pair-numbering">
-<h2>Coordinates and pair numbering<a class="headerlink" href="#coordinates-and-pair-numbering" title="Link to this heading"></a></h2>
-<p><strong>3-atom systems</strong> have three atoms A, B, C, with three atom pairs:</p>
-<div class="math notranslate nohighlight">
-\[\text{pair 1} = (A, B), \qquad \text{pair 2} = (A, C), \qquad
-\text{pair 3} = (B, C).\]</div>
-<p><strong>4-atom systems</strong> have four atoms A, B, C, D, and six atom pairs:</p>
-<div class="math notranslate nohighlight">
-\[1 = (A, B), \quad 2 = (A, C), \quad 3 = (A, D),
-\quad 4 = (B, C), \quad 5 = (B, D), \quad 6 = (C, D).\]</div>
-<p>This is the convention used throughout the input files, the <code class="docutils literal notranslate"><span class="pre">AtomsPair</span></code>
-module (<code class="docutils literal notranslate"><span class="pre">src/AtomsPairs/</span></code>), and the processes classification in
-<code class="docutils literal notranslate"><span class="pre">src/Processes/</span></code>.</p>
-<p>CoarseAIR stores each trajectory in a <strong>phase-space vector</strong> <code class="docutils literal notranslate"><span class="pre">PaQ</span></code> of length
-<code class="docutils literal notranslate"><span class="pre">NEqtTot</span></code> packed as momenta first, coordinates second:</p>
+<p>CoarseAIR computes state-to-state cross-sections and rate coefficients by
+the <strong>Quasi-Classical Trajectory (QCT)</strong> method. The name captures the
+central compromise: the nuclear dynamics are integrated <em>classically</em>
+on a single Born–Oppenheimer potential energy surface (PES), while the
+initial and final internal states are <em>quantised</em> semi-classically. In
+the regime it targets — thermal and super-thermal collisions between
+light atoms on modestly reactive surfaces — QCT delivers fully
+state-resolved cross-sections at a small fraction of the cost of a
+proper quantum scattering calculation, and with well-understood
+failure modes that can be audited a posteriori.</p>
+<p>This chapter lays out the theory underlying every piece of the
+CoarseAIR runtime, in enough detail that a reader can connect the
+equations to the specific routines in <code class="docutils literal notranslate"><span class="pre">src/Collision/</span></code>. Subsequent
+theory chapters cover the algorithms that implement the ideas here
+(sampling, integrator, PES evaluation, state identification, rate
+extraction).</p>
+<section id="historical-context-and-code-lineage">
+<h2>Historical context and code lineage<a class="headerlink" href="#historical-context-and-code-lineage" title="Link to this heading"></a></h2>
+<p>The modern QCT method was established by Karplus, Porter and Sharma
+for H + H<sub>2</sub> in the mid-1960s and has been the workhorse
+method for reactive scattering ever since. CoarseAIR’s direct
+numerical ancestor is <strong>VVTC</strong> (Vectorized Variable-Stepsize
+Trajectory Code) by David W. Schwenke at NASA Ames Research Center:
+Bulirsch–Stoer integration of Hamilton’s equations in Jacobi
+coordinates, vectorised over a batch of trajectories, with
+impact-parameter sampling by stratified <span class="math notranslate nohighlight">\(b^2\)</span> discs and
+semi-classical binning of the final actions. CoarseAIR re-implements
+VVTC’s numerics in modern object-oriented Fortran 2008 and adds:</p>
 <ul class="simple">
-<li><p>3-atom system: <code class="docutils literal notranslate"><span class="pre">NEqtVar</span> <span class="pre">=</span> <span class="pre">6</span></code>, <code class="docutils literal notranslate"><span class="pre">NEqtTot</span> <span class="pre">=</span> <span class="pre">12</span></code>
-(6 momentum components <span class="math notranslate nohighlight">\(p_i\)</span> + 6 Jacobi-like coordinates <span class="math notranslate nohighlight">\(Q_i\)</span>).</p></li>
-<li><p>4-atom system: <code class="docutils literal notranslate"><span class="pre">NEqtVar</span> <span class="pre">=</span> <span class="pre">9</span></code>, <code class="docutils literal notranslate"><span class="pre">NEqtTot</span> <span class="pre">=</span> <span class="pre">18</span></code>.</p></li>
+<li><p>polymorphic PES / diatomic-potential / binning / processes /
+system objects that drop in from the input file;</p></li>
+<li><p>a multi-surface infrastructure (<span class="math notranslate nohighlight">\(N_\text{PES}\)</span> up to 9 for
+O<sub>3</sub>) with per-trajectory surface indexing that provides
+the scaffolding used by the CoarseAIR+ fewest-switches surface-
+hopping extension;</p></li>
+<li><p>machine-learned potential formats (feed-forward neural networks,
+permutation-invariant NN, Gaussian processes, Bayesian NN
+ensembles) on top of the traditional analytic forms.</p></li>
 </ul>
-<p>Centre-of-mass motion has been removed, and the internal coordinates are
-expressed in a body-fixed frame where the target molecule sits at the origin
-and the projectile enters along the <span class="math notranslate nohighlight">\(z\)</span> axis at an offset <span class="math notranslate nohighlight">\(b\)</span>
-(the impact parameter). See <a class="reference internal" href="sampling.html"><span class="doc">Sampling</span></a> for the transformation from
-asymptotic collision coordinates to the full <code class="docutils literal notranslate"><span class="pre">PaQ</span></code> vector.</p>
+<p>None of the above changes the physics: a CoarseAIR calculation on,
+say, the NASA N<sub>3</sub> surface is expected to agree with a VVTC
+calculation on the same surface to within Monte Carlo statistical
+error. The regression test <code class="docutils literal notranslate"><span class="pre">test/systems/N3/</span></code> in the repo exercises
+exactly this — see <a class="reference internal" href="../developer/regression_tests.html"><span class="doc">Regression Tests</span></a>.</p>
 </section>
-<section id="hamiltonian">
-<h2>Hamiltonian<a class="headerlink" href="#hamiltonian" title="Link to this heading"></a></h2>
-<p>Each trajectory obeys</p>
+<section id="the-bornoppenheimer-surface-and-the-classical-limit">
+<h2>The Born–Oppenheimer surface and the classical limit<a class="headerlink" href="#the-bornoppenheimer-surface-and-the-classical-limit" title="Link to this heading"></a></h2>
+<p>Every CoarseAIR trajectory is propagated on a single Born–Oppenheimer
+surface <span class="math notranslate nohighlight">\(V(\mathbf{R})\)</span>, i.e. the electronic Schrödinger
+equation has been solved (offline, by whatever method produced the
+PES) at every nuclear configuration <span class="math notranslate nohighlight">\(\mathbf{R}\)</span> to give a
+single scalar potential. Inside the dynamics, electronic degrees of
+freedom do not appear — they have been “frozen out” into
+<span class="math notranslate nohighlight">\(V(\mathbf{R})\)</span>.</p>
+<p>The <em>classical-limit</em> (or WKB) approximation then treats the nuclei
+as classical point masses moving on that single surface. The total
+quantum-mechanical time-dependent Schrödinger equation for the
+nuclear wavefunction <span class="math notranslate nohighlight">\(\Psi(\mathbf{R}, t)\)</span>,</p>
 <div class="math notranslate nohighlight">
-\[H(\mathbf{p}, \mathbf{Q}) \;=\;
-\sum_{k} \frac{p_k^2}{2\,m_k^{\text{eff}}}
-\;+\; V\!\left( \mathbf{Q} \right),\]</div>
-<p>where the effective masses <span class="math notranslate nohighlight">\(m_k^{\text{eff}}\)</span> (stored as <code class="docutils literal notranslate"><span class="pre">mMiMn</span></code> on
-the PES object) come from the Jacobi-coordinate transformation and
-<span class="math notranslate nohighlight">\(V(\mathbf{Q})\)</span> is the PES evaluation on the surface the trajectory is
-currently assigned to. Hamilton’s equations</p>
+\[i\hbar\,\frac{\partial \Psi}{\partial t}
+\;=\; \left[ -\sum_\alpha \frac{\hbar^2}{2m_\alpha}
+             \nabla_\alpha^{2}
+      \;+\; V(\mathbf{R})
+     \right]\Psi,\]</div>
+<p>is replaced by Hamilton’s equations for a classical point-particle
+trajectory <span class="math notranslate nohighlight">\(\mathbf{R}(t)\)</span> with canonical momenta
+<span class="math notranslate nohighlight">\(\mathbf{P}(t)\)</span>. The ro-vibrational states that QCT cannot
+represent explicitly are recovered by <em>binning</em> trajectory-level
+observables (final arrangement, final action, final angular momentum)
+onto pre-computed quantum levels — see
+<a class="reference internal" href="arrangement_classification.html"><span class="doc">Arrangement Classification</span></a>.</p>
+</section>
+<section id="regime-of-validity">
+<h2>Regime of validity<a class="headerlink" href="#regime-of-validity" title="Link to this heading"></a></h2>
+<p>The classical limit is controlled by the de Broglie wavelength of
+each nucleus relative to the length scale <span class="math notranslate nohighlight">\(\ell\)</span> on which the
+PES features change,</p>
 <div class="math notranslate nohighlight">
-\[\frac{dQ_k}{dt} \;=\; \frac{\partial H}{\partial p_k},
+\[\lambda_\alpha \;=\; \frac{h}{p_\alpha}
+               \;=\; \frac{h}{\sqrt{2 m_\alpha E_\alpha}},
 \qquad
-\frac{dp_k}{dt} \;=\; -\frac{\partial H}{\partial Q_k}\]</div>
-<p>are integrated by the Bulirsch–Stoer scheme described in <a class="reference internal" href="integrators.html"><span class="doc">Trajectory Integrators</span></a>.
-The force term <span class="math notranslate nohighlight">\(\partial V / \partial Q_k\)</span> is delivered by the PES
-module (<code class="docutils literal notranslate"><span class="pre">src/Collision/ODE/ODE_System.F90</span></code> →
-<code class="docutils literal notranslate"><span class="pre">Collision%Compute_PES(iPES,</span> <span class="pre">Q,</span> <span class="pre">dVdQ,</span> <span class="pre">V,</span> <span class="pre">Rpi)</span></code>), which dispatches to the
-appropriate PES object:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="c">! Per-trajectory PES dispatch (simplified)</span>
-<span class="k">call </span><span class="n">PESsContainer</span><span class="p">(</span><span class="w"> </span><span class="n">iPES</span><span class="p">(</span><span class="n">iTraj</span><span class="p">)</span><span class="w"> </span><span class="p">)%</span><span class="n">PES</span><span class="p">%</span><span class="n">Compute</span><span class="p">(</span><span class="w"> </span><span class="n">Q</span><span class="p">,</span><span class="w"> </span><span class="n">dVdQ</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="p">,</span><span class="w"> </span><span class="n">Rpi</span><span class="w"> </span><span class="p">)</span>
+\text{QCT valid when } \lambda_\alpha \ll \ell.\]</div>
+<p>For atomic or ro-vibrational collisions at
+<span class="math notranslate nohighlight">\(T \gtrsim 1000\)</span> K, typical nuclear de Broglie wavelengths for
+even the lightest atom (H, <span class="math notranslate nohighlight">\(m \sim 1836\,m_e\)</span>) are
+<span class="math notranslate nohighlight">\(\lambda \sim 0.5\,a_0\)</span>, well below the bond-length scale
+<span class="math notranslate nohighlight">\(\ell \sim 1\text{--}3\,a_0\)</span> of the PES minima. For heavier
+atoms (N, O, C, Ar) the ratio is an order of magnitude more
+favourable.</p>
+<p>What the classical approximation <strong>misses</strong>:</p>
+<ul class="simple">
+<li><p><strong>Tunnelling.</strong> Any reactive channel whose classical barrier lies
+above the collision energy is mis-represented as closed. For
+shallow barriers <span class="math notranslate nohighlight">\(\Delta V \lesssim k_B T\)</span> this is usually
+a minor correction; for high, thin barriers — notably H-atom
+transfer reactions in the cryogenic regime — it can be orders
+of magnitude.</p></li>
+<li><p><strong>Zero-point-energy (ZPE) leakage.</strong> Classical trajectories do
+not respect the <span class="math notranslate nohighlight">\(v = 0\)</span> zero-point level; vibrational
+energy can flow freely below the quantum-mechanical ground state.
+Gaussian-binning (Bonnet &amp; Rayez) and adiabatic constraints are
+known corrections; the base CoarseAIR code uses histogram binning
+without ZPE correction (see <a class="reference internal" href="arrangement_classification.html"><span class="doc">Arrangement Classification</span></a>).</p></li>
+<li><p><strong>Quantum interference.</strong> Different reactive pathways to the same
+final state are summed incoherently — phases are not tracked.</p></li>
+<li><p><strong>Resonances.</strong> Sharp features in the energy dependence of a
+reactive cross-section, produced by metastable intermediate
+complexes, are either washed out or misattributed.</p></li>
+<li><p><strong>Nonadiabatic transitions.</strong> A single-surface PES cannot describe
+electronic hopping; these are addressed in CoarseAIR+ by the
+fewest-switches surface-hopping algorithm.</p></li>
+</ul>
+<p>CoarseAIR’s runtime diagnostics (energy conservation, sum rule,
+detailed balance — see <a class="reference internal" href="rate_extraction.html"><span class="doc">Rate &amp; Cross-Section Extraction</span></a>) detect <em>numerical</em>
+failures but not these <em>physical</em> approximations; the user is
+responsible for judging whether the QCT regime applies to their
+chosen system and temperature.</p>
+</section>
+<section id="jacobi-coordinates-and-reduced-masses">
+<h2>Jacobi coordinates and reduced masses<a class="headerlink" href="#jacobi-coordinates-and-reduced-masses" title="Link to this heading"></a></h2>
+<p>For a 3-atom system with atoms A, B, C and masses <span class="math notranslate nohighlight">\(m_A, m_B,
+m_C\)</span>, CoarseAIR uses the <strong>atom + diatom Jacobi decomposition</strong>.
+Let A and B be the two atoms of the initial target diatom and C
+the projectile. Define:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{r} \;=\; \mathbf{R}_B - \mathbf{R}_A, \qquad
+\mathbf{R} \;=\; \mathbf{R}_C - \frac{m_A \mathbf{R}_A + m_B \mathbf{R}_B}
+                                      {m_A + m_B},\]</div>
+<p>so <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> is the AB internuclear vector and
+<span class="math notranslate nohighlight">\(\mathbf{R}\)</span> is the displacement of C from the AB
+centre-of-mass. The centre-of-mass motion decouples and is removed.
+The associated reduced masses are</p>
+<div class="math notranslate nohighlight">
+\[\mu_{AB} \;=\; \frac{m_A m_B}{m_A + m_B}, \qquad
+\mu_{AB,C} \;=\; \frac{(m_A + m_B)\,m_C}{m_A + m_B + m_C},\]</div>
+<p>and the total kinetic energy in these coordinates reads</p>
+<div class="math notranslate nohighlight">
+\[T \;=\; \frac{\|\dot{\mathbf{r}}\|^{2}}{2}\,\mu_{AB}
+    \;+\; \frac{\|\dot{\mathbf{R}}\|^{2}}{2}\,\mu_{AB,C}.\]</div>
+<p>The corresponding conjugate momenta are
+<span class="math notranslate nohighlight">\(\mathbf{p} = \mu_{AB}\dot{\mathbf{r}}\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{P} = \mu_{AB,C}\dot{\mathbf{R}}\)</span>, giving six position
+and six momentum components — hence <code class="docutils literal notranslate"><span class="pre">NEqtTot</span> <span class="pre">=</span> <span class="pre">12</span></code> for a 3-atom
+system. CoarseAIR packages these components into the phase-space
+vector <code class="docutils literal notranslate"><span class="pre">PaQ</span></code> (momenta first, coordinates second).</p>
+<p>For a 4-atom system A, B, C, D the analogous <strong>diatom + diatom
+Jacobi decomposition</strong> uses:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{r}_1 \;=\; \mathbf{R}_B - \mathbf{R}_A,
+\qquad
+\mathbf{r}_2 \;=\; \mathbf{R}_D - \mathbf{R}_C,
+\qquad
+\mathbf{R}_{12} \;=\; \mathbf{R}_{CD}^{CM} - \mathbf{R}_{AB}^{CM},\]</div>
+<p>with three reduced masses (<span class="math notranslate nohighlight">\(\mu_{AB}\)</span>, <span class="math notranslate nohighlight">\(\mu_{CD}\)</span>,
+<span class="math notranslate nohighlight">\(\mu_{AB,CD}\)</span>) and <code class="docutils literal notranslate"><span class="pre">NEqtTot</span> <span class="pre">=</span> <span class="pre">18</span></code> phase-space components.
+The transformation logic lives in
+<code class="docutils literal notranslate"><span class="pre">src/Collision/Transformation_Class.F90</span></code>; the mass factors
+<span class="math notranslate nohighlight">\(\mu\)</span> enter <code class="docutils literal notranslate"><span class="pre">mMiMn</span></code> inside each PES object during
+initialisation, so the integrator sees them as plain constants
+during the hot path.</p>
+</section>
+<section id="pair-numbering-convention">
+<h2>Pair numbering convention<a class="headerlink" href="#pair-numbering-convention" title="Link to this heading"></a></h2>
+<p>A key convention carried throughout the code and the output files:</p>
+<p><strong>3-atom systems</strong> have three atoms A, B, C with three atom pairs:</p>
+<div class="math notranslate nohighlight">
+\[\text{pair 1} = (A, B), \qquad
+\text{pair 2} = (A, C), \qquad
+\text{pair 3} = (B, C).\]</div>
+<p><strong>4-atom systems</strong> have four atoms A, B, C, D and six atom pairs
+(see the <code class="docutils literal notranslate"><span class="pre">Notation</span></code> figure in the legacy User’s Manual):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{llll}
+  1 = (A, B), &amp; 2 = (A, C), &amp; 3 = (A, D), &amp; \\
+  4 = (B, C), &amp; 5 = (B, D), &amp; 6 = (C, D). &amp;
+\end{array}\end{split}\]</div>
+<p>The convention is used by the <code class="docutils literal notranslate"><span class="pre">AtomsPair</span></code> module
+(<code class="docutils literal notranslate"><span class="pre">src/AtomsPairs/</span></code>), by the final-state classifier when it
+reports <code class="docutils literal notranslate"><span class="pre">arr_f</span></code>, and — through the <code class="docutils literal notranslate"><span class="pre">16</span> <span class="pre">m</span> <span class="pre">+</span> <span class="pre">n</span></code> encoding — by
+the trajectory-output file (<a class="reference internal" href="../user/postprocessing.html"><span class="doc">Post-processing</span></a>).</p>
+</section>
+<section id="hamiltonian-and-canonical-equations-of-motion">
+<h2>Hamiltonian and canonical equations of motion<a class="headerlink" href="#hamiltonian-and-canonical-equations-of-motion" title="Link to this heading"></a></h2>
+<p>Starting from the Lagrangian
+<span class="math notranslate nohighlight">\(L = T - V\)</span> in the Jacobi coordinates above, the Legendre
+transform gives the Hamiltonian</p>
+<div class="math notranslate nohighlight">
+\[H(\mathbf{p}, \mathbf{Q})
+\;=\; \sum_{k = 1}^{N_{\text{eq}}}
+      \frac{p_k^{2}}{2\, m_k^{\text{eff}}}
+\;+\; V(\mathbf{Q}),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\{m_k^{\text{eff}}\}\)</span> are the Jacobi reduced masses
+(<code class="docutils literal notranslate"><span class="pre">mMiMn</span></code> on the PES object) and <span class="math notranslate nohighlight">\(V(\mathbf{Q})\)</span> is the PES
+value on the trajectory’s assigned electronic surface. Hamilton’s
+equations</p>
+<div class="math notranslate nohighlight">
+\[\frac{dQ_k}{dt}
+  \;=\;  \frac{\partial H}{\partial p_k}
+  \;=\;  \frac{p_k}{m_k^{\text{eff}}},
+\qquad
+\frac{dp_k}{dt}
+  \;=\; -\frac{\partial H}{\partial Q_k}
+  \;=\; -\frac{\partial V}{\partial Q_k}\]</div>
+<p>are the system integrated by the Bulirsch–Stoer method in
+<a class="reference internal" href="integrators.html"><span class="doc">Trajectory Integrators</span></a>. The right-hand side is assembled in
+<code class="docutils literal notranslate"><span class="pre">HamiltonODESystem</span></code> (<code class="docutils literal notranslate"><span class="pre">src/Collision/ODE/ODE_System.F90</span></code>), which
+delegates the PES gradient to the PES object via
+<code class="docutils literal notranslate"><span class="pre">Collision%Compute_PES</span></code>:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="c">! simplified: the per-trajectory PES dispatch</span>
+<span class="k">call </span><span class="n">PESsContainer</span><span class="p">(</span><span class="w"> </span><span class="n">iPES</span><span class="p">(</span><span class="n">iTraj</span><span class="p">)</span><span class="w"> </span><span class="p">)%</span><span class="n">PES</span><span class="p">%</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="n">Compute</span><span class="p">(</span><span class="w"> </span><span class="n">Q</span><span class="p">(:,</span><span class="n">iTraj</span><span class="p">),</span><span class="w"> </span><span class="n">V</span><span class="p">(</span><span class="n">iTraj</span><span class="p">),</span><span class="w"> </span><span class="n">dVdQ</span><span class="p">(:,</span><span class="n">iTraj</span><span class="p">),</span><span class="w"> </span><span class="n">Rpi</span><span class="p">(:,</span><span class="n">iTraj</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The scalar <code class="docutils literal notranslate"><span class="pre">iPES(iTraj)</span></code> stores the electronic surface index that
-trajectory <code class="docutils literal notranslate"><span class="pre">iTraj</span></code> runs on. In adiabatic CoarseAIR this index is fixed at
-initialisation; in CoarseAIR+ it may change mid-trajectory via a surface-hop
-event.</p>
+<p>The Hamiltonian <span class="math notranslate nohighlight">\(H\)</span> is a conserved quantity of the exact flow;
+numerically it drifts by a small amount each step, and the
+trajectory-level <span class="math notranslate nohighlight">\(\Delta H = H_{\text{final}} - H_{\text{initial}}\)</span>
+is monitored as the primary integration-quality diagnostic (see
+<a class="reference internal" href="integrators.html"><span class="doc">Trajectory Integrators</span></a>).</p>
 </section>
-<section id="per-trajectory-pipeline">
-<h2>Per-trajectory pipeline<a class="headerlink" href="#per-trajectory-pipeline" title="Link to this heading"></a></h2>
-<p>For each trajectory the code executes the following sequence
-(<code class="docutils literal notranslate"><span class="pre">src/Collision/Integrator_Class.F90</span></code>):</p>
-<ol class="arabic">
-<li><p><strong>Initial-state sampling.</strong> Select initial ro-vibrational quantum numbers
-<span class="math notranslate nohighlight">\((v, J)\)</span>, impact parameter <span class="math notranslate nohighlight">\(b\)</span>, collision energy <span class="math notranslate nohighlight">\(E\)</span>,
-orientation angles, and PES index. See <a class="reference internal" href="sampling.html"><span class="doc">Sampling</span></a>.</p></li>
-<li><p><strong>Build the initial</strong> <code class="docutils literal notranslate"><span class="pre">PaQ</span></code> <strong>vector</strong> in the body-fixed frame, with
-projectile at separation <span class="math notranslate nohighlight">\(D_{\text{init}}\)</span> along <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
-<li><p><strong>Propagate</strong> <code class="docutils literal notranslate"><span class="pre">PaQ</span></code> forward in time via Bulirsch–Stoer until one of two
-convergence criteria trips:</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(t \geq t_{\max}\)</span> (hard time limit), or</p></li>
-<li><p>some inter-atomic distance exceeds <code class="docutils literal notranslate"><span class="pre">RpiMax</span></code> (products fully
-separated).</p></li>
-</ul>
-</li>
-<li><p><strong>Identify the final arrangement</strong> by sorting inter-atomic distances and
-running the effective-potential classifier. See
-<a class="reference internal" href="arrangement_classification.html"><span class="doc">Arrangement Classification</span></a>.</p></li>
-<li><p><strong>Quantise the final state</strong> semi-classically:</p>
+<section id="semi-classical-quantisation-at-the-boundaries">
+<h2>Semi-classical quantisation at the boundaries<a class="headerlink" href="#semi-classical-quantisation-at-the-boundaries" title="Link to this heading"></a></h2>
+<p>QCT uses quantum-mechanical state assignments only at the
+trajectory endpoints — never during the propagation. At both the
+initial and final times, CoarseAIR applies a semi-classical
+correspondence:</p>
+<p><strong>Vibrational action.</strong> For a bound diatom with reduced mass
+<span class="math notranslate nohighlight">\(\mu\)</span> and internal energy <span class="math notranslate nohighlight">\(E_\text{int}\)</span>, the
+Bohr–Sommerfeld quantisation condition is</p>
 <div class="math notranslate nohighlight">
-\[v' + \tfrac{1}{2}
-\;=\; \frac{1}{\pi\hbar}
-\oint p\,dq,
-\qquad
-J'(J'+1)\hbar^2 \;\leftarrow\; \|\mathbf{L}\|^{2}.\]</div>
-<p>The action integral <span class="math notranslate nohighlight">\(\oint p\,dq\)</span> is evaluated by the diatomic
-potential object (<code class="docutils literal notranslate"><span class="pre">DiatomicPotential%ActionIntegral</span></code>); the angular
-momentum <span class="math notranslate nohighlight">\(\mathbf{L}\)</span> is computed from the final atomic velocities
-in the product diatom’s CM frame.</p>
-</li>
-</ol>
-<p>The outputs per trajectory are: the process type (elastic, inelastic,
-exchange, dissociation), the final <span class="math notranslate nohighlight">\((v', J')\)</span>, the PES index
-<code class="docutils literal notranslate"><span class="pre">iPES</span></code>, the impact parameter <span class="math notranslate nohighlight">\(b\)</span>, and the final Hamiltonian for
-energy-conservation audit.</p>
+\[\oint p(R)\,dR
+\;=\; 2 \int_{R_\text{in}}^{R_\text{out}}
+      \sqrt{2\,\mu\,[E_\text{int} - V_{\text{eff}}(R;J)]}\, dR
+\;=\; 2\pi\hbar\,\left(v + \tfrac{1}{2}\right),\]</div>
+<p>with <span class="math notranslate nohighlight">\(R_\text{in}\)</span>, <span class="math notranslate nohighlight">\(R_\text{out}\)</span> the classical
+turning points. Inverting for <span class="math notranslate nohighlight">\(v\)</span> gives the vibrational
+quantum number used in the output. This is the same integral that
+the level generator evaluates at each eigenvalue of the radial
+Schrödinger equation — see <a class="reference internal" href="level_generation.html"><span class="doc">Level Generation (Numerov method)</span></a>.</p>
+<p><strong>Rotational action.</strong> The Langer-corrected mapping between the
+classical squared angular momentum and the rotational quantum
+number is</p>
+<div class="math notranslate nohighlight">
+\[\|\mathbf{L}\|^{2} \;=\; \left(J + \tfrac{1}{2}\right)^{2}\hbar^{2},
+\quad\Longleftrightarrow\quad
+J + \tfrac{1}{2} \;=\; \frac{\|\mathbf{L}\|}{\hbar}.\]</div>
+<p>CoarseAIR computes <span class="math notranslate nohighlight">\(\mathbf{L}\)</span> from the final-state atomic
+positions and velocities in the product diatom’s CM frame, then
+solves for <span class="math notranslate nohighlight">\(J\)</span>. Histogram binning rounds <span class="math notranslate nohighlight">\(J\)</span> (and
+<span class="math notranslate nohighlight">\(v\)</span>) to the nearest integer before they are written to the
+trajectory output; the unrounded float values are retained so the
+user can post-process with a different binning strategy (Gaussian,
+QSS) if desired.</p>
+<p>Both quantum numbers are then mapped onto the pre-computed level
+table for the product diatom — i.e., onto a specific
+<span class="math notranslate nohighlight">\((v, J)\)</span> index (state-to-state mode) or group index
+(coarse-grained mode) — using the binning strategy specified in
+<code class="docutils literal notranslate"><span class="pre">CoarseAIR.inp</span></code>. See <a class="reference internal" href="sampling.html"><span class="doc">Sampling</span></a> for the binning framework
+and <a class="reference internal" href="arrangement_classification.html"><span class="doc">Arrangement Classification</span></a> for the full final-state
+pipeline.</p>
 </section>
-<section id="what-coarseair-does-not-do-at-this-level">
-<h2>What CoarseAIR does <em>not</em> do (at this level)<a class="headerlink" href="#what-coarseair-does-not-do-at-this-level" title="Link to this heading"></a></h2>
+<section id="per-trajectory-runtime-pipeline">
+<h2>Per-trajectory runtime pipeline<a class="headerlink" href="#per-trajectory-runtime-pipeline" title="Link to this heading"></a></h2>
+<p>Putting the pieces together, the life of one trajectory is:</p>
+<ol class="arabic simple">
+<li><p><strong>Initial-state sampling</strong> — draw <span class="math notranslate nohighlight">\((v_i, J_i)\)</span>, collision
+energy <span class="math notranslate nohighlight">\(E\)</span>, impact parameter <span class="math notranslate nohighlight">\(b\)</span>, Euler
+orientation angles, and PES index <code class="docutils literal notranslate"><span class="pre">iPES</span></code> from the
+distributions described in <a class="reference internal" href="sampling.html"><span class="doc">Sampling</span></a>.</p></li>
+<li><p><strong>Build</strong> <code class="docutils literal notranslate"><span class="pre">PaQ</span></code> in the body-fixed frame at initial
+separation <span class="math notranslate nohighlight">\(D_\text{init}\)</span> along <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
+<li><p><strong>Propagate</strong> by Bulirsch–Stoer until <code class="docutils literal notranslate"><span class="pre">tmax</span></code> or product
+separation <code class="docutils literal notranslate"><span class="pre">RpiMax</span></code> (<a class="reference internal" href="integrators.html"><span class="doc">Trajectory Integrators</span></a>).</p></li>
+<li><p><strong>Final-state identification</strong> — sort inter-atomic distances,
+compute the effective potential, classify as bound /
+quasi-bound / dissociated, compute action integrals, assign
+<span class="math notranslate nohighlight">\((v', J')\)</span> and arrangement code
+(<a class="reference internal" href="arrangement_classification.html"><span class="doc">Arrangement Classification</span></a>).</p></li>
+<li><p><strong>Emit</strong> one row of <code class="docutils literal notranslate"><span class="pre">trajectories.csv</span></code> with
+<span class="math notranslate nohighlight">\((i_\text{traj}, \text{iPES}, b_{\max}, b,
+J_i, v_i, \text{arr}_i, J_f, v_f, \text{arr}_f)\)</span>.</p></li>
+</ol>
+<p>The cross-section and rate-coefficient estimators that consume this
+output are derived in <a class="reference internal" href="rate_extraction.html"><span class="doc">Rate &amp; Cross-Section Extraction</span></a>.</p>
+</section>
+<section id="what-coarseair-does-not-do-in-the-adiabatic-pipeline">
+<h2>What CoarseAIR does <em>not</em> do in the adiabatic pipeline<a class="headerlink" href="#what-coarseair-does-not-do-in-the-adiabatic-pipeline" title="Link to this heading"></a></h2>
+<p>A short consolidated list for the record (all are design choices,
+not bugs):</p>
 <ul class="simple">
-<li><p><strong>No nonadiabatic transitions</strong> in the main adiabatic branch. Each
-trajectory stays on the surface assigned at initialisation. The full
-multi-surface machinery is exercised only for degeneracy-weighted
-branching, not for dynamical hops — see <a class="reference internal" href="pes_formats.html"><span class="doc">PES Formats</span></a> and the
-CoarseAIR+ documentation.</p></li>
-<li><p><strong>No zero-point leakage control.</strong> CoarseAIR uses standard histogram
-binning of final actions; no Gaussian-binning or zero-point-energy
-correction is applied in the base workflow.</p></li>
-<li><p><strong>No quantum interference.</strong> Reactive branches are counted independently;
-no phase information is tracked.</p></li>
+<li><p><strong>No dynamical electronic transitions.</strong> Each trajectory stays on
+the surface <code class="docutils literal notranslate"><span class="pre">iPES</span></code> was initialised to. Multi-surface runs are
+therefore a <em>degeneracy-weighted average</em> over independent
+single-surface ensembles, not a coupled-channels simulation.
+Surface hopping is a CoarseAIR+ feature.</p></li>
+<li><p><strong>No Gaussian-binning ZPE correction</strong> in the base code. Final
+<span class="math notranslate nohighlight">\(v, J\)</span> are assigned by histogram binning to the nearest
+pre-computed level. Post-processing tools can apply Gaussian
+binning or QSS-style weighting if desired.</p></li>
+<li><p><strong>No quantum interference</strong> between reactive pathways.</p></li>
+<li><p><strong>No backward-propagation cross-check</strong> in production runs. A
+<code class="docutils literal notranslate"><span class="pre">Backward</span> <span class="pre">Integrating?</span> <span class="pre">=</span> <span class="pre">yes</span></code> option exists for diagnostics
+but is not the normal mode.</p></li>
+<li><p><strong>No relativistic or spin-orbit corrections</strong> beyond what is
+already baked into the PES. Different spin-orbit components of
+the same electronic manifold are separate PES instances in the
+input (e.g. the three CNO electronic surfaces).</p></li>
 </ul>
+<p>These limits set the boundary of the QCT regime; whenever a user’s
+application approaches one of them, the run should be cross-checked
+against an independent quantum or semi-classical method, or extended
+via CoarseAIR+.</p>
 </section>
 </section>
 

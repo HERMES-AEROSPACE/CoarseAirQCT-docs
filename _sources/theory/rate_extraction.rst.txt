@@ -195,3 +195,94 @@ inspect before trusting a run:
 
 Both checks are available as diagnostics in the post-processing Python
 and MATLAB tooling.
+
+
+Derivations and further detail
+------------------------------
+
+**Bernoulli variance derivation.** Each of the :math:`N_i`
+trajectories in impact-parameter bin :math:`i` is an independent
+Bernoulli trial with success probability :math:`P_{iJ}` (the
+trajectory either produces process :math:`J` or it doesn't). The
+number of successes :math:`N_{iJ}` therefore follows a binomial
+distribution with mean :math:`N_i P_{iJ}` and variance
+:math:`N_i P_{iJ}(1 - P_{iJ})`. Writing the cross-section estimator
+as the linear combination
+:math:`\hat\sigma_J = \sum_i A_{\text{ring},i}\,N_{iJ}/N_i` and
+using independence across bins,
+
+.. math::
+
+   \operatorname{Var}(\hat\sigma_J)
+   \;=\; \sum_i A_{\text{ring},i}^{2}\,
+         \frac{P_{iJ}(1 - P_{iJ})}{N_i}.
+
+Substituting the sample proportion
+:math:`\hat P_{iJ} = N_{iJ}/N_i` gives the standard-deviation
+estimator used by CoarseAIR's rate post-processing. The formula
+assumes strictly independent trajectories — impact parameters
+drawn independently from the sampling distribution, with no shared
+random draws between trajectories. CoarseAIR's mini-batch-parallel
+execution preserves this independence because each mini-batch
+re-seeds from the master RNG stream.
+
+**Complementary-process correlation.** If processes :math:`J`
+and :math:`J'` are complementary (:math:`N_{iJ} + N_{iJ'} = N_i`),
+then :math:`P_{iJ} + P_{iJ'} = 1` exactly, and the binomial variance
+can be rewritten as
+:math:`\operatorname{Var}(N_{iJ}/N_i) = \hat P_{iJ}\hat P_{iJ'}/N_i`.
+Summing over bins gives the compact cross-check
+
+.. math::
+
+   \operatorname{SD}(\hat\sigma_J)
+   \;=\; \sqrt{\sum_i \frac{\hat\sigma_{iJ}\,\hat\sigma_{iJ'}}{N_i}}.
+
+**Maxwell-Boltzmann change of variables.** Starting from
+:math:`k(T) = \int d^{3}\mathbf{w}\,f(\mathbf{w})\,|\mathbf{w}|\,
+\sigma(|\mathbf{w}|)` with isotropic Maxwellian
+:math:`f(\mathbf{w}) = (\mu/2\pi k_B T)^{3/2} \exp(-\mu w^{2}/2k_B T)`,
+passing to spherical coordinates and substituting
+:math:`E = \tfrac{1}{2}\mu w^{2}`, :math:`\hat E = E/k_B T` gives
+
+.. math::
+
+   k(T) \;=\; \sqrt{\frac{8 k_B T}{\mu\pi}}\,
+              \int_0^\infty \hat E\,e^{-\hat E}\,\sigma(\hat E)\,d\hat E.
+
+When the Monte Carlo sampler draws :math:`\hat E` directly from
+:math:`\hat E\,e^{-\hat E}` via the inverse-CDF procedure (see
+:doc:`sampling`), the integral collapses to an arithmetic mean of
+:math:`\sigma(\hat E)` over the drawn sample — the formula used by
+``coarseair-posttrajectories.x`` in thermal mode.
+
+**Detailed balance across levels.** For an ideal gas in
+thermodynamic equilibrium, microscopic reversibility of collisions
+imposes
+
+.. math::
+
+   g_{vJ}\,k_{vJ\to v'J'}(T)\,e^{-E_{vJ}/k_B T}
+   \;=\;
+   g_{v'J'}\,k_{v'J'\to vJ}(T)\,e^{-E_{v'J'}/k_B T}
+
+on the ensemble-averaged rates (not the individual trajectories).
+Systematic violations well outside the Monte Carlo statistical
+error (more than 2–3 standard deviations) indicate either a
+classification bug or a QCT artefact such as zero-point-energy
+leakage — the single most sensitive diagnostic for production
+rate datasets.
+
+**Arrhenius fit.** For each process :math:`d`, CoarseAIR fits
+
+.. math::
+
+   \ln k(T) \;=\; \ln A \;+\; n\,\ln T \;-\; \frac{E_a}{k_B T}
+
+by unweighted least squares over the sampled temperatures,
+producing :math:`(A, n, E_a)` stored in ``Process%ArrCoeffs``.
+Extrapolation far outside the sampled temperature range is
+unreliable — the pre-exponential :math:`n` is especially sensitive
+to the sampled range. For multi-regime behaviour a piecewise or
+modified-Arrhenius form is more appropriate; that fit is not
+produced automatically.
