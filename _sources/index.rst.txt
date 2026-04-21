@@ -34,6 +34,7 @@ are required and conventional rate models break down.
    :caption: Theory Guide
 
    theory/qct
+   theory/level_generation
    theory/sampling
    theory/integrators
    theory/pes_formats

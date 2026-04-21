@@ -23,7 +23,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Sampling" href="sampling.html" />
+    <link rel="next" title="Level Generation (Numerov method)" href="level_generation.html" />
     <link rel="prev" title="Post-processing" href="../user/postprocessing.html" /> 
 </head>
 
@@ -82,6 +82,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#system-and-atomic-composition-block">System and atomic-composition block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#translational-energy-temperature-block">Translational energy / temperature block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#trajectory-and-sampling-block">Trajectory and sampling block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#impact-parameter-block">Impact-parameter block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#pes-block">PES block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#diatomic-potential-block">Diatomic-potential block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#preprocessing-binning-block">Preprocessing / binning block</a></li>
@@ -110,6 +111,18 @@
 <li class="toctree-l2"><a class="reference internal" href="#hamiltonian">Hamiltonian</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#per-trajectory-pipeline">Per-trajectory pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="level_generation.html">Level Generation (Numerov method)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#what-is-being-solved">What is being solved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#numerov-integration">Numerov integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#eigenvalue-search">Eigenvalue search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#semi-classical-action-integrals">Semi-classical action integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#bound-quasi-bound-unbound">Bound, quasi-bound, unbound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#turning-point-and-extremum-search">Turning-point and extremum search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#output-level-file">Output level file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#what-this-replaces-in-a-qct-pipeline">What this replaces in a QCT pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#related">Related</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sampling.html">Sampling</a><ul>
@@ -221,6 +234,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#pes-models">PES models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#typical-use">Typical use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#complete-input-file-walkthrough">Complete input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/n4.html">N<sub>4</sub> System</a><ul>
@@ -516,7 +530,7 @@ no phase information is tracked.</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../user/postprocessing.html" class="btn btn-neutral float-left" title="Post-processing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="sampling.html" class="btn btn-neutral float-right" title="Sampling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="level_generation.html" class="btn btn-neutral float-right" title="Level Generation (Numerov method)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

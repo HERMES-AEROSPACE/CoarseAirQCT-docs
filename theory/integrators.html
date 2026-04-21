@@ -82,6 +82,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#system-and-atomic-composition-block">System and atomic-composition block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#translational-energy-temperature-block">Translational energy / temperature block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#trajectory-and-sampling-block">Trajectory and sampling block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#impact-parameter-block">Impact-parameter block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#pes-block">PES block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#diatomic-potential-block">Diatomic-potential block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#preprocessing-binning-block">Preprocessing / binning block</a></li>
@@ -110,6 +111,18 @@
 <li class="toctree-l2"><a class="reference internal" href="qct.html#hamiltonian">Hamiltonian</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qct.html#per-trajectory-pipeline">Per-trajectory pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qct.html#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="level_generation.html">Level Generation (Numerov method)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#what-is-being-solved">What is being solved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#numerov-integration">Numerov integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#eigenvalue-search">Eigenvalue search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#semi-classical-action-integrals">Semi-classical action integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#bound-quasi-bound-unbound">Bound, quasi-bound, unbound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#turning-point-and-extremum-search">Turning-point and extremum search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#output-level-file">Output level file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#what-this-replaces-in-a-qct-pipeline">What this replaces in a QCT pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="level_generation.html#related">Related</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sampling.html">Sampling</a><ul>
@@ -221,6 +234,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#pes-models">PES models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#typical-use">Typical use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#complete-input-file-walkthrough">Complete input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/n4.html">N<sub>4</sub> System</a><ul>
@@ -378,12 +392,20 @@
              
   <section id="trajectory-integrators">
 <h1>Trajectory Integrators<a class="headerlink" href="#trajectory-integrators" title="Link to this heading"></a></h1>
-<p>CoarseAIR uses a <strong>Bulirsch–Stoer</strong> (BS) scheme to advance each trajectory
-in time. The scheme combines the modified midpoint method with
-Richardson / rational-polynomial extrapolation, producing high-order
-accuracy without per-order code paths. It is implemented in
-<code class="docutils literal notranslate"><span class="pre">src/Collision/ODE/ODE_Solver.F90</span></code> with the right-hand side
-(Hamilton’s equations) in <code class="docutils literal notranslate"><span class="pre">src/Collision/ODE/ODE_System.F90</span></code>.</p>
+<p>CoarseAIR propagates each trajectory in time with the <strong>Bulirsch–Stoer
+(BS) method</strong>, combining:</p>
+<ul class="simple">
+<li><p>the <strong>modified midpoint</strong> rule for the underlying sub-stepping
+(routine <code class="docutils literal notranslate"><span class="pre">mmidv</span></code> in <code class="docutils literal notranslate"><span class="pre">src/Collision/ODE/ODE_Solver.F90</span></code>);</p></li>
+<li><p><strong>rational-polynomial (Richardson-style) extrapolation</strong> across
+progressively finer sub-steppings to achieve high order without
+per-order code paths; and</p></li>
+<li><p>a <strong>per-trajectory adaptive step size</strong> with error control based on
+the difference between successive extrapolated estimates.</p></li>
+</ul>
+<p>The right-hand side of Hamilton’s equations is assembled in
+<code class="docutils literal notranslate"><span class="pre">src/Collision/ODE/ODE_System.F90</span></code> (<code class="docutils literal notranslate"><span class="pre">HamiltonODESystem</span></code>), which
+calls into the PES module for the force term.</p>
 <p>This page summarises the numerical method, the per-trajectory step
 control, and the energy-conservation diagnostic used to validate
 integration quality.</p>

@@ -1,0 +1,241 @@
+Level Generation (Numerov method)
+=================================
+
+Before any trajectory can be run, CoarseAIR needs the ro-vibrational
+energy-level table of every diatomic molecule that may appear as a
+reactant or product. The table ships pre-computed for most supported
+species (see ``dtb/Molecules/<Species>/``), but for new potentials or
+new PES variants the levels must be recomputed. This chapter describes
+the numerical machinery behind that computation.
+
+The relevant code lives in ``src/Levels/LevelsGenerator_Module.F90``
+and is called by the executable ``coarseair-computelevels.x`` whenever
+``Generating Energy Levels? = yes`` in the input.
+
+
+What is being solved
+--------------------
+
+For each diatomic molecule with internuclear distance :math:`R` and
+reduced mass :math:`\mu`, CoarseAIR solves the **radial Schrödinger
+equation** for the bound ro-vibrational states of the effective
+potential
+
+.. math::
+
+   V_{\text{eff}}(R; J) \;=\; V_{\text{diat}}(R)
+                             \;+\; \frac{\left(J + \tfrac{1}{2}\right)^{2}}{2\mu R^{2}},
+
+where :math:`V_{\text{diat}}(R)` is the chosen diatomic potential (see
+:doc:`pes_formats`) and the centrifugal term uses the Langer
+correction :math:`J(J+1) \to (J + \tfrac{1}{2})^{2}`. The goal is to
+find every eigenpair :math:`\{E_{vJ}, \psi_{vJ}(R)\}` such that
+
+.. math::
+
+   -\frac{1}{2\mu}\frac{d^2 \psi_{vJ}}{dR^2}
+   \;+\; V_{\text{eff}}(R; J)\, \psi_{vJ}
+   \;=\; E_{vJ}\, \psi_{vJ},
+
+with :math:`\psi_{vJ}(R)` satisfying the usual bound-state boundary
+conditions at :math:`R \to 0` and :math:`R \to \infty`.
+
+
+Numerov integration
+-------------------
+
+CoarseAIR integrates the radial Schrödinger equation with the
+**Numerov method** — a three-point recurrence specialised to equations
+of the form :math:`\psi''(R) = f(R)\, \psi(R)`. Writing
+:math:`\psi_n = \psi(R_n)` on a uniform grid of spacing :math:`h`, the
+update is
+
+.. math::
+
+   \left(1 - \tfrac{h^2}{12} f_{n+1}\right) \psi_{n+1}
+   \;=\; 2\left(1 + \tfrac{5 h^2}{12} f_n\right) \psi_n
+      \;-\; \left(1 - \tfrac{h^2}{12} f_{n-1}\right) \psi_{n-1},
+
+with
+
+.. math::
+
+   f(R) \;=\; 2\mu\left[\, V_{\text{eff}}(R; J) - E \,\right].
+
+The scheme is fourth-order accurate and has excellent stability
+properties for oscillatory bound-state wavefunctions. For the
+canonical reference see *Sandvik (2016)* "Numerical Solutions of the
+Schrödinger Equation" and, for the coupled-channel generalisation,
+Johnson's *J. Chem. Phys.* **69**, 4678 (1978) — both cited in
+:doc:`/reference/bibliography`.
+
+
+Eigenvalue search
+-----------------
+
+For each :math:`J` the bound-state eigenvalues :math:`E_{vJ}` are
+found by a two-stage bracketing:
+
+1. **Bisection** (40 iterations by default) narrows the interval
+   :math:`[V_{\min}, V_\infty]` — the potential well plus any
+   centrifugal barrier — to a small bracket around each eigenvalue
+   using sign changes in the logarithmic derivative of
+   :math:`\psi` (the number-of-nodes criterion).
+2. **Newton–Raphson refinement** (80 iterations) polishes each
+   eigenvalue to high precision using a derivative-based update.
+
+Both stages call the Numerov forward/backward integrators and a
+matching condition at the classical turning point. The logic is
+implemented in ``LevelsGenerator_Module.F90``.
+
+
+Semi-classical action integrals
+-------------------------------
+
+In addition to :math:`E_{vJ}`, CoarseAIR computes the **WKB action
+integral**
+
+.. math::
+
+   S(E, J) \;=\; \oint p(R)\, dR
+              \;=\; 2 \int_{R_{\text{in}}}^{R_{\text{out}}}
+                    \sqrt{2\mu\,[E - V_{\text{eff}}(R; J)]}\, dR,
+
+between the inner and outer classical turning points. At each computed
+eigenvalue this should give :math:`S \approx 2\pi\hbar\, (v +
+\tfrac{1}{2})`; deviations are used as a quality check. The action
+integral is the same quantity used at run time to quantise the final
+vibrational state of each trajectory — see
+:doc:`arrangement_classification`.
+
+The action is evaluated by Gauss–Legendre quadrature; the number of
+quadrature points is set in the input file
+(``Nb of Quadrature Pts for Action Integral =``, typically 50).
+
+
+Bound, quasi-bound, unbound
+---------------------------
+
+For each :math:`J`, three kinds of solutions can appear:
+
+- **Bound** — :math:`E_{vJ} < V_\infty` (:math:`V_\infty` = the
+  asymptotic potential). The standard case.
+- **Quasi-bound** — :math:`V_\infty < E_{vJ} < V_{\max}(J)` where
+  :math:`V_{\max}(J)` is the centrifugal-barrier maximum. These states
+  are metastable — classically trapped behind the barrier but
+  asymptotically unbound. CoarseAIR retains them in the level table
+  with a finite lifetime :math:`\Gamma_{vJ}` (column 4 of the output
+  file) computed from the barrier transmission.
+- **Unbound** — :math:`E_{vJ} > V_{\max}(J)`. Discarded.
+
+The quasi-bound set matters physically because a significant fraction
+of near-dissociation population at high temperature sits in these
+levels. CoarseAIR's level generator treats them as genuine levels;
+downstream post-processing can choose to include or exclude them
+(see :doc:`arrangement_classification`).
+
+
+Turning-point and extremum search
+---------------------------------
+
+The Numerov solver needs accurate turning points
+:math:`R_{\text{in}}, R_{\text{out}}` and, for quasi-bound levels, the
+position and height of the centrifugal-barrier maximum. The diatomic
+potential object (``DiatomicPotential_Type``) exposes
+``FindMinimum``, ``FindMaximum``, and ``TurningPoint`` methods that
+locate these by bracketed root-finding on :math:`V_{\text{eff}}(R; J)`.
+
+The CoarseAIR input lets you prescribe the search window for the
+barrier maximum:
+
+.. code-block:: text
+
+   Lower Bound for Position of Centrifugal Barrier Max = 1.0d0
+   Upper Bound for Position of Centrifugal Barrier Max = 30.d0
+
+Getting this wrong (barrier outside the search window) is a common
+cause of "missing" quasi-bound levels; widen the window if the level
+table looks truncated in :math:`J`.
+
+
+Output level file
+-----------------
+
+The per-molecule level table written by ``coarseair-computelevels.x``
+lives at ``<rundir>/Test/<System>/<Molecule>/<filename>`` where
+``<filename>`` comes from ``GenerateLevels.inp``. Each row is one level
+with 11 columns:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 6 22 72
+
+   * - #
+     - Column
+     - Meaning
+   * - 1
+     - :math:`v`
+     - Vibrational quantum number.
+   * - 2
+     - :math:`J`
+     - Rotational quantum number.
+   * - 3
+     - :math:`E` (Eh)
+     - Internal energy.
+   * - 4
+     - :math:`\Gamma`
+     - Lifetime parameter for quasi-bound levels.
+   * - 5
+     - :math:`R_{V_{\min}(J)}` (a.u.)
+     - Position of the effective-potential minimum.
+   * - 6
+     - :math:`R_{V_{\max}(J)}` (a.u.)
+     - Position of the centrifugal barrier.
+   * - 7
+     - :math:`V^{\min}(J)` (Eh)
+     - Well depth of the effective potential.
+   * - 8
+     - :math:`V^{\max}(J)` (Eh)
+     - Height of the centrifugal barrier.
+   * - 9
+     - :math:`\tau_v` (a.u.)
+     - Vibrational period.
+   * - 10
+     - :math:`R_{\text{in}}` (:math:`a_0`)
+     - Inner turning point.
+   * - 11
+     - :math:`R_{\text{out}}` (:math:`a_0`)
+     - Outer turning point.
+
+The same level file is consumed later by the trajectory initial-state
+sampler (see :doc:`sampling`) and by the final-state quantiser (see
+:doc:`arrangement_classification`).
+
+
+What this replaces in a QCT pipeline
+------------------------------------
+
+Some older QCT codes compute ro-vibrational actions on the fly during
+each trajectory's final-state analysis. CoarseAIR does all of that
+work once, up front, at machine-precision for every :math:`(v, J)` it
+will ever need. This choice is what enables:
+
+- Efficient histogram binning of final trajectory outcomes without
+  having to re-solve the Schrödinger equation in the hot path.
+- Clean separation between PES work (level generation) and dynamics
+  work (trajectories), so the two can be debugged and validated
+  independently.
+- Fast switching between binning strategies in post-processing — once
+  levels exist, regrouping into state-specific, vibration-specific, or
+  coarse-grained bins is essentially free.
+
+
+Related
+-------
+
+- Input file for level generation: ``GenerateLevels.inp`` (see
+  :doc:`/user/input_reference`).
+- Re-running level generation when adding a new diatomic:
+  :doc:`/developer/adding_a_system`.
+- WKB action used at trajectory termination:
+  :doc:`arrangement_classification`.

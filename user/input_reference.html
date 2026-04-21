@@ -82,6 +82,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#system-and-atomic-composition-block">System and atomic-composition block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#translational-energy-temperature-block">Translational energy / temperature block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#trajectory-and-sampling-block">Trajectory and sampling block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#impact-parameter-block">Impact-parameter block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pes-block">PES block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#diatomic-potential-block">Diatomic-potential block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#preprocessing-binning-block">Preprocessing / binning block</a></li>
@@ -110,6 +111,18 @@
 <li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#hamiltonian">Hamiltonian</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#per-trajectory-pipeline">Per-trajectory pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/qct.html#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/level_generation.html">Level Generation (Numerov method)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../theory/level_generation.html#what-is-being-solved">What is being solved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/level_generation.html#numerov-integration">Numerov integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/level_generation.html#eigenvalue-search">Eigenvalue search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/level_generation.html#semi-classical-action-integrals">Semi-classical action integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/level_generation.html#bound-quasi-bound-unbound">Bound, quasi-bound, unbound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/level_generation.html#turning-point-and-extremum-search">Turning-point and extremum search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/level_generation.html#output-level-file">Output level file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/level_generation.html#what-this-replaces-in-a-qct-pipeline">What this replaces in a QCT pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/level_generation.html#related">Related</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/sampling.html">Sampling</a><ul>
@@ -221,6 +234,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#pes-models">PES models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#typical-use">Typical use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n3.html#complete-input-file-walkthrough">Complete input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/n4.html">N<sub>4</sub> System</a><ul>
@@ -471,8 +485,69 @@ Initial Distance between Target and Projectile = 25.0   ! a.u.
                                             Boltzmann | MostProbable |
                                             ArbitraryDistribution
 All / Only Even / Only Odd values for Rotational Quantum Nb = All
-Initial Impact Parameter Model = Normal | Random |
-                                 Stratified | FixedAngMom
+</pre></div>
+</div>
+</section>
+<section id="impact-parameter-block">
+<h2>Impact-parameter block<a class="headerlink" href="#impact-parameter-block" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Initial</span> <span class="pre">Impact</span> <span class="pre">Parameter</span> <span class="pre">Model</span></code> line picks one of the four
+sampling strategies described in <a class="reference internal" href="../theory/sampling.html"><span class="doc">Sampling</span></a>. Each model
+expects a different sub-block immediately after. <strong>Sign convention:</strong>
+CoarseAIR reads impact parameters as negative numbers — the magnitude
+is what matters, the sign is an internal flag.</p>
+<p><strong>Normal</strong> — uniform sampling in <span class="math notranslate nohighlight">\(b^2\)</span> from 0 to a single
+<span class="math notranslate nohighlight">\(b_{\max}\)</span>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Initial Impact Parameter Model = Normal
+  Initial Impact Parameter = -14.0d0     ! b_max in bohr (magnitude)
+</pre></div>
+</div>
+<p><strong>Random</strong> — uniform sampling in <span class="math notranslate nohighlight">\(b\)</span> (note the different
+weighting — requires Jacobian correction during rate extraction):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Initial Impact Parameter Model = Random
+  Initial Impact Parameter = -14.0d0
+</pre></div>
+</div>
+<p><strong>Stratified</strong> — divides the impact-parameter range into <em>N</em> strata,
+each with its own trajectory budget. Produces much tighter
+cross-section error bars at fixed cost. The <code class="docutils literal notranslate"><span class="pre">Strata</span> <span class="pre">Type</span></code> is either
+<code class="docutils literal notranslate"><span class="pre">Circles</span></code> (nested discs of radius <span class="math notranslate nohighlight">\(b_i\)</span> with cumulative
+counts) or <code class="docutils literal notranslate"><span class="pre">Rings</span></code> (disjoint annuli between successive
+<span class="math notranslate nohighlight">\(b_i\)</span> with per-annulus counts):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Initial Impact Parameter Model = Stratified
+  Strata Type = Circles
+  Nb of Stratified Sampling Ranges = 7
+    Nb of Trajectories in Range 1 = 1
+    Impact Parameter for Range 1 = -0.25d0
+    Nb of Trajectories in Range 2 = 1
+    Impact Parameter for Range 2 = -0.5d0
+    Nb of Trajectories in Range 3 = 1
+    Impact Parameter for Range 3 = -1.0d0
+    Nb of Trajectories in Range 4 = 1
+    Impact Parameter for Range 4 = -3.0d0
+    Nb of Trajectories in Range 5 = 1
+    Impact Parameter for Range 5 = -5.0d0
+    Nb of Trajectories in Range 6 = 1
+    Impact Parameter for Range 6 = -8.0d0
+    Nb of Trajectories in Range 7 = 1
+    Impact Parameter for Range 7 = -14.0d0
+</pre></div>
+</div>
+<p>Rings example (equivalent physics, different weighting of the
+allocation):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Initial Impact Parameter Model = Stratified
+  Strata Type = Rings
+  Nb of Stratified Sampling Ranges = 2
+    Nb of Trajectories in Range 1 = 1
+    Impact Parameter for Range 1 = -6.0d0
+    Nb of Trajectories in Range 2 = 99
+    Impact Parameter for Range 2 = -14.0d0
+</pre></div>
+</div>
+<p><strong>FixedAngMom</strong> — selects <span class="math notranslate nohighlight">\(b\)</span> so that every trajectory has a
+prescribed total orbital angular momentum, useful for reactive-
+scattering analyses at fixed <span class="math notranslate nohighlight">\(\ell\)</span>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Initial Impact Parameter Model = FixedAngMom
+  Total Angular Momentum = 80.0d0       ! in atomic units
 </pre></div>
 </div>
 <p>Integration-control block:</p>

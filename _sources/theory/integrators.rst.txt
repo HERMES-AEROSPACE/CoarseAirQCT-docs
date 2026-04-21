@@ -1,12 +1,20 @@
 Trajectory Integrators
 ======================
 
-CoarseAIR uses a **Bulirsch–Stoer** (BS) scheme to advance each trajectory
-in time. The scheme combines the modified midpoint method with
-Richardson / rational-polynomial extrapolation, producing high-order
-accuracy without per-order code paths. It is implemented in
-``src/Collision/ODE/ODE_Solver.F90`` with the right-hand side
-(Hamilton's equations) in ``src/Collision/ODE/ODE_System.F90``.
+CoarseAIR propagates each trajectory in time with the **Bulirsch–Stoer
+(BS) method**, combining:
+
+- the **modified midpoint** rule for the underlying sub-stepping
+  (routine ``mmidv`` in ``src/Collision/ODE/ODE_Solver.F90``);
+- **rational-polynomial (Richardson-style) extrapolation** across
+  progressively finer sub-steppings to achieve high order without
+  per-order code paths; and
+- a **per-trajectory adaptive step size** with error control based on
+  the difference between successive extrapolated estimates.
+
+The right-hand side of Hamilton's equations is assembled in
+``src/Collision/ODE/ODE_System.F90`` (``HamiltonODESystem``), which
+calls into the PES module for the force term.
 
 This page summarises the numerical method, the per-trajectory step
 control, and the energy-conservation diagnostic used to validate

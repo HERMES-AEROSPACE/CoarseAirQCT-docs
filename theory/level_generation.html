@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sampling &mdash; CoarseAIR</title>
+  <title>Level Generation (Numerov method) &mdash; CoarseAIR</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -23,8 +23,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Trajectory Integrators" href="integrators.html" />
-    <link rel="prev" title="Level Generation (Numerov method)" href="level_generation.html" /> 
+    <link rel="next" title="Sampling" href="sampling.html" />
+    <link rel="prev" title="Quasi-Classical Trajectories" href="qct.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -113,25 +113,25 @@
 <li class="toctree-l2"><a class="reference internal" href="qct.html#what-coarseair-does-not-do-at-this-level">What CoarseAIR does <em>not</em> do (at this level)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="level_generation.html">Level Generation (Numerov method)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="level_generation.html#what-is-being-solved">What is being solved</a></li>
-<li class="toctree-l2"><a class="reference internal" href="level_generation.html#numerov-integration">Numerov integration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="level_generation.html#eigenvalue-search">Eigenvalue search</a></li>
-<li class="toctree-l2"><a class="reference internal" href="level_generation.html#semi-classical-action-integrals">Semi-classical action integrals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="level_generation.html#bound-quasi-bound-unbound">Bound, quasi-bound, unbound</a></li>
-<li class="toctree-l2"><a class="reference internal" href="level_generation.html#turning-point-and-extremum-search">Turning-point and extremum search</a></li>
-<li class="toctree-l2"><a class="reference internal" href="level_generation.html#output-level-file">Output level file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="level_generation.html#what-this-replaces-in-a-qct-pipeline">What this replaces in a QCT pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="level_generation.html#related">Related</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Level Generation (Numerov method)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-being-solved">What is being solved</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#numerov-integration">Numerov integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#eigenvalue-search">Eigenvalue search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#semi-classical-action-integrals">Semi-classical action integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bound-quasi-bound-unbound">Bound, quasi-bound, unbound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#turning-point-and-extremum-search">Turning-point and extremum search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output-level-file">Output level file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-this-replaces-in-a-qct-pipeline">What this replaces in a QCT pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#related">Related</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Sampling</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#ro-vibrational-state-v-j">Ro-vibrational state <span class="math notranslate nohighlight">\((v, J)\)</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#collision-energy-e">Collision energy <span class="math notranslate nohighlight">\(E\)</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#impact-parameter-b">Impact parameter <span class="math notranslate nohighlight">\(b\)</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#relative-velocity-decomposition">Relative-velocity decomposition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#orientation-sampling-euler-angles">Orientation sampling (Euler angles)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#electronic-surface-index-ipes">Electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="sampling.html">Sampling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#ro-vibrational-state-v-j">Ro-vibrational state <span class="math notranslate nohighlight">\((v, J)\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#collision-energy-e">Collision energy <span class="math notranslate nohighlight">\(E\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#impact-parameter-b">Impact parameter <span class="math notranslate nohighlight">\(b\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#relative-velocity-decomposition">Relative-velocity decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#orientation-sampling-euler-angles">Orientation sampling (Euler angles)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html#electronic-surface-index-ipes">Electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="integrators.html">Trajectory Integrators</a><ul>
@@ -380,9 +380,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Sampling</li>
+      <li class="breadcrumb-item active">Level Generation (Numerov method)</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/theory/sampling.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/theory/level_generation.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -390,142 +390,227 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="sampling">
-<h1>Sampling<a class="headerlink" href="#sampling" title="Link to this heading"></a></h1>
-<p>Each trajectory needs six pieces of information before integration can start:
-the initial ro-vibrational state <span class="math notranslate nohighlight">\((v, J)\)</span> of the target diatom, the
-collision energy <span class="math notranslate nohighlight">\(E\)</span>, the impact parameter <span class="math notranslate nohighlight">\(b\)</span>, three orientation
-Euler angles, and the electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code>. This chapter
-describes how CoarseAIR samples each of them.</p>
-<p>The relevant code lives under <code class="docutils literal notranslate"><span class="pre">src/Collision/InitialStates/</span></code> —
-specifically <code class="docutils literal notranslate"><span class="pre">StateInitDiatomAtom_Module.F90</span></code> (3-body) and
-<code class="docutils literal notranslate"><span class="pre">StateInitDiatomDiatom_Module.F90</span></code> (4-body).</p>
-<section id="ro-vibrational-state-v-j">
-<h2>Ro-vibrational state <span class="math notranslate nohighlight">\((v, J)\)</span><a class="headerlink" href="#ro-vibrational-state-v-j" title="Link to this heading"></a></h2>
-<p>Internal states come from the pre-computed level database
-(<code class="docutils literal notranslate"><span class="pre">dtb/Molecules/&lt;species&gt;/Bins_*/levels_cut.inp</span></code>). CoarseAIR offers four
-selection strategies, chosen by the <code class="docutils literal notranslate"><span class="pre">Bins/Nb</span> <span class="pre">of</span> <span class="pre">PESs</span></code> and related input
-blocks and implemented in <code class="docutils literal notranslate"><span class="pre">src/BinnedMolecules/</span></code>:</p>
+  <section id="level-generation-numerov-method">
+<h1>Level Generation (Numerov method)<a class="headerlink" href="#level-generation-numerov-method" title="Link to this heading"></a></h1>
+<p>Before any trajectory can be run, CoarseAIR needs the ro-vibrational
+energy-level table of every diatomic molecule that may appear as a
+reactant or product. The table ships pre-computed for most supported
+species (see <code class="docutils literal notranslate"><span class="pre">dtb/Molecules/&lt;Species&gt;/</span></code>), but for new potentials or
+new PES variants the levels must be recomputed. This chapter describes
+the numerical machinery behind that computation.</p>
+<p>The relevant code lives in <code class="docutils literal notranslate"><span class="pre">src/Levels/LevelsGenerator_Module.F90</span></code>
+and is called by the executable <code class="docutils literal notranslate"><span class="pre">coarseair-computelevels.x</span></code> whenever
+<code class="docutils literal notranslate"><span class="pre">Generating</span> <span class="pre">Energy</span> <span class="pre">Levels?</span> <span class="pre">=</span> <span class="pre">yes</span></code> in the input.</p>
+<section id="what-is-being-solved">
+<h2>What is being solved<a class="headerlink" href="#what-is-being-solved" title="Link to this heading"></a></h2>
+<p>For each diatomic molecule with internuclear distance <span class="math notranslate nohighlight">\(R\)</span> and
+reduced mass <span class="math notranslate nohighlight">\(\mu\)</span>, CoarseAIR solves the <strong>radial Schrödinger
+equation</strong> for the bound ro-vibrational states of the effective
+potential</p>
+<div class="math notranslate nohighlight">
+\[V_{\text{eff}}(R; J) \;=\; V_{\text{diat}}(R)
+                          \;+\; \frac{\left(J + \tfrac{1}{2}\right)^{2}}{2\mu R^{2}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(V_{\text{diat}}(R)\)</span> is the chosen diatomic potential (see
+<a class="reference internal" href="pes_formats.html"><span class="doc">PES Formats</span></a>) and the centrifugal term uses the Langer
+correction <span class="math notranslate nohighlight">\(J(J+1) \to (J + \tfrac{1}{2})^{2}\)</span>. The goal is to
+find every eigenpair <span class="math notranslate nohighlight">\(\{E_{vJ}, \psi_{vJ}(R)\}\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[-\frac{1}{2\mu}\frac{d^2 \psi_{vJ}}{dR^2}
+\;+\; V_{\text{eff}}(R; J)\, \psi_{vJ}
+\;=\; E_{vJ}\, \psi_{vJ},\]</div>
+<p>with <span class="math notranslate nohighlight">\(\psi_{vJ}(R)\)</span> satisfying the usual bound-state boundary
+conditions at <span class="math notranslate nohighlight">\(R \to 0\)</span> and <span class="math notranslate nohighlight">\(R \to \infty\)</span>.</p>
+</section>
+<section id="numerov-integration">
+<h2>Numerov integration<a class="headerlink" href="#numerov-integration" title="Link to this heading"></a></h2>
+<p>CoarseAIR integrates the radial Schrödinger equation with the
+<strong>Numerov method</strong> — a three-point recurrence specialised to equations
+of the form <span class="math notranslate nohighlight">\(\psi''(R) = f(R)\, \psi(R)\)</span>. Writing
+<span class="math notranslate nohighlight">\(\psi_n = \psi(R_n)\)</span> on a uniform grid of spacing <span class="math notranslate nohighlight">\(h\)</span>, the
+update is</p>
+<div class="math notranslate nohighlight">
+\[\left(1 - \tfrac{h^2}{12} f_{n+1}\right) \psi_{n+1}
+\;=\; 2\left(1 + \tfrac{5 h^2}{12} f_n\right) \psi_n
+   \;-\; \left(1 - \tfrac{h^2}{12} f_{n-1}\right) \psi_{n-1},\]</div>
+<p>with</p>
+<div class="math notranslate nohighlight">
+\[f(R) \;=\; 2\mu\left[\, V_{\text{eff}}(R; J) - E \,\right].\]</div>
+<p>The scheme is fourth-order accurate and has excellent stability
+properties for oscillatory bound-state wavefunctions. For the
+canonical reference see <em>Sandvik (2016)</em> “Numerical Solutions of the
+Schrödinger Equation” and, for the coupled-channel generalisation,
+Johnson’s <em>J. Chem. Phys.</em> <strong>69</strong>, 4678 (1978) — both cited in
+<a class="reference internal" href="../reference/bibliography.html"><span class="doc">Bibliography</span></a>.</p>
+</section>
+<section id="eigenvalue-search">
+<h2>Eigenvalue search<a class="headerlink" href="#eigenvalue-search" title="Link to this heading"></a></h2>
+<p>For each <span class="math notranslate nohighlight">\(J\)</span> the bound-state eigenvalues <span class="math notranslate nohighlight">\(E_{vJ}\)</span> are
+found by a two-stage bracketing:</p>
+<ol class="arabic simple">
+<li><p><strong>Bisection</strong> (40 iterations by default) narrows the interval
+<span class="math notranslate nohighlight">\([V_{\min}, V_\infty]\)</span> — the potential well plus any
+centrifugal barrier — to a small bracket around each eigenvalue
+using sign changes in the logarithmic derivative of
+<span class="math notranslate nohighlight">\(\psi\)</span> (the number-of-nodes criterion).</p></li>
+<li><p><strong>Newton–Raphson refinement</strong> (80 iterations) polishes each
+eigenvalue to high precision using a derivative-based update.</p></li>
+</ol>
+<p>Both stages call the Numerov forward/backward integrators and a
+matching condition at the classical turning point. The logic is
+implemented in <code class="docutils literal notranslate"><span class="pre">LevelsGenerator_Module.F90</span></code>.</p>
+</section>
+<section id="semi-classical-action-integrals">
+<h2>Semi-classical action integrals<a class="headerlink" href="#semi-classical-action-integrals" title="Link to this heading"></a></h2>
+<p>In addition to <span class="math notranslate nohighlight">\(E_{vJ}\)</span>, CoarseAIR computes the <strong>WKB action
+integral</strong></p>
+<div class="math notranslate nohighlight">
+\[S(E, J) \;=\; \oint p(R)\, dR
+           \;=\; 2 \int_{R_{\text{in}}}^{R_{\text{out}}}
+                 \sqrt{2\mu\,[E - V_{\text{eff}}(R; J)]}\, dR,\]</div>
+<p>between the inner and outer classical turning points. At each computed
+eigenvalue this should give <span class="math notranslate nohighlight">\(S \approx 2\pi\hbar\, (v +
+\tfrac{1}{2})\)</span>; deviations are used as a quality check. The action
+integral is the same quantity used at run time to quantise the final
+vibrational state of each trajectory — see
+<a class="reference internal" href="arrangement_classification.html"><span class="doc">Arrangement Classification</span></a>.</p>
+<p>The action is evaluated by Gauss–Legendre quadrature; the number of
+quadrature points is set in the input file
+(<code class="docutils literal notranslate"><span class="pre">Nb</span> <span class="pre">of</span> <span class="pre">Quadrature</span> <span class="pre">Pts</span> <span class="pre">for</span> <span class="pre">Action</span> <span class="pre">Integral</span> <span class="pre">=</span></code>, typically 50).</p>
+</section>
+<section id="bound-quasi-bound-unbound">
+<h2>Bound, quasi-bound, unbound<a class="headerlink" href="#bound-quasi-bound-unbound" title="Link to this heading"></a></h2>
+<p>For each <span class="math notranslate nohighlight">\(J\)</span>, three kinds of solutions can appear:</p>
 <ul class="simple">
-<li><p><strong>State-to-State (StS)</strong> — one bin per <span class="math notranslate nohighlight">\((v, J)\)</span> level. This gives
-full state-resolved output but is expensive at high temperature.</p></li>
-<li><p><strong>Vibrational Specific (VibSpec)</strong> — bins are labelled by <span class="math notranslate nohighlight">\(v\)</span> only;
-rotational sub-levels within each <span class="math notranslate nohighlight">\(v\)</span> are distributed by
-their Boltzmann weight. Standard for vibrational-ladder studies.</p></li>
-<li><p><strong>Energy-based</strong> — bins group levels within internal-energy windows. Used
-for coarse-grained models (group-specific rates).</p></li>
-<li><p><strong>Hybrid / FromFile</strong> — user-supplied partitioning, read directly from a
-file listing levels per bin.</p></li>
+<li><p><strong>Bound</strong> — <span class="math notranslate nohighlight">\(E_{vJ} &lt; V_\infty\)</span> (<span class="math notranslate nohighlight">\(V_\infty\)</span> = the
+asymptotic potential). The standard case.</p></li>
+<li><p><strong>Quasi-bound</strong> — <span class="math notranslate nohighlight">\(V_\infty &lt; E_{vJ} &lt; V_{\max}(J)\)</span> where
+<span class="math notranslate nohighlight">\(V_{\max}(J)\)</span> is the centrifugal-barrier maximum. These states
+are metastable — classically trapped behind the barrier but
+asymptotically unbound. CoarseAIR retains them in the level table
+with a finite lifetime <span class="math notranslate nohighlight">\(\Gamma_{vJ}\)</span> (column 4 of the output
+file) computed from the barrier transmission.</p></li>
+<li><p><strong>Unbound</strong> — <span class="math notranslate nohighlight">\(E_{vJ} &gt; V_{\max}(J)\)</span>. Discarded.</p></li>
 </ul>
-<p>Within a selected bin, the specific starting level is drawn with probability
-proportional to its degeneracy-weighted Boltzmann factor.</p>
+<p>The quasi-bound set matters physically because a significant fraction
+of near-dissociation population at high temperature sits in these
+levels. CoarseAIR’s level generator treats them as genuine levels;
+downstream post-processing can choose to include or exclude them
+(see <a class="reference internal" href="arrangement_classification.html"><span class="doc">Arrangement Classification</span></a>).</p>
 </section>
-<section id="collision-energy-e">
-<h2>Collision energy <span class="math notranslate nohighlight">\(E\)</span><a class="headerlink" href="#collision-energy-e" title="Link to this heading"></a></h2>
-<p>CoarseAIR supports two regimes:</p>
-<p><strong>Fixed-energy grid</strong> — the user specifies a list of collision energies in
-the input file. Trajectories are run at each listed <span class="math notranslate nohighlight">\(E\)</span>. Used for
-computing excitation functions <span class="math notranslate nohighlight">\(\sigma_J(E)\)</span> directly.</p>
-<p><strong>Maxwell–Boltzmann thermal sampling</strong> — energies are drawn from the
-translational Maxwellian at temperature <span class="math notranslate nohighlight">\(T\)</span>. Starting from</p>
-<div class="math notranslate nohighlight">
-\[k(T) \;=\; 4\pi \!\int_0^\infty \sigma(w)\, f(w)\, w^3\, dw,
-\qquad
-f(w) \;=\; \left(\frac{m_e}{2\pi k_B T}\right)^{3/2}
-           \exp\!\left(-\frac{m_e w^2}{2 k_B T}\right),\]</div>
-<p>a change of variables to the reduced energy <span class="math notranslate nohighlight">\(\hat{E} = E/(k_B T)\)</span>
-gives the probability density</p>
-<div class="math notranslate nohighlight">
-\[P(\hat{E}) \;=\; \hat{E}\, e^{-\hat{E}},
-\qquad
-F(\hat{E}) \;=\; 1 - e^{-\hat{E}}\,(\hat{E} + 1).\]</div>
-<p>CoarseAIR draws uniform <span class="math notranslate nohighlight">\(U \sim \mathcal{U}[0,1]\)</span>, inverts the CDF by
-Newton–Raphson to obtain <span class="math notranslate nohighlight">\(\hat{E}\)</span>, and sets
-<span class="math notranslate nohighlight">\(E = \hat{E}\, k_B T\)</span>. The thermal rate is then</p>
-<div class="math notranslate nohighlight">
-\[k(T) \;\approx\; \sqrt{\frac{8 k_B T}{\mu\pi}}\;
-                 \frac{1}{N}\sum_{p=1}^{N} \sigma(\hat{E}_p),\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mu\)</span> is the reduced mass of the collision. The inverse-CDF
-sampling is coded in <code class="docutils literal notranslate"><span class="pre">src/Random/</span></code> and called from the initial-state
-modules.</p>
+<section id="turning-point-and-extremum-search">
+<h2>Turning-point and extremum search<a class="headerlink" href="#turning-point-and-extremum-search" title="Link to this heading"></a></h2>
+<p>The Numerov solver needs accurate turning points
+<span class="math notranslate nohighlight">\(R_{\text{in}}, R_{\text{out}}\)</span> and, for quasi-bound levels, the
+position and height of the centrifugal-barrier maximum. The diatomic
+potential object (<code class="docutils literal notranslate"><span class="pre">DiatomicPotential_Type</span></code>) exposes
+<code class="docutils literal notranslate"><span class="pre">FindMinimum</span></code>, <code class="docutils literal notranslate"><span class="pre">FindMaximum</span></code>, and <code class="docutils literal notranslate"><span class="pre">TurningPoint</span></code> methods that
+locate these by bracketed root-finding on <span class="math notranslate nohighlight">\(V_{\text{eff}}(R; J)\)</span>.</p>
+<p>The CoarseAIR input lets you prescribe the search window for the
+barrier maximum:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Lower Bound for Position of Centrifugal Barrier Max = 1.0d0
+Upper Bound for Position of Centrifugal Barrier Max = 30.d0
+</pre></div>
+</div>
+<p>Getting this wrong (barrier outside the search window) is a common
+cause of “missing” quasi-bound levels; widen the window if the level
+table looks truncated in <span class="math notranslate nohighlight">\(J\)</span>.</p>
 </section>
-<section id="impact-parameter-b">
-<h2>Impact parameter <span class="math notranslate nohighlight">\(b\)</span><a class="headerlink" href="#impact-parameter-b" title="Link to this heading"></a></h2>
-<p>By standard kinematics, the differential cross-section in <span class="math notranslate nohighlight">\(b\)</span> carries
-weight <span class="math notranslate nohighlight">\(2\pi b\,db\)</span>, so uniform sampling <em>in</em> <span class="math notranslate nohighlight">\(b^2\)</span> over
-<span class="math notranslate nohighlight">\([0, b_{\max}^2]\)</span> reproduces the correct weighting without further
-Jacobians. CoarseAIR’s input offers four impact-parameter models:</p>
+<section id="output-level-file">
+<h2>Output level file<a class="headerlink" href="#output-level-file" title="Link to this heading"></a></h2>
+<p>The per-molecule level table written by <code class="docutils literal notranslate"><span class="pre">coarseair-computelevels.x</span></code>
+lives at <code class="docutils literal notranslate"><span class="pre">&lt;rundir&gt;/Test/&lt;System&gt;/&lt;Molecule&gt;/&lt;filename&gt;</span></code> where
+<code class="docutils literal notranslate"><span class="pre">&lt;filename&gt;</span></code> comes from <code class="docutils literal notranslate"><span class="pre">GenerateLevels.inp</span></code>. Each row is one level
+with 11 columns:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 6.0%" />
+<col style="width: 22.0%" />
+<col style="width: 72.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Column</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(v\)</span></p></td>
+<td><p>Vibrational quantum number.</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><span class="math notranslate nohighlight">\(J\)</span></p></td>
+<td><p>Rotational quantum number.</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p><span class="math notranslate nohighlight">\(E\)</span> (Eh)</p></td>
+<td><p>Internal energy.</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><span class="math notranslate nohighlight">\(\Gamma\)</span></p></td>
+<td><p>Lifetime parameter for quasi-bound levels.</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p><span class="math notranslate nohighlight">\(R_{V_{\min}(J)}\)</span> (a.u.)</p></td>
+<td><p>Position of the effective-potential minimum.</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p><span class="math notranslate nohighlight">\(R_{V_{\max}(J)}\)</span> (a.u.)</p></td>
+<td><p>Position of the centrifugal barrier.</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p><span class="math notranslate nohighlight">\(V^{\min}(J)\)</span> (Eh)</p></td>
+<td><p>Well depth of the effective potential.</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p><span class="math notranslate nohighlight">\(V^{\max}(J)\)</span> (Eh)</p></td>
+<td><p>Height of the centrifugal barrier.</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau_v\)</span> (a.u.)</p></td>
+<td><p>Vibrational period.</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p><span class="math notranslate nohighlight">\(R_{\text{in}}\)</span> (<span class="math notranslate nohighlight">\(a_0\)</span>)</p></td>
+<td><p>Inner turning point.</p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p><span class="math notranslate nohighlight">\(R_{\text{out}}\)</span> (<span class="math notranslate nohighlight">\(a_0\)</span>)</p></td>
+<td><p>Outer turning point.</p></td>
+</tr>
+</tbody>
+</table>
+<p>The same level file is consumed later by the trajectory initial-state
+sampler (see <a class="reference internal" href="sampling.html"><span class="doc">Sampling</span></a>) and by the final-state quantiser (see
+<a class="reference internal" href="arrangement_classification.html"><span class="doc">Arrangement Classification</span></a>).</p>
+</section>
+<section id="what-this-replaces-in-a-qct-pipeline">
+<h2>What this replaces in a QCT pipeline<a class="headerlink" href="#what-this-replaces-in-a-qct-pipeline" title="Link to this heading"></a></h2>
+<p>Some older QCT codes compute ro-vibrational actions on the fly during
+each trajectory’s final-state analysis. CoarseAIR does all of that
+work once, up front, at machine-precision for every <span class="math notranslate nohighlight">\((v, J)\)</span> it
+will ever need. This choice is what enables:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Normal</span></code> — uniform in <span class="math notranslate nohighlight">\(b^2\)</span>, single <span class="math notranslate nohighlight">\(b_{\max}\)</span>. Simplest and
-default for most dissociation / inelastic studies.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Random</span></code> — uniform <span class="math notranslate nohighlight">\(b\)</span>, requires Jacobian reweighting during rate
-extraction. Mainly for diagnostic use.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Stratified</span></code> — <span class="math notranslate nohighlight">\(b\)</span> is split into concentric annuli
-<span class="math notranslate nohighlight">\([b_{i-1}, b_i]\)</span> with pre-assigned trajectory counts <span class="math notranslate nohighlight">\(N_i\)</span>.
-Reduces variance at small <span class="math notranslate nohighlight">\(b\)</span> where reaction is most likely.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">FixedAngMom</span></code> — <span class="math notranslate nohighlight">\(b\)</span> is chosen to reproduce a target orbital
-angular momentum, useful for reactive-scattering studies at specified
-<span class="math notranslate nohighlight">\(\ell\)</span>.</p></li>
+<li><p>Efficient histogram binning of final trajectory outcomes without
+having to re-solve the Schrödinger equation in the hot path.</p></li>
+<li><p>Clean separation between PES work (level generation) and dynamics
+work (trajectories), so the two can be debugged and validated
+independently.</p></li>
+<li><p>Fast switching between binning strategies in post-processing — once
+levels exist, regrouping into state-specific, vibration-specific, or
+coarse-grained bins is essentially free.</p></li>
 </ul>
-<p>The value of <span class="math notranslate nohighlight">\(b_{\max}\)</span> is system- and energy-dependent; a brief
-pre-run “scattering map” (see <a class="reference internal" href="../examples/h3.html"><span class="doc">H3 System</span></a>) establishes the smallest
-<span class="math notranslate nohighlight">\(b\)</span> at which <em>no</em> reactive/inelastic events occur, and that value sets
-<span class="math notranslate nohighlight">\(b_{\max}\)</span>.</p>
 </section>
-<section id="relative-velocity-decomposition">
-<h2>Relative-velocity decomposition<a class="headerlink" href="#relative-velocity-decomposition" title="Link to this heading"></a></h2>
-<p>Given <span class="math notranslate nohighlight">\(E\)</span>, <span class="math notranslate nohighlight">\(b\)</span>, and the initial separation <span class="math notranslate nohighlight">\(D_{\text{init}}\)</span>
-along the <span class="math notranslate nohighlight">\(x\)</span> axis in the body-fixed frame, the relative velocity
-magnitude and components are</p>
-<div class="math notranslate nohighlight">
-\[V_{e_R} \;=\; \sqrt{\frac{2 E}{\mu}}, \qquad
-V_{e_z} \;=\; -V_{e_R}\,\frac{b}{D_{\text{init}}}, \qquad
-V_{e_x} \;=\; -V_{e_R}\,\sqrt{1 - \frac{b^2}{D_{\text{init}}^2}}.\]</div>
-<p>The minus signs encode the convention that the projectile approaches the
-target (which sits at the origin). <span class="math notranslate nohighlight">\(V_{e_y} = 0\)</span> is imposed by
-placing the collision plane to coincide with <span class="math notranslate nohighlight">\(x\)</span>–<span class="math notranslate nohighlight">\(z\)</span>.</p>
-<p>The projectile’s initial Cartesian position and velocity vectors are then
-split between target and projectile reduced-mass fractions:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{R}_T \;=\; -\frac{m_P}{m_T + m_P}\, D_{\text{init}}\, \hat{\mathbf{x}},
-\qquad
-\mathbf{R}_P \;=\; +\frac{m_T}{m_T + m_P}\, D_{\text{init}}\, \hat{\mathbf{x}}.\]</div>
-</section>
-<section id="orientation-sampling-euler-angles">
-<h2>Orientation sampling (Euler angles)<a class="headerlink" href="#orientation-sampling-euler-angles" title="Link to this heading"></a></h2>
-<p>The target diatom’s orientation in the body-fixed frame is randomised by
-three successive Euler rotations. Using the standard <span class="math notranslate nohighlight">\(z\)</span>-<span class="math notranslate nohighlight">\(y\)</span>-
-<span class="math notranslate nohighlight">\(z\)</span> convention <span class="math notranslate nohighlight">\((\alpha, \beta, \gamma)\)</span>:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{pmatrix} x'\\ y'\\ z' \end{pmatrix}
-\;=\;
-R_z(\gamma)\, R_y(\beta)\, R_z(\alpha)
-\begin{pmatrix} x\\ y\\ z \end{pmatrix}.\end{split}\]</div>
-<p>With <span class="math notranslate nohighlight">\(\alpha, \gamma\)</span> uniform on <span class="math notranslate nohighlight">\([0, 2\pi)\)</span> and
-<span class="math notranslate nohighlight">\(\cos\beta\)</span> uniform on <span class="math notranslate nohighlight">\([-1, 1]\)</span> (to sample the sphere
-uniformly), the resulting orientation is isotropic. The angles are drawn
-independently per trajectory. For 4-atom systems the same scheme is applied
-to both colliding diatoms independently.</p>
-</section>
-<section id="electronic-surface-index-ipes">
-<h2>Electronic-surface index <code class="docutils literal notranslate"><span class="pre">iPES</span></code><a class="headerlink" href="#electronic-surface-index-ipes" title="Link to this heading"></a></h2>
-<p>When multiple electronic surfaces are active (e.g. O<sub>3</sub> with 9
-surfaces, CNO with 3, CO<sub>2</sub> with 5), CoarseAIR distributes
-trajectories across surfaces proportionally to their electronic
-degeneracies.</p>
-<p>At initialisation, the routine <code class="docutils literal notranslate"><span class="pre">SetPESIndx()</span></code> (called from the collision
-class) assigns each trajectory an <code class="docutils literal notranslate"><span class="pre">iPES</span></code> drawn from the discrete
-distribution</p>
-<div class="math notranslate nohighlight">
-\[P(\text{iPES} = s) \;=\; \frac{g_s}{\sum_{s'} g_{s'}},\]</div>
-<p>where <span class="math notranslate nohighlight">\(g_s\)</span> is the degeneracy of surface <span class="math notranslate nohighlight">\(s\)</span> specified in the
-input file. The per-PES trajectory counter
-<code class="docutils literal notranslate"><span class="pre">Traj%iTrajPES(1:NPESs)</span></code> tracks how many trajectories have been assigned
-to each surface, so the final statistics (cross-sections, rates) are
-weighted consistently.</p>
-<p>In adiabatic CoarseAIR, <code class="docutils literal notranslate"><span class="pre">iPES(iTraj)</span></code> never changes after this initial
-assignment — see <a class="reference internal" href="pes_formats.html"><span class="doc">PES Formats</span></a> for the multi-surface machinery and the
-CoarseAIR+ documentation for surface-hopping extensions.</p>
+<section id="related">
+<h2>Related<a class="headerlink" href="#related" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Input file for level generation: <code class="docutils literal notranslate"><span class="pre">GenerateLevels.inp</span></code> (see
+<a class="reference internal" href="../user/input_reference.html"><span class="doc">Input File Reference</span></a>).</p></li>
+<li><p>Re-running level generation when adding a new diatomic:
+<a class="reference internal" href="../developer/adding_a_system.html"><span class="doc">Adding a New Collision System</span></a>.</p></li>
+<li><p>WKB action used at trajectory termination:
+<a class="reference internal" href="arrangement_classification.html"><span class="doc">Arrangement Classification</span></a>.</p></li>
+</ul>
 </section>
 </section>
 
@@ -533,8 +618,8 @@ CoarseAIR+ documentation for surface-hopping extensions.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="level_generation.html" class="btn btn-neutral float-left" title="Level Generation (Numerov method)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="integrators.html" class="btn btn-neutral float-right" title="Trajectory Integrators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="qct.html" class="btn btn-neutral float-left" title="Quasi-Classical Trajectories" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sampling.html" class="btn btn-neutral float-right" title="Sampling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

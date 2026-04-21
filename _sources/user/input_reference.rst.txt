@@ -108,8 +108,81 @@ Method blocks:
                                                Boltzmann | MostProbable |
                                                ArbitraryDistribution
    All / Only Even / Only Odd values for Rotational Quantum Nb = All
-   Initial Impact Parameter Model = Normal | Random |
-                                    Stratified | FixedAngMom
+
+
+Impact-parameter block
+----------------------
+
+The ``Initial Impact Parameter Model`` line picks one of the four
+sampling strategies described in :doc:`/theory/sampling`. Each model
+expects a different sub-block immediately after. **Sign convention:**
+CoarseAIR reads impact parameters as negative numbers — the magnitude
+is what matters, the sign is an internal flag.
+
+**Normal** — uniform sampling in :math:`b^2` from 0 to a single
+:math:`b_{\max}`:
+
+.. code-block:: text
+
+   Initial Impact Parameter Model = Normal
+     Initial Impact Parameter = -14.0d0     ! b_max in bohr (magnitude)
+
+**Random** — uniform sampling in :math:`b` (note the different
+weighting — requires Jacobian correction during rate extraction):
+
+.. code-block:: text
+
+   Initial Impact Parameter Model = Random
+     Initial Impact Parameter = -14.0d0
+
+**Stratified** — divides the impact-parameter range into *N* strata,
+each with its own trajectory budget. Produces much tighter
+cross-section error bars at fixed cost. The ``Strata Type`` is either
+``Circles`` (nested discs of radius :math:`b_i` with cumulative
+counts) or ``Rings`` (disjoint annuli between successive
+:math:`b_i` with per-annulus counts):
+
+.. code-block:: text
+
+   Initial Impact Parameter Model = Stratified
+     Strata Type = Circles
+     Nb of Stratified Sampling Ranges = 7
+       Nb of Trajectories in Range 1 = 1
+       Impact Parameter for Range 1 = -0.25d0
+       Nb of Trajectories in Range 2 = 1
+       Impact Parameter for Range 2 = -0.5d0
+       Nb of Trajectories in Range 3 = 1
+       Impact Parameter for Range 3 = -1.0d0
+       Nb of Trajectories in Range 4 = 1
+       Impact Parameter for Range 4 = -3.0d0
+       Nb of Trajectories in Range 5 = 1
+       Impact Parameter for Range 5 = -5.0d0
+       Nb of Trajectories in Range 6 = 1
+       Impact Parameter for Range 6 = -8.0d0
+       Nb of Trajectories in Range 7 = 1
+       Impact Parameter for Range 7 = -14.0d0
+
+Rings example (equivalent physics, different weighting of the
+allocation):
+
+.. code-block:: text
+
+   Initial Impact Parameter Model = Stratified
+     Strata Type = Rings
+     Nb of Stratified Sampling Ranges = 2
+       Nb of Trajectories in Range 1 = 1
+       Impact Parameter for Range 1 = -6.0d0
+       Nb of Trajectories in Range 2 = 99
+       Impact Parameter for Range 2 = -14.0d0
+
+**FixedAngMom** — selects :math:`b` so that every trajectory has a
+prescribed total orbital angular momentum, useful for reactive-
+scattering analyses at fixed :math:`\ell`:
+
+.. code-block:: text
+
+   Initial Impact Parameter Model = FixedAngMom
+     Total Angular Momentum = 80.0d0       ! in atomic units
 
 Integration-control block:
 
