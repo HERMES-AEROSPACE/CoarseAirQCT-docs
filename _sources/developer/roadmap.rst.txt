@@ -1,0 +1,13 @@
+Development Roadmap
+===================
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- In-progress work and short-term goals
+- Planned features (integrators, PES formats, output diagnostics)
+- Longer-term directions (CoarseAIR+ surface-hopping integration, further
+  electronic-structure coupling)

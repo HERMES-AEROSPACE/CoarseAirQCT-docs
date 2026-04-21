@@ -1,0 +1,14 @@
+Running Trajectories
+====================
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- Local execution (single-node MPI)
+- Cluster execution (SLURM job script templates)
+- Adaptive impact-parameter sweep (``bmax``) for cross-section sampling
+- Output directory layout and naming conventions
+- Restart & checkpoint strategies

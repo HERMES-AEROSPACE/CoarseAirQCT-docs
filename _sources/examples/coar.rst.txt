@@ -1,0 +1,9 @@
+CO + Ar System
+==============
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+This example walks through a full CoarseAIR calculation for the **CO + Ar**
+system, using the input files provided in ``input/COAr/``.

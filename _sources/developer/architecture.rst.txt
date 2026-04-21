@@ -1,0 +1,14 @@
+Architecture Reference
+======================
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- Source-tree layout (``src/``, ``app/``, ``dtb/``, ``input/``, ``scripts/``)
+- Class hierarchy and key Fortran modules
+- Trajectory pipeline from input parsing to rate output
+- MPI parallelisation model (trajectory-level parallelism)
+- Data structures for PES evaluation and final-state analysis

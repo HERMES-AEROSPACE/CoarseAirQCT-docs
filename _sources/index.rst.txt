@@ -1,0 +1,86 @@
+CoarseAIR — Quasi-Classical Trajectory Code for Atomic and Molecular Collisions
+================================================================================
+
+**CoarseAIR** is a massively parallel Fortran code for simulating atomic and
+molecular collisions at the state-to-state level. It computes ro-vibrational
+state-resolved cross-sections and rate coefficients by running large ensembles
+of quasi-classical trajectories (QCT) on *ab initio* potential energy surfaces
+(PES).
+
+The code targets **hypersonic re-entry**, **high-enthalpy flow**, and
+**non-equilibrium plasma** applications where detailed state-to-state kinetics
+are required and conventional rate models break down.
+
+.. note::
+
+   CoarseAIR is developed and maintained in the
+   `HERMES Aerospace research group <https://hermes-aerospace.github.io/>`_.
+   The code is released under the
+   `MIT License <https://github.com/HERMES-AEROSPACE/CoarseAirQCT/blob/main/LICENSE>`_
+   and is copyright © 2019 Simone Venturi.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: User Documentation
+
+   user/getting_started
+   user/installation
+   user/running_trajectories
+   user/input_reference
+   user/postprocessing
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Theory Guide
+
+   theory/qct
+   theory/sampling
+   theory/integrators
+   theory/pes_formats
+   theory/arrangement_classification
+   theory/rate_extraction
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples Guide
+
+   examples/chn
+   examples/cno
+   examples/co2
+   examples/coar
+   examples/ggg
+   examples/h2he
+   examples/h3
+   examples/h4
+   examples/n2o
+   examples/n3
+   examples/n4
+   examples/nanbncnd
+   examples/no2
+   examples/o18o18o16
+   examples/o3
+   examples/o4
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Reference
+
+   reference/about
+   reference/validation
+   reference/bibliography
+   reference/changelog
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Developer Documentation
+
+   developer/architecture
+   developer/adding_a_system
+   developer/regression_tests
+   developer/roadmap
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`search`

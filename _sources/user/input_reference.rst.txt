@@ -1,0 +1,15 @@
+Input File Reference
+====================
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- Top-level structure of the CoarseAIR input file
+- System block (atoms, molecules, masses, electronic states)
+- PES block (format, file location, asymptotic channels)
+- Sampling block (energy grid, initial ro-vibrational levels, impact parameter)
+- Integrator block (timestep, integrator choice, tolerances)
+- Output block (trajectory dumps, rate extraction, diagnostics)

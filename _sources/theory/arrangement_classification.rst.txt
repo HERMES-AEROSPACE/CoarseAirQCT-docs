@@ -1,0 +1,13 @@
+Arrangement Classification
+==========================
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- Arrangement codes used in CoarseAIR output
+- Geometric criteria for classifying final trajectory outcomes
+- Handling of long-lived complexes and borderline cases
+- Per-arrangement cross-section and rate-coefficient filtering

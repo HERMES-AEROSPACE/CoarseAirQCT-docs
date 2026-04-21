@@ -1,0 +1,9 @@
+H₂ + He System
+==============
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+This example walks through a full CoarseAIR calculation for the **H₂ + He**
+system, using the input files provided in ``input/H2He/``.

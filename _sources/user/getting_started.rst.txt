@@ -1,0 +1,13 @@
+Getting Started
+===============
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- Prerequisites (compilers, MPI, HDF5, BLAS/LAPACK)
+- Cloning the repository and initial configuration
+- A minimal walkthrough: running the H3 example end-to-end
+- Inspecting output files and plotting a first cross-section

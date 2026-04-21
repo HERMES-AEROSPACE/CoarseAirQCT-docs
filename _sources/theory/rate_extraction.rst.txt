@@ -1,0 +1,13 @@
+Rate & Cross-Section Extraction
+===============================
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- State-to-state cross-section formula from QCT ensembles
+- Thermal rate-coefficient evaluation (Maxwellian integration)
+- Statistical error estimation and convergence studies
+- Grouping strategies (bin-lumping, coarse-grained models)

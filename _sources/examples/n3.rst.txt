@@ -1,0 +1,9 @@
+N₃ System
+=========
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+This example walks through a full CoarseAIR calculation for the **N₃** system,
+using the input files provided in ``input/N3/``.

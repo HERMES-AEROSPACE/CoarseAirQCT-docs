@@ -1,0 +1,10 @@
+CNO System
+==========
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+This example walks through a CoarseAIR calculation for the **CNO** system,
+including the three adiabatic electronic surfaces (2A′, 2A″, 4A″) treated as
+independent runs. Input files live under ``input/CNO/``.

@@ -1,0 +1,14 @@
+Post-processing
+===============
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- The ``Postpro_Ecol`` utility
+- Computing cross-sections and rate coefficients from trajectory output
+- State-to-state binning and arrangement-resolved rates
+- Convergence diagnostics and error bars
+- Plotting helpers and example Python scripts

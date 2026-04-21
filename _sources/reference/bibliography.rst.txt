@@ -1,0 +1,10 @@
+Bibliography
+============
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Key references for the methods and PES used in CoarseAIR will be collected
+here (both the CoarseAIR implementation papers and the underlying QCT /
+sampling / PES literature).

@@ -1,0 +1,14 @@
+Quasi-Classical Trajectories
+============================
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- Hamiltonian formulation in Jacobi / internuclear coordinates
+- Classical-limit approximation and its regime of validity
+- Asymptotic state definition (ro-vibrational quantum numbers)
+- Final-state analysis and semi-classical binning
+- Energy conservation as a numerical diagnostic

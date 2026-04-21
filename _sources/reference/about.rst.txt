@@ -1,0 +1,13 @@
+About CoarseAIR
+===============
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- Author & copyright (© 2019 Simone Venturi, MIT License)
+- Current maintainers and contributors
+- Related HERMES Aerospace codes (dmsAIR, PLATO)
+- Citation guidance and key publications

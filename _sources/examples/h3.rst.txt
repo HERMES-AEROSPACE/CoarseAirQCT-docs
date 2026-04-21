@@ -1,0 +1,10 @@
+H₃ System
+=========
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+This example walks through a full CoarseAIR calculation for the **H₃** system,
+using the input files provided in ``input/H3/``. It is the recommended
+first-time example for new users.

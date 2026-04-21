@@ -1,0 +1,13 @@
+Validation
+==========
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- 3-body validation systems and reference data
+- 4-body validation systems and reference data
+- Regression test suite and continuous integration
+- Code-to-code comparisons with published QCT results

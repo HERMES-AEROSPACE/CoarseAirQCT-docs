@@ -1,0 +1,14 @@
+Adding a New Collision System
+=============================
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- Required input-file structure for a new system
+- Implementing or plugging in a new PES module
+- Defining asymptotic channels and arrangement codes
+- Registering the system in the build / input-parsing layer
+- Adding a regression test and a documentation example page

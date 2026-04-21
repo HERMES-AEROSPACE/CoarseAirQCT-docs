@@ -1,0 +1,14 @@
+Installation
+============
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- Prerequisites and supported compilers
+- Configuring with CMake (``build/`` directory, cache options)
+- Build artifacts (``coarseair`` executable, libraries, modules)
+- Environment variables and ``LinesTo_Add_ToBashrc``
+- Installation checks and smoke tests

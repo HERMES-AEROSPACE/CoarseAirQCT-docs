@@ -1,0 +1,14 @@
+PES Formats
+===========
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- Supported analytic forms (LEPS, DMBE, many-body expansions)
+- Neural-network potentials (interface and file format)
+- DPEM (diabatic potential-energy matrix) surfaces for multi-state systems
+- How to plug in a new PES module
+- Unit conventions and sign conventions

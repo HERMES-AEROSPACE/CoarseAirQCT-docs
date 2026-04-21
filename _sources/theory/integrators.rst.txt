@@ -1,0 +1,14 @@
+Trajectory Integrators
+======================
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- Available integrators in CoarseAIR
+- Symplectic vs. non-symplectic schemes, conservation properties
+- Adaptive timestep control
+- Integrator benchmarks (energy drift, wall-clock cost)
+- Recommendations by system size and collision energy

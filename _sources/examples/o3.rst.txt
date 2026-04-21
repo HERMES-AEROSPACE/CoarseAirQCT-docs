@@ -1,0 +1,10 @@
+O₃ System
+=========
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+This example walks through a full CoarseAIR calculation for the **O₃** system,
+using the input files provided in ``input/O3/``. The multi-surface / surface
+hopping extension is covered in the CoarseAIR+ documentation.

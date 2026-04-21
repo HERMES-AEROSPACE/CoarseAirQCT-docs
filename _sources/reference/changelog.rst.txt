@@ -1,0 +1,10 @@
+Changelog
+=========
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+A curated, user-facing summary of significant changes — new collision systems,
+PES support, integrator options, output-format changes — will be maintained
+here. Full commit history lives in ``git log``.

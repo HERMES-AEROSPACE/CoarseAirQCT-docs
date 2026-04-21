@@ -1,0 +1,13 @@
+Regression Tests
+================
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- Layout of the ``test/`` directory
+- Running the test suite locally
+- Adding new tests when fixing a bug or adding a feature
+- Continuous-integration workflow

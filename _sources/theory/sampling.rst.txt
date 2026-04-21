@@ -1,0 +1,14 @@
+Sampling
+========
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+Planned coverage:
+
+- Initial ro-vibrational state sampling
+- Orientation (Euler-angle) Monte Carlo sampling
+- Impact parameter sampling (uniform in :math:`b^2` up to :math:`b_{\max}`)
+- Collision energy grid selection for cross-section evaluation
+- Maxwellian-averaged sampling for thermal rate coefficients

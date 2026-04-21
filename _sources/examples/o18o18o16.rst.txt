@@ -1,0 +1,11 @@
+¹⁸O ¹⁸O ¹⁶O (Isotope-Labelled Ozone) System
+============================================
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+This example walks through a full CoarseAIR calculation for the isotope-labelled
+**¹⁸O ¹⁸O ¹⁶O** ozone system, using the input files provided in
+``input/O18O18O16/``. This setup is used to study isotope effects in ozone
+formation kinetics.

@@ -1,0 +1,10 @@
+NaNbNcNd (Distinguishable-Nitrogen) System
+==========================================
+
+.. note::
+
+   This page is under construction. Content coming soon.
+
+This example walks through a full CoarseAIR calculation for the
+**NaNbNcNd** (distinguishable-atom N₄) system, using the input files
+provided in ``input/NaNbNcNd/``.
