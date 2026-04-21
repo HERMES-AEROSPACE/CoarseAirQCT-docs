@@ -184,6 +184,25 @@ notes:
   queue/partition/account lines; the internal commands are portable.
 
 
+Regression tests after every install
+------------------------------------
+
+``COARSEAIR_INSTALL`` automatically invokes the regression test suite
+under ``test/`` after every successful build. With a fixed RNG seed
+and 10 trajectories per system, the suite runs in well under 10
+minutes and flags any recompile that changes the numerical output.
+Details and the disable flag are documented in
+:doc:`/developer/regression_tests`; the short version:
+
+.. code-block:: bash
+
+   # Suppress the post-install tests:
+   COARSEAIR_SKIP_TESTS=1 COARSEAIR_INSTALL
+
+   # Run just the tests, without re-installing:
+   COARSEAIR_TEST
+
+
 Uninstall / rebuild
 -------------------
 

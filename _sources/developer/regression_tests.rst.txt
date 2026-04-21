@@ -9,9 +9,15 @@ checked-in reference. Any change — byte-for-byte within tolerance —
 flags a regression. Designed to run in well under 10 minutes on a
 modern workstation, so it can be invoked after every recompile.
 
-**The suite is opt-in.** The build system never invokes it
-automatically; ``bash test/regression.sh`` is a developer-facing
-command.
+**The suite runs automatically** after every successful
+``COARSEAIR_INSTALL``. The build script in
+``scripts/building/BuildingInstalling.sh`` invokes
+``test/regression.sh`` at the end of each install so that any recompile
+that changes the numerical output is flagged immediately. To skip the
+post-install run, set ``COARSEAIR_SKIP_TESTS=1`` in the shell before
+invoking ``COARSEAIR_INSTALL``. The manual command
+``COARSEAIR_TEST [args]`` is also exposed and forwards any arguments
+to ``test/regression.sh``.
 
 
 Layout
@@ -130,10 +136,15 @@ Disabling the tests
 
 Three mechanisms:
 
-1. **Don't run the script.** The build never invokes it.
-2. **Environment variable.** Set ``COARSEAIR_SKIP_TESTS=1``. The
-   runner detects this and exits 0 immediately without running any
-   system.
+1. **Environment variable.** Set ``COARSEAIR_SKIP_TESTS=1`` (in the
+   current shell, ``export COARSEAIR_SKIP_TESTS=1`` in ``~/.bashrc``,
+   or prepend ``COARSEAIR_SKIP_TESTS=1`` to a single install command).
+   Both the post-install auto-invocation inside
+   ``COARSEAIR_INSTALL`` and the standalone ``bash test/regression.sh``
+   driver respect this flag and exit 0 immediately.
+2. **Manual invocation only.** Call ``bash test/regression.sh`` or
+   ``COARSEAIR_TEST`` when you want; nothing else triggers the
+   tests.
 3. **Per-system skip.** To temporarily skip one system without
    removing its config, delete that system's
    ``reference/trajectories.csv`` — the runner reports

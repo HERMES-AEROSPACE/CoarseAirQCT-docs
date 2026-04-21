@@ -44,6 +44,49 @@ Available: ``Basel`` (multiple surface labels), ``UMN``.
 
 Diatomic partners: ``N2_UMN_ForN2O2``, ``NO_UMN``, ``O2_UMN_ForN2O2``.
 
+
+Input file walkthrough
+----------------------
+
+From ``input/N2O/Basel/NO+N/input/CoarseAIR.inp``. Three atoms, two
+arrangements (NO + N and N\ :sub:`2` + O), and the low-lying
+:math:`^3A'` / :math:`^3A''` triplet surfaces:
+
+.. code-block:: text
+
+   System            = N2O
+   Nb of Species     = 2
+     Species 1       = NO             ! target
+     Species 2       = N              ! projectile
+   Nb of Molecules   = 2
+     Molecule 1      = NO
+     Molecule 2      = N2
+   Nb of Atoms       = 3
+     Atom 1 = N       Mass [a.u.] = 25526.04298d0
+     Atom 2 = O       Mass [a.u.] = 29148.94559d0
+     Atom 3 = N       Mass [a.u.] = 25526.04298d0
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 1
+     Translational Temperature [K] 1   = 10000.d0
+
+   Nb of PESs = 2
+     Model, PES 1      = UMN_13A1     ! 3 A'  triplet
+     Degeneracy, PES 1 = 1.0
+     Model, PES 2      = UMN_13A2     ! 3 A'' triplet
+     Degeneracy, PES 2 = 1.0
+
+   Diatomic Potential Model, Molecule 1 = UMN              ! NO
+   Diatomic Potential Model, Molecule 2 = UMN_ForN2O2      ! N2
+
+   Initial Impact Parameter Model = Stratified
+
+The two N atoms are indistinguishable: ``Identical Diatoms? = yes`` at
+post-processing sums the two "NO + N" permutations that the classifier
+tags separately. The central kinetic process — N\ :sub:`2` + O
+:math:`\leftrightarrow` NO + N — is the central Zel'dovich reaction
+for NO formation in hot air.
+
 Typical use
 -----------
 

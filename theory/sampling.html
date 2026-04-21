@@ -63,6 +63,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html#build-artefacts">Build artefacts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html#smoke-test">Smoke test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html#cluster-installation">Cluster installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/installation.html#regression-tests-after-every-install">Regression tests after every install</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html#uninstall-rebuild">Uninstall / rebuild</a></li>
 </ul>
 </li>
@@ -87,14 +88,21 @@
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#diatomic-potential-block">Diatomic-potential block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#preprocessing-binning-block">Preprocessing / binning block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#post-processing-block">Post-processing block</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#process-index-encoding-output">Process-index encoding (output)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#process-index-encoding-output">Process-index encoding (output)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#worked-example-h-h2-3-atom">Worked example — H + H<sub>2</sub> (3-atom)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#worked-example-h2-h2-4-atom">Worked example — H<sub>2</sub> + H<sub>2</sub> (4-atom)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#secondary-input-files">Secondary input files</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../user/postprocessing.html">Post-processing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#pipeline-overview">Pipeline overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#trajectory-output-files">Trajectory output files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#statistics-csv-cross-sections"><code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> — cross-sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#statistics-csv-cross-sections"><code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> — cross-sections</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user/postprocessing.html#arrangement-codes-arr-i-arr-f">Arrangement codes (<code class="docutils literal notranslate"><span class="pre">arr_i</span></code> / <code class="docutils literal notranslate"><span class="pre">arr_f</span></code>)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#proc-csv-rate-coefficients"><code class="docutils literal notranslate"><span class="pre">Proc*.csv</span></code> — rate coefficients</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#controlling-the-aggregation">Controlling the aggregation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#pycoarseair">PyCoarseAIR</a></li>
@@ -185,6 +193,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#input-file-walkthrough">Input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/cno.html">CNO System</a><ul>
@@ -192,6 +201,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#input-file-walkthrough">Input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/co2.html">CO<sub>2</sub> System</a><ul>
@@ -199,12 +209,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#input-file-walkthrough">Input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/coar.html">CO + Ar System</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -212,6 +224,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -219,6 +232,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -226,6 +240,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -234,6 +249,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -250,6 +266,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#relation-to-n3">Relation to N<sub>3</sub></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#see-also">See also</a></li>
 </ul>
@@ -259,6 +276,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#why-a-labelled-run">Why a labelled run?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#see-also">See also</a></li>
 </ul>
 </li>
@@ -267,6 +285,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -275,6 +294,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#why-isotopes-matter">Why isotopes matter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#see-also">See also</a></li>
 </ul>
 </li>
@@ -283,6 +303,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#typical-use">Typical use</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#see-also">See also</a></li>
 </ul>
@@ -291,6 +312,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#typical-use">Typical use</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#see-also">See also</a></li>
 </ul>
@@ -442,32 +464,104 @@ proportional to its degeneracy-weighted Boltzmann factor.</p>
 </section>
 <section id="collision-energy-e">
 <h2>Collision energy <span class="math notranslate nohighlight">\(E\)</span><a class="headerlink" href="#collision-energy-e" title="Link to this heading"></a></h2>
-<p>CoarseAIR supports two regimes:</p>
-<p><strong>Fixed-energy grid</strong> — the user specifies a list of collision energies in
-the input file. Trajectories are run at each listed <span class="math notranslate nohighlight">\(E\)</span>. Used for
-computing excitation functions <span class="math notranslate nohighlight">\(\sigma_J(E)\)</span> directly.</p>
-<p><strong>Maxwell–Boltzmann thermal sampling</strong> — energies are drawn from the
-translational Maxwellian at temperature <span class="math notranslate nohighlight">\(T\)</span>. Starting from</p>
+<p>CoarseAIR provides four <em>translational-energy-model</em> options,
+selected via <code class="docutils literal notranslate"><span class="pre">Relative</span> <span class="pre">Translational</span> <span class="pre">Energy</span> <span class="pre">Model</span> <span class="pre">=</span></code> in the input
+file (see <a class="reference internal" href="../user/input_reference.html"><span class="doc">Input File Reference</span></a> for the exact syntax of
+each):</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 18.0%" />
+<col style="width: 82.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Keyword</p></th>
+<th class="head"><p>Energy distribution</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">FixedRelE</span></code></p></td>
+<td><p><strong>Delta-function</strong> <span class="math notranslate nohighlight">\(\delta(E - E_{\text{rel}})\)</span>: every
+trajectory starts at the same specified energy.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Boltzmann</span></code></p></td>
+<td><p><strong>Maxwell–Boltzmann</strong> collision-rate-weighted density
+<span class="math notranslate nohighlight">\(\hat{E}\,e^{-\hat{E}}\)</span> at temperature <span class="math notranslate nohighlight">\(T\)</span>
+(see below).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Gaussian</span></code></p></td>
+<td><p><strong>Gaussian</strong> <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_E, \sigma_E^2)\)</span> with
+user-specified mean and standard deviation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FixedTotEn</span></code></p></td>
+<td><p><strong>Delta-function on the total energy</strong>
+<span class="math notranslate nohighlight">\(E_{\text{tot}} = E_{\text{rel}} + E_{\text{int}}\)</span>.
+Useful for holding <span class="math notranslate nohighlight">\(E_{\text{tot}}\)</span> fixed while the
+ro-vibrational partition varies.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Each option feeds different trajectories to the same downstream
+dynamics; the choice is entirely one of <em>what statistical ensemble
+is being sampled</em>.</p>
+<p><strong>FixedRelE (delta-function sampling).</strong> Every trajectory starts at
+the same <span class="math notranslate nohighlight">\(E_{\text{rel}}\)</span> — no variance from the energy
+distribution. The resulting cross-section estimator is
+<span class="math notranslate nohighlight">\(\hat\sigma_J(E_{\text{rel}})\)</span>, and by running on a grid of
+energies one builds up the full excitation function
+<span class="math notranslate nohighlight">\(\sigma_J(E)\)</span>. Thermal averaging can then be done offline via
+numerical quadrature. This is the mode of choice when the user wants
+transparent control of what energies are being probed.</p>
+<p><strong>Boltzmann (Maxwell–Boltzmann thermal sampling).</strong> Energies are
+drawn from the translational Maxwellian at temperature <span class="math notranslate nohighlight">\(T\)</span>.
+Starting from</p>
 <div class="math notranslate nohighlight">
 \[k(T) \;=\; 4\pi \!\int_0^\infty \sigma(w)\, f(w)\, w^3\, dw,
 \qquad
-f(w) \;=\; \left(\frac{m_e}{2\pi k_B T}\right)^{3/2}
-           \exp\!\left(-\frac{m_e w^2}{2 k_B T}\right),\]</div>
-<p>a change of variables to the reduced energy <span class="math notranslate nohighlight">\(\hat{E} = E/(k_B T)\)</span>
-gives the probability density</p>
+f(w) \;=\; \left(\frac{\mu}{2\pi k_B T}\right)^{3/2}
+           \exp\!\left(-\frac{\mu w^{2}}{2 k_B T}\right),\]</div>
+<p>the change of variables to reduced energy
+<span class="math notranslate nohighlight">\(\hat{E} = E/k_B T\)</span> gives the collision-rate-weighted density</p>
 <div class="math notranslate nohighlight">
-\[P(\hat{E}) \;=\; \hat{E}\, e^{-\hat{E}},
+\[p(\hat{E}) \;=\; \hat{E}\, e^{-\hat{E}},
 \qquad
-F(\hat{E}) \;=\; 1 - e^{-\hat{E}}\,(\hat{E} + 1).\]</div>
-<p>CoarseAIR draws uniform <span class="math notranslate nohighlight">\(U \sim \mathcal{U}[0,1]\)</span>, inverts the CDF by
+F(\hat{E}) \;=\; 1 \;-\; e^{-\hat{E}}\,(\hat{E} + 1).\]</div>
+<p>CoarseAIR draws <span class="math notranslate nohighlight">\(U \sim \mathcal{U}[0,1]\)</span>, inverts the CDF by
 Newton–Raphson to obtain <span class="math notranslate nohighlight">\(\hat{E}\)</span>, and sets
-<span class="math notranslate nohighlight">\(E = \hat{E}\, k_B T\)</span>. The thermal rate is then</p>
+<span class="math notranslate nohighlight">\(E = \hat{E}\, k_B T\)</span>. The thermal rate then collapses to the
+arithmetic mean</p>
 <div class="math notranslate nohighlight">
 \[k(T) \;\approx\; \sqrt{\frac{8 k_B T}{\mu\pi}}\;
-                 \frac{1}{N}\sum_{p=1}^{N} \sigma(\hat{E}_p),\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mu\)</span> is the reduced mass of the collision. The inverse-CDF
-sampling is coded in <code class="docutils literal notranslate"><span class="pre">src/Random/</span></code> and called from the initial-state
-modules.</p>
+                 \frac{1}{N}\sum_{p = 1}^{N} \sigma(\hat{E}_p).\]</div>
+<p><strong>Gaussian sampling.</strong> Energies are drawn from
+<span class="math notranslate nohighlight">\(\mathcal{N}(\mu_E, \sigma_E^2)\)</span> with user-specified mean
+and standard deviation. The resulting rate is the numerical
+Gaussian average</p>
+<div class="math notranslate nohighlight">
+\[\bar\sigma \;=\; \int_{-\infty}^{\infty}
+                 \sigma(E)\,
+                 \frac{1}{\sqrt{2\pi}\,\sigma_E}
+                 \exp\!\left[
+                   -\frac{(E - \mu_E)^{2}}{2\sigma_E^{2}}
+                 \right] dE,\]</div>
+<p>estimated in practice by a sample mean over the drawn energies.
+Unphysical negative energy draws (always possible for a Gaussian)
+are resampled. The mode is most useful to reproduce narrow
+non-thermal distributions from upstream simulation data (laser
+excitation, shock-compressed gas) where neither a Maxwellian nor a
+single fixed energy is a good model.</p>
+<p><strong>FixedTotEn.</strong> Energies are drawn such that the <em>total</em> energy
+(translational + internal) is fixed at
+<span class="math notranslate nohighlight">\(E_{\text{tot}}\)</span>. Given the sampled initial ro-vibrational
+state with internal energy <span class="math notranslate nohighlight">\(E_{\text{int}}(v, J)\)</span>,
+CoarseAIR sets <span class="math notranslate nohighlight">\(E_{\text{rel}} = E_{\text{tot}} -
+E_{\text{int}}(v, J)\)</span> for that trajectory. This keeps the total
+energy constant as the <span class="math notranslate nohighlight">\((v, J)\)</span> partition varies — a useful
+probe for vibrational-threshold studies and for comparing
+state-specific reactivity at matched collision energies.</p>
+<p>All four sampling code paths live in <code class="docutils literal notranslate"><span class="pre">src/Random/</span></code> and the
+initial-state modules under <code class="docutils literal notranslate"><span class="pre">src/Collision/InitialStates/</span></code>;
+the branching on <code class="docutils literal notranslate"><span class="pre">This%TtraModel</span></code> is in
+<code class="docutils literal notranslate"><span class="pre">src/Input_Class.F90</span></code>.</p>
 </section>
 <section id="impact-parameter-b">
 <h2>Impact parameter <span class="math notranslate nohighlight">\(b\)</span><a class="headerlink" href="#impact-parameter-b" title="Link to this heading"></a></h2>

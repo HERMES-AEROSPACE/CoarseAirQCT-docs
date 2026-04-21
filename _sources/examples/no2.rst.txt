@@ -45,6 +45,50 @@ Available: ``UMN`` (with 2A' and 4A' surface labels), ``Basel``.
 Diatomic partners: ``NO_UMN_ForNO2_Doub``, ``NO_UMN_ForNO2_Quart``,
 ``O2_UMN`` (or Basel equivalents).
 
+
+Input file walkthrough
+----------------------
+
+From ``input/NO2/UMN/NO+O/input/CoarseAIR.inp``. One nitrogen, two
+indistinguishable oxygens, two arrangements (NO + O and
+O\ :sub:`2` + N), doublet and quartet electronic surfaces:
+
+.. code-block:: text
+
+   System            = NO2
+   Nb of Species     = 2
+     Species 1       = NO             ! target
+     Species 2       = O              ! projectile
+   Nb of Molecules   = 2
+     Molecule 1      = NO
+     Molecule 2      = O2
+   Nb of Atoms       = 3
+     Atom 1 = N       Mass [a.u.] = 25526.04298d0
+     Atom 2 = O       Mass [a.u.] = 29148.94559d0
+     Atom 3 = O       Mass [a.u.] = 29148.94559d0
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 1
+     Translational Temperature [K] 1   = 10000.d0
+
+   ! Doublet + quartet PES run concurrently with spin-degeneracy weights
+   Nb of PESs = 2
+     Model, PES 1      = UMN_2Ap      ! 2 A'  doublet  (spin mult = 2)
+     Degeneracy, PES 1 = 2.0
+     Model, PES 2      = UMN_4Ap      ! 4 A'  quartet  (spin mult = 4)
+     Degeneracy, PES 2 = 4.0
+
+   Diatomic Potential Model, Molecule 1 = UMN_ForNO2_Doub  ! NO
+   Diatomic Potential Model, Molecule 2 = UMN              ! O2
+
+   Initial Impact Parameter Model = Stratified
+
+The two O atoms are indistinguishable, so the two NO+O permutations
+are summed at post-processing via ``Identical Diatoms? = yes``. The
+central reactive channel NO + O :math:`\leftrightarrow` O\ :sub:`2`
++ N is the second Zel'dovich reaction, complementary to the
+N\ :sub:`2`\ O pathway in :doc:`n2o`.
+
 Typical use
 -----------
 

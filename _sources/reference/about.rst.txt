@@ -48,12 +48,16 @@ Development team
    * - **Robyn Macdonald**
      - Developer
      - University of Colorado, Boulder
+   * - **Sung Min Jo**
+     - Developer
+     - University of Central Florida (UCF)
 
 Simone Venturi and Bruno Lopez authored the original CoarseAIR code
 at the University of Illinois Urbana-Champaign; Clement Civrais now
 leads ongoing development at UCI (including the CoarseAIR+ surface-
-hopping extension), with Robyn Macdonald contributing from CU
-Boulder. The project is directed by Prof. Marco Panesi, PI of the
+hopping extension), with Robyn Macdonald (CU Boulder) and Sung Min
+Jo (UCF) contributing to production, post-processing, and new-system
+integration. The project is directed by Prof. Marco Panesi, PI of the
 HERMES Aerospace research group.
 
 

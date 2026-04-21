@@ -38,6 +38,51 @@ Available:
 Diatomic partners: ``N2_UMN_ForN4``, ``N2_UMN_PIPMEG3_ForN4``,
 ``N2_UMN_PIPNN_ForN4`` (matching the chosen PES).
 
+
+Input file walkthrough
+----------------------
+
+From ``input/N4/NASA/input/CoarseAIR_StS.inp`` (state-to-state
+variant). Like most 4-atom input files in CoarseAIR, this
+internally uses labelled atom tags (``Na-Nd``) so the classifier
+can resolve every exchange channel; indistinguishable-atom
+averaging is applied later by the post-processor:
+
+.. code-block:: text
+
+   System            = NaNbNcNd
+   Nb of Species     = 2
+     Species 1       = NaNb           ! target diatom
+     Species 2       = NcNd           ! projectile diatom
+   Nb of Molecules   = 6              ! all six atom-pair combinations
+     Molecule 1      = NaNb
+     Molecule 2      = NcNd
+     Molecule 3      = NaNd
+     Molecule 4      = NbNc
+     Molecule 5      = NbNd
+     Molecule 6      = NaNc
+   Nb of Atoms       = 4
+     Atom 1 = Na      Mass [a.u.] = 25526.04298d0
+     Atom 2 = Nb      Mass [a.u.] = 25526.04298d0
+     Atom 3 = Nc      Mass [a.u.] = 25526.04298d0
+     Atom 4 = Nd      Mass [a.u.] = 25526.04298d0
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 1
+     Translational Temperature [K] 1   = 20000.d0
+
+   Nb of PESs = 1
+     Model, PES 1      = NASA
+     Degeneracy, PES 1 = 1.0
+
+For the **indistinguishable-atom** N\ :sub:`4` rate (which is what
+chemistry master-equation codes consume), enable
+``Identical Diatoms? = yes`` and
+``Distinguish Exchanges between Each Other? = no`` in the
+post-processing block — see :doc:`/user/input_reference`. The
+labelled run remains useful as an audit of that aggregation; see
+:doc:`nanbncnd`.
+
 Relation to N\ :sub:`3`
 -----------------------
 

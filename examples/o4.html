@@ -63,6 +63,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html#build-artefacts">Build artefacts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html#smoke-test">Smoke test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html#cluster-installation">Cluster installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/installation.html#regression-tests-after-every-install">Regression tests after every install</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html#uninstall-rebuild">Uninstall / rebuild</a></li>
 </ul>
 </li>
@@ -87,14 +88,21 @@
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#diatomic-potential-block">Diatomic-potential block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#preprocessing-binning-block">Preprocessing / binning block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#post-processing-block">Post-processing block</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#process-index-encoding-output">Process-index encoding (output)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#process-index-encoding-output">Process-index encoding (output)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#worked-example-h-h2-3-atom">Worked example — H + H<sub>2</sub> (3-atom)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#worked-example-h2-h2-4-atom">Worked example — H<sub>2</sub> + H<sub>2</sub> (4-atom)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#secondary-input-files">Secondary input files</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../user/postprocessing.html">Post-processing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#pipeline-overview">Pipeline overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#trajectory-output-files">Trajectory output files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#statistics-csv-cross-sections"><code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> — cross-sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#statistics-csv-cross-sections"><code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> — cross-sections</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user/postprocessing.html#arrangement-codes-arr-i-arr-f">Arrangement codes (<code class="docutils literal notranslate"><span class="pre">arr_i</span></code> / <code class="docutils literal notranslate"><span class="pre">arr_f</span></code>)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#proc-csv-rate-coefficients"><code class="docutils literal notranslate"><span class="pre">Proc*.csv</span></code> — rate coefficients</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#controlling-the-aggregation">Controlling the aggregation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#pycoarseair">PyCoarseAIR</a></li>
@@ -185,6 +193,7 @@
 <li class="toctree-l2"><a class="reference internal" href="chn.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chn.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chn.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chn.html#input-file-walkthrough">Input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cno.html">CNO System</a><ul>
@@ -192,6 +201,7 @@
 <li class="toctree-l2"><a class="reference internal" href="cno.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cno.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cno.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cno.html#input-file-walkthrough">Input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="co2.html">CO<sub>2</sub> System</a><ul>
@@ -199,12 +209,14 @@
 <li class="toctree-l2"><a class="reference internal" href="co2.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="co2.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="co2.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="co2.html#input-file-walkthrough">Input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="coar.html">CO + Ar System</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="coar.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="coar.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="coar.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coar.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="coar.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -212,6 +224,7 @@
 <li class="toctree-l2"><a class="reference internal" href="h2he.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h2he.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h2he.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="h2he.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h2he.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -219,6 +232,7 @@
 <li class="toctree-l2"><a class="reference internal" href="h3.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h3.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="h3.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h3.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -226,6 +240,7 @@
 <li class="toctree-l2"><a class="reference internal" href="h4.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h4.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="h4.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h4.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -234,6 +249,7 @@
 <li class="toctree-l2"><a class="reference internal" href="n2o.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="n2o.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="n2o.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="n2o.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="n2o.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -250,6 +266,7 @@
 <li class="toctree-l2"><a class="reference internal" href="n4.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="n4.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="n4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="n4.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="n4.html#relation-to-n3">Relation to N<sub>3</sub></a></li>
 <li class="toctree-l2"><a class="reference internal" href="n4.html#see-also">See also</a></li>
 </ul>
@@ -259,6 +276,7 @@
 <li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#why-a-labelled-run">Why a labelled run?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#see-also">See also</a></li>
 </ul>
 </li>
@@ -267,6 +285,7 @@
 <li class="toctree-l2"><a class="reference internal" href="no2.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="no2.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="no2.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="no2.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="no2.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -275,6 +294,7 @@
 <li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#why-isotopes-matter">Why isotopes matter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#see-also">See also</a></li>
 </ul>
 </li>
@@ -283,6 +303,7 @@
 <li class="toctree-l2"><a class="reference internal" href="o3.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o3.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="o3.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o3.html#typical-use">Typical use</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o3.html#see-also">See also</a></li>
 </ul>
@@ -291,6 +312,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#typical-use">Typical use</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#see-also">See also</a></li>
 </ul>
@@ -443,6 +465,54 @@ events (see <a class="reference internal" href="../theory/arrangement_classifica
 <p>Available: <code class="docutils literal notranslate"><span class="pre">UMN</span></code> — University of Minnesota O<sub>4</sub> surface
 (same functional framework as the O<sub>3</sub> / O<sub>18</sub><sub>,16</sub> systems).</p>
 <p>Diatomic partner: <code class="docutils literal notranslate"><span class="pre">O2_UMN</span></code> (matching the multi-body PES).</p>
+</section>
+<section id="input-file-walkthrough">
+<h2>Input file walkthrough<a class="headerlink" href="#input-file-walkthrough" title="Link to this heading"></a></h2>
+<p>From <code class="docutils literal notranslate"><span class="pre">input/O4/UMN/input/CoarseAIR_StS.inp</span></code>. Four labelled
+oxygens, six atom-pair partitions, and the singlet / triplet /
+quintet manifold of the UMN O<sub>4</sub> PES:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>System            = OaObOcOd
+Nb of Species     = 2
+  Species 1       = OaOb
+  Species 2       = OcOd
+Nb of Molecules   = 6              ! all six atom-pair combinations
+  Molecule 1      = OaOb
+  Molecule 2      = OcOd
+  Molecule 3      = OaOc
+  Molecule 4      = OaOd
+  Molecule 5      = ObOc
+  Molecule 6      = ObOd
+Nb of Atoms       = 4
+  Atom 1 = Oa      Mass [a.u.] = 29148.94559d0
+  Atom 2 = Ob      Mass [a.u.] = 29148.94559d0
+  Atom 3 = Oc      Mass [a.u.] = 29148.94559d0
+  Atom 4 = Od      Mass [a.u.] = 29148.94559d0
+
+Relative Translational Energy Model = Boltzmann
+Nb of Translational Temperatures    = 1
+  Translational Temperature [K] 1   = 10000.d0
+
+Nb of PESs = 3
+  Model, PES 1      = UMN_Singlet
+  Degeneracy, PES 1 = 1.0
+  Model, PES 2      = UMN_Triplet
+  Degeneracy, PES 2 = 3.0
+  Model, PES 3      = UMN_Quintet
+  Degeneracy, PES 3 = 5.0
+
+Diatomic Potential Model, Molecule 1..6 = UMN
+
+Initial Impact Parameter Model = Stratified
+</pre></div>
+</div>
+<p>Like O<sub>3</sub>, production O<sub>4</sub> rates set
+<code class="docutils literal notranslate"><span class="pre">Identical</span> <span class="pre">Diatoms?</span> <span class="pre">=</span> <span class="pre">yes</span></code> and
+<code class="docutils literal notranslate"><span class="pre">Distinguish</span> <span class="pre">Exchanges</span> <span class="pre">between</span> <span class="pre">Each</span> <span class="pre">Other?</span> <span class="pre">=</span> <span class="pre">no</span></code> at
+post-processing so the six labelled pair-exchange pathways collapse
+to a single physical exchange rate. The reactive / V-V / V-R-T
+transfer channels of the O<sub>2</sub> + O<sub>2</sub> system are the
+four-atom closure of the O-chemistry dataset that complements
+<a class="reference internal" href="o3.html"><span class="doc">O3 System</span></a>.</p>
 </section>
 <section id="typical-use">
 <h2>Typical use<a class="headerlink" href="#typical-use" title="Link to this heading"></a></h2>

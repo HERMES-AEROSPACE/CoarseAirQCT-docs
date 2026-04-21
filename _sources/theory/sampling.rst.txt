@@ -37,43 +37,111 @@ proportional to its degeneracy-weighted Boltzmann factor.
 Collision energy :math:`E`
 --------------------------
 
-CoarseAIR supports two regimes:
+CoarseAIR provides four *translational-energy-model* options,
+selected via ``Relative Translational Energy Model =`` in the input
+file (see :doc:`/user/input_reference` for the exact syntax of
+each):
 
-**Fixed-energy grid** — the user specifies a list of collision energies in
-the input file. Trajectories are run at each listed :math:`E`. Used for
-computing excitation functions :math:`\sigma_J(E)` directly.
+.. list-table::
+   :header-rows: 1
+   :widths: 18 82
 
-**Maxwell–Boltzmann thermal sampling** — energies are drawn from the
-translational Maxwellian at temperature :math:`T`. Starting from
+   * - Keyword
+     - Energy distribution
+   * - ``FixedRelE``
+     - **Delta-function** :math:`\delta(E - E_{\text{rel}})`: every
+       trajectory starts at the same specified energy.
+   * - ``Boltzmann``
+     - **Maxwell–Boltzmann** collision-rate-weighted density
+       :math:`\hat{E}\,e^{-\hat{E}}` at temperature :math:`T`
+       (see below).
+   * - ``Gaussian``
+     - **Gaussian** :math:`\mathcal{N}(\mu_E, \sigma_E^2)` with
+       user-specified mean and standard deviation.
+   * - ``FixedTotEn``
+     - **Delta-function on the total energy**
+       :math:`E_{\text{tot}} = E_{\text{rel}} + E_{\text{int}}`.
+       Useful for holding :math:`E_{\text{tot}}` fixed while the
+       ro-vibrational partition varies.
+
+Each option feeds different trajectories to the same downstream
+dynamics; the choice is entirely one of *what statistical ensemble
+is being sampled*.
+
+**FixedRelE (delta-function sampling).** Every trajectory starts at
+the same :math:`E_{\text{rel}}` — no variance from the energy
+distribution. The resulting cross-section estimator is
+:math:`\hat\sigma_J(E_{\text{rel}})`, and by running on a grid of
+energies one builds up the full excitation function
+:math:`\sigma_J(E)`. Thermal averaging can then be done offline via
+numerical quadrature. This is the mode of choice when the user wants
+transparent control of what energies are being probed.
+
+**Boltzmann (Maxwell–Boltzmann thermal sampling).** Energies are
+drawn from the translational Maxwellian at temperature :math:`T`.
+Starting from
 
 .. math::
 
    k(T) \;=\; 4\pi \!\int_0^\infty \sigma(w)\, f(w)\, w^3\, dw,
    \qquad
-   f(w) \;=\; \left(\frac{m_e}{2\pi k_B T}\right)^{3/2}
-              \exp\!\left(-\frac{m_e w^2}{2 k_B T}\right),
+   f(w) \;=\; \left(\frac{\mu}{2\pi k_B T}\right)^{3/2}
+              \exp\!\left(-\frac{\mu w^{2}}{2 k_B T}\right),
 
-a change of variables to the reduced energy :math:`\hat{E} = E/(k_B T)`
-gives the probability density
+the change of variables to reduced energy
+:math:`\hat{E} = E/k_B T` gives the collision-rate-weighted density
 
 .. math::
 
-   P(\hat{E}) \;=\; \hat{E}\, e^{-\hat{E}},
+   p(\hat{E}) \;=\; \hat{E}\, e^{-\hat{E}},
    \qquad
-   F(\hat{E}) \;=\; 1 - e^{-\hat{E}}\,(\hat{E} + 1).
+   F(\hat{E}) \;=\; 1 \;-\; e^{-\hat{E}}\,(\hat{E} + 1).
 
-CoarseAIR draws uniform :math:`U \sim \mathcal{U}[0,1]`, inverts the CDF by
+CoarseAIR draws :math:`U \sim \mathcal{U}[0,1]`, inverts the CDF by
 Newton–Raphson to obtain :math:`\hat{E}`, and sets
-:math:`E = \hat{E}\, k_B T`. The thermal rate is then
+:math:`E = \hat{E}\, k_B T`. The thermal rate then collapses to the
+arithmetic mean
 
 .. math::
 
    k(T) \;\approx\; \sqrt{\frac{8 k_B T}{\mu\pi}}\;
-                    \frac{1}{N}\sum_{p=1}^{N} \sigma(\hat{E}_p),
+                    \frac{1}{N}\sum_{p = 1}^{N} \sigma(\hat{E}_p).
 
-where :math:`\mu` is the reduced mass of the collision. The inverse-CDF
-sampling is coded in ``src/Random/`` and called from the initial-state
-modules.
+**Gaussian sampling.** Energies are drawn from
+:math:`\mathcal{N}(\mu_E, \sigma_E^2)` with user-specified mean
+and standard deviation. The resulting rate is the numerical
+Gaussian average
+
+.. math::
+
+   \bar\sigma \;=\; \int_{-\infty}^{\infty}
+                    \sigma(E)\,
+                    \frac{1}{\sqrt{2\pi}\,\sigma_E}
+                    \exp\!\left[
+                      -\frac{(E - \mu_E)^{2}}{2\sigma_E^{2}}
+                    \right] dE,
+
+estimated in practice by a sample mean over the drawn energies.
+Unphysical negative energy draws (always possible for a Gaussian)
+are resampled. The mode is most useful to reproduce narrow
+non-thermal distributions from upstream simulation data (laser
+excitation, shock-compressed gas) where neither a Maxwellian nor a
+single fixed energy is a good model.
+
+**FixedTotEn.** Energies are drawn such that the *total* energy
+(translational + internal) is fixed at
+:math:`E_{\text{tot}}`. Given the sampled initial ro-vibrational
+state with internal energy :math:`E_{\text{int}}(v, J)`,
+CoarseAIR sets :math:`E_{\text{rel}} = E_{\text{tot}} -
+E_{\text{int}}(v, J)` for that trajectory. This keeps the total
+energy constant as the :math:`(v, J)` partition varies — a useful
+probe for vibrational-threshold studies and for comparing
+state-specific reactivity at matched collision energies.
+
+All four sampling code paths live in ``src/Random/`` and the
+initial-state modules under ``src/Collision/InitialStates/``;
+the branching on ``This%TtraModel`` is in
+``src/Input_Class.F90``.
 
 
 Impact parameter :math:`b`

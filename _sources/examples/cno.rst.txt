@@ -53,8 +53,57 @@ PES models
 ----------
 
 Available surfaces: ``UCI_2A1``, ``UCI_2A2``, ``UCI_4A2`` (UC Irvine
-group), ``Basel``. Example inputs target thermal rate coefficients around
+group — see :doc:`/reference/bibliography` for the three DMBE-surface
+DOIs), ``Basel``. Example inputs target thermal rate coefficients around
 :math:`T \sim 10\,000` K.
 
 Diatomic partners: ``CN_UCI``, ``CO_UCI``, ``NO_UCI`` (or the Basel
 counterparts when the Basel PES is selected).
+
+
+Input file walkthrough
+----------------------
+
+From ``input/CNO/UCI/CN+O/input/CoarseAIR.inp``. Three distinguishable
+atoms, three reactive arrangements, and three electronic surfaces
+treated as independent adiabatic PES:
+
+.. code-block:: text
+
+   System            = CNO
+   Nb of Species     = 2
+     Species 1       = CN
+     Species 2       = O
+   Nb of Molecules   = 3              ! CN, CO, NO (three arrangements)
+     Molecule 1      = CN
+     Molecule 2      = CO
+     Molecule 3      = NO
+   Nb of Atoms       = 3
+     Atom 1 = C       Mass [a.u.] = 21868.661757d0
+     Atom 2 = N       Mass [a.u.] = 25526.04298d0
+     Atom 3 = O       Mass [a.u.] = 29148.94559d0
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 1
+     Translational Temperature [K] 1   = 10000.d0
+
+   ! Three electronic surfaces run concurrently; trajectories are
+   ! distributed by degeneracy (see /theory/sampling).
+   Nb of PESs = 3
+     Model, PES 1      = UCI_2A1      ! 2 A'  doublet
+     Degeneracy, PES 1 = 1.0
+     Model, PES 2      = UCI_2A2      ! 2 A'' doublet
+     Degeneracy, PES 2 = 1.0
+     Model, PES 3      = UCI_4A2      ! 4 A'' quartet
+     Degeneracy, PES 3 = 3.0
+
+   Diatomic Potential Model, Molecule 1 = UCI    ! CN
+   Diatomic Potential Model, Molecule 2 = UCI    ! CO
+   Diatomic Potential Model, Molecule 3 = UCI    ! NO
+
+   Initial Impact Parameter Model = Stratified
+
+Replace the three ``UCI_*`` PES models with ``Basel`` to use the
+Meuwly-group surfaces; the diatomic potentials and the initial-level
+file names also need to be swapped consistently. See
+:doc:`/developer/adding_a_system` for the provider-swap workflow.

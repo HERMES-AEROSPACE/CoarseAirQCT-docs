@@ -35,6 +35,58 @@ Available: ``UMN`` — University of Minnesota O\ :sub:`4` surface
 
 Diatomic partner: ``O2_UMN`` (matching the multi-body PES).
 
+
+Input file walkthrough
+----------------------
+
+From ``input/O4/UMN/input/CoarseAIR_StS.inp``. Four labelled
+oxygens, six atom-pair partitions, and the singlet / triplet /
+quintet manifold of the UMN O\ :sub:`4` PES:
+
+.. code-block:: text
+
+   System            = OaObOcOd
+   Nb of Species     = 2
+     Species 1       = OaOb
+     Species 2       = OcOd
+   Nb of Molecules   = 6              ! all six atom-pair combinations
+     Molecule 1      = OaOb
+     Molecule 2      = OcOd
+     Molecule 3      = OaOc
+     Molecule 4      = OaOd
+     Molecule 5      = ObOc
+     Molecule 6      = ObOd
+   Nb of Atoms       = 4
+     Atom 1 = Oa      Mass [a.u.] = 29148.94559d0
+     Atom 2 = Ob      Mass [a.u.] = 29148.94559d0
+     Atom 3 = Oc      Mass [a.u.] = 29148.94559d0
+     Atom 4 = Od      Mass [a.u.] = 29148.94559d0
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 1
+     Translational Temperature [K] 1   = 10000.d0
+
+   Nb of PESs = 3
+     Model, PES 1      = UMN_Singlet
+     Degeneracy, PES 1 = 1.0
+     Model, PES 2      = UMN_Triplet
+     Degeneracy, PES 2 = 3.0
+     Model, PES 3      = UMN_Quintet
+     Degeneracy, PES 3 = 5.0
+
+   Diatomic Potential Model, Molecule 1..6 = UMN
+
+   Initial Impact Parameter Model = Stratified
+
+Like O\ :sub:`3`, production O\ :sub:`4` rates set
+``Identical Diatoms? = yes`` and
+``Distinguish Exchanges between Each Other? = no`` at
+post-processing so the six labelled pair-exchange pathways collapse
+to a single physical exchange rate. The reactive / V-V / V-R-T
+transfer channels of the O\ :sub:`2` + O\ :sub:`2` system are the
+four-atom closure of the O-chemistry dataset that complements
+:doc:`o3`.
+
 Typical use
 -----------
 

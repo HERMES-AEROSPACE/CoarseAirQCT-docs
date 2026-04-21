@@ -58,6 +58,32 @@ Same PES set as N\ :sub:`4` (``NASA``, ``UMN``, ``UMN_MBPIPMEG3``,
 ``UMN_PIPNN``) — the labelled run reuses the symmetric surface and only
 affects post-processing accounting.
 
+
+Input file walkthrough
+----------------------
+
+``input/NaNbNcNd/NASA/input/CoarseAIR_StS.inp`` has the same
+input layout as the N\ :sub:`4` StS input (see :doc:`n4`). The
+crucial difference is in the post-processing block:
+
+.. code-block:: text
+
+   ! --- Post-processing: LABELLED mode ---
+   Identical Diatoms?                         = no   ! NOT summed
+   Distinguish Exchanges between Each Other?  = yes  ! each permutation
+                                                     ! counted separately
+   Distinguish Exchanges from Inelastic?      = yes
+
+Set those three flags to ``yes``/``yes``/``yes`` (vs ``yes``/``no``/``yes``
+for the production indistinguishable N\ :sub:`4`), and the rate
+aggregator will produce one rate per labelled permutation instead of
+the degeneracy-weighted sum. Summing the labelled rates should
+reproduce the indistinguishable result to within Monte Carlo error —
+that is the audit the NaNbNcNd runs exist to perform.
+
+See :doc:`n4` for the full system/atoms/PES block (identical between
+the two configurations).
+
 See also
 --------
 

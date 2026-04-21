@@ -47,6 +47,56 @@ Available: ``BMKP`` (Boothroyd–Martin–Keogh–Peterson H\ :sub:`4` PES).
 
 Diatomic partner: ``H2_BMKP``.
 
+
+Input file walkthrough
+----------------------
+
+From ``input/H4/BMKP/input/CoarseAIR.inp``. Four-atom system with
+labelled atoms (``Ha, Hb, Hc, Hd``) tracked in the classifier,
+with six atom-pair potentials needed to cover all possible diatom
+partitions:
+
+.. code-block:: text
+
+   System            = HaHbHcHd
+   Nb of Species     = 2
+     Species 1       = HaHb           ! target diatom
+     Species 2       = HcHd           ! projectile diatom
+   Nb of Molecules   = 4              ! the four distinct pairings
+     Molecule 1      = HaHb
+     Molecule 2      = HcHd
+     Molecule 3      = HaHd
+     Molecule 4      = HbHc
+   Nb of Atoms       = 4
+     Atom 1 = Ha      Mass [a.u.] = 1835.0397616d0
+     Atom 2 = Hb      Mass [a.u.] = 1835.0397616d0
+     Atom 3 = Hc      Mass [a.u.] = 1835.0397616d0
+     Atom 4 = Hd      Mass [a.u.] = 1835.0397616d0
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 1
+     Translational Temperature [K] 1   = 10000.d0
+
+   Nb of PESs = 1
+     Model, PES 1      = H4_BMKP
+     Degeneracy, PES 1 = 1.0
+
+   ! All six atom-pair potentials are identical H2 diatomics.
+   Diatomic Potential Model, Molecule 1 = BMKP
+   Diatomic Potential Model, Molecule 2 = BMKP
+   Diatomic Potential Model, Molecule 3 = BMKP
+   Diatomic Potential Model, Molecule 4 = BMKP
+   Diatomic Potential Model, Molecule 5 = BMKP
+   Diatomic Potential Model, Molecule 6 = BMKP
+
+   Initial Impact Parameter Model = Stratified
+
+The labelled-atom treatment lets the classifier count each partition
+separately (e.g. :math:`H_a H_b + H_c H_d \to H_a H_c + H_b H_d` vs
+other exchanges). For physical rates, post-processing applies
+``Identical Diatoms? = yes`` and ``Distinguish Exchanges between Each
+Other? = no`` to sum the symmetric channels.
+
 Typical use
 -----------
 

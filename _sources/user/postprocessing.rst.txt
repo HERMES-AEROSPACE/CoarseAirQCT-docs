@@ -140,6 +140,205 @@ For a 3-atom system the two "molecule B" and "molecule D" columns are
 omitted.
 
 
+Arrangement codes (``arr_i`` / ``arr_f``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Every arrangement code written to ``trajectories.csv`` or
+``statistics.csv`` — both the initial state ``arr_i`` and the final
+state ``arr_f`` — is encoded as
+
+.. math::
+
+   \texttt{arr} \;=\; 16\,m \;+\; n,
+
+where :math:`m` is the **atom-pair index** (using CoarseAIR's
+standard pair numbering — see :doc:`/theory/qct`) and :math:`n` is
+the **final-state class of that diatom**, with the four legal values
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 30 58
+
+   * - :math:`n`
+     - Label
+     - Meaning
+   * - 0
+     - **Bound**
+     - Stable ro-vibrational level below the centrifugal-barrier
+       maximum (and below the dissociation asymptote). The normal
+       inelastic / exchange case.
+   * - 1
+     - **Quasi-bound**
+     - Classically trapped behind the centrifugal barrier but above
+       the asymptote :math:`V_\infty`. Metastable; will eventually
+       tunnel out in a full quantum treatment.
+   * - 2
+     - **Dissociating**
+     - Classically unbound — atoms separated beyond the barrier at
+       trajectory termination. This diatom's pair will not re-form
+       a bound state.
+   * - 3
+     - **Pre-dissociating**
+     - Bound by the classifier at trajectory termination but
+       marked at risk of dissociation during post-termination
+       analysis (short-lifetime quasi-bound, energy close to
+       :math:`V_{\max}(J)`). Used sparingly.
+
+See :doc:`/theory/arrangement_classification` for the classifier
+decision tree that assigns :math:`n`.
+
+
+**Complete mapping — 3-atom systems.**
+
+Three atom pairs, so :math:`m \in \{1, 2, 3\}` with CoarseAIR's
+convention pair 1 = AB, pair 2 = AC, pair 3 = BC.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 10 12 12 54
+
+   * - ``arr``
+     - :math:`m`
+     - Pair
+     - :math:`n`
+     - Meaning
+   * - 16
+     - 1
+     - AB
+     - 0
+     - AB bonded — bound product. (Inelastic / no exchange.)
+   * - 17
+     - 1
+     - AB
+     - 1
+     - AB bonded — quasi-bound product.
+   * - 18
+     - 1
+     - AB
+     - 2
+     - AB pair dissociating — no bound product in pair 1.
+   * - 19
+     - 1
+     - AB
+     - 3
+     - AB pre-dissociating.
+   * - 32
+     - 2
+     - AC
+     - 0
+     - AC bonded — bound product. (Exchange to pair 2.)
+   * - 33
+     - 2
+     - AC
+     - 1
+     - AC quasi-bound.
+   * - 34
+     - 2
+     - AC
+     - 2
+     - AC dissociating.
+   * - 35
+     - 2
+     - AC
+     - 3
+     - AC pre-dissociating.
+   * - 48
+     - 3
+     - BC
+     - 0
+     - BC bonded — bound product. (Exchange to pair 3.)
+   * - 49
+     - 3
+     - BC
+     - 1
+     - BC quasi-bound.
+   * - 50
+     - 3
+     - BC
+     - 2
+     - BC dissociating.
+   * - 51
+     - 3
+     - BC
+     - 3
+     - BC pre-dissociating.
+
+Full three-atom dissociation (A + B + C — no surviving diatom) is
+reported through the **process index** ``d`` rather than ``arr_f``;
+see the encoding formulas below.
+
+
+**Complete mapping — 4-atom systems.**
+
+Six atom pairs, so :math:`m \in \{1, \dots, 6\}` with CoarseAIR's
+convention 1 = AB, 2 = AC, 3 = AD, 4 = BC, 5 = BD, 6 = CD. Each
+4-atom trajectory carries *two* such arrangement codes in its output
+(one per product diatom): :math:`m` for the first product and a
+separate :math:`m'` for the second (columns depend on the file; see
+the ``statistics.csv`` layout table above).
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 10 12 12 54
+
+   * - ``arr``
+     - :math:`m`
+     - Pair
+     - :math:`n`
+     - Meaning (for that product diatom)
+   * - 16–19
+     - 1
+     - AB
+     - 0–3
+     - AB bonded: bound / quasi-bound / dissoc. / pre-dissoc.
+   * - 32–35
+     - 2
+     - AC
+     - 0–3
+     - AC bonded: bound / quasi-bound / dissoc. / pre-dissoc.
+   * - 48–51
+     - 3
+     - AD
+     - 0–3
+     - AD bonded: bound / quasi-bound / dissoc. / pre-dissoc.
+   * - 64–67
+     - 4
+     - BC
+     - 0–3
+     - BC bonded: bound / quasi-bound / dissoc. / pre-dissoc.
+   * - 80–83
+     - 5
+     - BD
+     - 0–3
+     - BD bonded: bound / quasi-bound / dissoc. / pre-dissoc.
+   * - 96–99
+     - 6
+     - CD
+     - 0–3
+     - CD bonded: bound / quasi-bound / dissoc. / pre-dissoc.
+
+The 4-atom output therefore gives up to **24 possible values** for
+each of the two ``arr_f`` columns (six pair indices × four state
+classes). Four-atom dissociation and single-dissociation outcomes
+(only one diatom survives, with one or two free atoms) follow from
+the combination of the two ``arr_f`` values: if one is of class
+:math:`n = 2` while the other is :math:`n = 0`, the outcome is a
+single dissociation; if both are :math:`n = 2`, the outcome is
+four-atom atomisation.
+
+
+.. note::
+
+   The :math:`16\,m + n` encoding lets the code reserve up to
+   :math:`m = 0` for future extensions (5-atom systems, for
+   instance); it does not mean the ``arr`` column starts at 0. The
+   smallest value used in practice is ``16`` (pair 1, bound).
+
+   Reverse-engineering the code from an ``arr`` value is a divmod:
+   :math:`m = \lfloor \texttt{arr}/16 \rfloor`,
+   :math:`n = \texttt{arr} \bmod 16`.
+
+
 ``Proc*.csv`` — rate coefficients
 ---------------------------------
 

@@ -63,6 +63,7 @@
 <li class="toctree-l2"><a class="reference internal" href="installation.html#build-artefacts">Build artefacts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#smoke-test">Smoke test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#cluster-installation">Cluster installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#regression-tests-after-every-install">Regression tests after every install</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#uninstall-rebuild">Uninstall / rebuild</a></li>
 </ul>
 </li>
@@ -87,14 +88,21 @@
 <li class="toctree-l2"><a class="reference internal" href="input_reference.html#diatomic-potential-block">Diatomic-potential block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="input_reference.html#preprocessing-binning-block">Preprocessing / binning block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="input_reference.html#post-processing-block">Post-processing block</a></li>
-<li class="toctree-l2"><a class="reference internal" href="input_reference.html#process-index-encoding-output">Process-index encoding (output)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_reference.html#process-index-encoding-output">Process-index encoding (output)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#worked-example-h-h2-3-atom">Worked example — H + H<sub>2</sub> (3-atom)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#worked-example-h2-h2-4-atom">Worked example — H<sub>2</sub> + H<sub>2</sub> (4-atom)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="input_reference.html#secondary-input-files">Secondary input files</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Post-processing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pipeline-overview">Pipeline overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#trajectory-output-files">Trajectory output files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#statistics-csv-cross-sections"><code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> — cross-sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#statistics-csv-cross-sections"><code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> — cross-sections</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#arrangement-codes-arr-i-arr-f">Arrangement codes (<code class="docutils literal notranslate"><span class="pre">arr_i</span></code> / <code class="docutils literal notranslate"><span class="pre">arr_f</span></code>)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#proc-csv-rate-coefficients"><code class="docutils literal notranslate"><span class="pre">Proc*.csv</span></code> — rate coefficients</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#controlling-the-aggregation">Controlling the aggregation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pycoarseair">PyCoarseAIR</a></li>
@@ -185,6 +193,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/chn.html#input-file-walkthrough">Input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/cno.html">CNO System</a><ul>
@@ -192,6 +201,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/cno.html#input-file-walkthrough">Input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/co2.html">CO<sub>2</sub> System</a><ul>
@@ -199,12 +209,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/co2.html#input-file-walkthrough">Input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/coar.html">CO + Ar System</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/coar.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -212,6 +224,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h2he.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -219,6 +232,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h3.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -226,6 +240,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/h4.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -234,6 +249,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n2o.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -250,6 +266,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#relation-to-n3">Relation to N<sub>3</sub></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/n4.html#see-also">See also</a></li>
 </ul>
@@ -259,6 +276,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#why-a-labelled-run">Why a labelled run?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/nanbncnd.html#see-also">See also</a></li>
 </ul>
 </li>
@@ -267,6 +285,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/no2.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -275,6 +294,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#why-isotopes-matter">Why isotopes matter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o18o18o16.html#see-also">See also</a></li>
 </ul>
 </li>
@@ -283,6 +303,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#typical-use">Typical use</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o3.html#see-also">See also</a></li>
 </ul>
@@ -291,6 +312,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#typical-use">Typical use</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/o4.html#see-also">See also</a></li>
 </ul>
@@ -567,6 +589,236 @@ system <span class="math notranslate nohighlight">\(A_i + B_j \to C_k + D_l\)</s
 </table>
 <p>For a 3-atom system the two “molecule B” and “molecule D” columns are
 omitted.</p>
+<section id="arrangement-codes-arr-i-arr-f">
+<h3>Arrangement codes (<code class="docutils literal notranslate"><span class="pre">arr_i</span></code> / <code class="docutils literal notranslate"><span class="pre">arr_f</span></code>)<a class="headerlink" href="#arrangement-codes-arr-i-arr-f" title="Link to this heading"></a></h3>
+<p>Every arrangement code written to <code class="docutils literal notranslate"><span class="pre">trajectories.csv</span></code> or
+<code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> — both the initial state <code class="docutils literal notranslate"><span class="pre">arr_i</span></code> and the final
+state <code class="docutils literal notranslate"><span class="pre">arr_f</span></code> — is encoded as</p>
+<div class="math notranslate nohighlight">
+\[\texttt{arr} \;=\; 16\,m \;+\; n,\]</div>
+<p>where <span class="math notranslate nohighlight">\(m\)</span> is the <strong>atom-pair index</strong> (using CoarseAIR’s
+standard pair numbering — see <a class="reference internal" href="../theory/qct.html"><span class="doc">Quasi-Classical Trajectories</span></a>) and <span class="math notranslate nohighlight">\(n\)</span> is
+the <strong>final-state class of that diatom</strong>, with the four legal values</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12.0%" />
+<col style="width: 30.0%" />
+<col style="width: 58.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(n\)</span></p></th>
+<th class="head"><p>Label</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><strong>Bound</strong></p></td>
+<td><p>Stable ro-vibrational level below the centrifugal-barrier
+maximum (and below the dissociation asymptote). The normal
+inelastic / exchange case.</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><strong>Quasi-bound</strong></p></td>
+<td><p>Classically trapped behind the centrifugal barrier but above
+the asymptote <span class="math notranslate nohighlight">\(V_\infty\)</span>. Metastable; will eventually
+tunnel out in a full quantum treatment.</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><strong>Dissociating</strong></p></td>
+<td><p>Classically unbound — atoms separated beyond the barrier at
+trajectory termination. This diatom’s pair will not re-form
+a bound state.</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><strong>Pre-dissociating</strong></p></td>
+<td><p>Bound by the classifier at trajectory termination but
+marked at risk of dissociation during post-termination
+analysis (short-lifetime quasi-bound, energy close to
+<span class="math notranslate nohighlight">\(V_{\max}(J)\)</span>). Used sparingly.</p></td>
+</tr>
+</tbody>
+</table>
+<p>See <a class="reference internal" href="../theory/arrangement_classification.html"><span class="doc">Arrangement Classification</span></a> for the classifier
+decision tree that assigns <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p><strong>Complete mapping — 3-atom systems.</strong></p>
+<p>Three atom pairs, so <span class="math notranslate nohighlight">\(m \in \{1, 2, 3\}\)</span> with CoarseAIR’s
+convention pair 1 = AB, pair 2 = AC, pair 3 = BC.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12.0%" />
+<col style="width: 10.0%" />
+<col style="width: 12.0%" />
+<col style="width: 12.0%" />
+<col style="width: 54.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">arr</span></code></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(m\)</span></p></th>
+<th class="head"><p>Pair</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(n\)</span></p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>16</p></td>
+<td><p>1</p></td>
+<td><p>AB</p></td>
+<td><p>0</p></td>
+<td><p>AB bonded — bound product. (Inelastic / no exchange.)</p></td>
+</tr>
+<tr class="row-odd"><td><p>17</p></td>
+<td><p>1</p></td>
+<td><p>AB</p></td>
+<td><p>1</p></td>
+<td><p>AB bonded — quasi-bound product.</p></td>
+</tr>
+<tr class="row-even"><td><p>18</p></td>
+<td><p>1</p></td>
+<td><p>AB</p></td>
+<td><p>2</p></td>
+<td><p>AB pair dissociating — no bound product in pair 1.</p></td>
+</tr>
+<tr class="row-odd"><td><p>19</p></td>
+<td><p>1</p></td>
+<td><p>AB</p></td>
+<td><p>3</p></td>
+<td><p>AB pre-dissociating.</p></td>
+</tr>
+<tr class="row-even"><td><p>32</p></td>
+<td><p>2</p></td>
+<td><p>AC</p></td>
+<td><p>0</p></td>
+<td><p>AC bonded — bound product. (Exchange to pair 2.)</p></td>
+</tr>
+<tr class="row-odd"><td><p>33</p></td>
+<td><p>2</p></td>
+<td><p>AC</p></td>
+<td><p>1</p></td>
+<td><p>AC quasi-bound.</p></td>
+</tr>
+<tr class="row-even"><td><p>34</p></td>
+<td><p>2</p></td>
+<td><p>AC</p></td>
+<td><p>2</p></td>
+<td><p>AC dissociating.</p></td>
+</tr>
+<tr class="row-odd"><td><p>35</p></td>
+<td><p>2</p></td>
+<td><p>AC</p></td>
+<td><p>3</p></td>
+<td><p>AC pre-dissociating.</p></td>
+</tr>
+<tr class="row-even"><td><p>48</p></td>
+<td><p>3</p></td>
+<td><p>BC</p></td>
+<td><p>0</p></td>
+<td><p>BC bonded — bound product. (Exchange to pair 3.)</p></td>
+</tr>
+<tr class="row-odd"><td><p>49</p></td>
+<td><p>3</p></td>
+<td><p>BC</p></td>
+<td><p>1</p></td>
+<td><p>BC quasi-bound.</p></td>
+</tr>
+<tr class="row-even"><td><p>50</p></td>
+<td><p>3</p></td>
+<td><p>BC</p></td>
+<td><p>2</p></td>
+<td><p>BC dissociating.</p></td>
+</tr>
+<tr class="row-odd"><td><p>51</p></td>
+<td><p>3</p></td>
+<td><p>BC</p></td>
+<td><p>3</p></td>
+<td><p>BC pre-dissociating.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Full three-atom dissociation (A + B + C — no surviving diatom) is
+reported through the <strong>process index</strong> <code class="docutils literal notranslate"><span class="pre">d</span></code> rather than <code class="docutils literal notranslate"><span class="pre">arr_f</span></code>;
+see the encoding formulas below.</p>
+<p><strong>Complete mapping — 4-atom systems.</strong></p>
+<p>Six atom pairs, so <span class="math notranslate nohighlight">\(m \in \{1, \dots, 6\}\)</span> with CoarseAIR’s
+convention 1 = AB, 2 = AC, 3 = AD, 4 = BC, 5 = BD, 6 = CD. Each
+4-atom trajectory carries <em>two</em> such arrangement codes in its output
+(one per product diatom): <span class="math notranslate nohighlight">\(m\)</span> for the first product and a
+separate <span class="math notranslate nohighlight">\(m'\)</span> for the second (columns depend on the file; see
+the <code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> layout table above).</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12.0%" />
+<col style="width: 10.0%" />
+<col style="width: 12.0%" />
+<col style="width: 12.0%" />
+<col style="width: 54.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">arr</span></code></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(m\)</span></p></th>
+<th class="head"><p>Pair</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(n\)</span></p></th>
+<th class="head"><p>Meaning (for that product diatom)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>16–19</p></td>
+<td><p>1</p></td>
+<td><p>AB</p></td>
+<td><p>0–3</p></td>
+<td><p>AB bonded: bound / quasi-bound / dissoc. / pre-dissoc.</p></td>
+</tr>
+<tr class="row-odd"><td><p>32–35</p></td>
+<td><p>2</p></td>
+<td><p>AC</p></td>
+<td><p>0–3</p></td>
+<td><p>AC bonded: bound / quasi-bound / dissoc. / pre-dissoc.</p></td>
+</tr>
+<tr class="row-even"><td><p>48–51</p></td>
+<td><p>3</p></td>
+<td><p>AD</p></td>
+<td><p>0–3</p></td>
+<td><p>AD bonded: bound / quasi-bound / dissoc. / pre-dissoc.</p></td>
+</tr>
+<tr class="row-odd"><td><p>64–67</p></td>
+<td><p>4</p></td>
+<td><p>BC</p></td>
+<td><p>0–3</p></td>
+<td><p>BC bonded: bound / quasi-bound / dissoc. / pre-dissoc.</p></td>
+</tr>
+<tr class="row-even"><td><p>80–83</p></td>
+<td><p>5</p></td>
+<td><p>BD</p></td>
+<td><p>0–3</p></td>
+<td><p>BD bonded: bound / quasi-bound / dissoc. / pre-dissoc.</p></td>
+</tr>
+<tr class="row-odd"><td><p>96–99</p></td>
+<td><p>6</p></td>
+<td><p>CD</p></td>
+<td><p>0–3</p></td>
+<td><p>CD bonded: bound / quasi-bound / dissoc. / pre-dissoc.</p></td>
+</tr>
+</tbody>
+</table>
+<p>The 4-atom output therefore gives up to <strong>24 possible values</strong> for
+each of the two <code class="docutils literal notranslate"><span class="pre">arr_f</span></code> columns (six pair indices × four state
+classes). Four-atom dissociation and single-dissociation outcomes
+(only one diatom survives, with one or two free atoms) follow from
+the combination of the two <code class="docutils literal notranslate"><span class="pre">arr_f</span></code> values: if one is of class
+<span class="math notranslate nohighlight">\(n = 2\)</span> while the other is <span class="math notranslate nohighlight">\(n = 0\)</span>, the outcome is a
+single dissociation; if both are <span class="math notranslate nohighlight">\(n = 2\)</span>, the outcome is
+four-atom atomisation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <span class="math notranslate nohighlight">\(16\,m + n\)</span> encoding lets the code reserve up to
+<span class="math notranslate nohighlight">\(m = 0\)</span> for future extensions (5-atom systems, for
+instance); it does not mean the <code class="docutils literal notranslate"><span class="pre">arr</span></code> column starts at 0. The
+smallest value used in practice is <code class="docutils literal notranslate"><span class="pre">16</span></code> (pair 1, bound).</p>
+<p>Reverse-engineering the code from an <code class="docutils literal notranslate"><span class="pre">arr</span></code> value is a divmod:
+<span class="math notranslate nohighlight">\(m = \lfloor \texttt{arr}/16 \rfloor\)</span>,
+<span class="math notranslate nohighlight">\(n = \texttt{arr} \bmod 16\)</span>.</p>
+</div>
+</section>
 </section>
 <section id="proc-csv-rate-coefficients">
 <h2><code class="docutils literal notranslate"><span class="pre">Proc*.csv</span></code> — rate coefficients<a class="headerlink" href="#proc-csv-rate-coefficients" title="Link to this heading"></a></h2>

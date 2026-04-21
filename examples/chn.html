@@ -63,6 +63,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html#build-artefacts">Build artefacts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html#smoke-test">Smoke test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html#cluster-installation">Cluster installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/installation.html#regression-tests-after-every-install">Regression tests after every install</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html#uninstall-rebuild">Uninstall / rebuild</a></li>
 </ul>
 </li>
@@ -87,14 +88,21 @@
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#diatomic-potential-block">Diatomic-potential block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#preprocessing-binning-block">Preprocessing / binning block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#post-processing-block">Post-processing block</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#process-index-encoding-output">Process-index encoding (output)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#process-index-encoding-output">Process-index encoding (output)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#worked-example-h-h2-3-atom">Worked example — H + H<sub>2</sub> (3-atom)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#worked-example-h2-h2-4-atom">Worked example — H<sub>2</sub> + H<sub>2</sub> (4-atom)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#secondary-input-files">Secondary input files</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../user/postprocessing.html">Post-processing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#pipeline-overview">Pipeline overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#trajectory-output-files">Trajectory output files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#statistics-csv-cross-sections"><code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> — cross-sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#statistics-csv-cross-sections"><code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> — cross-sections</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user/postprocessing.html#arrangement-codes-arr-i-arr-f">Arrangement codes (<code class="docutils literal notranslate"><span class="pre">arr_i</span></code> / <code class="docutils literal notranslate"><span class="pre">arr_f</span></code>)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#proc-csv-rate-coefficients"><code class="docutils literal notranslate"><span class="pre">Proc*.csv</span></code> — rate coefficients</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#controlling-the-aggregation">Controlling the aggregation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/postprocessing.html#pycoarseair">PyCoarseAIR</a></li>
@@ -185,6 +193,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input-file-walkthrough">Input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cno.html">CNO System</a><ul>
@@ -192,6 +201,7 @@
 <li class="toctree-l2"><a class="reference internal" href="cno.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cno.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cno.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cno.html#input-file-walkthrough">Input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="co2.html">CO<sub>2</sub> System</a><ul>
@@ -199,12 +209,14 @@
 <li class="toctree-l2"><a class="reference internal" href="co2.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="co2.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="co2.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="co2.html#input-file-walkthrough">Input file walkthrough</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="coar.html">CO + Ar System</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="coar.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="coar.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="coar.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coar.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="coar.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -212,6 +224,7 @@
 <li class="toctree-l2"><a class="reference internal" href="h2he.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h2he.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h2he.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="h2he.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h2he.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -219,6 +232,7 @@
 <li class="toctree-l2"><a class="reference internal" href="h3.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h3.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="h3.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h3.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -226,6 +240,7 @@
 <li class="toctree-l2"><a class="reference internal" href="h4.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h4.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="h4.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="h4.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -234,6 +249,7 @@
 <li class="toctree-l2"><a class="reference internal" href="n2o.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="n2o.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="n2o.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="n2o.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="n2o.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -250,6 +266,7 @@
 <li class="toctree-l2"><a class="reference internal" href="n4.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="n4.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="n4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="n4.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="n4.html#relation-to-n3">Relation to N<sub>3</sub></a></li>
 <li class="toctree-l2"><a class="reference internal" href="n4.html#see-also">See also</a></li>
 </ul>
@@ -259,6 +276,7 @@
 <li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#why-a-labelled-run">Why a labelled run?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#see-also">See also</a></li>
 </ul>
 </li>
@@ -267,6 +285,7 @@
 <li class="toctree-l2"><a class="reference internal" href="no2.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="no2.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="no2.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="no2.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="no2.html#typical-use">Typical use</a></li>
 </ul>
 </li>
@@ -275,6 +294,7 @@
 <li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#why-isotopes-matter">Why isotopes matter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#see-also">See also</a></li>
 </ul>
 </li>
@@ -283,6 +303,7 @@
 <li class="toctree-l2"><a class="reference internal" href="o3.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o3.html#multi-surface-structure">Multi-surface structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o3.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="o3.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o3.html#typical-use">Typical use</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o3.html#see-also">See also</a></li>
 </ul>
@@ -291,6 +312,7 @@
 <li class="toctree-l2"><a class="reference internal" href="o4.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o4.html#kinetic-processes">Kinetic processes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o4.html#pes-models">PES models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="o4.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o4.html#typical-use">Typical use</a></li>
 <li class="toctree-l2"><a class="reference internal" href="o4.html#see-also">See also</a></li>
 </ul>
@@ -451,6 +473,43 @@ averaging does not apply — every pathway is resolved on its own.</p>
 <code class="docutils literal notranslate"><span class="pre">NN</span></code> (neural-network regression of CASSCF ab-initio points). Example
 inputs target reactive kinetics around <span class="math notranslate nohighlight">\(T \sim 7500\)</span> K.</p>
 <p>Diatomic partners: <code class="docutils literal notranslate"><span class="pre">CH_UIUC</span></code>, <code class="docutils literal notranslate"><span class="pre">CN_UIUC_2Sig</span></code>, <code class="docutils literal notranslate"><span class="pre">HN_UIUC</span></code>.</p>
+</section>
+<section id="input-file-walkthrough">
+<h2>Input file walkthrough<a class="headerlink" href="#input-file-walkthrough" title="Link to this heading"></a></h2>
+<p>From <code class="docutils literal notranslate"><span class="pre">input/CHN/UIUC_1A1/CH+N/input/CoarseAIR.inp</span></code>. Only the
+system-specific lines are shown — for the integrator / sampling /
+post-processing boilerplate see <a class="reference internal" href="n3.html"><span class="doc">N3 System</span></a>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>System            = CHN
+Nb of Species     = 2
+  Species 1       = CH             ! target
+  Species 2       = N              ! projectile
+Nb of Molecules   = 3              ! CH, CN, HN (three arrangements)
+  Molecule 1      = CH
+  Molecule 2      = CN
+  Molecule 3      = HN
+Nb of Atoms       = 3
+  Atom 1 = C       Mass [a.u.] = 21868.661757d0
+  Atom 2 = H       Mass [a.u.] =  1835.0397616d0
+  Atom 3 = N       Mass [a.u.] = 25519.042285d0
+
+Relative Translational Energy Model = Boltzmann
+Nb of Translational Temperatures    = 1
+  Translational Temperature [K] 1   = 7500.d0
+
+Nb of PESs = 1
+  Model, PES 1      = NN           ! or LEPS for the historical benchmark
+  Degeneracy, PES 1 = 1.0
+
+Diatomic Potential Model, Molecule 1 = UIUC_4Sig      ! CH
+Diatomic Potential Model, Molecule 2 = UIUC_2Sig      ! CN
+Diatomic Potential Model, Molecule 3 = Modified_Morse ! HN
+
+Initial Impact Parameter Model = Stratified
+</pre></div>
+</div>
+<p>Because C, H, N are all distinguishable, the three final-arrangement
+channels (CH+N, CN+H, HN+C) are tracked separately by the
+post-processor — no identical-atom averaging applies.</p>
 </section>
 </section>
 

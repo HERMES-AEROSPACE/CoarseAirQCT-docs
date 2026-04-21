@@ -49,3 +49,46 @@ Available: ``Basel``, ``NASA`` (multiple spin-orbit labels — see above).
 
 Diatomic partners: ``CO_Basel_ForCO2``, ``O2_Basel_ForCO2``, or the NASA
 variants as appropriate.
+
+
+Input file walkthrough
+----------------------
+
+From ``input/CO2/Basel/O2+C/input/CoarseAIR.inp``. Two arrangements
+(O\ :sub:`2`\ +C and CO+O) and two Basel triplet surfaces:
+
+.. code-block:: text
+
+   System            = CO2
+   Nb of Species     = 2
+     Species 1       = O2             ! target
+     Species 2       = C              ! projectile
+   Nb of Molecules   = 2              ! O2 and CO arrangements
+     Molecule 1      = O2
+     Molecule 2      = CO
+   Nb of Atoms       = 3
+     Atom 1 = O       Mass [a.u.] = 29148.94559d0
+     Atom 2 = O       Mass [a.u.] = 29148.94559d0
+     Atom 3 = C       Mass [a.u.] = 21868.661757d0
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 1
+     Translational Temperature [K] 1   = 10000.d0
+
+   Nb of PESs = 2
+     Model, PES 1      = Basel_3A1    ! 3 A'  triplet
+     Degeneracy, PES 1 = 1.0
+     Model, PES 2      = Basel_3A2    ! 3 A'' triplet
+     Degeneracy, PES 2 = 1.0
+
+   Diatomic Potential Model, Molecule 1 = Basel_ForCO2   ! O2
+   Diatomic Potential Model, Molecule 2 = Basel_ForCO2   ! CO
+
+   Initial Impact Parameter Model = Stratified
+
+To run with ``Postprocessing Trajectories? = yes`` and
+``Identical Diatoms? = yes`` set (see
+:doc:`/user/input_reference`): the two "CO + O" final-arrangement
+paths (CO + O\ :sub:`a` vs CO + O\ :sub:`b`) get summed during
+aggregation, which is the physically correct reduction for
+indistinguishable oxygens.

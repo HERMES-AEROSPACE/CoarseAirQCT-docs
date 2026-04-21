@@ -40,6 +40,45 @@ Available: ``BH`` (Boothroyd–Keogh–Martin–Peterson / BKMP2 variant),
 
 Diatomic partner: ``H2_Schwenke1988``.
 
+
+Input file walkthrough
+----------------------
+
+From ``input/H3/LEPS/input/CoarseAIR.inp``. The simplest system in
+the CoarseAIR database — three identical H atoms, one PES, one
+diatomic potential:
+
+.. code-block:: text
+
+   System            = H3
+   Nb of Species     = 2
+     Species 1       = H2
+     Species 2       = H
+   Nb of Molecules   = 1              ! only one diatomic product: H2
+     Molecule 1      = H2
+   Nb of Atoms       = 3
+     Atom 1 = H       Mass [a.u.] = 1835.0397616d0
+     Atom 2 = H       Mass [a.u.] = 1835.0397616d0
+     Atom 3 = H       Mass [a.u.] = 1835.0397616d0
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 1
+     Translational Temperature [K] 1   = 10000.d0
+
+   Nb of PESs = 1
+     Model, PES 1      = LEPS         ! or BH for the BKMP2 surface
+     Degeneracy, PES 1 = 1.0
+
+   Diatomic Potential Model, Molecule 1 = Morse    ! pairs with LEPS
+
+   Initial Impact Parameter Model = Stratified
+
+Because all three H atoms are identical, the natural configuration is
+``Identical Diatoms? = yes`` and ``Distinguish Exchanges between Each
+Other? = no`` — the three symmetric exchange pathways sum into a
+single "exchange" channel. See :doc:`/theory/arrangement_classification`
+for the indistinguishable-atom averaging.
+
 Typical use
 -----------
 

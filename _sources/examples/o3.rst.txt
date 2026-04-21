@@ -116,6 +116,55 @@ All families cover the full set of nine electronic surfaces.
 Diatomic partner: ``O2_UMN`` (or the variant consistent with the chosen
 triatomic PES).
 
+
+Input file walkthrough
+----------------------
+
+From ``input/O3/UMN/input/CoarseAIR.inp``. The full nine-surface
+O + O\ :sub:`2` manifold runs concurrently, with trajectories
+distributed across surfaces by the electronic degeneracies:
+
+.. code-block:: text
+
+   System            = O3
+   Nb of Species     = 2
+     Species 1       = O2
+     Species 2       = O
+   Nb of Molecules   = 1
+     Molecule 1      = O2
+   Nb of Atoms       = 3
+     Atom 1 = O       Mass [a.u.] = 29148.94559d0
+     Atom 2 = O       Mass [a.u.] = 29148.94559d0
+     Atom 3 = O       Mass [a.u.] = 29148.94559d0
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 1
+     Translational Temperature [K] 1   = 10000.d0
+
+   Nb of PESs = 9
+     Model, PES 1      = UMN_11A1   Degeneracy = 1.0     ! 1 A'  singlet
+     Model, PES 2      = UMN_11A2   Degeneracy = 1.0     ! 1 A'' singlet
+     Model, PES 3      = UMN_13A1   Degeneracy = 3.0     ! 3 A'  triplet
+     Model, PES 4      = UMN_13A2   Degeneracy = 3.0     ! 3 A'' triplet
+     Model, PES 5      = UMN_15A1   Degeneracy = 5.0     ! 5 A'  quintet
+     Model, PES 6      = UMN_15A2   Degeneracy = 5.0     ! 5 A'' quintet
+     Model, PES 7      = UMN_21A1   Degeneracy = 1.0     ! 2 A'  singlet
+     Model, PES 8      = UMN_23A1   Degeneracy = 3.0     ! 2 A'  triplet
+     Model, PES 9      = UMN_25A1   Degeneracy = 5.0     ! 2 A'  quintet
+
+   Diatomic Potential Model, Molecule 1 = UMN
+
+   Initial Impact Parameter Model = Stratified
+
+Swap the PES model block for ``Model, PES n = NN_*`` (or ``GP_*``,
+``BNN_*``) to use the machine-learned surface variants (see
+:doc:`/theory/pes_formats`). All nine surfaces are represented in
+each family. Because all three O atoms are identical, production
+post-processing uses ``Identical Diatoms? = yes`` and
+``Distinguish Exchanges between Each Other? = no``. For the
+isotope-labelled variant that tracks exchange paths explicitly,
+see :doc:`o18o18o16`.
+
 Typical use
 -----------
 

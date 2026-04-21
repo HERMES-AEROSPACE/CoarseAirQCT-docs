@@ -68,22 +68,101 @@ PES is unchanged but reduced masses differ.
 Translational energy / temperature block
 ----------------------------------------
 
+The single line ``Relative Translational Energy Model = X`` selects
+one of four relative-velocity sampling strategies. The follow-up
+lines depend on ``X``:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 18 30 52
+
+   * - Model
+     - What it does
+     - Required follow-up lines
+   * - ``FixedRelE``
+     - Every trajectory starts with the **same** relative
+       translational energy :math:`E_{\text{rel}}`. One cross-
+       section is produced per energy; no averaging over
+       :math:`E` is applied.
+     - ``Nb of Translational Energies = N``
+       + ``Translational Energy [Eh] k`` for :math:`k = 1\dots N`
+   * - ``Boltzmann``
+     - Energies are drawn from the **Maxwell–Boltzmann
+       translational distribution** at temperature :math:`T`
+       (inverse-CDF sampling of :math:`\hat E\,e^{-\hat E}` —
+       see :doc:`/theory/sampling`). Thermal rate coefficients
+       :math:`k(T)` are then an arithmetic mean of
+       :math:`\sigma(\hat E)`.
+     - ``Nb of Translational Temperatures = N``
+       + ``Translational Temperature [K] k`` for :math:`k = 1\dots N`
+   * - ``Gaussian``
+     - Energies are drawn from a **Gaussian** of user-defined
+       mean and standard deviation. Useful for narrow-bandwidth
+       laser-excitation studies or for reproducing non-thermal
+       distributions from a CFD cell.
+     - ``Average Translational Energy [Eh] = <mean>``
+       + ``Translational Energy SD      [Eh] = <sigma>``
+   * - ``FixedTotEn``
+     - Every trajectory starts with the **same total energy**
+       (translational + internal), allowing the vibrational
+       population to vary with the :math:`(v, J)` choice while
+       :math:`E_{\text{tot}}` is held fixed. Used mainly for
+       diagnostic studies of vibration-specific thresholds.
+     - ``Fixed Total Energy [Eh] = <E_tot>``
+
+The ``Nb of Internal Temperatures`` block is separate — it sets the
+*internal* (ro-vibrational) temperature used by the binning and
+by Boltzmann-weighted initial-level selection; it is independent
+of the translational model:
+
 .. code-block:: text
 
-   Relative Translational Energy Model = Uniform | Boltzmann | FixedTotEn
-   Nb of Translational Temperatures = 3
-     Translational Temperature [K] 1 = 5000
-     Translational Temperature [K] 2 = 10000
-     Translational Temperature [K] 3 = 20000
-   Nb of Internal Temperatures      = 1
-     Internal Temperature [K] 1     = 10000
+   Nb of Internal Temperatures  = 1
+     Internal Temperature [K] 1 = 10000
 
-- ``Uniform`` — fixed collision energy. Use with a
-  ``Translational Energy [Eh] N =`` block instead of temperatures.
-- ``Boltzmann`` — Maxwell–Boltzmann thermal average at the listed
-  translational temperatures (uses inverse-CDF sampling;
-  see :doc:`/theory/sampling`).
-- ``FixedTotEn`` — fixed total energy of the collision.
+Worked examples of each translational model:
+
+.. code-block:: text
+
+   ! ---  FixedRelE : three fixed collision energies  ---
+   Relative Translational Energy Model = FixedRelE
+   Nb of Translational Energies        = 3
+     Translational Energy [Eh] 1 = 0.025      ! ~ 0.68 eV
+     Translational Energy [Eh] 2 = 0.10       ! ~ 2.72 eV
+     Translational Energy [Eh] 3 = 0.40       ! ~ 10.9 eV
+
+   ! ---  Boltzmann : Maxwell thermal averaging at three temperatures  ---
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 3
+     Translational Temperature [K] 1 = 5000.d0
+     Translational Temperature [K] 2 = 10000.d0
+     Translational Temperature [K] 3 = 20000.d0
+
+   ! ---  Gaussian : narrow distribution around 0.1 Eh  ---
+   Relative Translational Energy Model   = Gaussian
+   Average Translational Energy [Eh]     = 0.10d0
+   Translational Energy SD      [Eh]     = 0.01d0
+
+   ! ---  FixedTotEn : fixed total energy  ---
+   Relative Translational Energy Model = FixedTotEn
+   Fixed Total Energy [Eh]             = 0.25d0
+
+Choosing between the models:
+
+- If you want **direct cross-sections** :math:`\sigma(E)` on a
+  controlled energy grid, use ``FixedRelE``.
+- If you want **thermal rate coefficients** :math:`k(T)` in one
+  shot, use ``Boltzmann``.
+- If you are reproducing a **non-thermal distribution** from
+  upstream simulation data, use ``Gaussian`` (or combine a vector
+  of ``FixedRelE`` points with post-processing reweighting).
+- If you need to hold the **total energy** fixed and vary the
+  partition between translation and internal modes, use
+  ``FixedTotEn``.
+
+See :doc:`/theory/sampling` for the Monte Carlo derivations that
+connect each model to its Maxwellian / Gaussian / delta-function
+integrand.
 
 
 Trajectory and sampling block
@@ -294,14 +373,224 @@ groups in the :math:`i`-th pair's molecule, and :math:`d_m` is the
 final-level index within that pair (with :math:`d_m = 1` reserved for
 dissociation from the ``mol``-th final molecule).
 
-For **4-atom** systems the encoding is the multi-pair analogue — see
-section 7.2.3 of the legacy user manual for the full formulas. Final
-arrangements in trajectory output are encoded as ``16 * m + n``, where
+For **4-atom** systems each trajectory ends with *two* product
+diatoms, and the ``d`` index runs over all pair–pair combinations.
+Writing :math:`\mathcal{N}_k` for the number of levels/groups in the
+:math:`k`-th atom pair of the 4-atom enumeration (1=AB, 2=AC, 3=AD,
+4=BC, 5=BD, 6=CD), and :math:`d_k = 1` for the "pair-:math:`k`
+dissociated" case and :math:`d_k = s+1` for level :math:`s`
+otherwise, the 4-atom formulas are:
 
-- ``m`` = final atom pair
-  (3-atom: 1=AB, 2=AC, 3=BC), and
-- ``n`` = 0 (bound), 1 (quasi-bound), 2 (dissociating), 3
-  (predissociating).
+.. math::
+
+   &\text{Inelastic } AB_i + CD_j \to AB_k + CD_l : \\
+   &\qquad d \;=\; 1 + (d_1 - 1)(\mathcal{N}_6^G + 1) + d_6,
+
+.. math::
+
+   &\text{Exchange to 2nd pair } AB_i + CD_j \to AC_m + BD_n : \\
+   &\qquad d \;=\; 1 + (\mathcal{N}_1 + 1)(\mathcal{N}_6 + 1)
+                     + (d_2 - 1)(\mathcal{N}_5^G + 1) + d_5,
+
+.. math::
+
+   &\text{Exchange to 3rd pair } AB_i + CD_j \to AD_p + BC_q : \\
+   &\qquad d \;=\; 1 + (\mathcal{N}_1 + 1)(\mathcal{N}_6 + 1)
+                     + (\mathcal{N}_2 + 1)(\mathcal{N}_5 + 1)
+                     + (d_3 - 1)(\mathcal{N}_4^G + 1) + d_4.
+
+:math:`d = 1` is reserved (retained only for compatibility with old
+file formats).
+
+Final arrangements in trajectory output are encoded as ``16 * m +
+n``, where :math:`m` is the final-diatom pair index (3-atom:
+1=AB, 2=AC, 3=BC; 4-atom: 1-6 per the convention above) and
+:math:`n \in \{0, 1, 2, 3\}` encodes bound / quasi-bound /
+dissociating / pre-dissociating. See :doc:`postprocessing` for the
+complete ``arr_f`` mapping tables.
+
+
+Worked example — H + H\ :sub:`2` (3-atom)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Suppose the target H\ :sub:`2` molecule has **3 pre-computed levels**
+(:math:`\mathcal{N}_1^G = 3`; an unrealistically small number chosen
+to keep the table legible). The three pair numberings for H\ :sub:`3`
+are: pair 1 = H\ :sub:`A`\ H\ :sub:`B` (inelastic), pair 2 =
+H\ :sub:`A`\ H\ :sub:`C` (1st exchange), pair 3 =
+H\ :sub:`B`\ H\ :sub:`C` (2nd exchange). Since all three H atoms are
+identical, :math:`\mathcal{N}_1^G = \mathcal{N}_2^G = \mathcal{N}_3^G
+= 3`.
+
+Plugging into the 3-atom formulas (:math:`d_m = 1` = pair-:math:`m`
+dissociated, :math:`d_m = s+1` = final level :math:`s` of pair
+:math:`m`):
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 18 32 40
+
+   * - ``d``
+     - Channel
+     - Formula
+     - Meaning
+   * - 2
+     - Inelastic
+     - :math:`1 + d_1` with :math:`d_1 = 1`
+     - H\ :sub:`A`\ H\ :sub:`B` dissociated → H\ + H\ + H
+       (three-body dissociation).
+   * - 3
+     - Inelastic
+     - :math:`1 + d_1` with :math:`d_1 = 2`
+     - H\ :sub:`A`\ H\ :sub:`B` → H\ :sub:`2`\ (level 1) + H.
+   * - 4
+     - Inelastic
+     - :math:`1 + d_1` with :math:`d_1 = 3`
+     - H\ :sub:`A`\ H\ :sub:`B` → H\ :sub:`2`\ (level 2) + H.
+   * - 5
+     - Inelastic
+     - :math:`1 + d_1` with :math:`d_1 = 4`
+     - H\ :sub:`A`\ H\ :sub:`B` → H\ :sub:`2`\ (level 3) + H.
+   * - 6
+     - Exchange pair 2
+     - :math:`1 + (\mathcal{N}_1^G + 1) + d_2`, :math:`d_2 = 1`
+     - Pair 2 dissociated (same 3-body event, reported via the
+       exchange channel — collapsed later if
+       ``Distinguish Exchanges from Inelastic? = no``).
+   * - 7 – 9
+     - Exchange pair 2
+     - :math:`d_2 = 2, 3, 4`
+     - H\ :sub:`A`\ H\ :sub:`C` → H\ :sub:`2`\ (level 1, 2, 3) + H\ :sub:`B`.
+   * - 10
+     - Exchange pair 3
+     - :math:`1 + (\mathcal{N}_1^G + 1)+ (\mathcal{N}_2^G + 1) + d_3`,
+       :math:`d_3 = 1`
+     - Pair 3 dissociated.
+   * - 11 – 13
+     - Exchange pair 3
+     - :math:`d_3 = 2, 3, 4`
+     - H\ :sub:`B`\ H\ :sub:`C` → H\ :sub:`2`\ (level 1, 2, 3) + H\ :sub:`A`.
+
+So with :math:`\mathcal{N}^G = 3`, the entire process space spans
+``d = 2 … 13`` (12 channels: 3 arrangements × (3 levels + 1
+dissociation each)). For the physically-meaningful
+indistinguishable-atom rate, turn on
+``Distinguish Exchanges between Each Other? = no`` in the
+post-processing block; the three "level-1 final" entries
+(``d = 3, 7, 11``) then sum into a single "exchange + inelastic"
+rate, and similarly for the three dissociation entries (``d = 2,
+6, 10``).
+
+
+Worked example — H\ :sub:`2` + H\ :sub:`2` (4-atom)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Four identical hydrogens, six atom-pair partitions, two product
+diatoms per trajectory. For readability, take each pair to have
+:math:`\mathcal{N}_k^G = 2` (just two levels). Write
+:math:`d_i = 1` for "pair :math:`i` dissociated", :math:`d_i = 2`
+for "level 1", :math:`d_i = 3` for "level 2" — so
+:math:`\mathcal{N}_i + 1 = 3` for every pair.
+
+Using the inelastic formula, which simplifies here to
+:math:`d = 1 + 3(d_1 - 1) + d_6`:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 10 10 25 45
+
+   * - ``d``
+     - :math:`d_1`
+     - :math:`d_6`
+     - Channel
+     - Meaning
+   * - 2
+     - 1 (diss)
+     - 1 (diss)
+     - Inelastic (both diss)
+     - 4H fully atomised.
+   * - 3
+     - 1 (diss)
+     - 2 (lev 1)
+     - Inelastic
+     - Pair 1 (AB) dissociated, pair 6 (CD) in level 1: CD(level 1)
+       + A + B.
+   * - 4
+     - 1 (diss)
+     - 3 (lev 2)
+     - Inelastic
+     - CD(level 2) + A + B.
+   * - 5
+     - 2 (lev 1)
+     - 1 (diss)
+     - Inelastic
+     - AB(level 1) + C + D.
+   * - 6
+     - 2 (lev 1)
+     - 2 (lev 1)
+     - Inelastic (both bound)
+     - AB(level 1) + CD(level 1). This is the "pure inelastic,
+       both diatoms survived" channel.
+   * - 7
+     - 2 (lev 1)
+     - 3 (lev 2)
+     - Inelastic
+     - AB(level 1) + CD(level 2).
+   * - 8
+     - 3 (lev 2)
+     - 1 (diss)
+     - Inelastic
+     - AB(level 2) + C + D.
+   * - 9
+     - 3 (lev 2)
+     - 2 (lev 1)
+     - Inelastic
+     - AB(level 2) + CD(level 1).
+   * - 10
+     - 3 (lev 2)
+     - 3 (lev 2)
+     - Inelastic
+     - AB(level 2) + CD(level 2).
+
+The inelastic block therefore spans ``d = 2 … 10`` (9 channels).
+The **2nd exchange block** starts at
+:math:`d_{\text{start}} = 1 + (\mathcal{N}_1 + 1)(\mathcal{N}_6 + 1)
+= 1 + 3 \cdot 3 = 10`, so the first exchange-2 channel is
+``d = 10 + 1 = 11``:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 10 10 25 45
+
+   * - ``d``
+     - :math:`d_2`
+     - :math:`d_5`
+     - Channel
+     - Meaning
+   * - 11 – 19
+     - 1..3
+     - 1..3
+     - Exchange 2nd pair
+     - AC + BD partition: AC(level) + BD(level), with combinations
+       of dissociation / level 1 / level 2 analogous to the inelastic
+       block above.
+
+Similarly, the **3rd exchange block** starts at
+:math:`d_{\text{start}} + (\mathcal{N}_2 + 1)(\mathcal{N}_5 + 1)
+= 10 + 9 = 19`, so ``d = 20 … 28`` covers the AD + BC partition.
+
+For ``N_1 = N_2 = N_3 = N_4 = N_5 = N_6 = 2``, the full process
+space has **27 channels** (3 arrangements × 9 (combinations of 3
+dissociation/level values)²), running ``d = 2 … 28``. For
+production runs with :math:`\mathcal{N}^G` in the hundreds or
+thousands, the combinatorics blow up accordingly —
+``Proc_<d>.csv`` files are emitted per non-trivial channel and
+compressed aggressively.
+
+In practice, the user rarely decodes ``d`` values by hand: the
+Python and MATLAB post-processing tools
+(:doc:`postprocessing`) do the inversion automatically and report
+human-readable channel labels.
 
 
 Secondary input files

@@ -36,6 +36,47 @@ Available: ``BMPmod`` (a modified Boothroyd–Martin–Peterson PES).
 
 Diatomic partners: ``H2_BMKP`` (H\ :sub:`2`), ``HHe_Dummy`` (inert).
 
+
+Input file walkthrough
+----------------------
+
+From ``input/H2He/BMPmod/input/CoarseAIR.inp``. Two identical
+hydrogens plus a spectator helium; only the H\ :sub:`2` pair has a
+real diatomic potential:
+
+.. code-block:: text
+
+   System            = H2He
+   Nb of Species     = 2
+     Species 1       = H2             ! target
+     Species 2       = He             ! projectile (spectator)
+   Nb of Molecules   = 2
+     Molecule 1      = H2
+     Molecule 2      = HHe            ! dummy (inert)
+   Nb of Atoms       = 3
+     Atom 1 = H       Mass [a.u.] = 1835.0397616d0
+     Atom 2 = H       Mass [a.u.] = 1835.0397616d0
+     Atom 3 = He      Mass [a.u.] = 7340.159046d0
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 1
+     Translational Temperature [K] 1   = 10000.d0
+
+   Nb of PESs = 1
+     Model, PES 1      = H2He_BMPmod
+     Degeneracy, PES 1 = 1.0
+
+   Diatomic Potential Model, Molecule 1 = BMKP    ! H2 — real potential
+   Diatomic Potential Model, Molecule 2 = Dummy   ! HHe — inert
+
+   Initial Impact Parameter Model = Stratified
+
+Because the two H atoms are identical, ``Identical Diatoms? = yes``
+in the post-processing block halves the exchange-channel count (not
+relevant here — no reactive channel opens on a ``Dummy`` H-He
+potential — but flagged for consistency with other H\ :sub:`2`-
+containing runs).
+
 Typical use
 -----------
 
