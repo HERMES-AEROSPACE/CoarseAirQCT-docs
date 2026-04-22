@@ -410,187 +410,228 @@ dissociating / pre-dissociating. See :doc:`postprocessing` for the
 complete ``arr_f`` mapping tables.
 
 
-Worked example — H + H\ :sub:`2` (3-atom)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Worked example — NO + C (3-atom)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Suppose the target H\ :sub:`2` molecule has **3 pre-computed levels**
-(:math:`\mathcal{N}_1^G = 3`; an unrealistically small number chosen
-to keep the table legible). The three pair numberings for H\ :sub:`3`
-are: pair 1 = H\ :sub:`A`\ H\ :sub:`B` (inelastic), pair 2 =
-H\ :sub:`A`\ H\ :sub:`C` (1st exchange), pair 3 =
-H\ :sub:`B`\ H\ :sub:`C` (2nd exchange). Since all three H atoms are
-identical, :math:`\mathcal{N}_1^G = \mathcal{N}_2^G = \mathcal{N}_3^G
-= 3`.
-
-Plugging into the 3-atom formulas (:math:`d_m = 1` = pair-:math:`m`
-dissociated, :math:`d_m = s+1` = final level :math:`s` of pair
-:math:`m`):
+For the NO + C input (``input/CNO/UCI/NO+C/input/CoarseAIR.inp``) the
+atom order in the input block is ``Atom 1 = N``, ``Atom 2 = O``,
+``Atom 3 = C``, so CoarseAIR's pair numbering becomes
 
 .. list-table::
    :header-rows: 1
-   :widths: 10 18 32 40
+   :widths: 15 15 30 40
+
+   * - Pair
+     - Atoms
+     - CoarseAIR "Molecule"
+     - Physical product
+   * - 1
+     - N–O
+     - ``Molecule 1 = NO``
+     - Incoming arrangement (inelastic / elastic).
+   * - 2
+     - N–C
+     - ``Molecule 2 = CN``
+     - Exchange: C-atom captured by N.
+   * - 3
+     - O–C
+     - ``Molecule 3 = CO``
+     - Exchange: C-atom captured by O.
+
+All three atoms are chemically distinct, so the three channels are
+genuinely different reactions (no identical-atom averaging applies),
+and each molecule has its own rovib ladder:
+:math:`\mathcal{N}^G_{\rm NO} \ne \mathcal{N}^G_{\rm CN} \ne
+\mathcal{N}^G_{\rm CO}`.
+
+
+**Case A — Thermal / coarse-grained mode**
+(``Sorting Method = State-Specific`` with all levels aggregated into
+a single bin per molecule, so
+:math:`\mathcal{N}^G_{\rm NO} = \mathcal{N}^G_{\rm CN} =
+\mathcal{N}^G_{\rm CO} = 1`.) One rate coefficient per channel:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 22 68
 
    * - ``d``
      - Channel
-     - Formula
      - Meaning
    * - 2
-     - Inelastic
-     - :math:`1 + d_1` with :math:`d_1 = 1`
-     - H\ :sub:`A`\ H\ :sub:`B` dissociated → H\ + H\ + H
-       (three-body dissociation).
+     - Inelastic (pair 1)
+     - Pair-1 dissociation: NO + C → N + O + C.
    * - 3
-     - Inelastic
-     - :math:`1 + d_1` with :math:`d_1 = 2`
-     - H\ :sub:`A`\ H\ :sub:`B` → H\ :sub:`2`\ (level 1) + H.
+     - Inelastic (pair 1)
+     - NO + C → NO(bound) + C (inelastic / elastic).
    * - 4
-     - Inelastic
-     - :math:`1 + d_1` with :math:`d_1 = 3`
-     - H\ :sub:`A`\ H\ :sub:`B` → H\ :sub:`2`\ (level 2) + H.
+     - Exchange pair 2 (CN)
+     - Pair-2 dissociation: NO + C → N + O + C (via CN channel).
    * - 5
-     - Inelastic
-     - :math:`1 + d_1` with :math:`d_1 = 4`
-     - H\ :sub:`A`\ H\ :sub:`B` → H\ :sub:`2`\ (level 3) + H.
+     - Exchange pair 2 (CN)
+     - NO + C → CN + O.
    * - 6
-     - Exchange pair 2
-     - :math:`1 + (\mathcal{N}_1^G + 1) + d_2`, :math:`d_2 = 1`
-     - Pair 2 dissociated (same 3-body event, reported via the
-       exchange channel — collapsed later if
-       ``Distinguish Exchanges from Inelastic? = no``).
-   * - 7 – 9
-     - Exchange pair 2
-     - :math:`d_2 = 2, 3, 4`
-     - H\ :sub:`A`\ H\ :sub:`C` → H\ :sub:`2`\ (level 1, 2, 3) + H\ :sub:`B`.
-   * - 10
-     - Exchange pair 3
-     - :math:`1 + (\mathcal{N}_1^G + 1)+ (\mathcal{N}_2^G + 1) + d_3`,
-       :math:`d_3 = 1`
-     - Pair 3 dissociated.
-   * - 11 – 13
-     - Exchange pair 3
-     - :math:`d_3 = 2, 3, 4`
-     - H\ :sub:`B`\ H\ :sub:`C` → H\ :sub:`2`\ (level 1, 2, 3) + H\ :sub:`A`.
+     - Exchange pair 3 (CO)
+     - Pair-3 dissociation: NO + C → N + O + C (via CO channel).
+   * - 7
+     - Exchange pair 3 (CO)
+     - NO + C → CO + N.
 
-So with :math:`\mathcal{N}^G = 3`, the entire process space spans
-``d = 2 … 13`` (12 channels: 3 arrangements × (3 levels + 1
-dissociation each)). For the physically-meaningful
-indistinguishable-atom rate, turn on
-``Distinguish Exchanges between Each Other? = no`` in the
-post-processing block; the three "level-1 final" entries
-(``d = 3, 7, 11``) then sum into a single "exchange + inelastic"
-rate, and similarly for the three dissociation entries (``d = 2,
-6, 10``).
+Total: ``d = 2 … 7`` (6 channels).
+
+
+**Case B — State-to-state mode**
+(``Sorting Method = State-Specific`` with every ro-vibrational level
+as its own bin.) Representative level counts on the UCI diatomic
+potentials: :math:`\mathcal{N}^G_{\rm NO} \approx 1000`,
+:math:`\mathcal{N}^G_{\rm CN} \approx 900`,
+:math:`\mathcal{N}^G_{\rm CO} \approx 6000`. Applying the 3-atom
+formulas (with :math:`\mathcal{N}^G + 1` as each block stride):
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 22 56
+
+   * - ``d`` interval
+     - Channel
+     - Meaning
+   * - ``d = 2``
+     - Inelastic (pair 1, NO)
+     - Pair-1 dissociation → N + O + C.
+   * - ``d ∈ [3, 1002]``
+     - Inelastic (pair 1, NO)
+     - NO(*v', J'*) + C for each of the ~1000 final NO levels
+       (:math:`d_1 = 2 \dots 1001`).
+   * - ``d = 1003``
+     - Exchange pair 2 (CN)
+     - Pair-2 dissociation via the CN channel.
+   * - ``d ∈ [1004, 1903]``
+     - Exchange pair 2 (CN)
+     - CN(*v', J'*) + O for each of the ~900 final CN levels
+       (:math:`d_2 = 2 \dots 901`).
+   * - ``d = 1904``
+     - Exchange pair 3 (CO)
+     - Pair-3 dissociation via the CO channel.
+   * - ``d ∈ [1905, 7904]``
+     - Exchange pair 3 (CO)
+     - CO(*v', J'*) + N for each of the ~6000 final CO levels
+       (:math:`d_3 = 2 \dots 6001`).
+
+Total: ``d = 2 … 7904`` (~7900 channels per initial NO level). The
+state-to-state rate table therefore contains roughly
+:math:`7900 \times 1000 \approx 7.9 \times 10^{6}` entries across
+all initial levels — an order of magnitude larger than for a
+symmetric system like H + H\ :sub:`2` (~1000 channels per initial
+level). The large CO range dominates because the CO diatomic has
+the deepest well and supports the most bound ro-vibrational states.
+
+In the CNO system the three arrangements are **not** interchangeable
+(N, C, O are distinct), so ``Distinguish Exchanges between Each
+Other? = yes`` is the normal setting: each of the three blocks is
+reported as its own physical channel (inelastic vs CN exchange vs
+CO exchange) rather than summed.
 
 
 Worked example — H\ :sub:`2` + H\ :sub:`2` (4-atom)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Four identical hydrogens, six atom-pair partitions, two product
-diatoms per trajectory. For readability, take each pair to have
-:math:`\mathcal{N}_k^G = 2` (just two levels). Write
-:math:`d_i = 1` for "pair :math:`i` dissociated", :math:`d_i = 2`
-for "level 1", :math:`d_i = 3` for "level 2" — so
-:math:`\mathcal{N}_i + 1 = 3` for every pair.
+diatoms per trajectory. Because all atoms are identical, the six
+pair-level counts are all equal:
+:math:`\mathcal{N}^G_1 = \dots = \mathcal{N}^G_6 \equiv \mathcal{N}^G`.
 
-Using the inelastic formula, which simplifies here to
-:math:`d = 1 + 3(d_1 - 1) + d_6`:
 
-.. list-table::
-   :header-rows: 1
-   :widths: 10 10 10 25 45
+**Case A — Thermal / coarse-grained mode** (one bin per molecule,
+:math:`\mathcal{N}^G = 1`).
 
-   * - ``d``
-     - :math:`d_1`
-     - :math:`d_6`
-     - Channel
-     - Meaning
-   * - 2
-     - 1 (diss)
-     - 1 (diss)
-     - Inelastic (both diss)
-     - 4H fully atomised.
-   * - 3
-     - 1 (diss)
-     - 2 (lev 1)
-     - Inelastic
-     - Pair 1 (AB) dissociated, pair 6 (CD) in level 1: CD(level 1)
-       + A + B.
-   * - 4
-     - 1 (diss)
-     - 3 (lev 2)
-     - Inelastic
-     - CD(level 2) + A + B.
-   * - 5
-     - 2 (lev 1)
-     - 1 (diss)
-     - Inelastic
-     - AB(level 1) + C + D.
-   * - 6
-     - 2 (lev 1)
-     - 2 (lev 1)
-     - Inelastic (both bound)
-     - AB(level 1) + CD(level 1). This is the "pure inelastic,
-       both diatoms survived" channel.
-   * - 7
-     - 2 (lev 1)
-     - 3 (lev 2)
-     - Inelastic
-     - AB(level 1) + CD(level 2).
-   * - 8
-     - 3 (lev 2)
-     - 1 (diss)
-     - Inelastic
-     - AB(level 2) + C + D.
-   * - 9
-     - 3 (lev 2)
-     - 2 (lev 1)
-     - Inelastic
-     - AB(level 2) + CD(level 1).
-   * - 10
-     - 3 (lev 2)
-     - 3 (lev 2)
-     - Inelastic
-     - AB(level 2) + CD(level 2).
-
-The inelastic block therefore spans ``d = 2 … 10`` (9 channels).
-The **2nd exchange block** starts at
-:math:`d_{\text{start}} = 1 + (\mathcal{N}_1 + 1)(\mathcal{N}_6 + 1)
-= 1 + 3 \cdot 3 = 10`, so the first exchange-2 channel is
-``d = 10 + 1 = 11``:
+With a single group per pair, :math:`\mathcal{N}^G + 1 = 2`, and
+the inelastic formula :math:`d = 1 + (d_1 - 1)(\mathcal{N}^G_6 + 1)
++ d_6` reduces to :math:`d = 1 + 2(d_1 - 1) + d_6` with
+:math:`d_1, d_6 \in \{1, 2\}` (1 = dissociated, 2 = bound):
 
 .. list-table::
    :header-rows: 1
-   :widths: 10 10 10 25 45
+   :widths: 18 30 52
 
-   * - ``d``
-     - :math:`d_2`
-     - :math:`d_5`
+   * - ``d`` interval
      - Channel
      - Meaning
-   * - 11 – 19
-     - 1..3
-     - 1..3
-     - Exchange 2nd pair
-     - AC + BD partition: AC(level) + BD(level), with combinations
-       of dissociation / level 1 / level 2 analogous to the inelastic
-       block above.
+   * - ``d ∈ [2, 5]``
+     - Inelastic (pair 1 + pair 6)
+     - AB×CD partition: 4 combinations of (AB, CD) each being
+       bound or dissociated.
+       ``d = 2``: both dissociated (4-atom atomisation).
+       ``d = 3, 4``: one bound, one dissociated (single dissoc.).
+       ``d = 5``: both bound (pure inelastic / elastic).
+   * - ``d ∈ [6, 9]``
+     - Exchange pair 2 (pair 2 + pair 5)
+     - AC×BD partition — 4 combinations as above.
+   * - ``d ∈ [10, 13]``
+     - Exchange pair 3 (pair 3 + pair 4)
+     - AD×BC partition — 4 combinations as above.
 
-Similarly, the **3rd exchange block** starts at
-:math:`d_{\text{start}} + (\mathcal{N}_2 + 1)(\mathcal{N}_5 + 1)
-= 10 + 9 = 19`, so ``d = 20 … 28`` covers the AD + BC partition.
+Total: ``d = 2 … 13`` (12 channels).
 
-For ``N_1 = N_2 = N_3 = N_4 = N_5 = N_6 = 2``, the full process
-space has **27 channels** (3 arrangements × 9 (combinations of 3
-dissociation/level values)²), running ``d = 2 … 28``. For
-production runs with :math:`\mathcal{N}^G` in the hundreds or
-thousands, the combinatorics blow up accordingly —
-``Proc_<d>.csv`` files are emitted per non-trivial channel and
-compressed aggressively.
 
-In practice, the user rarely decodes ``d`` values by hand: the
-Python and MATLAB post-processing tools
-(:doc:`postprocessing`) do the inversion automatically and report
-human-readable channel labels.
+**Case B — State-to-state mode**, :math:`\mathcal{N}^G = 345`
+(the BKMP2 H\ :sub:`2` rovib ladder).
+
+Here :math:`\mathcal{N}^G + 1 = 346`, and the inelastic formula
+:math:`d = 1 + 346\,(d_1 - 1) + d_6` indexes a
+:math:`346 \times 346` grid of (pair-1 outcome, pair-6 outcome)
+combinations:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 28 30 42
+
+   * - ``d`` interval
+     - Channel (and dominant sub-ranges)
+     - Meaning
+   * - ``d ∈ [2, 119 717]``
+     - Inelastic (AB × CD)
+     - 346² combinations. Per-:math:`d_1` sub-block:
+
+       * ``d ∈ [2, 346]``: pair 1 dissociated, pair 6 ∈ {diss +
+         345 levels}.
+       * ``d ∈ [347, 692]``: pair 1 in level 1, pair 6 varies.
+       * …
+       * ``d ∈ [119 372, 119 717]``: pair 1 in level 345, pair 6
+         varies.
+
+   * - ``d ∈ [119 718, 239 433]``
+     - Exchange pair 2 (AC × BD)
+     - 346² combinations, indexed by :math:`(d_2, d_5)`.
+   * - ``d ∈ [239 434, 359 149]``
+     - Exchange pair 3 (AD × BC)
+     - 346² combinations, indexed by :math:`(d_3, d_4)`.
+
+Total: ``d = 2 … 359 149`` (~360 000 channels per initial state) ×
+~120 000 initial :math:`(v_1, J_1, v_2, J_2)` states. The full 4-atom
+StS rate table therefore contains :math:`\sim 4 \times 10^{10}`
+entries — which is why 4-atom production runs are almost always
+coarse-grained (``Sorting Method = RoVib-CG`` with
+:math:`\mathcal{N}^G \sim 50`–100 bins per pair) rather than truly
+state-to-state. ``Proc_<d>.csv`` files are emitted only for
+non-zero channels and are compressed to binary when
+``Writing Rate Files in Binary Format? = yes``.
+
+In **identical-atom** post-processing (``Identical Diatoms? = yes``
+and ``Distinguish Exchanges between Each Other? = no``), the
+three 346²-sized arrangement blocks collapse into a single block
+— the physical rate for each (initial, final) pair of H\ :sub:`2`
+levels summed over pair-swap symmetries.
+
+
+Decoding ``d`` by hand vs with the tooling
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In practice the user rarely inverts :math:`d` by hand: the Python
+and MATLAB post-processing tools (see :doc:`postprocessing`) do the
+mapping automatically and report human-readable channel labels
+(``NO + C -> CN + O, v' = 12, J' = 35``). The formulas above are
+useful for sanity-checking an ad-hoc ``grep`` through a
+``Proc_*.csv`` file, or for writing a custom rate-database loader.
 
 
 Secondary input files
@@ -600,6 +641,75 @@ Secondary input files
 Levels? = yes``. Controls the :math:`(v, J)` grid boundaries, the
 radial grid for the diatomic Schrödinger solver, and the output file
 name. Refer to the comments inside the template file.
+
+**ProcessesToRunList.inp** — consumed when ``Starting Level,
+Molecule 1 = 0`` (and ``Starting Level, Molecule 2 = 0`` for 4-atom
+systems). This is the mechanism for running an arbitrary
+*hand-picked* subset of initial levels rather than a contiguous
+``[Starting … Final]`` range. The file lives next to
+``CoarseAIR.inp`` in the same ``input/`` directory.
+
+*Format for 3-atom systems.* One integer per line, each the level
+index of the target diatom:
+
+.. code-block:: text
+
+   # ProcessesToRunList.inp  (3-atom)
+   1
+   1000
+   2000
+   3000
+
+That run would exercise only four initial states — levels 1, 1000,
+2000, and 3000 of Molecule 1. Activate it by setting:
+
+.. code-block:: text
+
+   Sorting Method, Molecule 1 = State-Specific
+     Starting Level, Molecule 1 = 0     ! <- triggers list-file mode
+     Final    Level, Molecule 1 = 0
+
+*Format for 4-atom systems.* One pair per line, written ``i-j``,
+where ``i`` is the level of Molecule 1 and ``j`` is the level of
+Molecule 2:
+
+.. code-block:: text
+
+   # ProcessesToRunList.inp  (4-atom)
+   1-1
+   10-20
+   20-30
+   30-40
+   40-50
+   50-54
+
+Activate by setting ``Starting Level = 0`` on *both* initial
+molecules:
+
+.. code-block:: text
+
+   Sorting Method, Molecule 1 = State-Specific
+     Starting Level, Molecule 1 = 0
+     Final    Level, Molecule 1 = 0
+   Sorting Method, Molecule 2 = State-Specific
+     Starting Level, Molecule 2 = 0
+     Final    Level, Molecule 2 = 0
+
+Typical uses:
+
+- **Active-learning** campaigns that iteratively pick
+  low-statistics or high-uncertainty levels to revisit
+  (``scripts/launching/CoarseAIR_ActiveLearning.sh``).
+- **Restart** after a truncated run: re-run only the levels that
+  were not yet completed.
+- **Targeted cross-validation** across PES variants on a small
+  representative set of initial states.
+
+Examples of ``ProcessesToRunList.inp`` ship with every system under
+``input/<System>/<PES>/.../input/`` — e.g.
+``input/CNO/UCI/NO+C/input/ProcessesToRunList.inp`` (3-atom format)
+and ``input/NaNbNcNd/NASA/input/ProcessesToRunList.inp`` (4-atom
+``i-j`` format).
 
 **PlotPES.inp** — consumed by ``coarseair-plotpes.x``. Controls the
 grid of atomic configurations at which the PES is sampled for

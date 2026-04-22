@@ -89,8 +89,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#preprocessing-binning-block">Preprocessing / binning block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#post-processing-block">Post-processing block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#process-index-encoding-output">Process-index encoding (output)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#worked-example-h-h2-3-atom">Worked example — H + H<sub>2</sub> (3-atom)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#worked-example-no-c-3-atom">Worked example — NO + C (3-atom)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#worked-example-h2-h2-4-atom">Worked example — H<sub>2</sub> + H<sub>2</sub> (4-atom)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#decoding-d-by-hand-vs-with-the-tooling">Decoding <code class="docutils literal notranslate"><span class="pre">d</span></code> by hand vs with the tooling</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#secondary-input-files">Secondary input files</a></li>
@@ -803,221 +804,264 @@ file formats).</p>
 <span class="math notranslate nohighlight">\(n \in \{0, 1, 2, 3\}\)</span> encodes bound / quasi-bound /
 dissociating / pre-dissociating. See <a class="reference internal" href="postprocessing.html"><span class="doc">Post-processing</span></a> for the
 complete <code class="docutils literal notranslate"><span class="pre">arr_f</span></code> mapping tables.</p>
-<section id="worked-example-h-h2-3-atom">
-<h3>Worked example — H + H<sub>2</sub> (3-atom)<a class="headerlink" href="#worked-example-h-h2-3-atom" title="Link to this heading"></a></h3>
-<p>Suppose the target H<sub>2</sub> molecule has <strong>3 pre-computed levels</strong>
-(<span class="math notranslate nohighlight">\(\mathcal{N}_1^G = 3\)</span>; an unrealistically small number chosen
-to keep the table legible). The three pair numberings for H<sub>3</sub>
-are: pair 1 = H<sub>A</sub>H<sub>B</sub> (inelastic), pair 2 =
-H<sub>A</sub>H<sub>C</sub> (1st exchange), pair 3 =
-H<sub>B</sub>H<sub>C</sub> (2nd exchange). Since all three H atoms are
-identical, <span class="math notranslate nohighlight">\(\mathcal{N}_1^G = \mathcal{N}_2^G = \mathcal{N}_3^G
-= 3\)</span>.</p>
-<p>Plugging into the 3-atom formulas (<span class="math notranslate nohighlight">\(d_m = 1\)</span> = pair-<span class="math notranslate nohighlight">\(m\)</span>
-dissociated, <span class="math notranslate nohighlight">\(d_m = s+1\)</span> = final level <span class="math notranslate nohighlight">\(s\)</span> of pair
-<span class="math notranslate nohighlight">\(m\)</span>):</p>
+<section id="worked-example-no-c-3-atom">
+<h3>Worked example — NO + C (3-atom)<a class="headerlink" href="#worked-example-no-c-3-atom" title="Link to this heading"></a></h3>
+<p>For the NO + C input (<code class="docutils literal notranslate"><span class="pre">input/CNO/UCI/NO+C/input/CoarseAIR.inp</span></code>) the
+atom order in the input block is <code class="docutils literal notranslate"><span class="pre">Atom</span> <span class="pre">1</span> <span class="pre">=</span> <span class="pre">N</span></code>, <code class="docutils literal notranslate"><span class="pre">Atom</span> <span class="pre">2</span> <span class="pre">=</span> <span class="pre">O</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Atom</span> <span class="pre">3</span> <span class="pre">=</span> <span class="pre">C</span></code>, so CoarseAIR’s pair numbering becomes</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15.0%" />
+<col style="width: 15.0%" />
+<col style="width: 30.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Pair</p></th>
+<th class="head"><p>Atoms</p></th>
+<th class="head"><p>CoarseAIR “Molecule”</p></th>
+<th class="head"><p>Physical product</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>N–O</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Molecule</span> <span class="pre">1</span> <span class="pre">=</span> <span class="pre">NO</span></code></p></td>
+<td><p>Incoming arrangement (inelastic / elastic).</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>N–C</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Molecule</span> <span class="pre">2</span> <span class="pre">=</span> <span class="pre">CN</span></code></p></td>
+<td><p>Exchange: C-atom captured by N.</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>O–C</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Molecule</span> <span class="pre">3</span> <span class="pre">=</span> <span class="pre">CO</span></code></p></td>
+<td><p>Exchange: C-atom captured by O.</p></td>
+</tr>
+</tbody>
+</table>
+<p>All three atoms are chemically distinct, so the three channels are
+genuinely different reactions (no identical-atom averaging applies),
+and each molecule has its own rovib ladder:
+<span class="math notranslate nohighlight">\(\mathcal{N}^G_{\rm NO} \ne \mathcal{N}^G_{\rm CN} \ne
+\mathcal{N}^G_{\rm CO}\)</span>.</p>
+<p><strong>Case A — Thermal / coarse-grained mode</strong>
+(<code class="docutils literal notranslate"><span class="pre">Sorting</span> <span class="pre">Method</span> <span class="pre">=</span> <span class="pre">State-Specific</span></code> with all levels aggregated into
+a single bin per molecule, so
+<span class="math notranslate nohighlight">\(\mathcal{N}^G_{\rm NO} = \mathcal{N}^G_{\rm CN} =
+\mathcal{N}^G_{\rm CO} = 1\)</span>.) One rate coefficient per channel:</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 10.0%" />
-<col style="width: 18.0%" />
-<col style="width: 32.0%" />
-<col style="width: 40.0%" />
+<col style="width: 22.0%" />
+<col style="width: 68.0%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">d</span></code></p></th>
 <th class="head"><p>Channel</p></th>
-<th class="head"><p>Formula</p></th>
 <th class="head"><p>Meaning</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>2</p></td>
-<td><p>Inelastic</p></td>
-<td><p><span class="math notranslate nohighlight">\(1 + d_1\)</span> with <span class="math notranslate nohighlight">\(d_1 = 1\)</span></p></td>
-<td><p>H<sub>A</sub>H<sub>B</sub> dissociated → H+ H+ H
-(three-body dissociation).</p></td>
+<td><p>Inelastic (pair 1)</p></td>
+<td><p>Pair-1 dissociation: NO + C → N + O + C.</p></td>
 </tr>
 <tr class="row-odd"><td><p>3</p></td>
-<td><p>Inelastic</p></td>
-<td><p><span class="math notranslate nohighlight">\(1 + d_1\)</span> with <span class="math notranslate nohighlight">\(d_1 = 2\)</span></p></td>
-<td><p>H<sub>A</sub>H<sub>B</sub> → H<sub>2</sub>(level 1) + H.</p></td>
+<td><p>Inelastic (pair 1)</p></td>
+<td><p>NO + C → NO(bound) + C (inelastic / elastic).</p></td>
 </tr>
 <tr class="row-even"><td><p>4</p></td>
-<td><p>Inelastic</p></td>
-<td><p><span class="math notranslate nohighlight">\(1 + d_1\)</span> with <span class="math notranslate nohighlight">\(d_1 = 3\)</span></p></td>
-<td><p>H<sub>A</sub>H<sub>B</sub> → H<sub>2</sub>(level 2) + H.</p></td>
+<td><p>Exchange pair 2 (CN)</p></td>
+<td><p>Pair-2 dissociation: NO + C → N + O + C (via CN channel).</p></td>
 </tr>
 <tr class="row-odd"><td><p>5</p></td>
-<td><p>Inelastic</p></td>
-<td><p><span class="math notranslate nohighlight">\(1 + d_1\)</span> with <span class="math notranslate nohighlight">\(d_1 = 4\)</span></p></td>
-<td><p>H<sub>A</sub>H<sub>B</sub> → H<sub>2</sub>(level 3) + H.</p></td>
+<td><p>Exchange pair 2 (CN)</p></td>
+<td><p>NO + C → CN + O.</p></td>
 </tr>
 <tr class="row-even"><td><p>6</p></td>
-<td><p>Exchange pair 2</p></td>
-<td><p><span class="math notranslate nohighlight">\(1 + (\mathcal{N}_1^G + 1) + d_2\)</span>, <span class="math notranslate nohighlight">\(d_2 = 1\)</span></p></td>
-<td><p>Pair 2 dissociated (same 3-body event, reported via the
-exchange channel — collapsed later if
-<code class="docutils literal notranslate"><span class="pre">Distinguish</span> <span class="pre">Exchanges</span> <span class="pre">from</span> <span class="pre">Inelastic?</span> <span class="pre">=</span> <span class="pre">no</span></code>).</p></td>
+<td><p>Exchange pair 3 (CO)</p></td>
+<td><p>Pair-3 dissociation: NO + C → N + O + C (via CO channel).</p></td>
 </tr>
-<tr class="row-odd"><td><p>7 – 9</p></td>
-<td><p>Exchange pair 2</p></td>
-<td><p><span class="math notranslate nohighlight">\(d_2 = 2, 3, 4\)</span></p></td>
-<td><p>H<sub>A</sub>H<sub>C</sub> → H<sub>2</sub>(level 1, 2, 3) + H<sub>B</sub>.</p></td>
-</tr>
-<tr class="row-even"><td><p>10</p></td>
-<td><p>Exchange pair 3</p></td>
-<td><p><span class="math notranslate nohighlight">\(1 + (\mathcal{N}_1^G + 1)+ (\mathcal{N}_2^G + 1) + d_3\)</span>,
-<span class="math notranslate nohighlight">\(d_3 = 1\)</span></p></td>
-<td><p>Pair 3 dissociated.</p></td>
-</tr>
-<tr class="row-odd"><td><p>11 – 13</p></td>
-<td><p>Exchange pair 3</p></td>
-<td><p><span class="math notranslate nohighlight">\(d_3 = 2, 3, 4\)</span></p></td>
-<td><p>H<sub>B</sub>H<sub>C</sub> → H<sub>2</sub>(level 1, 2, 3) + H<sub>A</sub>.</p></td>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>Exchange pair 3 (CO)</p></td>
+<td><p>NO + C → CO + N.</p></td>
 </tr>
 </tbody>
 </table>
-<p>So with <span class="math notranslate nohighlight">\(\mathcal{N}^G = 3\)</span>, the entire process space spans
-<code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">…</span> <span class="pre">13</span></code> (12 channels: 3 arrangements × (3 levels + 1
-dissociation each)). For the physically-meaningful
-indistinguishable-atom rate, turn on
-<code class="docutils literal notranslate"><span class="pre">Distinguish</span> <span class="pre">Exchanges</span> <span class="pre">between</span> <span class="pre">Each</span> <span class="pre">Other?</span> <span class="pre">=</span> <span class="pre">no</span></code> in the
-post-processing block; the three “level-1 final” entries
-(<code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">3,</span> <span class="pre">7,</span> <span class="pre">11</span></code>) then sum into a single “exchange + inelastic”
-rate, and similarly for the three dissociation entries (<code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">2,</span>
-<span class="pre">6,</span> <span class="pre">10</span></code>).</p>
+<p>Total: <code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">…</span> <span class="pre">7</span></code> (6 channels).</p>
+<p><strong>Case B — State-to-state mode</strong>
+(<code class="docutils literal notranslate"><span class="pre">Sorting</span> <span class="pre">Method</span> <span class="pre">=</span> <span class="pre">State-Specific</span></code> with every ro-vibrational level
+as its own bin.) Representative level counts on the UCI diatomic
+potentials: <span class="math notranslate nohighlight">\(\mathcal{N}^G_{\rm NO} \approx 1000\)</span>,
+<span class="math notranslate nohighlight">\(\mathcal{N}^G_{\rm CN} \approx 900\)</span>,
+<span class="math notranslate nohighlight">\(\mathcal{N}^G_{\rm CO} \approx 6000\)</span>. Applying the 3-atom
+formulas (with <span class="math notranslate nohighlight">\(\mathcal{N}^G + 1\)</span> as each block stride):</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 22.0%" />
+<col style="width: 56.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">d</span></code> interval</p></th>
+<th class="head"><p>Channel</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">2</span></code></p></td>
+<td><p>Inelastic (pair 1, NO)</p></td>
+<td><p>Pair-1 dissociation → N + O + C.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">∈</span> <span class="pre">[3,</span> <span class="pre">1002]</span></code></p></td>
+<td><p>Inelastic (pair 1, NO)</p></td>
+<td><p>NO(<em>v’, J’</em>) + C for each of the ~1000 final NO levels
+(<span class="math notranslate nohighlight">\(d_1 = 2 \dots 1001\)</span>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">1003</span></code></p></td>
+<td><p>Exchange pair 2 (CN)</p></td>
+<td><p>Pair-2 dissociation via the CN channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">∈</span> <span class="pre">[1004,</span> <span class="pre">1903]</span></code></p></td>
+<td><p>Exchange pair 2 (CN)</p></td>
+<td><p>CN(<em>v’, J’</em>) + O for each of the ~900 final CN levels
+(<span class="math notranslate nohighlight">\(d_2 = 2 \dots 901\)</span>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">1904</span></code></p></td>
+<td><p>Exchange pair 3 (CO)</p></td>
+<td><p>Pair-3 dissociation via the CO channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">∈</span> <span class="pre">[1905,</span> <span class="pre">7904]</span></code></p></td>
+<td><p>Exchange pair 3 (CO)</p></td>
+<td><p>CO(<em>v’, J’</em>) + N for each of the ~6000 final CO levels
+(<span class="math notranslate nohighlight">\(d_3 = 2 \dots 6001\)</span>).</p></td>
+</tr>
+</tbody>
+</table>
+<p>Total: <code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">…</span> <span class="pre">7904</span></code> (~7900 channels per initial NO level). The
+state-to-state rate table therefore contains roughly
+<span class="math notranslate nohighlight">\(7900 \times 1000 \approx 7.9 \times 10^{6}\)</span> entries across
+all initial levels — an order of magnitude larger than for a
+symmetric system like H + H<sub>2</sub> (~1000 channels per initial
+level). The large CO range dominates because the CO diatomic has
+the deepest well and supports the most bound ro-vibrational states.</p>
+<p>In the CNO system the three arrangements are <strong>not</strong> interchangeable
+(N, C, O are distinct), so <code class="docutils literal notranslate"><span class="pre">Distinguish</span> <span class="pre">Exchanges</span> <span class="pre">between</span> <span class="pre">Each</span>
+<span class="pre">Other?</span> <span class="pre">=</span> <span class="pre">yes</span></code> is the normal setting: each of the three blocks is
+reported as its own physical channel (inelastic vs CN exchange vs
+CO exchange) rather than summed.</p>
 </section>
 <section id="worked-example-h2-h2-4-atom">
 <h3>Worked example — H<sub>2</sub> + H<sub>2</sub> (4-atom)<a class="headerlink" href="#worked-example-h2-h2-4-atom" title="Link to this heading"></a></h3>
 <p>Four identical hydrogens, six atom-pair partitions, two product
-diatoms per trajectory. For readability, take each pair to have
-<span class="math notranslate nohighlight">\(\mathcal{N}_k^G = 2\)</span> (just two levels). Write
-<span class="math notranslate nohighlight">\(d_i = 1\)</span> for “pair <span class="math notranslate nohighlight">\(i\)</span> dissociated”, <span class="math notranslate nohighlight">\(d_i = 2\)</span>
-for “level 1”, <span class="math notranslate nohighlight">\(d_i = 3\)</span> for “level 2” — so
-<span class="math notranslate nohighlight">\(\mathcal{N}_i + 1 = 3\)</span> for every pair.</p>
-<p>Using the inelastic formula, which simplifies here to
-<span class="math notranslate nohighlight">\(d = 1 + 3(d_1 - 1) + d_6\)</span>:</p>
+diatoms per trajectory. Because all atoms are identical, the six
+pair-level counts are all equal:
+<span class="math notranslate nohighlight">\(\mathcal{N}^G_1 = \dots = \mathcal{N}^G_6 \equiv \mathcal{N}^G\)</span>.</p>
+<p><strong>Case A — Thermal / coarse-grained mode</strong> (one bin per molecule,
+<span class="math notranslate nohighlight">\(\mathcal{N}^G = 1\)</span>).</p>
+<p>With a single group per pair, <span class="math notranslate nohighlight">\(\mathcal{N}^G + 1 = 2\)</span>, and
+the inelastic formula <span class="math notranslate nohighlight">\(d = 1 + (d_1 - 1)(\mathcal{N}^G_6 + 1)
++ d_6\)</span> reduces to <span class="math notranslate nohighlight">\(d = 1 + 2(d_1 - 1) + d_6\)</span> with
+<span class="math notranslate nohighlight">\(d_1, d_6 \in \{1, 2\}\)</span> (1 = dissociated, 2 = bound):</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 10.0%" />
-<col style="width: 10.0%" />
-<col style="width: 10.0%" />
-<col style="width: 25.0%" />
-<col style="width: 45.0%" />
+<col style="width: 18.0%" />
+<col style="width: 30.0%" />
+<col style="width: 52.0%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">d</span></code></p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(d_1\)</span></p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(d_6\)</span></p></th>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">d</span></code> interval</p></th>
 <th class="head"><p>Channel</p></th>
 <th class="head"><p>Meaning</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>2</p></td>
-<td><p>1 (diss)</p></td>
-<td><p>1 (diss)</p></td>
-<td><p>Inelastic (both diss)</p></td>
-<td><p>4H fully atomised.</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">∈</span> <span class="pre">[2,</span> <span class="pre">5]</span></code></p></td>
+<td><p>Inelastic (pair 1 + pair 6)</p></td>
+<td><p>AB×CD partition: 4 combinations of (AB, CD) each being
+bound or dissociated.
+<code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">2</span></code>: both dissociated (4-atom atomisation).
+<code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">3,</span> <span class="pre">4</span></code>: one bound, one dissociated (single dissoc.).
+<code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">5</span></code>: both bound (pure inelastic / elastic).</p></td>
 </tr>
-<tr class="row-odd"><td><p>3</p></td>
-<td><p>1 (diss)</p></td>
-<td><p>2 (lev 1)</p></td>
-<td><p>Inelastic</p></td>
-<td><p>Pair 1 (AB) dissociated, pair 6 (CD) in level 1: CD(level 1)
-+ A + B.</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">∈</span> <span class="pre">[6,</span> <span class="pre">9]</span></code></p></td>
+<td><p>Exchange pair 2 (pair 2 + pair 5)</p></td>
+<td><p>AC×BD partition — 4 combinations as above.</p></td>
 </tr>
-<tr class="row-even"><td><p>4</p></td>
-<td><p>1 (diss)</p></td>
-<td><p>3 (lev 2)</p></td>
-<td><p>Inelastic</p></td>
-<td><p>CD(level 2) + A + B.</p></td>
-</tr>
-<tr class="row-odd"><td><p>5</p></td>
-<td><p>2 (lev 1)</p></td>
-<td><p>1 (diss)</p></td>
-<td><p>Inelastic</p></td>
-<td><p>AB(level 1) + C + D.</p></td>
-</tr>
-<tr class="row-even"><td><p>6</p></td>
-<td><p>2 (lev 1)</p></td>
-<td><p>2 (lev 1)</p></td>
-<td><p>Inelastic (both bound)</p></td>
-<td><p>AB(level 1) + CD(level 1). This is the “pure inelastic,
-both diatoms survived” channel.</p></td>
-</tr>
-<tr class="row-odd"><td><p>7</p></td>
-<td><p>2 (lev 1)</p></td>
-<td><p>3 (lev 2)</p></td>
-<td><p>Inelastic</p></td>
-<td><p>AB(level 1) + CD(level 2).</p></td>
-</tr>
-<tr class="row-even"><td><p>8</p></td>
-<td><p>3 (lev 2)</p></td>
-<td><p>1 (diss)</p></td>
-<td><p>Inelastic</p></td>
-<td><p>AB(level 2) + C + D.</p></td>
-</tr>
-<tr class="row-odd"><td><p>9</p></td>
-<td><p>3 (lev 2)</p></td>
-<td><p>2 (lev 1)</p></td>
-<td><p>Inelastic</p></td>
-<td><p>AB(level 2) + CD(level 1).</p></td>
-</tr>
-<tr class="row-even"><td><p>10</p></td>
-<td><p>3 (lev 2)</p></td>
-<td><p>3 (lev 2)</p></td>
-<td><p>Inelastic</p></td>
-<td><p>AB(level 2) + CD(level 2).</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">∈</span> <span class="pre">[10,</span> <span class="pre">13]</span></code></p></td>
+<td><p>Exchange pair 3 (pair 3 + pair 4)</p></td>
+<td><p>AD×BC partition — 4 combinations as above.</p></td>
 </tr>
 </tbody>
 </table>
-<p>The inelastic block therefore spans <code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">…</span> <span class="pre">10</span></code> (9 channels).
-The <strong>2nd exchange block</strong> starts at
-<span class="math notranslate nohighlight">\(d_{\text{start}} = 1 + (\mathcal{N}_1 + 1)(\mathcal{N}_6 + 1)
-= 1 + 3 \cdot 3 = 10\)</span>, so the first exchange-2 channel is
-<code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">10</span> <span class="pre">+</span> <span class="pre">1</span> <span class="pre">=</span> <span class="pre">11</span></code>:</p>
+<p>Total: <code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">…</span> <span class="pre">13</span></code> (12 channels).</p>
+<p><strong>Case B — State-to-state mode</strong>, <span class="math notranslate nohighlight">\(\mathcal{N}^G = 345\)</span>
+(the BKMP2 H<sub>2</sub> rovib ladder).</p>
+<p>Here <span class="math notranslate nohighlight">\(\mathcal{N}^G + 1 = 346\)</span>, and the inelastic formula
+<span class="math notranslate nohighlight">\(d = 1 + 346\,(d_1 - 1) + d_6\)</span> indexes a
+<span class="math notranslate nohighlight">\(346 \times 346\)</span> grid of (pair-1 outcome, pair-6 outcome)
+combinations:</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 10.0%" />
-<col style="width: 10.0%" />
-<col style="width: 10.0%" />
-<col style="width: 25.0%" />
-<col style="width: 45.0%" />
+<col style="width: 28.0%" />
+<col style="width: 30.0%" />
+<col style="width: 42.0%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">d</span></code></p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(d_2\)</span></p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(d_5\)</span></p></th>
-<th class="head"><p>Channel</p></th>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">d</span></code> interval</p></th>
+<th class="head"><p>Channel (and dominant sub-ranges)</p></th>
 <th class="head"><p>Meaning</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>11 – 19</p></td>
-<td><p>1..3</p></td>
-<td><p>1..3</p></td>
-<td><p>Exchange 2nd pair</p></td>
-<td><p>AC + BD partition: AC(level) + BD(level), with combinations
-of dissociation / level 1 / level 2 analogous to the inelastic
-block above.</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">∈</span> <span class="pre">[2,</span> <span class="pre">119</span> <span class="pre">717]</span></code></p></td>
+<td><p>Inelastic (AB × CD)</p></td>
+<td><p>346² combinations. Per-<span class="math notranslate nohighlight">\(d_1\)</span> sub-block:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">∈</span> <span class="pre">[2,</span> <span class="pre">346]</span></code>: pair 1 dissociated, pair 6 ∈ {diss +
+345 levels}.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">∈</span> <span class="pre">[347,</span> <span class="pre">692]</span></code>: pair 1 in level 1, pair 6 varies.</p></li>
+<li><p>…</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">∈</span> <span class="pre">[119</span> <span class="pre">372,</span> <span class="pre">119</span> <span class="pre">717]</span></code>: pair 1 in level 345, pair 6
+varies.</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">∈</span> <span class="pre">[119</span> <span class="pre">718,</span> <span class="pre">239</span> <span class="pre">433]</span></code></p></td>
+<td><p>Exchange pair 2 (AC × BD)</p></td>
+<td><p>346² combinations, indexed by <span class="math notranslate nohighlight">\((d_2, d_5)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">∈</span> <span class="pre">[239</span> <span class="pre">434,</span> <span class="pre">359</span> <span class="pre">149]</span></code></p></td>
+<td><p>Exchange pair 3 (AD × BC)</p></td>
+<td><p>346² combinations, indexed by <span class="math notranslate nohighlight">\((d_3, d_4)\)</span>.</p></td>
 </tr>
 </tbody>
 </table>
-<p>Similarly, the <strong>3rd exchange block</strong> starts at
-<span class="math notranslate nohighlight">\(d_{\text{start}} + (\mathcal{N}_2 + 1)(\mathcal{N}_5 + 1)
-= 10 + 9 = 19\)</span>, so <code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">20</span> <span class="pre">…</span> <span class="pre">28</span></code> covers the AD + BC partition.</p>
-<p>For <code class="docutils literal notranslate"><span class="pre">N_1</span> <span class="pre">=</span> <span class="pre">N_2</span> <span class="pre">=</span> <span class="pre">N_3</span> <span class="pre">=</span> <span class="pre">N_4</span> <span class="pre">=</span> <span class="pre">N_5</span> <span class="pre">=</span> <span class="pre">N_6</span> <span class="pre">=</span> <span class="pre">2</span></code>, the full process
-space has <strong>27 channels</strong> (3 arrangements × 9 (combinations of 3
-dissociation/level values)²), running <code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">…</span> <span class="pre">28</span></code>. For
-production runs with <span class="math notranslate nohighlight">\(\mathcal{N}^G\)</span> in the hundreds or
-thousands, the combinatorics blow up accordingly —
-<code class="docutils literal notranslate"><span class="pre">Proc_&lt;d&gt;.csv</span></code> files are emitted per non-trivial channel and
-compressed aggressively.</p>
-<p>In practice, the user rarely decodes <code class="docutils literal notranslate"><span class="pre">d</span></code> values by hand: the
-Python and MATLAB post-processing tools
-(<a class="reference internal" href="postprocessing.html"><span class="doc">Post-processing</span></a>) do the inversion automatically and report
-human-readable channel labels.</p>
+<p>Total: <code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">…</span> <span class="pre">359</span> <span class="pre">149</span></code> (~360 000 channels per initial state) ×
+~120 000 initial <span class="math notranslate nohighlight">\((v_1, J_1, v_2, J_2)\)</span> states. The full 4-atom
+StS rate table therefore contains <span class="math notranslate nohighlight">\(\sim 4 \times 10^{10}\)</span>
+entries — which is why 4-atom production runs are almost always
+coarse-grained (<code class="docutils literal notranslate"><span class="pre">Sorting</span> <span class="pre">Method</span> <span class="pre">=</span> <span class="pre">RoVib-CG</span></code> with
+<span class="math notranslate nohighlight">\(\mathcal{N}^G \sim 50\)</span>–100 bins per pair) rather than truly
+state-to-state. <code class="docutils literal notranslate"><span class="pre">Proc_&lt;d&gt;.csv</span></code> files are emitted only for
+non-zero channels and are compressed to binary when
+<code class="docutils literal notranslate"><span class="pre">Writing</span> <span class="pre">Rate</span> <span class="pre">Files</span> <span class="pre">in</span> <span class="pre">Binary</span> <span class="pre">Format?</span> <span class="pre">=</span> <span class="pre">yes</span></code>.</p>
+<p>In <strong>identical-atom</strong> post-processing (<code class="docutils literal notranslate"><span class="pre">Identical</span> <span class="pre">Diatoms?</span> <span class="pre">=</span> <span class="pre">yes</span></code>
+and <code class="docutils literal notranslate"><span class="pre">Distinguish</span> <span class="pre">Exchanges</span> <span class="pre">between</span> <span class="pre">Each</span> <span class="pre">Other?</span> <span class="pre">=</span> <span class="pre">no</span></code>), the
+three 346²-sized arrangement blocks collapse into a single block
+— the physical rate for each (initial, final) pair of H<sub>2</sub>
+levels summed over pair-swap symmetries.</p>
+</section>
+<section id="decoding-d-by-hand-vs-with-the-tooling">
+<h3>Decoding <code class="docutils literal notranslate"><span class="pre">d</span></code> by hand vs with the tooling<a class="headerlink" href="#decoding-d-by-hand-vs-with-the-tooling" title="Link to this heading"></a></h3>
+<p>In practice the user rarely inverts <span class="math notranslate nohighlight">\(d\)</span> by hand: the Python
+and MATLAB post-processing tools (see <a class="reference internal" href="postprocessing.html"><span class="doc">Post-processing</span></a>) do the
+mapping automatically and report human-readable channel labels
+(<code class="docutils literal notranslate"><span class="pre">NO</span> <span class="pre">+</span> <span class="pre">C</span> <span class="pre">-&gt;</span> <span class="pre">CN</span> <span class="pre">+</span> <span class="pre">O,</span> <span class="pre">v'</span> <span class="pre">=</span> <span class="pre">12,</span> <span class="pre">J'</span> <span class="pre">=</span> <span class="pre">35</span></code>). The formulas above are
+useful for sanity-checking an ad-hoc <code class="docutils literal notranslate"><span class="pre">grep</span></code> through a
+<code class="docutils literal notranslate"><span class="pre">Proc_*.csv</span></code> file, or for writing a custom rate-database loader.</p>
 </section>
 </section>
 <section id="secondary-input-files">
@@ -1026,6 +1070,65 @@ human-readable channel labels.</p>
 <span class="pre">Levels?</span> <span class="pre">=</span> <span class="pre">yes</span></code>. Controls the <span class="math notranslate nohighlight">\((v, J)\)</span> grid boundaries, the
 radial grid for the diatomic Schrödinger solver, and the output file
 name. Refer to the comments inside the template file.</p>
+<p><strong>ProcessesToRunList.inp</strong> — consumed when <code class="docutils literal notranslate"><span class="pre">Starting</span> <span class="pre">Level,</span>
+<span class="pre">Molecule</span> <span class="pre">1</span> <span class="pre">=</span> <span class="pre">0</span></code> (and <code class="docutils literal notranslate"><span class="pre">Starting</span> <span class="pre">Level,</span> <span class="pre">Molecule</span> <span class="pre">2</span> <span class="pre">=</span> <span class="pre">0</span></code> for 4-atom
+systems). This is the mechanism for running an arbitrary
+<em>hand-picked</em> subset of initial levels rather than a contiguous
+<code class="docutils literal notranslate"><span class="pre">[Starting</span> <span class="pre">…</span> <span class="pre">Final]</span></code> range. The file lives next to
+<code class="docutils literal notranslate"><span class="pre">CoarseAIR.inp</span></code> in the same <code class="docutils literal notranslate"><span class="pre">input/</span></code> directory.</p>
+<p><em>Format for 3-atom systems.</em> One integer per line, each the level
+index of the target diatom:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ProcessesToRunList.inp  (3-atom)
+1
+1000
+2000
+3000
+</pre></div>
+</div>
+<p>That run would exercise only four initial states — levels 1, 1000,
+2000, and 3000 of Molecule 1. Activate it by setting:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Sorting Method, Molecule 1 = State-Specific
+  Starting Level, Molecule 1 = 0     ! &lt;- triggers list-file mode
+  Final    Level, Molecule 1 = 0
+</pre></div>
+</div>
+<p><em>Format for 4-atom systems.</em> One pair per line, written <code class="docutils literal notranslate"><span class="pre">i-j</span></code>,
+where <code class="docutils literal notranslate"><span class="pre">i</span></code> is the level of Molecule 1 and <code class="docutils literal notranslate"><span class="pre">j</span></code> is the level of
+Molecule 2:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ProcessesToRunList.inp  (4-atom)
+1-1
+10-20
+20-30
+30-40
+40-50
+50-54
+</pre></div>
+</div>
+<p>Activate by setting <code class="docutils literal notranslate"><span class="pre">Starting</span> <span class="pre">Level</span> <span class="pre">=</span> <span class="pre">0</span></code> on <em>both</em> initial
+molecules:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Sorting Method, Molecule 1 = State-Specific
+  Starting Level, Molecule 1 = 0
+  Final    Level, Molecule 1 = 0
+Sorting Method, Molecule 2 = State-Specific
+  Starting Level, Molecule 2 = 0
+  Final    Level, Molecule 2 = 0
+</pre></div>
+</div>
+<p>Typical uses:</p>
+<ul class="simple">
+<li><p><strong>Active-learning</strong> campaigns that iteratively pick
+low-statistics or high-uncertainty levels to revisit
+(<code class="docutils literal notranslate"><span class="pre">scripts/launching/CoarseAIR_ActiveLearning.sh</span></code>).</p></li>
+<li><p><strong>Restart</strong> after a truncated run: re-run only the levels that
+were not yet completed.</p></li>
+<li><p><strong>Targeted cross-validation</strong> across PES variants on a small
+representative set of initial states.</p></li>
+</ul>
+<p>Examples of <code class="docutils literal notranslate"><span class="pre">ProcessesToRunList.inp</span></code> ship with every system under
+<code class="docutils literal notranslate"><span class="pre">input/&lt;System&gt;/&lt;PES&gt;/.../input/</span></code> — e.g.
+<code class="docutils literal notranslate"><span class="pre">input/CNO/UCI/NO+C/input/ProcessesToRunList.inp</span></code> (3-atom format)
+and <code class="docutils literal notranslate"><span class="pre">input/NaNbNcNd/NASA/input/ProcessesToRunList.inp</span></code> (4-atom
+<code class="docutils literal notranslate"><span class="pre">i-j</span></code> format).</p>
 <p><strong>PlotPES.inp</strong> — consumed by <code class="docutils literal notranslate"><span class="pre">coarseair-plotpes.x</span></code>. Controls the
 grid of atomic configurations at which the PES is sampled for
 visualisation. Whether a diatomic or triatomic surface is plotted is
