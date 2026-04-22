@@ -113,31 +113,177 @@ The three outcomes are all physically meaningful:
 Step 3 — Quantise the ro-vibrational state (if bound)
 -----------------------------------------------------
 
-For a bound (or quasi-bound) diatom, CoarseAIR assigns a final
-vibrational quantum number :math:`v'` via the WKB action integral
+For a bound (or quasi-bound) diatom the goal is to assign a final
+ro-vibrational quantum-number pair :math:`(v', J')`, then match it
+to a level index in the pre-computed level table. CoarseAIR uses a
+semi-classical (WKB) procedure with six concrete sub-steps.
+
+**Sub-step 3a — compute the product diatom's internal energy.**
+
+In the product diatom's centre-of-mass frame, the internal energy is
+the sum of the radial kinetic energy plus the potential:
 
 .. math::
 
-   v' + \tfrac{1}{2}
-   \;=\; \frac{1}{\pi\hbar}
-         \oint p(R)\, dR
-   \;=\; \frac{1}{\pi\hbar} \int_{R_{\text{in}}}^{R_{\text{out}}}
-         \sqrt{2\mu\,[E_{\text{int}} - V_{\text{eff}}(R)]}\, dR,
+   E_\text{int}
+   \;=\; \frac{p_R^{2}}{2\mu}
+      \;+\; \frac{L^{2}}{2\mu R^{2}}
+      \;+\; V_\text{diat}(R)
+   \;=\; \frac{p_R^{2}}{2\mu}
+      \;+\; V_\text{eff}(R; J'),
 
-computed by ``DiatomicPotential%ActionIntegral``. The value is histogrammed
-to the nearest integer (standard histogram binning, no Gaussian-binning
-correction in the base code).
+where :math:`\mu` is the pair's reduced mass,
+:math:`R = \|\mathbf{R}_A - \mathbf{R}_B\|`, :math:`p_R` is the
+radial momentum (the component of relative momentum along
+:math:`\hat R`), and :math:`L^{2}` is the squared orbital angular
+momentum. :math:`E_\text{int}` is a conserved quantity of the
+product-diatom sub-Hamiltonian and is evaluated once at trajectory
+termination from the Cartesian positions and velocities of the two
+bonded atoms.
 
-The rotational quantum number :math:`J'` comes from the total angular
-momentum of the product diatom in its CM frame:
+**Sub-step 3b — extract the rotational quantum number** :math:`J'`.
+
+From the atomic velocities :math:`\dot{\mathbf{R}}_A`,
+:math:`\dot{\mathbf{R}}_B` of the product pair in the CM frame, the
+squared angular momentum is
 
 .. math::
 
-   \|\mathbf{L}\|^2 \;=\; \left(J' + \tfrac{1}{2}\right)^2 \hbar^2.
+   L^{2}
+   \;=\; \| \mu\,(\mathbf{R}_B - \mathbf{R}_A) \times
+              (\dot{\mathbf{R}}_B - \dot{\mathbf{R}}_A) \|^{2}.
 
-Both quantities feed into the pre-computed level table to map the outcome
-onto a specific state index (or bin index in coarse-grained mode — see
-:doc:`sampling`).
+The Bohr–Sommerfeld quantisation with the Langer
+(:math:`\ell(\ell + 1) \to (\ell + \tfrac{1}{2})^{2}`) correction
+then gives
+
+.. math::
+
+   L^{2} \;=\; \hbar^{2}\,\left( J' + \tfrac{1}{2} \right)^{2},
+   \qquad
+   J' \;=\; \frac{\|\mathbf{L}\|}{\hbar} - \tfrac{1}{2}.
+
+:math:`J'` is a positive real number here — the histogram binning
+rounds it to the nearest non-negative integer, but the float value
+is retained for diagnostic / Gaussian-binning use.
+
+**Sub-step 3c — build the effective radial potential** with the
+now-known :math:`J'`:
+
+.. math::
+
+   V_\text{eff}(R; J')
+   \;=\; V_\text{diat}(R)
+      \;+\; \frac{\hbar^{2}\left(J' + \tfrac{1}{2}\right)^{2}}{2\mu R^{2}}.
+
+**Sub-step 3d — locate the radial turning points**
+:math:`R_\text{in}`, :math:`R_\text{out}`. These are the two
+roots of :math:`V_\text{eff}(R; J') = E_\text{int}`, bracketed by
+:math:`R_\text{min}(J')` and :math:`R_\text{max}(J')` (the
+effective-potential well minimum and centrifugal-barrier maximum
+computed during level generation — see :doc:`level_generation`).
+CoarseAIR solves each root by Newton–Raphson iteration with an
+analytic derivative of :math:`V_\text{eff}`; convergence is
+sub-percent in 3–5 iterations because the roots are smooth and
+well-isolated.
+
+**Sub-step 3e — evaluate the WKB action integral.** The Bohr–
+Sommerfeld action is
+
+.. math::
+
+   S(E_\text{int}, J')
+   \;=\; \oint p(R)\,dR
+   \;=\; 2 \int_{R_\text{in}}^{R_\text{out}}
+         \sqrt{2\mu\,\left[ E_\text{int} - V_\text{eff}(R; J') \right]}
+         \,dR,
+
+where :math:`p(R)` is the classical radial momentum
+
+.. math::
+
+   p(R) \;=\; \sqrt{2\mu\,\left[
+               E_\text{int} - V_\text{eff}(R; J') \right]}.
+
+The factor of 2 in front of the integral accounts for the two
+half-orbits (inward and outward). The integrand has
+**integrable inverse-square-root singularities** at both turning
+points — :math:`p(R) \sim \sqrt{R - R_\text{in}}` near the inner
+turning point and :math:`p(R) \sim \sqrt{R_\text{out} - R}` near the
+outer — so the integral is finite despite the vanishing radicand.
+
+CoarseAIR evaluates this action by *Gauss–Legendre quadrature* on
+the normalised interval. With the affine substitution
+:math:`R(x) = \tfrac{1}{2}(R_\text{out} + R_\text{in}) + \tfrac{1}{2}(R_\text{out} - R_\text{in})\,x`,
+:math:`x \in [-1, 1]`, the integral becomes
+
+.. math::
+
+   S \;=\; (R_\text{out} - R_\text{in})
+            \int_{-1}^{1}
+            \sqrt{2\mu\,\left[ E_\text{int}
+                              - V_\text{eff}(R(x); J') \right]}
+            \,dx
+       \;\approx\; (R_\text{out} - R_\text{in})
+            \sum_{k = 1}^{N_q} w_k\,
+            \sqrt{2\mu\,\left[ E_\text{int}
+                              - V_\text{eff}(R(x_k); J') \right]},
+
+where :math:`\{(x_k, w_k)\}_{k = 1}^{N_q}` are the Gauss–Legendre
+nodes and weights of order :math:`N_q` (input line
+``Nb of Quadrature Pts for Action Integral`` — default 50). The
+nodes cluster slightly toward the endpoints, which mitigates the
+:math:`\sqrt{}` singularity and yields spectral convergence on
+smooth diatomics; for :math:`N_q = 50` the absolute error in
+:math:`S` is well below :math:`10^{-6} \times 2\pi\hbar`, i.e.
+:math:`\ll 1` vibrational level.
+
+**Sub-step 3f — recover the vibrational quantum number** via the
+Bohr–Sommerfeld rule:
+
+.. math::
+
+   v' + \tfrac{1}{2} \;=\; \frac{S(E_\text{int}, J')}{2\pi\hbar},
+   \qquad
+   v' \;=\; \frac{S}{2\pi\hbar} - \tfrac{1}{2}.
+
+The result is a non-negative real number. CoarseAIR's default
+``Final States Assigment Mthd = Histogram`` rounds to the nearest
+integer and assigns the trajectory to the matching level index in
+the pre-computed level table (produced in :doc:`level_generation`).
+The alternative methods (Gaussian binning, QSS) retain the float
+:math:`v'` in the output so that post-processing can apply a
+different weighting scheme without rerunning the trajectories.
+
+**Consistency check.** For a trajectory that starts from level
+:math:`(v_i, J_i)` and does *not* experience a reactive
+rearrangement, numerical energy conservation of the classical
+dynamics guarantees :math:`S_\text{final} \approx S_\text{initial}`
+up to integrator error. Inspecting the distribution of
+:math:`v' \bmod 1` in a large ensemble is the standard diagnostic
+for "zero-point leakage": a histogram uniformly spread across
+:math:`[0, 1)` indicates trajectories slipping *below* their
+zero-point energy and is the signature of the known QCT artefact
+discussed in :doc:`/reference/bibliography` (Bonnet–Rayez, 1997).
+
+**Code pointers.** The above procedure is implemented as a small
+chain of elemental / pure routines on the diatomic-potential
+object — see :doc:`pes_formats`:
+
+- ``DiatomicPotential%TurningPoint`` → sub-step 3d
+  (Newton–Raphson bracketing).
+- ``DiatomicPotential%ActionIntegral`` (or
+  ``ActionIntegralGamma`` for the complex-:math:`\Gamma`
+  variant used for quasi-bound lifetimes) → sub-step 3e.
+- ``DiatomicPotential%FindMinimum`` / ``FindMaximum`` →
+  :math:`R_\text{min}(J')` / :math:`R_\text{max}(J')` bracket
+  for the turning-point search.
+
+Each of these is called in the hot path of
+``MolecularState%FindState`` (``src/Collision/MolecularState/``),
+so making them fast is important; they are all ``pure elemental``
+and auto-vectorise over the batch of concurrently-finalising
+trajectories.
 
 
 Step 4 — Classify the process

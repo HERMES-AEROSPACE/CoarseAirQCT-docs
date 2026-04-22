@@ -541,24 +541,143 @@ dissociation or full-atomisation channel.</p></li>
 </section>
 <section id="step-3-quantise-the-ro-vibrational-state-if-bound">
 <h2>Step 3 — Quantise the ro-vibrational state (if bound)<a class="headerlink" href="#step-3-quantise-the-ro-vibrational-state-if-bound" title="Link to this heading"></a></h2>
-<p>For a bound (or quasi-bound) diatom, CoarseAIR assigns a final
-vibrational quantum number <span class="math notranslate nohighlight">\(v'\)</span> via the WKB action integral</p>
+<p>For a bound (or quasi-bound) diatom the goal is to assign a final
+ro-vibrational quantum-number pair <span class="math notranslate nohighlight">\((v', J')\)</span>, then match it
+to a level index in the pre-computed level table. CoarseAIR uses a
+semi-classical (WKB) procedure with six concrete sub-steps.</p>
+<p><strong>Sub-step 3a — compute the product diatom’s internal energy.</strong></p>
+<p>In the product diatom’s centre-of-mass frame, the internal energy is
+the sum of the radial kinetic energy plus the potential:</p>
 <div class="math notranslate nohighlight">
-\[v' + \tfrac{1}{2}
-\;=\; \frac{1}{\pi\hbar}
-      \oint p(R)\, dR
-\;=\; \frac{1}{\pi\hbar} \int_{R_{\text{in}}}^{R_{\text{out}}}
-      \sqrt{2\mu\,[E_{\text{int}} - V_{\text{eff}}(R)]}\, dR,\]</div>
-<p>computed by <code class="docutils literal notranslate"><span class="pre">DiatomicPotential%ActionIntegral</span></code>. The value is histogrammed
-to the nearest integer (standard histogram binning, no Gaussian-binning
-correction in the base code).</p>
-<p>The rotational quantum number <span class="math notranslate nohighlight">\(J'\)</span> comes from the total angular
-momentum of the product diatom in its CM frame:</p>
+\[E_\text{int}
+\;=\; \frac{p_R^{2}}{2\mu}
+   \;+\; \frac{L^{2}}{2\mu R^{2}}
+   \;+\; V_\text{diat}(R)
+\;=\; \frac{p_R^{2}}{2\mu}
+   \;+\; V_\text{eff}(R; J'),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu\)</span> is the pair’s reduced mass,
+<span class="math notranslate nohighlight">\(R = \|\mathbf{R}_A - \mathbf{R}_B\|\)</span>, <span class="math notranslate nohighlight">\(p_R\)</span> is the
+radial momentum (the component of relative momentum along
+<span class="math notranslate nohighlight">\(\hat R\)</span>), and <span class="math notranslate nohighlight">\(L^{2}\)</span> is the squared orbital angular
+momentum. <span class="math notranslate nohighlight">\(E_\text{int}\)</span> is a conserved quantity of the
+product-diatom sub-Hamiltonian and is evaluated once at trajectory
+termination from the Cartesian positions and velocities of the two
+bonded atoms.</p>
+<p><strong>Sub-step 3b — extract the rotational quantum number</strong> <span class="math notranslate nohighlight">\(J'\)</span>.</p>
+<p>From the atomic velocities <span class="math notranslate nohighlight">\(\dot{\mathbf{R}}_A\)</span>,
+<span class="math notranslate nohighlight">\(\dot{\mathbf{R}}_B\)</span> of the product pair in the CM frame, the
+squared angular momentum is</p>
 <div class="math notranslate nohighlight">
-\[\|\mathbf{L}\|^2 \;=\; \left(J' + \tfrac{1}{2}\right)^2 \hbar^2.\]</div>
-<p>Both quantities feed into the pre-computed level table to map the outcome
-onto a specific state index (or bin index in coarse-grained mode — see
-<a class="reference internal" href="sampling.html"><span class="doc">Sampling</span></a>).</p>
+\[L^{2}
+\;=\; \| \mu\,(\mathbf{R}_B - \mathbf{R}_A) \times
+           (\dot{\mathbf{R}}_B - \dot{\mathbf{R}}_A) \|^{2}.\]</div>
+<p>The Bohr–Sommerfeld quantisation with the Langer
+(<span class="math notranslate nohighlight">\(\ell(\ell + 1) \to (\ell + \tfrac{1}{2})^{2}\)</span>) correction
+then gives</p>
+<div class="math notranslate nohighlight">
+\[L^{2} \;=\; \hbar^{2}\,\left( J' + \tfrac{1}{2} \right)^{2},
+\qquad
+J' \;=\; \frac{\|\mathbf{L}\|}{\hbar} - \tfrac{1}{2}.\]</div>
+<p><span class="math notranslate nohighlight">\(J'\)</span> is a positive real number here — the histogram binning
+rounds it to the nearest non-negative integer, but the float value
+is retained for diagnostic / Gaussian-binning use.</p>
+<p><strong>Sub-step 3c — build the effective radial potential</strong> with the
+now-known <span class="math notranslate nohighlight">\(J'\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[V_\text{eff}(R; J')
+\;=\; V_\text{diat}(R)
+   \;+\; \frac{\hbar^{2}\left(J' + \tfrac{1}{2}\right)^{2}}{2\mu R^{2}}.\]</div>
+<p><strong>Sub-step 3d — locate the radial turning points</strong>
+<span class="math notranslate nohighlight">\(R_\text{in}\)</span>, <span class="math notranslate nohighlight">\(R_\text{out}\)</span>. These are the two
+roots of <span class="math notranslate nohighlight">\(V_\text{eff}(R; J') = E_\text{int}\)</span>, bracketed by
+<span class="math notranslate nohighlight">\(R_\text{min}(J')\)</span> and <span class="math notranslate nohighlight">\(R_\text{max}(J')\)</span> (the
+effective-potential well minimum and centrifugal-barrier maximum
+computed during level generation — see <a class="reference internal" href="level_generation.html"><span class="doc">Level Generation (Numerov method)</span></a>).
+CoarseAIR solves each root by Newton–Raphson iteration with an
+analytic derivative of <span class="math notranslate nohighlight">\(V_\text{eff}\)</span>; convergence is
+sub-percent in 3–5 iterations because the roots are smooth and
+well-isolated.</p>
+<p><strong>Sub-step 3e — evaluate the WKB action integral.</strong> The Bohr–
+Sommerfeld action is</p>
+<div class="math notranslate nohighlight">
+\[S(E_\text{int}, J')
+\;=\; \oint p(R)\,dR
+\;=\; 2 \int_{R_\text{in}}^{R_\text{out}}
+      \sqrt{2\mu\,\left[ E_\text{int} - V_\text{eff}(R; J') \right]}
+      \,dR,\]</div>
+<p>where <span class="math notranslate nohighlight">\(p(R)\)</span> is the classical radial momentum</p>
+<div class="math notranslate nohighlight">
+\[p(R) \;=\; \sqrt{2\mu\,\left[
+            E_\text{int} - V_\text{eff}(R; J') \right]}.\]</div>
+<p>The factor of 2 in front of the integral accounts for the two
+half-orbits (inward and outward). The integrand has
+<strong>integrable inverse-square-root singularities</strong> at both turning
+points — <span class="math notranslate nohighlight">\(p(R) \sim \sqrt{R - R_\text{in}}\)</span> near the inner
+turning point and <span class="math notranslate nohighlight">\(p(R) \sim \sqrt{R_\text{out} - R}\)</span> near the
+outer — so the integral is finite despite the vanishing radicand.</p>
+<p>CoarseAIR evaluates this action by <em>Gauss–Legendre quadrature</em> on
+the normalised interval. With the affine substitution
+<span class="math notranslate nohighlight">\(R(x) = \tfrac{1}{2}(R_\text{out} + R_\text{in}) + \tfrac{1}{2}(R_\text{out} - R_\text{in})\,x\)</span>,
+<span class="math notranslate nohighlight">\(x \in [-1, 1]\)</span>, the integral becomes</p>
+<div class="math notranslate nohighlight">
+\[S \;=\; (R_\text{out} - R_\text{in})
+         \int_{-1}^{1}
+         \sqrt{2\mu\,\left[ E_\text{int}
+                           - V_\text{eff}(R(x); J') \right]}
+         \,dx
+    \;\approx\; (R_\text{out} - R_\text{in})
+         \sum_{k = 1}^{N_q} w_k\,
+         \sqrt{2\mu\,\left[ E_\text{int}
+                           - V_\text{eff}(R(x_k); J') \right]},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\{(x_k, w_k)\}_{k = 1}^{N_q}\)</span> are the Gauss–Legendre
+nodes and weights of order <span class="math notranslate nohighlight">\(N_q\)</span> (input line
+<code class="docutils literal notranslate"><span class="pre">Nb</span> <span class="pre">of</span> <span class="pre">Quadrature</span> <span class="pre">Pts</span> <span class="pre">for</span> <span class="pre">Action</span> <span class="pre">Integral</span></code> — default 50). The
+nodes cluster slightly toward the endpoints, which mitigates the
+<span class="math notranslate nohighlight">\(\sqrt{}\)</span> singularity and yields spectral convergence on
+smooth diatomics; for <span class="math notranslate nohighlight">\(N_q = 50\)</span> the absolute error in
+<span class="math notranslate nohighlight">\(S\)</span> is well below <span class="math notranslate nohighlight">\(10^{-6} \times 2\pi\hbar\)</span>, i.e.
+<span class="math notranslate nohighlight">\(\ll 1\)</span> vibrational level.</p>
+<p><strong>Sub-step 3f — recover the vibrational quantum number</strong> via the
+Bohr–Sommerfeld rule:</p>
+<div class="math notranslate nohighlight">
+\[v' + \tfrac{1}{2} \;=\; \frac{S(E_\text{int}, J')}{2\pi\hbar},
+\qquad
+v' \;=\; \frac{S}{2\pi\hbar} - \tfrac{1}{2}.\]</div>
+<p>The result is a non-negative real number. CoarseAIR’s default
+<code class="docutils literal notranslate"><span class="pre">Final</span> <span class="pre">States</span> <span class="pre">Assigment</span> <span class="pre">Mthd</span> <span class="pre">=</span> <span class="pre">Histogram</span></code> rounds to the nearest
+integer and assigns the trajectory to the matching level index in
+the pre-computed level table (produced in <a class="reference internal" href="level_generation.html"><span class="doc">Level Generation (Numerov method)</span></a>).
+The alternative methods (Gaussian binning, QSS) retain the float
+<span class="math notranslate nohighlight">\(v'\)</span> in the output so that post-processing can apply a
+different weighting scheme without rerunning the trajectories.</p>
+<p><strong>Consistency check.</strong> For a trajectory that starts from level
+<span class="math notranslate nohighlight">\((v_i, J_i)\)</span> and does <em>not</em> experience a reactive
+rearrangement, numerical energy conservation of the classical
+dynamics guarantees <span class="math notranslate nohighlight">\(S_\text{final} \approx S_\text{initial}\)</span>
+up to integrator error. Inspecting the distribution of
+<span class="math notranslate nohighlight">\(v' \bmod 1\)</span> in a large ensemble is the standard diagnostic
+for “zero-point leakage”: a histogram uniformly spread across
+<span class="math notranslate nohighlight">\([0, 1)\)</span> indicates trajectories slipping <em>below</em> their
+zero-point energy and is the signature of the known QCT artefact
+discussed in <a class="reference internal" href="../reference/bibliography.html"><span class="doc">Bibliography</span></a> (Bonnet–Rayez, 1997).</p>
+<p><strong>Code pointers.</strong> The above procedure is implemented as a small
+chain of elemental / pure routines on the diatomic-potential
+object — see <a class="reference internal" href="pes_formats.html"><span class="doc">PES Formats</span></a>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DiatomicPotential%TurningPoint</span></code> → sub-step 3d
+(Newton–Raphson bracketing).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DiatomicPotential%ActionIntegral</span></code> (or
+<code class="docutils literal notranslate"><span class="pre">ActionIntegralGamma</span></code> for the complex-<span class="math notranslate nohighlight">\(\Gamma\)</span>
+variant used for quasi-bound lifetimes) → sub-step 3e.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DiatomicPotential%FindMinimum</span></code> / <code class="docutils literal notranslate"><span class="pre">FindMaximum</span></code> →
+<span class="math notranslate nohighlight">\(R_\text{min}(J')\)</span> / <span class="math notranslate nohighlight">\(R_\text{max}(J')\)</span> bracket
+for the turning-point search.</p></li>
+</ul>
+<p>Each of these is called in the hot path of
+<code class="docutils literal notranslate"><span class="pre">MolecularState%FindState</span></code> (<code class="docutils literal notranslate"><span class="pre">src/Collision/MolecularState/</span></code>),
+so making them fast is important; they are all <code class="docutils literal notranslate"><span class="pre">pure</span> <span class="pre">elemental</span></code>
+and auto-vectorise over the batch of concurrently-finalising
+trajectories.</p>
 </section>
 <section id="step-4-classify-the-process">
 <h2>Step 4 — Classify the process<a class="headerlink" href="#step-4-classify-the-process" title="Link to this heading"></a></h2>
