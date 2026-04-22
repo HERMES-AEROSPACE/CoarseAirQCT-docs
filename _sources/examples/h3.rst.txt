@@ -35,18 +35,23 @@ indistinguishable result as a self-consistency check.
 PES models
 ----------
 
-Available: ``BH`` (Boothroyd–Keogh–Martin–Peterson / BKMP2 variant),
-``LEPS`` (historical).
+- **Production default:** ``H3_BH`` — the Boothroyd–Keogh–Martin–
+  Peterson / BKMP2 surface
+  (`doi:10.1063/1.471430 <https://doi.org/10.1063/1.471430>`_).
+  Use this one unless you have a specific reason not to.
+- **Legacy:** ``LEPS`` — the classical London–Eyring–Polanyi–Sato
+  analytic form, retained for historical benchmarks only.
 
-Diatomic partner: ``H2_Schwenke1988``.
+The production Diatomic Potential Model paired with ``H3_BH`` is
+``Schwenke`` (the Schwenke H\ :sub:`2` potential).
 
 
 Input file walkthrough
 ----------------------
 
-From ``input/H3/LEPS/input/CoarseAIR.inp``. The simplest system in
-the CoarseAIR database — three identical H atoms, one PES, one
-diatomic potential:
+From ``input/H3/BH/input/CoarseAIR.inp`` (the production default —
+BH / BKMP2 surface). The simplest system in the CoarseAIR database:
+three identical H atoms, one PES, one diatomic potential:
 
 .. code-block:: text
 
@@ -66,12 +71,16 @@ diatomic potential:
      Translational Temperature [K] 1   = 10000.d0
 
    Nb of PESs = 1
-     Model, PES 1      = LEPS         ! or BH for the BKMP2 surface
+     Model, PES 1      = H3_BH        ! BKMP2 surface; Boothroyd 1996
      Degeneracy, PES 1 = 1.0
 
-   Diatomic Potential Model, Molecule 1 = Morse    ! pairs with LEPS
+   Diatomic Potential Model, Molecule 1 = Schwenke
 
    Initial Impact Parameter Model = Stratified
+
+The legacy LEPS input lives under ``input/H3/LEPS/input/`` and
+differs only in the PES model (``LEPS`` instead of ``H3_BH``) and
+in the diatomic potential (``Morse`` instead of ``Schwenke``).
 
 Because all three H atoms are identical, the natural configuration is
 ``Identical Diatoms? = yes`` and ``Distinguish Exchanges between Each

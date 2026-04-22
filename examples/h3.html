@@ -467,15 +467,22 @@ indistinguishable result as a self-consistency check.</p>
 </section>
 <section id="pes-models">
 <h2>PES models<a class="headerlink" href="#pes-models" title="Link to this heading"></a></h2>
-<p>Available: <code class="docutils literal notranslate"><span class="pre">BH</span></code> (Boothroyd–Keogh–Martin–Peterson / BKMP2 variant),
-<code class="docutils literal notranslate"><span class="pre">LEPS</span></code> (historical).</p>
-<p>Diatomic partner: <code class="docutils literal notranslate"><span class="pre">H2_Schwenke1988</span></code>.</p>
+<ul class="simple">
+<li><p><strong>Production default:</strong> <code class="docutils literal notranslate"><span class="pre">H3_BH</span></code> — the Boothroyd–Keogh–Martin–
+Peterson / BKMP2 surface
+(<a class="reference external" href="https://doi.org/10.1063/1.471430">doi:10.1063/1.471430</a>).
+Use this one unless you have a specific reason not to.</p></li>
+<li><p><strong>Legacy:</strong> <code class="docutils literal notranslate"><span class="pre">LEPS</span></code> — the classical London–Eyring–Polanyi–Sato
+analytic form, retained for historical benchmarks only.</p></li>
+</ul>
+<p>The production Diatomic Potential Model paired with <code class="docutils literal notranslate"><span class="pre">H3_BH</span></code> is
+<code class="docutils literal notranslate"><span class="pre">Schwenke</span></code> (the Schwenke H<sub>2</sub> potential).</p>
 </section>
 <section id="input-file-walkthrough">
 <h2>Input file walkthrough<a class="headerlink" href="#input-file-walkthrough" title="Link to this heading"></a></h2>
-<p>From <code class="docutils literal notranslate"><span class="pre">input/H3/LEPS/input/CoarseAIR.inp</span></code>. The simplest system in
-the CoarseAIR database — three identical H atoms, one PES, one
-diatomic potential:</p>
+<p>From <code class="docutils literal notranslate"><span class="pre">input/H3/BH/input/CoarseAIR.inp</span></code> (the production default —
+BH / BKMP2 surface). The simplest system in the CoarseAIR database:
+three identical H atoms, one PES, one diatomic potential:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>System            = H3
 Nb of Species     = 2
   Species 1       = H2
@@ -492,14 +499,17 @@ Nb of Translational Temperatures    = 1
   Translational Temperature [K] 1   = 10000.d0
 
 Nb of PESs = 1
-  Model, PES 1      = LEPS         ! or BH for the BKMP2 surface
+  Model, PES 1      = H3_BH        ! BKMP2 surface; Boothroyd 1996
   Degeneracy, PES 1 = 1.0
 
-Diatomic Potential Model, Molecule 1 = Morse    ! pairs with LEPS
+Diatomic Potential Model, Molecule 1 = Schwenke
 
 Initial Impact Parameter Model = Stratified
 </pre></div>
 </div>
+<p>The legacy LEPS input lives under <code class="docutils literal notranslate"><span class="pre">input/H3/LEPS/input/</span></code> and
+differs only in the PES model (<code class="docutils literal notranslate"><span class="pre">LEPS</span></code> instead of <code class="docutils literal notranslate"><span class="pre">H3_BH</span></code>) and
+in the diatomic potential (<code class="docutils literal notranslate"><span class="pre">Morse</span></code> instead of <code class="docutils literal notranslate"><span class="pre">Schwenke</span></code>).</p>
 <p>Because all three H atoms are identical, the natural configuration is
 <code class="docutils literal notranslate"><span class="pre">Identical</span> <span class="pre">Diatoms?</span> <span class="pre">=</span> <span class="pre">yes</span></code> and <code class="docutils literal notranslate"><span class="pre">Distinguish</span> <span class="pre">Exchanges</span> <span class="pre">between</span> <span class="pre">Each</span>
 <span class="pre">Other?</span> <span class="pre">=</span> <span class="pre">no</span></code> — the three symmetric exchange pathways sum into a
