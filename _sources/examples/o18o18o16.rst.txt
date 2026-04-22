@@ -70,33 +70,71 @@ post-processor tracks isotopic exchange:
 
 .. code-block:: text
 
-   System            = O3                     ! same PES family as /examples/o3
-   Nb of Species     = 2
-     Species 1       = O18O18                 ! target = 18O-18O
-     Species 2       = O16                    ! projectile = 16O
-   Nb of Molecules   = 2
-     Molecule 1      = O18O18
-     Molecule 2      = O18O16                 ! mixed-isotope product
-   Nb of Atoms       = 3
-     Atom 1 = O18     Mass [a.u.] = 29148.94559d0   ! 18O
-     Atom 2 = O18     Mass [a.u.] = 29148.94559d0   ! 18O
-     Atom 3 = O16     Mass [a.u.] = 25903.148035d0  ! 16O
+   ###########################################################################################
+   ######                                                                               ######
+   ######                         Input File for QCT Code                               ######
+   ######                                                                               ######
+   ###########################################################################################
 
-   Nb of PESs = 9                             ! full 9-surface manifold
-     Model, PES 1      = UMN_11A1   Degeneracy = 1.0
-     Model, PES 2      = UMN_11A2   Degeneracy = 1.0
-     Model, PES 3      = UMN_13A1   Degeneracy = 3.0
-     Model, PES 4      = UMN_13A2   Degeneracy = 3.0
-     Model, PES 5      = UMN_15A1   Degeneracy = 5.0
-     Model, PES 6      = UMN_15A2   Degeneracy = 5.0
-     Model, PES 7      = UMN_21A1   Degeneracy = 1.0
-     Model, PES 8      = UMN_23A1   Degeneracy = 3.0
-     Model, PES 9      = UMN_25A1   Degeneracy = 5.0
+      Generating Energy Levels?         = no
+      Preprocessing Energy Levels List? = yes
+      Running Trajectories?             = yes
+      Postprocessing Trajectories?      = no
 
-   Diatomic Potential Model, Molecule 1 = UMN
-   Diatomic Potential Model, Molecule 2 = UMN
+   ###########################################################################################
 
-   Initial Impact Parameter Model = Stratified
+      System = O3                    ! same PES family as /examples/o3
+
+      Nb of Species = 2
+        Species 1 = O18O18           ! target = 18O-18O
+        Species 2 = O16              ! projectile = 16O
+
+      Nb of Molecules = 2
+        Molecule 1 = O18O18
+        Molecule 2 = O18O16          ! mixed-isotope product
+
+      Nb of Atoms = 3
+        Atom 1 = O18
+          Mass [a.u.] of Atom 1 = 29148.94559d0     ! 18O
+        Atom 2 = O18
+          Mass [a.u.] of Atom 2 = 29148.94559d0     ! 18O
+        Atom 3 = O16
+          Mass [a.u.] of Atom 3 = 25903.148035d0    ! 16O
+
+      Database Path = /path/to/coarseair/dtb/
+
+      Relative Translational Energy Model = Boltzmann
+      Nb of Translational Temperatures    = 1
+        Translational Temperature [K] 1 = 10000.d0
+
+   ###########################################################################################
+   #  RUNNING TRAJECTORIES and ANALYZING TRAJECTORIES
+   ###########################################################################################
+
+      Nb of PESs = 9                 ! full 9-surface manifold
+        Model, PES 1      = UMN_11A1
+        Degeneracy, PES 1 = 1.0
+        Model, PES 2      = UMN_11A2
+        Degeneracy, PES 2 = 1.0
+        Model, PES 3      = UMN_13A1
+        Degeneracy, PES 3 = 3.0
+        Model, PES 4      = UMN_13A2
+        Degeneracy, PES 4 = 3.0
+        Model, PES 5      = UMN_15A1
+        Degeneracy, PES 5 = 5.0
+        Model, PES 6      = UMN_15A2
+        Degeneracy, PES 6 = 5.0
+        Model, PES 7      = UMN_21A1
+        Degeneracy, PES 7 = 1.0
+        Model, PES 8      = UMN_23A1
+        Degeneracy, PES 8 = 3.0
+        Model, PES 9      = UMN_25A1
+        Degeneracy, PES 9 = 5.0
+
+      Diatomic Potential Model, Molecule 1 = UMN
+      Diatomic Potential Model, Molecule 2 = UMN
+
+      Initial Impact Parameter Model = Stratified
 
 Isotope labels preserve atom distinguishability at the classifier
 level, so the three "18O-16O + 18O" and "18O-18O + 16O" channels are

@@ -33,8 +33,6 @@ Items worth picking up by any contributor.
 
 **Testing and CI.**
 
-- Port the manual ``CompareToVVTC_N3.m`` regression into an automated
-  Python test that runs on every push to ``Clement-Adiabatic``.
 - Add an H\ :sub:`3` smoke test to GitHub Actions (build +
   10-minute run + rate comparison to a checked-in reference).
 - Add a multi-surface dispatch test on O\ :sub:`3` that asserts

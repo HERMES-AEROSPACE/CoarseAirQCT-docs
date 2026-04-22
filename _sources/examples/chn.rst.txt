@@ -50,38 +50,64 @@ Diatomic partners: ``CH_UIUC``, ``CN_UIUC_2Sig``, ``HN_UIUC``.
 Input file walkthrough
 ----------------------
 
-From ``input/CHN/UIUC_1A1/CH+N/input/CoarseAIR.inp``. Only the
-system-specific lines are shown — for the integrator / sampling /
-post-processing boilerplate see :doc:`/examples/n3`.
+From ``input/CHN/UIUC_1A1/CH+N/input/CoarseAIR.inp``, reproducing
+the actual template banner structure. The cutting-levels /
+sorting / statistics / rates sections follow the same layout as
+:doc:`/examples/n3` and :doc:`/examples/cno`:
 
 .. code-block:: text
 
-   System            = CHN
-   Nb of Species     = 2
-     Species 1       = CH             ! target
-     Species 2       = N              ! projectile
-   Nb of Molecules   = 3              ! CH, CN, HN (three arrangements)
-     Molecule 1      = CH
-     Molecule 2      = CN
-     Molecule 3      = HN
-   Nb of Atoms       = 3
-     Atom 1 = C       Mass [a.u.] = 21868.661757d0
-     Atom 2 = H       Mass [a.u.] =  1835.0397616d0
-     Atom 3 = N       Mass [a.u.] = 25519.042285d0
+   ###########################################################################################
+   ######                                                                               ######
+   ######                         Input File for QCT Code                               ######
+   ######                                                                               ######
+   ###########################################################################################
 
-   Relative Translational Energy Model = Boltzmann
-   Nb of Translational Temperatures    = 1
-     Translational Temperature [K] 1   = 7500.d0
+      Generating Energy Levels?         = no
+      Preprocessing Energy Levels List? = yes
+      Running Trajectories?             = yes
+      Postprocessing Trajectories?      = no
 
-   Nb of PESs = 1
-     Model, PES 1      = NN           ! or LEPS for the historical benchmark
-     Degeneracy, PES 1 = 1.0
+   ###########################################################################################
 
-   Diatomic Potential Model, Molecule 1 = UIUC_4Sig      ! CH
-   Diatomic Potential Model, Molecule 2 = UIUC_2Sig      ! CN
-   Diatomic Potential Model, Molecule 3 = Modified_Morse ! HN
+      System = CHN
 
-   Initial Impact Parameter Model = Stratified
+      Nb of Species = 2
+        Species 1 = CH       ! target
+        Species 2 = N        ! projectile
+
+      Nb of Molecules = 3
+        Molecule 1 = CH
+        Molecule 2 = CN
+        Molecule 3 = HN
+
+      Nb of Atoms = 3
+        Atom 1 = C
+          Mass [a.u.] of Atom 1 = 21868.661757d0
+        Atom 2 = H
+          Mass [a.u.] of Atom 2 =  1835.0397616d0
+        Atom 3 = N
+          Mass [a.u.] of Atom 3 = 25519.042285d0
+
+      Database Path = /path/to/coarseair/dtb/
+
+      Relative Translational Energy Model = Boltzmann
+      Nb of Translational Temperatures    = 1
+        Translational Temperature [K] 1 = 7500.d0
+
+   ###########################################################################################
+   #  RUNNING TRAJECTORIES and ANALYZING TRAJECTORIES
+   ###########################################################################################
+
+      Nb of PESs = 1
+        Model, PES 1      = NN    ! or LEPS for the historical benchmark
+        Degeneracy, PES 1 = 1.0
+
+      Diatomic Potential Model, Molecule 1 = UIUC_4Sig       ! CH
+      Diatomic Potential Model, Molecule 2 = UIUC_2Sig       ! CN
+      Diatomic Potential Model, Molecule 3 = Modified_Morse  ! HN
+
+      Initial Impact Parameter Model = Stratified
 
 Because C, H, N are all distinguishable, the three final-arrangement
 channels (CH+N, CN+H, HN+C) are tracked separately by the

@@ -45,38 +45,64 @@ quintet manifold of the UMN O\ :sub:`4` PES:
 
 .. code-block:: text
 
-   System            = OaObOcOd
-   Nb of Species     = 2
-     Species 1       = OaOb
-     Species 2       = OcOd
-   Nb of Molecules   = 6              ! all six atom-pair combinations
-     Molecule 1      = OaOb
-     Molecule 2      = OcOd
-     Molecule 3      = OaOc
-     Molecule 4      = OaOd
-     Molecule 5      = ObOc
-     Molecule 6      = ObOd
-   Nb of Atoms       = 4
-     Atom 1 = Oa      Mass [a.u.] = 29148.94559d0
-     Atom 2 = Ob      Mass [a.u.] = 29148.94559d0
-     Atom 3 = Oc      Mass [a.u.] = 29148.94559d0
-     Atom 4 = Od      Mass [a.u.] = 29148.94559d0
+   ###########################################################################################
+   ######                                                                               ######
+   ######                         Input File for QCT Code                               ######
+   ######                                                                               ######
+   ###########################################################################################
 
-   Relative Translational Energy Model = Boltzmann
-   Nb of Translational Temperatures    = 1
-     Translational Temperature [K] 1   = 10000.d0
+      Generating Energy Levels?         = no
+      Preprocessing Energy Levels List? = yes
+      Running Trajectories?             = yes
+      Postprocessing Trajectories?      = no
 
-   Nb of PESs = 3
-     Model, PES 1      = UMN_Singlet
-     Degeneracy, PES 1 = 1.0
-     Model, PES 2      = UMN_Triplet
-     Degeneracy, PES 2 = 3.0
-     Model, PES 3      = UMN_Quintet
-     Degeneracy, PES 3 = 5.0
+   ###########################################################################################
 
-   Diatomic Potential Model, Molecule 1..6 = UMN
+      System = OaObOcOd
 
-   Initial Impact Parameter Model = Stratified
+      Nb of Species = 2
+        Species 1 = OaOb
+        Species 2 = OcOd
+
+      Nb of Molecules = 6    ! all six atom-pair combinations
+        Molecule 1 = OaOb
+        Molecule 2 = OcOd
+        Molecule 3 = OaOc
+        Molecule 4 = OaOd
+        Molecule 5 = ObOc
+        Molecule 6 = ObOd
+
+      Nb of Atoms = 4
+        Atom 1 = Oa
+          Mass [a.u.] of Atom 1 = 29148.94559d0
+        Atom 2 = Ob
+          Mass [a.u.] of Atom 2 = 29148.94559d0
+        Atom 3 = Oc
+          Mass [a.u.] of Atom 3 = 29148.94559d0
+        Atom 4 = Od
+          Mass [a.u.] of Atom 4 = 29148.94559d0
+
+      Database Path = /path/to/coarseair/dtb/
+
+      Relative Translational Energy Model = Boltzmann
+      Nb of Translational Temperatures    = 1
+        Translational Temperature [K] 1 = 10000.d0
+
+   ###########################################################################################
+   #  RUNNING TRAJECTORIES and ANALYZING TRAJECTORIES
+   ###########################################################################################
+
+      Nb of PESs = 3
+        Model, PES 1      = UMN_Singlet
+        Degeneracy, PES 1 = 1.0
+        Model, PES 2      = UMN_Triplet
+        Degeneracy, PES 2 = 3.0
+        Model, PES 3      = UMN_Quintet
+        Degeneracy, PES 3 = 5.0
+
+      Diatomic Potential Model, Molecule 1..6 = UMN
+
+      Initial Impact Parameter Model = Stratified
 
 Like O\ :sub:`3`, production O\ :sub:`4` rates set
 ``Identical Diatoms? = yes`` and

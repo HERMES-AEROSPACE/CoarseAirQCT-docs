@@ -55,33 +55,58 @@ O\ :sub:`2` + N), doublet and quartet electronic surfaces:
 
 .. code-block:: text
 
-   System            = NO2
-   Nb of Species     = 2
-     Species 1       = NO             ! target
-     Species 2       = O              ! projectile
-   Nb of Molecules   = 2
-     Molecule 1      = NO
-     Molecule 2      = O2
-   Nb of Atoms       = 3
-     Atom 1 = N       Mass [a.u.] = 25526.04298d0
-     Atom 2 = O       Mass [a.u.] = 29148.94559d0
-     Atom 3 = O       Mass [a.u.] = 29148.94559d0
+   ###########################################################################################
+   ######                                                                               ######
+   ######                         Input File for QCT Code                               ######
+   ######                                                                               ######
+   ###########################################################################################
 
-   Relative Translational Energy Model = Boltzmann
-   Nb of Translational Temperatures    = 1
-     Translational Temperature [K] 1   = 10000.d0
+      Generating Energy Levels?         = no
+      Preprocessing Energy Levels List? = yes
+      Running Trajectories?             = yes
+      Postprocessing Trajectories?      = no
 
-   ! Doublet + quartet PES run concurrently with spin-degeneracy weights
-   Nb of PESs = 2
-     Model, PES 1      = UMN_2Ap      ! 2 A'  doublet  (spin mult = 2)
-     Degeneracy, PES 1 = 2.0
-     Model, PES 2      = UMN_4Ap      ! 4 A'  quartet  (spin mult = 4)
-     Degeneracy, PES 2 = 4.0
+   ###########################################################################################
 
-   Diatomic Potential Model, Molecule 1 = UMN_ForNO2_Doub  ! NO
-   Diatomic Potential Model, Molecule 2 = UMN              ! O2
+      System = NO2
 
-   Initial Impact Parameter Model = Stratified
+      Nb of Species = 2
+        Species 1 = NO       ! target
+        Species 2 = O        ! projectile
+
+      Nb of Molecules = 2
+        Molecule 1 = NO
+        Molecule 2 = O2
+
+      Nb of Atoms = 3
+        Atom 1 = N
+          Mass [a.u.] of Atom 1 = 25526.04298d0
+        Atom 2 = O
+          Mass [a.u.] of Atom 2 = 29148.94559d0
+        Atom 3 = O
+          Mass [a.u.] of Atom 3 = 29148.94559d0
+
+      Database Path = /path/to/coarseair/dtb/
+
+      Relative Translational Energy Model = Boltzmann
+      Nb of Translational Temperatures    = 1
+        Translational Temperature [K] 1 = 10000.d0
+
+   ###########################################################################################
+   #  RUNNING TRAJECTORIES and ANALYZING TRAJECTORIES
+   ###########################################################################################
+
+      ! Doublet + quartet PES run concurrently with spin-degeneracy weights
+      Nb of PESs = 2
+        Model, PES 1      = UMN_2Ap    ! 2 A'  doublet  (spin mult = 2)
+        Degeneracy, PES 1 = 2.0
+        Model, PES 2      = UMN_4Ap    ! 4 A'  quartet  (spin mult = 4)
+        Degeneracy, PES 2 = 4.0
+
+      Diatomic Potential Model, Molecule 1 = UMN_ForNO2_Doub   ! NO
+      Diatomic Potential Model, Molecule 2 = UMN               ! O2
+
+      Initial Impact Parameter Model = Stratified
 
 The two O atoms are indistinguishable, so the two NO+O permutations
 are summed at post-processing via ``Identical Diatoms? = yes``. The

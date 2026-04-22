@@ -42,38 +42,65 @@ Diatomic partners: ``CO`` (true diatomic), ``Ar-C`` and ``Ar-O`` (dummy).
 Input file walkthrough
 ----------------------
 
-From ``input/COAr/NASA/input/CoarseAIR.inp``. Non-reactive collision:
-only CO has a true diatomic potential; the ArC and ArO "pairs" get
-``NONE`` potentials so no reactive rearrangement is possible:
+From ``input/COAr/NASA/input/CoarseAIR.inp``. Non-reactive
+collision: only CO has a true diatomic potential; the ArC and ArO
+"pairs" get ``NONE`` potentials so no reactive rearrangement is
+possible. The cutting-levels / sorting / statistics / rates sections
+follow :doc:`/examples/n3` and :doc:`/examples/cno`:
 
 .. code-block:: text
 
-   System            = COAr
-   Nb of Species     = 2
-     Species 1       = CO             ! target
-     Species 2       = Ar             ! projectile (spectator)
-   Nb of Molecules   = 3              ! CO + two dummy pairs
-     Molecule 1      = CO
-     Molecule 2      = ArC
-     Molecule 3      = ArO
-   Nb of Atoms       = 3
-     Atom 1 = C       Mass [a.u.] = 21868.661757d0
-     Atom 2 = O       Mass [a.u.] = 29148.94559d0
-     Atom 3 = Ar      Mass [a.u.] = 72846.968078d0
+   ###########################################################################################
+   ######                                                                               ######
+   ######                         Input File for QCT Code                               ######
+   ######                                                                               ######
+   ###########################################################################################
 
-   Relative Translational Energy Model = Boltzmann
-   Nb of Translational Temperatures    = 1
-     Translational Temperature [K] 1   = 10000.d0
+      Generating Energy Levels?         = no
+      Preprocessing Energy Levels List? = yes
+      Running Trajectories?             = yes
+      Postprocessing Trajectories?      = no
 
-   Nb of PESs = 1
-     Model, PES 1      = NASA
-     Degeneracy, PES 1 = 1.0
+   ###########################################################################################
 
-   Diatomic Potential Model, Molecule 1 = NASA   ! CO — real potential
-   Diatomic Potential Model, Molecule 2 = NONE   ! Ar-C — inert
-   Diatomic Potential Model, Molecule 3 = NONE   ! Ar-O — inert
+      System = COAr
 
-   Initial Impact Parameter Model = Stratified
+      Nb of Species = 2
+        Species 1 = CO       ! target
+        Species 2 = Ar       ! projectile (spectator)
+
+      Nb of Molecules = 3
+        Molecule 1 = CO
+        Molecule 2 = ArC
+        Molecule 3 = ArO
+
+      Nb of Atoms = 3
+        Atom 1 = C
+          Mass [a.u.] of Atom 1 = 21868.661757d0
+        Atom 2 = O
+          Mass [a.u.] of Atom 2 = 29148.94559d0
+        Atom 3 = Ar
+          Mass [a.u.] of Atom 3 = 72846.968078d0
+
+      Database Path = /path/to/coarseair/dtb/
+
+      Relative Translational Energy Model = Boltzmann
+      Nb of Translational Temperatures    = 1
+        Translational Temperature [K] 1 = 10000.d0
+
+   ###########################################################################################
+   #  RUNNING TRAJECTORIES and ANALYZING TRAJECTORIES
+   ###########################################################################################
+
+      Nb of PESs = 1
+        Model, PES 1      = NASA
+        Degeneracy, PES 1 = 1.0
+
+      Diatomic Potential Model, Molecule 1 = NASA    ! CO — real potential
+      Diatomic Potential Model, Molecule 2 = NONE    ! Ar-C — inert
+      Diatomic Potential Model, Molecule 3 = NONE    ! Ar-O — inert
+
+      Initial Impact Parameter Model = Stratified
 
 The ``NONE`` diatomic potential (see :doc:`/theory/pes_formats`) is
 a purely repulsive short-range function that supports no bound states.

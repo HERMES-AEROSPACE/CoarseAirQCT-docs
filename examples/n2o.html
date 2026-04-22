@@ -478,32 +478,57 @@ runs are degeneracy-weighted.</p>
 <p>From <code class="docutils literal notranslate"><span class="pre">input/N2O/Basel/NO+N/input/CoarseAIR.inp</span></code>. Three atoms, two
 arrangements (NO + N and N<sub>2</sub> + O), and the low-lying
 <span class="math notranslate nohighlight">\(^3A'\)</span> / <span class="math notranslate nohighlight">\(^3A''\)</span> triplet surfaces:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>System            = N2O
-Nb of Species     = 2
-  Species 1       = NO             ! target
-  Species 2       = N              ! projectile
-Nb of Molecules   = 2
-  Molecule 1      = NO
-  Molecule 2      = N2
-Nb of Atoms       = 3
-  Atom 1 = N       Mass [a.u.] = 25526.04298d0
-  Atom 2 = O       Mass [a.u.] = 29148.94559d0
-  Atom 3 = N       Mass [a.u.] = 25526.04298d0
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>###########################################################################################
+######                                                                               ######
+######                         Input File for QCT Code                               ######
+######                                                                               ######
+###########################################################################################
 
-Relative Translational Energy Model = Boltzmann
-Nb of Translational Temperatures    = 1
-  Translational Temperature [K] 1   = 10000.d0
+   Generating Energy Levels?         = no
+   Preprocessing Energy Levels List? = yes
+   Running Trajectories?             = yes
+   Postprocessing Trajectories?      = no
 
-Nb of PESs = 2
-  Model, PES 1      = UMN_13A1     ! 3 A&#39;  triplet
-  Degeneracy, PES 1 = 1.0
-  Model, PES 2      = UMN_13A2     ! 3 A&#39;&#39; triplet
-  Degeneracy, PES 2 = 1.0
+###########################################################################################
 
-Diatomic Potential Model, Molecule 1 = UMN              ! NO
-Diatomic Potential Model, Molecule 2 = UMN_ForN2O2      ! N2
+   System = N2O
 
-Initial Impact Parameter Model = Stratified
+   Nb of Species = 2
+     Species 1 = NO       ! target
+     Species 2 = N        ! projectile
+
+   Nb of Molecules = 2
+     Molecule 1 = NO
+     Molecule 2 = N2
+
+   Nb of Atoms = 3
+     Atom 1 = N
+       Mass [a.u.] of Atom 1 = 25526.04298d0
+     Atom 2 = O
+       Mass [a.u.] of Atom 2 = 29148.94559d0
+     Atom 3 = N
+       Mass [a.u.] of Atom 3 = 25526.04298d0
+
+   Database Path = /path/to/coarseair/dtb/
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 1
+     Translational Temperature [K] 1 = 10000.d0
+
+###########################################################################################
+#  RUNNING TRAJECTORIES and ANALYZING TRAJECTORIES
+###########################################################################################
+
+   Nb of PESs = 2
+     Model, PES 1      = UMN_13A1    ! 3 A&#39;  triplet
+     Degeneracy, PES 1 = 1.0
+     Model, PES 2      = UMN_13A2    ! 3 A&#39;&#39; triplet
+     Degeneracy, PES 2 = 1.0
+
+   Diatomic Potential Model, Molecule 1 = UMN              ! NO
+   Diatomic Potential Model, Molecule 2 = UMN_ForN2O2      ! N2
+
+   Initial Impact Parameter Model = Stratified
 </pre></div>
 </div>
 <p>The two N atoms are indistinguishable: <code class="docutils literal notranslate"><span class="pre">Identical</span> <span class="pre">Diatoms?</span> <span class="pre">=</span> <span class="pre">yes</span></code> at

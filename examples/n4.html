@@ -479,30 +479,56 @@ variant). Like most 4-atom input files in CoarseAIR, this
 internally uses labelled atom tags (<code class="docutils literal notranslate"><span class="pre">Na-Nd</span></code>) so the classifier
 can resolve every exchange channel; indistinguishable-atom
 averaging is applied later by the post-processor:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>System            = NaNbNcNd
-Nb of Species     = 2
-  Species 1       = NaNb           ! target diatom
-  Species 2       = NcNd           ! projectile diatom
-Nb of Molecules   = 6              ! all six atom-pair combinations
-  Molecule 1      = NaNb
-  Molecule 2      = NcNd
-  Molecule 3      = NaNd
-  Molecule 4      = NbNc
-  Molecule 5      = NbNd
-  Molecule 6      = NaNc
-Nb of Atoms       = 4
-  Atom 1 = Na      Mass [a.u.] = 25526.04298d0
-  Atom 2 = Nb      Mass [a.u.] = 25526.04298d0
-  Atom 3 = Nc      Mass [a.u.] = 25526.04298d0
-  Atom 4 = Nd      Mass [a.u.] = 25526.04298d0
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>###########################################################################################
+######                                                                               ######
+######                         Input File for QCT Code                               ######
+######                                                                               ######
+###########################################################################################
 
-Relative Translational Energy Model = Boltzmann
-Nb of Translational Temperatures    = 1
-  Translational Temperature [K] 1   = 20000.d0
+   Generating Energy Levels?         = no
+   Preprocessing Energy Levels List? = yes
+   Running Trajectories?             = yes
+   Postprocessing Trajectories?      = no
 
-Nb of PESs = 1
-  Model, PES 1      = NASA
-  Degeneracy, PES 1 = 1.0
+###########################################################################################
+
+   System = NaNbNcNd
+
+   Nb of Species = 2
+     Species 1 = NaNb    ! target diatom
+     Species 2 = NcNd    ! projectile diatom
+
+   Nb of Molecules = 6   ! all six atom-pair combinations
+     Molecule 1 = NaNb
+     Molecule 2 = NcNd
+     Molecule 3 = NaNd
+     Molecule 4 = NbNc
+     Molecule 5 = NbNd
+     Molecule 6 = NaNc
+
+   Nb of Atoms = 4
+     Atom 1 = Na
+       Mass [a.u.] of Atom 1 = 25526.04298d0
+     Atom 2 = Nb
+       Mass [a.u.] of Atom 2 = 25526.04298d0
+     Atom 3 = Nc
+       Mass [a.u.] of Atom 3 = 25526.04298d0
+     Atom 4 = Nd
+       Mass [a.u.] of Atom 4 = 25526.04298d0
+
+   Database Path = /path/to/coarseair/dtb/
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 1
+     Translational Temperature [K] 1 = 20000.d0
+
+###########################################################################################
+#  RUNNING TRAJECTORIES and ANALYZING TRAJECTORIES
+###########################################################################################
+
+   Nb of PESs = 1
+     Model, PES 1      = NASA
+     Degeneracy, PES 1 = 1.0
 </pre></div>
 </div>
 <p>For the <strong>indistinguishable-atom</strong> N<sub>4</sub> rate (which is what

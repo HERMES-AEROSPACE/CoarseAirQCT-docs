@@ -472,35 +472,62 @@ mechanism.</p>
 </section>
 <section id="input-file-walkthrough">
 <h2>Input file walkthrough<a class="headerlink" href="#input-file-walkthrough" title="Link to this heading"></a></h2>
-<p>From <code class="docutils literal notranslate"><span class="pre">input/COAr/NASA/input/CoarseAIR.inp</span></code>. Non-reactive collision:
-only CO has a true diatomic potential; the ArC and ArO “pairs” get
-<code class="docutils literal notranslate"><span class="pre">NONE</span></code> potentials so no reactive rearrangement is possible:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>System            = COAr
-Nb of Species     = 2
-  Species 1       = CO             ! target
-  Species 2       = Ar             ! projectile (spectator)
-Nb of Molecules   = 3              ! CO + two dummy pairs
-  Molecule 1      = CO
-  Molecule 2      = ArC
-  Molecule 3      = ArO
-Nb of Atoms       = 3
-  Atom 1 = C       Mass [a.u.] = 21868.661757d0
-  Atom 2 = O       Mass [a.u.] = 29148.94559d0
-  Atom 3 = Ar      Mass [a.u.] = 72846.968078d0
+<p>From <code class="docutils literal notranslate"><span class="pre">input/COAr/NASA/input/CoarseAIR.inp</span></code>. Non-reactive
+collision: only CO has a true diatomic potential; the ArC and ArO
+“pairs” get <code class="docutils literal notranslate"><span class="pre">NONE</span></code> potentials so no reactive rearrangement is
+possible. The cutting-levels / sorting / statistics / rates sections
+follow <a class="reference internal" href="n3.html"><span class="doc">N3 System</span></a> and <a class="reference internal" href="cno.html"><span class="doc">CNO System</span></a>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>###########################################################################################
+######                                                                               ######
+######                         Input File for QCT Code                               ######
+######                                                                               ######
+###########################################################################################
 
-Relative Translational Energy Model = Boltzmann
-Nb of Translational Temperatures    = 1
-  Translational Temperature [K] 1   = 10000.d0
+   Generating Energy Levels?         = no
+   Preprocessing Energy Levels List? = yes
+   Running Trajectories?             = yes
+   Postprocessing Trajectories?      = no
 
-Nb of PESs = 1
-  Model, PES 1      = NASA
-  Degeneracy, PES 1 = 1.0
+###########################################################################################
 
-Diatomic Potential Model, Molecule 1 = NASA   ! CO — real potential
-Diatomic Potential Model, Molecule 2 = NONE   ! Ar-C — inert
-Diatomic Potential Model, Molecule 3 = NONE   ! Ar-O — inert
+   System = COAr
 
-Initial Impact Parameter Model = Stratified
+   Nb of Species = 2
+     Species 1 = CO       ! target
+     Species 2 = Ar       ! projectile (spectator)
+
+   Nb of Molecules = 3
+     Molecule 1 = CO
+     Molecule 2 = ArC
+     Molecule 3 = ArO
+
+   Nb of Atoms = 3
+     Atom 1 = C
+       Mass [a.u.] of Atom 1 = 21868.661757d0
+     Atom 2 = O
+       Mass [a.u.] of Atom 2 = 29148.94559d0
+     Atom 3 = Ar
+       Mass [a.u.] of Atom 3 = 72846.968078d0
+
+   Database Path = /path/to/coarseair/dtb/
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures    = 1
+     Translational Temperature [K] 1 = 10000.d0
+
+###########################################################################################
+#  RUNNING TRAJECTORIES and ANALYZING TRAJECTORIES
+###########################################################################################
+
+   Nb of PESs = 1
+     Model, PES 1      = NASA
+     Degeneracy, PES 1 = 1.0
+
+   Diatomic Potential Model, Molecule 1 = NASA    ! CO — real potential
+   Diatomic Potential Model, Molecule 2 = NONE    ! Ar-C — inert
+   Diatomic Potential Model, Molecule 3 = NONE    ! Ar-O — inert
+
+   Initial Impact Parameter Model = Stratified
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">NONE</span></code> diatomic potential (see <a class="reference internal" href="../theory/pes_formats.html"><span class="doc">PES Formats</span></a>) is
