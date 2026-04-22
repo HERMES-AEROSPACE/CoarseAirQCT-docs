@@ -342,7 +342,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#coarseair-foundations">CoarseAIR foundations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#numerical-methods">Numerical methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#potential-energy-surfaces">Potential energy surfaces</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#cno-system">CNO system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generic-system-agnostic-frameworks">Generic (system-agnostic) frameworks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#hydrogen-containing-systems">Hydrogen-containing systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#nitrogen-systems">Nitrogen systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#oxygen-systems">Oxygen systems</a></li>
@@ -488,103 +488,352 @@ yet implemented in CoarseAIR, tracked on
 </section>
 <section id="potential-energy-surfaces">
 <h2>Potential energy surfaces<a class="headerlink" href="#potential-energy-surfaces" title="Link to this heading"></a></h2>
-<p>When citing CoarseAIR runs, please also cite the original PES paper
-for the surface actually used. The list below pairs each CoarseAIR
-PES model name with the paper that introduced it. Where we have a
-confirmed DOI it is linked inline; where not, please file a pull
-request / memo to <code class="docutils literal notranslate"><span class="pre">docs/online-documentation/reference/bibliography.rst</span></code>
-with the missing reference.</p>
-<section id="cno-system">
-<h3>CNO system<a class="headerlink" href="#cno-system" title="Link to this heading"></a></h3>
-<p>The three low-lying electronic surfaces used by the CoarseAIR CNO
-system are the <em>accurate DMBE</em> potential energy surfaces of the
-Varandas / UCI-adjacent group:</p>
-<ul class="simple">
-<li><p><strong>CNO</strong> <span class="math notranslate nohighlight">\({}^{2}A'\)</span> <strong>(</strong><code class="docutils literal notranslate"><span class="pre">CNO_UCI_2A1</span></code><strong>)</strong> —
-Mota, Caridade, Varandas,
-<em>Accurate DMBE potential energy surface for CNO</em>(<span class="math notranslate nohighlight">\({}^{2}A'\)</span>),
-J. Phys. Chem. A <strong>122</strong> (23), 5173–5180 (2018).
-<a class="reference external" href="https://pubs.acs.org/doi/10.1021/acs.jpca.8b01881">doi:10.1021/acs.jpca.8b01881</a></p></li>
-<li><p><strong>CNO</strong> <span class="math notranslate nohighlight">\({}^{2}A''\)</span> <strong>(</strong><code class="docutils literal notranslate"><span class="pre">CNO_UCI_2A2</span></code><strong>)</strong> —
-Mota, Varandas and co-workers,
-<em>Accurate DMBE potential energy surface for CNO</em>(<span class="math notranslate nohighlight">\({}^{2}A''\)</span>),
-J. Chem. Phys. <strong>154</strong>, 034303 (2021).
-<a class="reference external" href="https://pubs.aip.org/aip/jcp/article/154/3/034303/199924/Accurate-DMBE-potential-energy-surface-for-CNO-2A">doi:10.1063/5.0039691</a></p></li>
-<li><p><strong>CNO</strong> <span class="math notranslate nohighlight">\({}^{4}A''\)</span> <strong>(</strong><code class="docutils literal notranslate"><span class="pre">CNO_UCI_4A2</span></code><strong>)</strong> —
-Varandas and co-workers,
-<em>High-accuracy DMBE potential energy surface for</em>
-<span class="math notranslate nohighlight">\({}^{4}A''\)</span> <em>CNO</em>,
-J. Chem. Phys. <strong>159</strong>, 214307 (2023).
-<a class="reference external" href="https://pubs.aip.org/aip/jcp/article/159/21/214307/2926417/High-accuracy-DMBE-potential-energy-surface-for">doi:10.1063/5.0174547</a></p></li>
-</ul>
+<p>When citing a CoarseAIR run, please also cite the paper that
+introduced the PES actually used. The catalogue below enumerates
+<strong>every</strong> concrete PES class currently compiled into CoarseAIR
+(<code class="docutils literal notranslate"><span class="pre">src/PESs/*_PES_Class.F90</span></code>), pairing the input-file model name
+with its underlying publication. Where a confirmed DOI has been
+established it is linked inline; where only a group / paper pattern
+is known the entry names the authors so the user can look up the
+specific paper, and notes that the PES parameter file header under
+<code class="docutils literal notranslate"><span class="pre">dtb/Systems/&lt;System&gt;/&lt;Model&gt;/</span></code> carries the authoritative
+reference.</p>
+<section id="generic-system-agnostic-frameworks">
+<h3>Generic (system-agnostic) frameworks<a class="headerlink" href="#generic-system-agnostic-frameworks" title="Link to this heading"></a></h3>
+<p>These classes provide the numerical scaffolding for ML-regressed
+surfaces and classical analytic forms; each chemical system supplies
+its own trained weights / parameters in <code class="docutils literal notranslate"><span class="pre">dtb/Systems/&lt;System&gt;/</span></code>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 20.0%" />
+<col style="width: 58.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Family</p></th>
+<th class="head"><p>Reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NN</span></code></p></td>
+<td><p>Feed-forward neural network</p></td>
+<td><p>Venturi, Jaffe, Panesi (2020). See CoarseAIR foundations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">BNN</span></code></p></td>
+<td><p>Bayesian neural-network ensemble</p></td>
+<td><p>Venturi, Jaffe, Panesi (2020). See CoarseAIR foundations.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GP</span></code></p></td>
+<td><p>Gaussian process</p></td>
+<td><p>Venturi et al. (2020); Rasmussen &amp; Williams kernel forms.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LEPS</span></code></p></td>
+<td><p>London–Eyring–Polanyi–Sato analytic</p></td>
+<td><p>Sato (1955); classical formulation.</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="hydrogen-containing-systems">
 <h3>Hydrogen-containing systems<a class="headerlink" href="#hydrogen-containing-systems" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><strong>H</strong><sub>3</sub> <strong>BKMP2 (</strong><code class="docutils literal notranslate"><span class="pre">H3_BH</span></code><strong>)</strong> — A. I. Boothroyd,
-W. J. Keogh, P. G. Martin, M. R. Peterson,
-<em>A refined H:sub:`3` potential energy surface</em>,
-J. Chem. Phys. <strong>104</strong>, 7139 (1996).</p></li>
-<li><p><strong>H</strong><sub>4</sub> <strong>BMKP (</strong><code class="docutils literal notranslate"><span class="pre">H4_BMKP</span></code><strong>)</strong> —
-A. I. Boothroyd, P. G. Martin, W. J. Keogh, M. R. Peterson,
-<em>An accurate analytic H:sub:`4` potential energy surface</em>,
-J. Chem. Phys. <strong>116</strong>, 666 (2002).</p></li>
-<li><p><strong>H</strong><sub>2</sub> <strong>+ He BMP / BMPmod (</strong><code class="docutils literal notranslate"><span class="pre">H2He_BMPmod</span></code><strong>)</strong> —
-A. I. Boothroyd, P. G. Martin, M. R. Peterson, <em>Accurate
-analytic He–H</em><sub>2</sub> <em>potential</em>, J. Chem. Phys. <strong>119</strong>, 3187
-(2003).</p></li>
-</ul>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 20.0%" />
+<col style="width: 58.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>System</p></th>
+<th class="head"><p>Reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">H3_BH</span></code></p></td>
+<td><p>H + H<sub>2</sub> (BKMP2)</p></td>
+<td><p>A. I. Boothroyd, W. J. Keogh, P. G. Martin, M. R. Peterson,
+<em>A refined H</em><sub>3</sub> <em>potential energy surface</em>,
+J. Chem. Phys. <strong>104</strong>, 7139 (1996).
+<a class="reference external" href="https://doi.org/10.1063/1.471430">doi:10.1063/1.471430</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">H4_BMKP</span></code></p></td>
+<td><p>H<sub>2</sub> + H<sub>2</sub></p></td>
+<td><p>A. I. Boothroyd, P. G. Martin, W. J. Keogh, M. R. Peterson,
+<em>An accurate analytic H</em><sub>4</sub> <em>potential energy surface</em>,
+J. Chem. Phys. <strong>116</strong>, 666 (2002).
+<a class="reference external" href="https://doi.org/10.1063/1.1405008">doi:10.1063/1.1405008</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">H2He_BMPmod</span></code></p></td>
+<td><p>H<sub>2</sub> + He (modified BMP)</p></td>
+<td><p>B. W. Bakr, D. G. A. Smith, K. Patkowski,
+<em>Ultra-accurate potential energy surface for the He–H</em><sub>2</sub>
+<em>dimer</em>, J. Chem. Phys. <strong>139</strong>, 144305 (2013).
+<a class="reference external" href="https://doi.org/10.1063/1.4824299">doi:10.1063/1.4824299</a></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">BMPmod</span></code> functional form is the modified BMP potential
+distributed as supplementary material of this paper. The
+legacy BMP potential is
+A. I. Boothroyd, P. G. Martin, M. J. Peterson,
+<em>An accurate analytic He–H</em><sub>2</sub> <em>potential energy surface
+from a greatly expanded set of ab initio energies</em>,
+J. Chem. Phys. <strong>119</strong>, 3187 (2003) —
+source and README under
+<code class="docutils literal notranslate"><span class="pre">dtb/Systems/H2He/BMP</span> <span class="pre">Potential/</span></code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="nitrogen-systems">
 <h3>Nitrogen systems<a class="headerlink" href="#nitrogen-systems" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><strong>N</strong><sub>3</sub> <strong>NASA (</strong><code class="docutils literal notranslate"><span class="pre">N3_NASA</span></code><strong>)</strong> —
-M. Panesi, R. L. Jaffe, D. W. Schwenke, T. E. Magin,
-<em>Rovibrational internal energy transfer and dissociation of
-N</em><sub>2</sub> (<span class="math notranslate nohighlight">\(^{1}\Sigma^{+}_{g}\)</span>) + <em>N</em>(<span class="math notranslate nohighlight">\(^{4}S\)</span>)
-<em>system in hypersonic flows</em>, J. Chem. Phys. <strong>138</strong>, 044312 (2013).
-<a class="reference external" href="https://doi.org/10.1063/1.4774412">doi:10.1063/1.4774412</a></p></li>
-<li><p><strong>N</strong><sub>3</sub> <strong>UMN / UMN_MBPIPMEG</strong> —
-Z. Varga, Y. Paukku, D. G. Truhlar and co-workers, N<sub>2</sub>–N
-triplet surfaces using Mixed Exponential Gaussian and
-permutation-invariant polynomial forms (University of Minnesota).</p></li>
-<li><p><strong>N</strong><sub>4</sub> <strong>NASA / UMN / UMN_PIPNN</strong> — UMN neural-network
-training of the four-body N<sub>2</sub>–N<sub>2</sub> surface.</p></li>
-<li><p><strong>N</strong><sub>2</sub><strong>O Basel / UMN</strong> — Meuwly group (Basel) and
-Truhlar group (UMN) three-body surfaces for the Zel’dovich
-reaction.</p></li>
-</ul>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 20.0%" />
+<col style="width: 58.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>System</p></th>
+<th class="head"><p>Reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">N3_NASA</span></code></p></td>
+<td><p>N + N<sub>2</sub> (NASA Ames analytic)</p></td>
+<td><p>D. W. Schwenke, R. L. Jaffe, M. Panesi — analytic fits used in
+Panesi, Jaffe, Schwenke, Magin,
+J. Chem. Phys. <strong>138</strong>, 044312 (2013).
+<a class="reference external" href="https://doi.org/10.1063/1.4774412">doi:10.1063/1.4774412</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">N3Half_NASA</span></code></p></td>
+<td><p>N + N<sub>2</sub> half-symmetric NASA variant</p></td>
+<td><p>NASA Ames (Jaffe / Schwenke) — variant of the NASA analytic
+surface with reduced symmetry channels. Authoritative
+reference in the <code class="docutils literal notranslate"><span class="pre">dtb/Systems/N3/NASA_Half/</span></code> header.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">N3_UMN</span></code></p></td>
+<td><p>N + N<sub>2</sub> (UMN, MEG basis)</p></td>
+<td><p>Paukku, Yang, Varga, Truhlar — UMN triplet N<sub>3</sub>
+surface in mixed exponential–Gaussian (MEG) basis.
+See J. Chem. Phys. <strong>139</strong>, 044309 (2013) for the companion
+N<sub>4</sub> methodology.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">N3_UMN_MBPIPMEG</span></code></p></td>
+<td><p>N + N<sub>2</sub> (UMN, permutation-invariant variant)</p></td>
+<td><p>Paukku, Varga, Truhlar — PIP + MEG variant of the UMN
+N<sub>3</sub> surface.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">N4_NASA</span></code></p></td>
+<td><p>N<sub>2</sub> + N<sub>2</sub> (NASA Ames)</p></td>
+<td><p>D. W. Schwenke, R. L. Jaffe, M. Panesi — NASA analytic
+N<sub>4</sub> surface used in hypersonic air-chemistry QCT
+campaigns.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">N4_UMN</span></code></p></td>
+<td><p>N<sub>2</sub> + N<sub>2</sub> (UMN, MEG basis)</p></td>
+<td><p>Y. Paukku, K. R. Yang, Z. Varga, D. G. Truhlar,
+<em>Global ab initio ground-state potential energy surface of
+N</em><sub>4</sub>, J. Chem. Phys. <strong>139</strong>, 044309 (2013).
+<a class="reference external" href="https://doi.org/10.1063/1.4811653">doi:10.1063/1.4811653</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">N4_UMN_MBPIPMEG3</span></code></p></td>
+<td><p>N<sub>2</sub> + N<sub>2</sub> (UMN, 3-body PIP-MEG decomposition)</p></td>
+<td><p>Bender, Doraiswamy, Truhlar, Candler — PIP/MEG refinement of
+the UMN N<sub>4</sub> PES. J. Chem. Phys. <strong>140</strong>, 054302 (2014).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">N4_UMN_PIPNN</span></code></p></td>
+<td><p>N<sub>2</sub> + N<sub>2</sub> (UMN, PIP-NN)</p></td>
+<td><p>Truhlar / Guo / Jiang groups — permutation-invariant neural
+network fit to the UMN N<sub>4</sub> ab-initio points. See
+the <code class="docutils literal notranslate"><span class="pre">dtb/Systems/N4/UMN_PIPNN/</span></code> header for the specific
+publication.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">N2O_UMN</span></code></p></td>
+<td><p>N<sub>2</sub>O (UMN triplets)</p></td>
+<td><p>Lin, Varga, Truhlar and co-workers — N<sub>2</sub>O
+<span class="math notranslate nohighlight">\({}^{3}A'\)</span> / <span class="math notranslate nohighlight">\({}^{3}A''\)</span> analytic surfaces (UMN).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">N2O_Basel</span></code></p></td>
+<td><p>N<sub>2</sub>O (Basel)</p></td>
+<td><p>Meuwly group (Basel) — three-body surface for N<sub>2</sub> + O
+<span class="math notranslate nohighlight">\(\leftrightarrow\)</span> NO + N.</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="oxygen-systems">
 <h3>Oxygen systems<a class="headerlink" href="#oxygen-systems" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><strong>O</strong><sub>3</sub> <strong>UMN — 9 electronic surfaces</strong> —
-Z. Varga, Y. Paukku, D. G. Truhlar,
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 20.0%" />
+<col style="width: 58.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>System</p></th>
+<th class="head"><p>Reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">O3_UMN</span></code></p></td>
+<td><p>O + O<sub>2</sub> — 9 electronic surfaces (UMN)</p></td>
+<td><p>Varga, Paukku, Truhlar and co-workers — analytic surfaces
+for the 1<sup>1</sup>A’, 1<sup>1</sup>A’’, 3A’, 3A’’, 5A’,
+5A’’, 2<sup>1</sup>A’, 2<sup>3</sup>A’, 2<sup>5</sup>A’
+manifold. Cornerstone paper for the first six surfaces:
+Y. Paukku, Z. Varga, D. G. Truhlar,
 <em>Potential energy surfaces for O + O</em><sub>2</sub> <em>collisions</em>,
-series of papers (2017–2019) covering the
-1<sup>1</sup>A’, 1<sup>1</sup>A’’, 3A’, 3A’’, 5A’, 5A’’,
-2<sup>1</sup>A’, 2<sup>3</sup>A’, 2<sup>5</sup>A’ manifold.</p></li>
-<li><p><strong>O</strong><sub>3</sub> <strong>NN / BNN / GP</strong> — neural-network, Bayesian-NN,
-and Gaussian-process regressions of the UMN ab-initio data,
-Venturi, Jaffe, Panesi (HERMES group, 2020 — see CoarseAIR
-foundations above).</p></li>
-<li><p><strong>O</strong><sub>4</sub> <strong>UMN</strong> — Paukku, Yang, Varga, Truhlar four-body
-O<sub>4</sub> surface (UMN).</p></li>
-</ul>
+J. Chem. Phys. <strong>140</strong>, 204302 (2014).
+<a class="reference external" href="https://doi.org/10.1063/1.4875563">doi:10.1063/1.4875563</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">O3_NN</span></code></p></td>
+<td><p>O + O<sub>2</sub> — NN regression of UMN</p></td>
+<td><p>Venturi, Jaffe, Panesi (HERMES group) — NN trained on the
+UMN ab-initio points. See CoarseAIR foundations.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">O4_UMN</span></code></p></td>
+<td><p>O<sub>2</sub> + O<sub>2</sub> (UMN)</p></td>
+<td><p>Y. Paukku, K. R. Yang, Z. Varga, A. W. Jasper, D. G. Truhlar,
+<em>Global potential energy surface for the four-atom reactive
+system O</em><sub>4</sub>, J. Chem. Phys. <strong>147</strong>, 034301 (2017).
+<a class="reference external" href="https://doi.org/10.1063/1.4994296">doi:10.1063/1.4994296</a></p></td>
+</tr>
+</tbody>
+</table>
+<p>The BNN / GP variants of O<sub>3</sub> share the
+<a class="reference internal" href="about.html"><span class="doc">About CoarseAIR</span></a>-cited Venturi–Jaffe–Panesi (2020) publications; the
+input files select them by combining the generic frameworks
+(<code class="docutils literal notranslate"><span class="pre">BNN</span></code>, <code class="docutils literal notranslate"><span class="pre">GP</span></code>) with the O<sub>3</sub> training-set parameters
+stored under <code class="docutils literal notranslate"><span class="pre">dtb/Systems/O3/</span></code>.</p>
 </section>
 <section id="carbon-containing-systems">
 <h3>Carbon-containing systems<a class="headerlink" href="#carbon-containing-systems" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 20.0%" />
+<col style="width: 58.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>System</p></th>
+<th class="head"><p>Reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CHN_UIUC</span></code></p></td>
+<td><p>CHN (UIUC / HERMES group)</p></td>
+<td><p>S. Venturi and co-workers,
+<em>Machine-learned potential energy surface for HCN and its
+application to ab-initio rate coefficients</em>,
+J. Phys. Chem. A <strong>126</strong>, 6004 (2022).
+<a class="reference external" href="https://pubs.acs.org/doi/full/10.1021/acs.jpca.2c03959">doi:10.1021/acs.jpca.2c03959</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CHN_NN</span></code></p></td>
+<td><p>CHN — neural-network variant of the UIUC surface</p></td>
+<td><p>Same reference as <code class="docutils literal notranslate"><span class="pre">CHN_UIUC</span></code> (Venturi et al. 2022); the
+<code class="docutils literal notranslate"><span class="pre">CHN_NN</span></code> class uses the generic <code class="docutils literal notranslate"><span class="pre">NN_PES_Type</span></code> machinery to
+evaluate the trained weights shipped under
+<code class="docutils literal notranslate"><span class="pre">dtb/Systems/CHN/UIUC_NN/</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CHN_GUO</span></code></p></td>
+<td><p>CHN (Hua Guo group, UNM)</p></td>
+<td><p>Two complementary references for the Guo-group HCN surface
+family:</p>
 <ul class="simple">
-<li><p><strong>CO</strong><sub>2</sub> <strong>NASA / Basel</strong> — Schwenke and Jaffe (NASA Ames)
-and Meuwly (Basel) three-body surfaces for C + O<sub>2</sub> / O +
-CO kinetics.</p></li>
-<li><p><strong>CO + Ar NASA</strong> — Schwenke and Jaffe non-reactive CO–Ar surface.</p></li>
-<li><p><strong>CHN UIUC / GUO</strong> — Illinois and Guo (UNM) surfaces for C + HN /
-H + CN / N + CH reactive kinetics.</p></li>
-<li><p><strong>NO</strong><sub>2</sub> <strong>UMN / Basel</strong> — UMN and Meuwly three-body
-surfaces for NO<sub>2</sub> kinetics, with 2<sup>2,4</sup>A’,
-2<sup>2,4</sup>A’’ manifold.</p></li>
+<li><p>Original ab-initio study:
+W.-T. Chan, I. P. Hamilton, H.-Y. Shi,
+<em>Global potential energy surface for the HCN ground
+electronic state</em>, Chem. Phys. Lett. <strong>346</strong>, 219 (2001).
+<a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0009261401009241">doi:10.1016/S0009-2614(01)00924-1</a></p></li>
+<li><p>State-to-state dynamics reference:
+J. Ma, J. Li, H. Guo,
+<em>State-to-state quantum dynamics of the N(</em><span class="math notranslate nohighlight">\(^{4}S\)</span><em>)
++ CH(X</em><span class="math notranslate nohighlight">\({}^{2}\Pi\)</span><em>) reaction</em>,
+J. Chem. Phys. <strong>139</strong>, 124313 (2013).
+<a class="reference external" href="https://pubs.aip.org/aip/jcp/article/139/12/124313/74841/State-to-state-quantum-dynamics-of-the-N-4S-CH-X-2">doi:10.1063/1.4821595</a></p></li>
 </ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CNO_UCI_2A1</span></code></p></td>
+<td><p>CNO <span class="math notranslate nohighlight">\({}^{2}A'\)</span></p></td>
+<td><p>A. F. A. Mota, P. J. S. B. Caridade, A. J. C. Varandas,
+<em>Accurate DMBE potential energy surface for CNO</em>
+(<span class="math notranslate nohighlight">\({}^{2}A'\)</span>),
+J. Phys. Chem. A <strong>122</strong>, 5173 (2018).
+<a class="reference external" href="https://pubs.acs.org/doi/10.1021/acs.jpca.8b01881">doi:10.1021/acs.jpca.8b01881</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CNO_UCI_2A2</span></code></p></td>
+<td><p>CNO <span class="math notranslate nohighlight">\({}^{2}A''\)</span></p></td>
+<td><p>A. F. A. Mota, A. J. C. Varandas and co-workers,
+<em>Accurate DMBE potential energy surface for CNO</em>
+(<span class="math notranslate nohighlight">\({}^{2}A''\)</span>),
+J. Chem. Phys. <strong>154</strong>, 034303 (2021).
+<a class="reference external" href="https://pubs.aip.org/aip/jcp/article/154/3/034303/199924/Accurate-DMBE-potential-energy-surface-for-CNO-2A">doi:10.1063/5.0039691</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CNO_UCI_4A2</span></code></p></td>
+<td><p>CNO <span class="math notranslate nohighlight">\({}^{4}A''\)</span></p></td>
+<td><p>A. J. C. Varandas and co-workers,
+<em>High-accuracy DMBE potential energy surface for</em> <span class="math notranslate nohighlight">\({}^{4}A''\)</span>
+<em>CNO</em>, J. Chem. Phys. <strong>159</strong>, 214307 (2023).
+<a class="reference external" href="https://pubs.aip.org/aip/jcp/article/159/21/214307/2926417/High-accuracy-DMBE-potential-energy-surface-for">doi:10.1063/5.0174547</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CNO_Basel</span></code></p></td>
+<td><p>CNO (Basel, Meuwly group)</p></td>
+<td><p>D. Koner, R. J. Bemish, M. Meuwly,
+<em>The C(</em><span class="math notranslate nohighlight">\({}^{3}P\)</span><em>) + NO(X</em><span class="math notranslate nohighlight">\({}^{2}\Pi\)</span><em>)
+:math:`to` O(</em><span class="math notranslate nohighlight">\({}^{3}P\)</span><em>) + CN(X</em><span class="math notranslate nohighlight">\({}^{2}\Sigma^{+}\)</span><em>)</em>,
+<em>N(</em><span class="math notranslate nohighlight">\({}^{2}D/{}^{4}S\)</span><em>) + CO(X</em><span class="math notranslate nohighlight">\({}^{1}\Sigma^{+}\)</span><em>)
+reaction: Rates, branching ratios, and final states from 15 K
+to 20 000 K</em>,
+J. Chem. Phys. <strong>149</strong>, 094305 (2018).
+<a class="reference external" href="https://doi.org/10.1063/1.5046906">doi:10.1063/1.5046906</a>
+Source PDF: <code class="docutils literal notranslate"><span class="pre">dtb/Systems/CNO/PESs/Basel/</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CNO_Breno</span></code></p></td>
+<td><p>CNO (Breno Galvão / Varandas DMBE, combined-surface class)</p></td>
+<td><p>Same three DMBE surfaces as <code class="docutils literal notranslate"><span class="pre">CNO_UCI_2A1</span></code> / <code class="docutils literal notranslate"><span class="pre">_2A2</span></code> /
+<code class="docutils literal notranslate"><span class="pre">_4A2</span></code> (Mota &amp; Varandas 2018; Mota et al. 2021; Varandas et
+al. 2023 — see below), implemented as a single legacy class
+for monolithic multi-surface runs. The three source PDFs are
+shipped under <code class="docutils literal notranslate"><span class="pre">dtb/Systems/CNO/PESs/Breno/</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CO2_NASA</span></code></p></td>
+<td><p>CO<sub>2</sub> (C + O<sub>2</sub> / O + CO NASA surfaces)</p></td>
+<td><p>D. W. Schwenke, R. L. Jaffe — NASA Ames analytic CO<sub>2</sub>
+ground-state surface for hypersonic-entry kinetics.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CO2_Basel</span></code></p></td>
+<td><p>CO<sub>2</sub> (Basel)</p></td>
+<td><p>Meuwly and co-workers — Basel low-lying CO<sub>2</sub> triplet
+surfaces (<span class="math notranslate nohighlight">\({}^{3}A'\)</span>, <span class="math notranslate nohighlight">\({}^{3}A''\)</span>). Multiple
+papers 2017–2020; see <code class="docutils literal notranslate"><span class="pre">dtb/Systems/CO2/Basel/</span></code> header.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">COAr_NASA</span></code></p></td>
+<td><p>CO + Ar (non-reactive NASA)</p></td>
+<td><p>R. L. Jaffe and co-workers — NASA Ames three-body CO-Ar PES
+for rotational / vibrational relaxation studies.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NO2_UMN</span></code></p></td>
+<td><p>NO<sub>2</sub> (UMN)</p></td>
+<td><p>Y. Paukku, Z. Varga, D. G. Truhlar — UMN <span class="math notranslate nohighlight">\({}^{2}A'\)</span> and
+<span class="math notranslate nohighlight">\({}^{4}A'\)</span> surfaces for NO + O
+<span class="math notranslate nohighlight">\(\leftrightarrow\)</span> O<sub>2</sub> + N.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NO2_Basel</span></code></p></td>
+<td><p>NO<sub>2</sub> (Basel)</p></td>
+<td><p>Meuwly group — three-body NO<sub>2</sub> PES for the second
+Zel’dovich reaction.</p></td>
+</tr>
+</tbody>
+</table>
+<p>For every entry not yet carrying an explicit DOI above, the
+authoritative citation is the header of the PES parameter file under
+<code class="docutils literal notranslate"><span class="pre">dtb/Systems/&lt;System&gt;/&lt;Model&gt;/</span></code>. Contributions that add the DOI
+to this catalogue via a pull request are welcome — the file to edit
+is <code class="docutils literal notranslate"><span class="pre">docs/online-documentation/reference/bibliography.rst</span></code>.</p>
 </section>
 </section>
 <section id="source-code-review">
