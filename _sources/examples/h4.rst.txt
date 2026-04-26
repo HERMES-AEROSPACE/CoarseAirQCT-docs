@@ -45,7 +45,13 @@ PES models
 
 Available: ``BMKP`` (Boothroyd–Martin–Keogh–Peterson H\ :sub:`4` PES).
 
-Diatomic partner: ``H2_BMKP``.
+Diatomic partner: ``H2_Schwenke1988`` (the canonical Schwenke 1988
+H\ :sub:`2` analytic form). The same class is used across the
+H\ :sub:`2`+He, H\ :sub:`3`, and H\ :sub:`4` systems for cross-system
+consistency: the H–H form hard-coded inside ``H4_BMKP`` (module
+``c_vH2opt95_h4bmkp``) is bit-for-bit identical to the Schwenke 1988
+fit, despite the misleading module name (see the bug-audit report's
+2026-04-25 H\ :sub:`2` diatomic-consistency addendum).
 
 
 Input file walkthrough
@@ -108,12 +114,12 @@ partitions:
         Degeneracy, PES 1 = 1.0
 
       ! All six atom-pair potentials are identical H2 diatomics.
-      Diatomic Potential Model, Molecule 1 = BMKP
-      Diatomic Potential Model, Molecule 2 = BMKP
-      Diatomic Potential Model, Molecule 3 = BMKP
-      Diatomic Potential Model, Molecule 4 = BMKP
-      Diatomic Potential Model, Molecule 5 = BMKP
-      Diatomic Potential Model, Molecule 6 = BMKP
+      Diatomic Potential Model, Molecule 1 = Schwenke1988
+      Diatomic Potential Model, Molecule 2 = Schwenke1988
+      Diatomic Potential Model, Molecule 3 = Schwenke1988
+      Diatomic Potential Model, Molecule 4 = Schwenke1988
+      Diatomic Potential Model, Molecule 5 = Schwenke1988
+      Diatomic Potential Model, Molecule 6 = Schwenke1988
 
       Initial Impact Parameter Model = Stratified
 

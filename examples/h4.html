@@ -475,7 +475,13 @@ H_a H_d + H_b H_c.\]</div>
 <section id="pes-models">
 <h2>PES models<a class="headerlink" href="#pes-models" title="Link to this heading"></a></h2>
 <p>Available: <code class="docutils literal notranslate"><span class="pre">BMKP</span></code> (Boothroyd–Martin–Keogh–Peterson H<sub>4</sub> PES).</p>
-<p>Diatomic partner: <code class="docutils literal notranslate"><span class="pre">H2_BMKP</span></code>.</p>
+<p>Diatomic partner: <code class="docutils literal notranslate"><span class="pre">H2_Schwenke1988</span></code> (the canonical Schwenke 1988
+H<sub>2</sub> analytic form). The same class is used across the
+H<sub>2`+He, H:sub:`3</sub>, and H<sub>4</sub> systems for cross-system
+consistency: the H–H form hard-coded inside <code class="docutils literal notranslate"><span class="pre">H4_BMKP</span></code> (module
+<code class="docutils literal notranslate"><span class="pre">c_vH2opt95_h4bmkp</span></code>) is bit-for-bit identical to the Schwenke 1988
+fit, despite the misleading module name (see the bug-audit report’s
+2026-04-25 H<sub>2</sub> diatomic-consistency addendum).</p>
 </section>
 <section id="input-file-walkthrough">
 <h2>Input file walkthrough<a class="headerlink" href="#input-file-walkthrough" title="Link to this heading"></a></h2>
@@ -533,12 +539,12 @@ partitions:</p>
      Degeneracy, PES 1 = 1.0
 
    ! All six atom-pair potentials are identical H2 diatomics.
-   Diatomic Potential Model, Molecule 1 = BMKP
-   Diatomic Potential Model, Molecule 2 = BMKP
-   Diatomic Potential Model, Molecule 3 = BMKP
-   Diatomic Potential Model, Molecule 4 = BMKP
-   Diatomic Potential Model, Molecule 5 = BMKP
-   Diatomic Potential Model, Molecule 6 = BMKP
+   Diatomic Potential Model, Molecule 1 = Schwenke1988
+   Diatomic Potential Model, Molecule 2 = Schwenke1988
+   Diatomic Potential Model, Molecule 3 = Schwenke1988
+   Diatomic Potential Model, Molecule 4 = Schwenke1988
+   Diatomic Potential Model, Molecule 5 = Schwenke1988
+   Diatomic Potential Model, Molecule 6 = Schwenke1988
 
    Initial Impact Parameter Model = Stratified
 </pre></div>

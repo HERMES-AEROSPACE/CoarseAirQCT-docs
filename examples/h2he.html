@@ -466,7 +466,10 @@ pathways are aggregated in indistinguishable mode.</p>
 <section id="pes-models">
 <h2>PES models<a class="headerlink" href="#pes-models" title="Link to this heading"></a></h2>
 <p>Available: <code class="docutils literal notranslate"><span class="pre">BMPmod</span></code> (a modified Boothroyd–Martin–Peterson PES).</p>
-<p>Diatomic partners: <code class="docutils literal notranslate"><span class="pre">H2_BMKP</span></code> (H<sub>2</sub>), <code class="docutils literal notranslate"><span class="pre">HHe_Dummy</span></code> (inert).</p>
+<p>Diatomic partners: <code class="docutils literal notranslate"><span class="pre">H2_Schwenke1988</span></code> (H<sub>2</sub> — bit-for-bit
+matches the Schwenke 1988 H–H form hard-coded inside <code class="docutils literal notranslate"><span class="pre">H2He_BMPmod</span></code>;
+see the bug-audit report’s 2026-04-25 H<sub>2</sub> diatomic-consistency
+addendum), <code class="docutils literal notranslate"><span class="pre">HHe_Dummy</span></code> (inert).</p>
 </section>
 <section id="input-file-walkthrough">
 <h2>Input file walkthrough<a class="headerlink" href="#input-file-walkthrough" title="Link to this heading"></a></h2>
@@ -519,8 +522,8 @@ real diatomic potential. The cutting-levels / sorting / statistics
      Model, PES 1      = H2He_BMPmod
      Degeneracy, PES 1 = 1.0
 
-   Diatomic Potential Model, Molecule 1 = BMKP     ! H2 — real potential
-   Diatomic Potential Model, Molecule 2 = Dummy    ! HHe — inert
+   Diatomic Potential Model, Molecule 1 = Schwenke1988   ! H2 — real potential
+   Diatomic Potential Model, Molecule 2 = Dummy          ! HHe — inert
 
    Initial Impact Parameter Model = Stratified
 </pre></div>

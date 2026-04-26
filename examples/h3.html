@@ -477,7 +477,12 @@ Use this one unless you have a specific reason not to.</p></li>
 analytic form, retained for historical benchmarks only.</p></li>
 </ul>
 <p>The production Diatomic Potential Model paired with <code class="docutils literal notranslate"><span class="pre">H3_BH</span></code> is
-<code class="docutils literal notranslate"><span class="pre">Schwenke</span></code> (the Schwenke H<sub>2</sub> potential).</p>
+<code class="docutils literal notranslate"><span class="pre">Schwenke1988</span></code> — the canonical Schwenke 1988 H<sub>2</sub> analytic
+form. The same class is used across the H<sub>2`+He, H:sub:`3</sub>,
+and H<sub>4</sub> systems for cross-system consistency: every H-system
+PES in CoarseAIR ultimately uses the Schwenke 1988 H–H curve as its
+H–H asymptotic limit (see the bug-audit report’s 2026-04-25
+H<sub>2</sub> diatomic-consistency addendum).</p>
 </section>
 <section id="input-file-walkthrough">
 <h2>Input file walkthrough<a class="headerlink" href="#input-file-walkthrough" title="Link to this heading"></a></h2>
@@ -528,14 +533,14 @@ three identical H atoms, one PES, one diatomic potential:</p>
      Model, PES 1      = H3_BH     ! BKMP2 surface; Boothroyd 1996
      Degeneracy, PES 1 = 1.0
 
-   Diatomic Potential Model, Molecule 1 = Schwenke
+   Diatomic Potential Model, Molecule 1 = Schwenke1988
 
    Initial Impact Parameter Model = Stratified
 </pre></div>
 </div>
 <p>The legacy LEPS input lives under <code class="docutils literal notranslate"><span class="pre">input/H3/LEPS/input/</span></code> and
 differs only in the PES model (<code class="docutils literal notranslate"><span class="pre">LEPS</span></code> instead of <code class="docutils literal notranslate"><span class="pre">H3_BH</span></code>) and
-in the diatomic potential (<code class="docutils literal notranslate"><span class="pre">Morse</span></code> instead of <code class="docutils literal notranslate"><span class="pre">Schwenke</span></code>).</p>
+in the diatomic potential (<code class="docutils literal notranslate"><span class="pre">Morse</span></code> instead of <code class="docutils literal notranslate"><span class="pre">Schwenke1988</span></code>).</p>
 <p>Because all three H atoms are identical, the natural configuration is
 <code class="docutils literal notranslate"><span class="pre">Identical</span> <span class="pre">Diatoms?</span> <span class="pre">=</span> <span class="pre">yes</span></code> and <code class="docutils literal notranslate"><span class="pre">Distinguish</span> <span class="pre">Exchanges</span> <span class="pre">between</span> <span class="pre">Each</span>
 <span class="pre">Other?</span> <span class="pre">=</span> <span class="pre">no</span></code> — the three symmetric exchange pathways sum into a

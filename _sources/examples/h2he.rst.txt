@@ -34,7 +34,10 @@ PES models
 
 Available: ``BMPmod`` (a modified Boothroyd–Martin–Peterson PES).
 
-Diatomic partners: ``H2_BMKP`` (H\ :sub:`2`), ``HHe_Dummy`` (inert).
+Diatomic partners: ``H2_Schwenke1988`` (H\ :sub:`2` — bit-for-bit
+matches the Schwenke 1988 H–H form hard-coded inside ``H2He_BMPmod``;
+see the bug-audit report's 2026-04-25 H\ :sub:`2` diatomic-consistency
+addendum), ``HHe_Dummy`` (inert).
 
 
 Input file walkthrough
@@ -92,8 +95,8 @@ real diatomic potential. The cutting-levels / sorting / statistics
         Model, PES 1      = H2He_BMPmod
         Degeneracy, PES 1 = 1.0
 
-      Diatomic Potential Model, Molecule 1 = BMKP     ! H2 — real potential
-      Diatomic Potential Model, Molecule 2 = Dummy    ! HHe — inert
+      Diatomic Potential Model, Molecule 1 = Schwenke1988   ! H2 — real potential
+      Diatomic Potential Model, Molecule 2 = Dummy          ! HHe — inert
 
       Initial Impact Parameter Model = Stratified
 
