@@ -127,5 +127,3 @@ See also
 --------
 
 - :doc:`/examples/o3` — three-atom O + O\ :sub:`2` companion.
-- :doc:`/examples/o18o18o16` — isotope-labelled O\ :sub:`3` for the
-  ozone isotope anomaly.

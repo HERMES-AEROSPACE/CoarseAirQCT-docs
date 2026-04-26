@@ -24,7 +24,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="O4 System" href="o4.html" />
-    <link rel="prev" title="Isotopically Labelled Ozone (O18-O18-O16)" href="o18o18o16.html" /> 
+    <link rel="prev" title="NO2 System" href="no2.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -272,15 +272,6 @@
 <li class="toctree-l2"><a class="reference internal" href="n4.html#see-also">See also</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="nanbncnd.html">N<sub>a</sub>N<sub>b</sub>N<sub>c</sub>N<sub>d</sub> System</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#arrangement">Arrangement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#kinetic-processes">Kinetic processes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#why-a-labelled-run">Why a labelled run?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#pes-models">PES models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#input-file-walkthrough">Input file walkthrough</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nanbncnd.html#see-also">See also</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="no2.html">NO<sub>2</sub> System</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="no2.html#arrangement">Arrangement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="no2.html#kinetic-processes">Kinetic processes</a></li>
@@ -288,15 +279,6 @@
 <li class="toctree-l2"><a class="reference internal" href="no2.html#pes-models">PES models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="no2.html#input-file-walkthrough">Input file walkthrough</a></li>
 <li class="toctree-l2"><a class="reference internal" href="no2.html#typical-use">Typical use</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="o18o18o16.html">Isotopically Labelled Ozone (O18-O18-O16)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#arrangement">Arrangement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#kinetic-processes">Kinetic processes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#why-isotopes-matter">Why isotopes matter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#pes-models">PES models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#input-file-walkthrough">Input file walkthrough</a></li>
-<li class="toctree-l2"><a class="reference internal" href="o18o18o16.html#see-also">See also</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">O<sub>3</sub> System</a><ul>
@@ -452,8 +434,7 @@ surfaces</strong>. Input files live under <code class="docutils literal notransl
 <li><p><strong>Inelastic scattering</strong> — <span class="math notranslate nohighlight">\(\mathrm{O}_{2}(v, J) + \mathrm{O}
 \to \mathrm{O}_{2}(v', J') + \mathrm{O}\)</span>.</p></li>
 <li><p><strong>Reactive exchange</strong> — identical-atom swap; summed to a single
-channel in indistinguishable mode (see <a class="reference internal" href="o18o18o16.html"><span class="doc">Isotopically Labelled Ozone (O18-O18-O16)</span></a>
-for the labelled variant).</p></li>
+channel in indistinguishable mode.</p></li>
 <li><p><strong>Dissociation / recombination</strong> — <span class="math notranslate nohighlight">\(\mathrm{O}_{2} + \mathrm{O}
 \leftrightarrow 3\,\mathrm{O}\)</span>.</p></li>
 </ul>
@@ -641,9 +622,7 @@ distributed across surfaces by the electronic degeneracies:</p>
 <a class="reference internal" href="../theory/pes_formats.html"><span class="doc">PES Formats</span></a>). All nine surfaces are represented in
 each family. Because all three O atoms are identical, production
 post-processing uses <code class="docutils literal notranslate"><span class="pre">Identical</span> <span class="pre">Diatoms?</span> <span class="pre">=</span> <span class="pre">yes</span></code> and
-<code class="docutils literal notranslate"><span class="pre">Distinguish</span> <span class="pre">Exchanges</span> <span class="pre">between</span> <span class="pre">Each</span> <span class="pre">Other?</span> <span class="pre">=</span> <span class="pre">no</span></code>. For the
-isotope-labelled variant that tracks exchange paths explicitly,
-see <a class="reference internal" href="o18o18o16.html"><span class="doc">Isotopically Labelled Ozone (O18-O18-O16)</span></a>.</p>
+<code class="docutils literal notranslate"><span class="pre">Distinguish</span> <span class="pre">Exchanges</span> <span class="pre">between</span> <span class="pre">Each</span> <span class="pre">Other?</span> <span class="pre">=</span> <span class="pre">no</span></code>.</p>
 </section>
 <section id="typical-use">
 <h2>Typical use<a class="headerlink" href="#typical-use" title="Link to this heading"></a></h2>
@@ -656,7 +635,6 @@ development.</p>
 <section id="see-also">
 <h2>See also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="o18o18o16.html"><span class="doc">Isotopically Labelled Ozone (O18-O18-O16)</span></a> — isotope-labelled variant.</p></li>
 <li><p><a class="reference internal" href="o4.html"><span class="doc">O4 System</span></a> — diatom–diatom O<sub>2</sub> + O<sub>2</sub> companion.</p></li>
 </ul>
 </section>
@@ -666,7 +644,7 @@ development.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="o18o18o16.html" class="btn btn-neutral float-left" title="Isotopically Labelled Ozone (O18-O18-O16)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="no2.html" class="btn btn-neutral float-left" title="NO2 System" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="o4.html" class="btn btn-neutral float-right" title="O4 System" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

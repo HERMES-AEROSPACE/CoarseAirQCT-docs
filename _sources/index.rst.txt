@@ -55,9 +55,7 @@ are required and conventional rate models break down.
    examples/n2o
    examples/n3
    examples/n4
-   examples/nanbncnd
    examples/no2
-   examples/o18o18o16
    examples/o3
    examples/o4
 

@@ -74,12 +74,6 @@ Systems routinely used for validation:
   nine electronic surfaces. A regression of rates computed on the NN
   PES against rates computed on the UMN PES provides a PES-quality
   estimate independent of the underlying dynamics code.
-- **NaNbNcNd** (``input/NaNbNcNd/``) — audits the identical-atom
-  averaging performed on N\ :sub:`4` by comparing a labelled-atom run
-  to the indistinguishable-atom run. Expected: equality within Monte
-  Carlo error.
-- **O18O18O16** (``input/O18O18O16/``) — isotope-substituted ozone;
-  used to check mass-dependent fractionation in exchange channels.
 
 
 4-body validation

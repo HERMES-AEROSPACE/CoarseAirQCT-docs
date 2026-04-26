@@ -105,9 +105,7 @@ For the **indistinguishable-atom** N\ :sub:`4` rate (which is what
 chemistry master-equation codes consume), enable
 ``Identical Diatoms? = yes`` and
 ``Distinguish Exchanges between Each Other? = no`` in the
-post-processing block — see :doc:`/user/input_reference`. The
-labelled run remains useful as an audit of that aggregation; see
-:doc:`nanbncnd`.
+post-processing block — see :doc:`/user/input_reference`.
 
 Relation to N\ :sub:`3`
 -----------------------
@@ -122,5 +120,3 @@ See also
 --------
 
 - :doc:`/examples/n3` — the 3-atom companion.
-- :doc:`/examples/nanbncnd` — a distinguishable-atom variant of
-  N\ :sub:`4` used to audit identical-atom averaging.

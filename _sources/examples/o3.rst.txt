@@ -18,8 +18,7 @@ Kinetic processes
 - **Inelastic scattering** — :math:`\mathrm{O}_{2}(v, J) + \mathrm{O}
   \to \mathrm{O}_{2}(v', J') + \mathrm{O}`.
 - **Reactive exchange** — identical-atom swap; summed to a single
-  channel in indistinguishable mode (see :doc:`/examples/o18o18o16`
-  for the labelled variant).
+  channel in indistinguishable mode.
 - **Dissociation / recombination** — :math:`\mathrm{O}_{2} + \mathrm{O}
   \leftrightarrow 3\,\mathrm{O}`.
 
@@ -195,9 +194,7 @@ Swap the PES model block for ``Model, PES n = NN_*`` (or ``GP_*``,
 :doc:`/theory/pes_formats`). All nine surfaces are represented in
 each family. Because all three O atoms are identical, production
 post-processing uses ``Identical Diatoms? = yes`` and
-``Distinguish Exchanges between Each Other? = no``. For the
-isotope-labelled variant that tracks exchange paths explicitly,
-see :doc:`o18o18o16`.
+``Distinguish Exchanges between Each Other? = no``.
 
 Typical use
 -----------
@@ -211,5 +208,4 @@ development.
 See also
 --------
 
-- :doc:`/examples/o18o18o16` — isotope-labelled variant.
 - :doc:`/examples/o4` — diatom–diatom O\ :sub:`2` + O\ :sub:`2` companion.
