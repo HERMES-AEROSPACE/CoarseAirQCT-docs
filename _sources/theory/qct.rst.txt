@@ -37,9 +37,7 @@ VVTC's numerics in modern object-oriented Fortran 2008 and adds:
 - polymorphic PES / diatomic-potential / binning / processes /
   system objects that drop in from the input file;
 - a multi-surface infrastructure (:math:`N_\text{PES}` up to 9 for
-  O\ :sub:`3`) with per-trajectory surface indexing that provides
-  the scaffolding used by the CoarseAIR+ fewest-switches surface-
-  hopping extension;
+  O\ :sub:`3`) with per-trajectory surface indexing;
 - machine-learned potential formats (feed-forward neural networks,
   permutation-invariant NN, Gaussian processes, Bayesian NN
   ensembles) on top of the traditional analytic forms.
@@ -125,9 +123,10 @@ What the classical approximation **misses**:
 - **Resonances.** Sharp features in the energy dependence of a
   reactive cross-section, produced by metastable intermediate
   complexes, are either washed out or misattributed.
-- **Nonadiabatic transitions.** A single-surface PES cannot describe
-  electronic hopping; these are addressed in CoarseAIR+ by the
-  fewest-switches surface-hopping algorithm.
+- **Electronic transitions between surfaces.** A single-surface
+  PES is the model assumption; multi-surface runs in CoarseAIR are
+  degeneracy-weighted averages over independent single-surface
+  ensembles, not a coupled-channels simulation.
 
 CoarseAIR's runtime diagnostics (energy conservation, sum rule,
 detailed balance — see :doc:`rate_extraction`) detect *numerical*
@@ -359,7 +358,6 @@ not bugs):
   the surface ``iPES`` was initialised to. Multi-surface runs are
   therefore a *degeneracy-weighted average* over independent
   single-surface ensembles, not a coupled-channels simulation.
-  Surface hopping is a CoarseAIR+ feature.
 - **No Gaussian-binning ZPE correction** in the base code. Final
   :math:`v, J` are assigned by histogram binning to the nearest
   pre-computed level. Post-processing tools can apply Gaussian
@@ -375,5 +373,4 @@ not bugs):
 
 These limits set the boundary of the QCT regime; whenever a user's
 application approaches one of them, the run should be cross-checked
-against an independent quantum or semi-classical method, or extended
-via CoarseAIR+.
+against an independent quantum or semi-classical method.

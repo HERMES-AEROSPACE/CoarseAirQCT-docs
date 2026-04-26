@@ -39,8 +39,9 @@ at high temperature. CoarseAIR can run up to five in parallel:
 - NASA: :math:`{}^{1}A'` (``NASA_13A1``), :math:`{}^{1}A''`
   (``NASA_13A2``), :math:`{}^{2}A''` (``NASA_23A2``).
 
-As for all multi-surface systems, trajectories are degeneracy-weighted;
-nonadiabatic couplings are a CoarseAIR+ concern.
+As for all multi-surface systems, trajectories are degeneracy-weighted
+across the surfaces; each trajectory stays on its assigned surface
+throughout integration.
 
 PES models
 ----------

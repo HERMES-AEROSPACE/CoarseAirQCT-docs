@@ -17,21 +17,85 @@ Arrangement
 Kinetic processes
 -----------------
 
-The reactive pathway proceeds through the **HCN / HNC** intermediate and
-produces all three possible diatom arrangements:
+The reactive pathway proceeds through the **HCN / HNC** intermediate
+and produces all three possible diatom arrangements plus full
+atomisation. The four asymptotic energies, taken relative to the
+fully-dissociated ground-state limit C(\ :sup:`3`\ P) + H(\ :sup:`2`\ S)
++ N(\ :sup:`4`\ S) :math:`\equiv 0`, are (using
+:math:`D_{0}(\mathrm{CN}) = 7.74` eV, :math:`D_{0}(\mathrm{CH}) = 3.46`
+eV, :math:`D_{0}(\mathrm{NH}) = 3.42` eV):
 
-- **Inelastic scattering** — :math:`XY(v, J) + Z \to XY(v', J') + Z` on
-  the incoming arrangement.
-- **Reactive exchange** between the three arrangements:
+.. math::
 
-  .. math::
+   \begin{aligned}
+   \mathrm{CN}(X^{2}\!\Sigma^{+}) + \mathrm{H}(^{2}\!S)
+       &= -7.74\ \text{eV} \quad (\text{deepest}) \\
+   \mathrm{CH}(X^{2}\!\Pi) + \mathrm{N}(^{4}\!S)
+       &= -3.46\ \text{eV} \\
+   \mathrm{NH}(X^{3}\!\Sigma^{-}) + \mathrm{C}(^{3}\!P)
+       &= -3.42\ \text{eV} \\
+   \mathrm{C}(^{3}\!P) + \mathrm{H}(^{2}\!S) + \mathrm{N}(^{4}\!S)
+       &= 0.
+   \end{aligned}
 
-     \mathrm{CH} + \mathrm{N} \;\leftrightarrow\;
-     \mathrm{CN} + \mathrm{H} \;\leftrightarrow\;
-     \mathrm{HN} + \mathrm{C}.
+CH and NH are nearly iso-energetic (~40 meV apart) so the CH+N
+:math:`\leftrightarrow` HN+C exchange is essentially thermoneutral;
+the CN+H channel sits 4.3 eV below either of those. Per collision
+entry, the final-state channels — annotated with the entry-to-product
+energy difference (negative = exothermic, positive = endothermic) —
+are:
 
-- **Dissociation** — :math:`XY + Z \to X + Y + Z`, typically at high
-  collision energy or high :math:`T`.
+**CH + N** (entry at :math:`-3.46` eV):
+
+.. math::
+
+   \mathrm{CH}(v,J) + \mathrm{N}(^{4}\!S)
+   \;\longrightarrow\;
+   \begin{cases}
+     \mathrm{CH}(v',J') + \mathrm{N}(^{4}\!S)
+        & \text{inelastic}\\
+     \mathrm{CN}(v',J') + \mathrm{H}(^{2}\!S)
+        & \text{exo, } \Delta = -4.28\ \text{eV}\\
+     \mathrm{NH}(v',J') + \mathrm{C}(^{3}\!P)
+        & \text{endo, } \Delta = +0.04\ \text{eV}\\
+     \mathrm{C}(^{3}\!P) + \mathrm{H}(^{2}\!S) + \mathrm{N}(^{4}\!S)
+        & \text{endo, } \Delta = +3.46\ \text{eV}\ (\text{dissociation}).
+   \end{cases}
+
+**CN + H** (entry at :math:`-7.74` eV — the deepest asymptote, so
+every reactive channel from this entry is endothermic):
+
+.. math::
+
+   \mathrm{CN}(v,J) + \mathrm{H}(^{2}\!S)
+   \;\longrightarrow\;
+   \begin{cases}
+     \mathrm{CN}(v',J') + \mathrm{H}(^{2}\!S)
+        & \text{inelastic}\\
+     \mathrm{CH}(v',J') + \mathrm{N}(^{4}\!S)
+        & \text{endo, } \Delta = +4.28\ \text{eV}\\
+     \mathrm{NH}(v',J') + \mathrm{C}(^{3}\!P)
+        & \text{endo, } \Delta = +4.32\ \text{eV}\\
+     \mathrm{C}(^{3}\!P) + \mathrm{H}(^{2}\!S) + \mathrm{N}(^{4}\!S)
+        & \text{endo, } \Delta = +7.74\ \text{eV}\ (\text{dissociation}).
+   \end{cases}
+
+**HN + C** (entry at :math:`-3.42` eV):
+
+.. math::
+
+   \mathrm{NH}(v,J) + \mathrm{C}(^{3}\!P)
+   \;\longrightarrow\;
+   \begin{cases}
+     \mathrm{NH}(v',J') + \mathrm{C}(^{3}\!P)
+        & \text{inelastic}\\
+     \mathrm{CH}(v',J') + \mathrm{N}(^{4}\!S)
+        & \text{exo, } \Delta = -0.04\ \text{eV}\\
+     \mathrm{CN}(v',J') + \mathrm{H}(^{2}\!S)
+        & \text{exo, } \Delta = -4.32\ \text{eV}\\
+     \mathrm{C}(^{3}\!P) + \mathrm{H}(^{2}\!S) + \mathrm{N}(^{4}\!S)
+        & \text{endo, } \Delta = +3.42\ \text{eV}\ (\text{dissociation}).
+   \end{cases}
 
 All three diatomic channels are chemically distinct (different binding
 energies and vibrational structure), so labelled vs indistinguishable

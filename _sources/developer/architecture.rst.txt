@@ -121,7 +121,7 @@ Class hierarchies
    │             N4_NASA / N4_UMN / N4_UMN_MBPIPMEG3 / N4_UMN_PIPNN,
    │             N2O_UMN / N2O_Basel
    ├── Oxygen: O3_UMN (9 surfaces), O3_NN, O4_UMN
-   └── Carbon: CO2_NASA / COAr_NASA, CNO_Basel / CNO_Breno /
+   └── Carbon: CO2_NASA / COAr_NASA, CNO_Breno /
                CNO_UCI_{2A1,2A2,4A2}, CHN_UIUC / CHN_GUO,
                NO2_Basel / NO2_UMN
 
@@ -253,8 +253,3 @@ Key entry points for extension
   ``InitialStates`` module, and extend the ``PaQ`` packing.
 - **Add a new PES format** (e.g., Transformer-based ML PES) — subclass
   ``PES_Type`` and supply ``Compute_0d`` with analytic gradients.
-
-The CoarseAIR+ surface-hopping extension required none of these —
-it plugged into the existing multi-PES infrastructure and only needed
-a hopping-decision callback added to the integration loop. See the
-``project_coarseair_plus`` memory and the CoarseAIR+ documentation.

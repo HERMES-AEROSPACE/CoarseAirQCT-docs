@@ -84,10 +84,8 @@ Hamilton's equations, as coded
   differentiate the kernel).
 
 Both ``mmidv`` and ``HamiltonODESystem`` are declared ``PURE`` — they
-cannot have side effects. This is important for vectorisation over
-trajectories but means surface-hopping (which mutates ``iPES``) cannot be
-implemented inside them; see the CoarseAIR+ documentation for the
-insertion-point analysis.
+cannot have side effects. This is essential for the trajectory-batch
+auto-vectorisation discussed below.
 
 
 Per-trajectory step control
@@ -253,9 +251,4 @@ on where the step-size control settles.
 modification of module-level state. This buys auto-vectorisation
 over the trajectory batch dimension for free (the compiler can
 unroll the implicit loop across trajectories into SIMD instructions)
-and it also buys thread-safety, but it comes at a cost: surface-
-hopping algorithms that must mutate ``iPES`` during the sub-step
-cannot be implemented inside these routines. CoarseAIR+ therefore
-relaxes the ``PURE`` attribute on one or both of these routines to
-allow an FSSH callback — see the CoarseAIR+ documentation for the
-insertion-point analysis.
+and it also buys thread-safety.

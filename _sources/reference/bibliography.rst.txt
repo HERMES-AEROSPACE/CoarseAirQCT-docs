@@ -306,17 +306,6 @@ Carbon-containing systems
        *CNO*, J. Chem. Phys. **159**, 214307 (2023).
        `doi:10.1063/5.0174547
        <https://pubs.aip.org/aip/jcp/article/159/21/214307/2926417/High-accuracy-DMBE-potential-energy-surface-for>`_
-   * - ``CNO_Basel``
-     - CNO (Basel, Meuwly group)
-     - D. Koner, R. J. Bemish, M. Meuwly,
-       *The C(*:math:`{}^{3}P`\ *) + NO(X*\ :math:`{}^{2}\Pi`\ *)
-       :math:`\to` O(*:math:`{}^{3}P`\ *) + CN(X*\ :math:`{}^{2}\Sigma^{+}`\ *)*,
-       *N(*:math:`{}^{2}D/{}^{4}S`\ *) + CO(X*\ :math:`{}^{1}\Sigma^{+}`\ *)
-       reaction: Rates, branching ratios, and final states from 15 K
-       to 20 000 K*,
-       J. Chem. Phys. **149**, 094305 (2018).
-       `doi:10.1063/1.5046906 <https://doi.org/10.1063/1.5046906>`_
-       Source PDF: ``dtb/Systems/CNO/PESs/Basel/``.
    * - ``CNO_Breno``
      - CNO (Breno Galvão / Varandas DMBE, combined-surface class)
      - Same three DMBE surfaces as ``CNO_UCI_2A1`` / ``_2A2`` /

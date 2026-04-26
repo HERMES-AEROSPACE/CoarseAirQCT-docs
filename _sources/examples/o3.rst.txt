@@ -94,10 +94,9 @@ degeneracies:
      - ``UMN_25A1``
      - ``NN_25A1``
 
-In the adiabatic workflow, each trajectory stays on its assigned
-surface — nonadiabatic couplings between these surfaces are not
-modelled. Surface hopping between these nine states is the central
-feature of CoarseAIR+ (see separate documentation).
+Each trajectory stays on its assigned surface throughout integration;
+results from the nine surfaces are combined at post-processing using
+their electronic degeneracies.
 
 PES models
 ----------
@@ -202,8 +201,7 @@ Typical use
 O\ :sub:`3` is relevant to stratospheric chemistry, hypersonic re-entry
 through oxygen-rich atmospheres (Earth, Mars' CO\ :sub:`2` :math:`\to`
 O\ :sub:`2` kinetics), and the ongoing study of the ozone isotope
-anomaly. It is also the target of the CoarseAIR+ surface-hopping
-development.
+anomaly.
 
 See also
 --------

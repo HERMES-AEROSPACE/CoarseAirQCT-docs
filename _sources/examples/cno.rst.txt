@@ -16,19 +16,121 @@ Arrangement
 Kinetic processes
 -----------------
 
-Three distinct diatomic products are possible, connected via the
-OCN / NCO / CON intermediates on the PES:
+Three distinct diatomic products and one fully-dissociated arrangement
+are possible, connected via the OCN / NCO / CON intermediates on the
+PES. The ground-state asymptotic correlations split into a quartet
+manifold (which correlates with N(\ :sup:`4`\ S), the nitrogen ground
+term) and a doublet manifold (which correlates with N(\ :sup:`2`\ D),
+2.38 eV above N(\ :sup:`4`\ S)).
 
-- **Inelastic scattering** — on the incoming arrangement.
-- **Reactive exchange** among the three channels:
+The five asymptotic energies, taken relative to the fully-dissociated
+ground-state limit C(\ :sup:`3`\ P) + N(\ :sup:`4`\ S) + O(\ :sup:`3`\ P)
+:math:`\equiv 0`, are (using :math:`D_{0}(\mathrm{CO}) = 11.09` eV,
+:math:`D_{0}(\mathrm{CN}) = 7.74` eV, :math:`D_{0}(\mathrm{NO}) = 6.50`
+eV, :math:`E[\mathrm{N}(^{2}\!D)] - E[\mathrm{N}(^{4}\!S)] = 2.38` eV):
 
-  .. math::
+.. math::
 
-     \mathrm{CN} + \mathrm{O} \;\leftrightarrow\;
-     \mathrm{CO} + \mathrm{N} \;\leftrightarrow\;
-     \mathrm{NO} + \mathrm{C}.
+   \begin{aligned}
+   \mathrm{CO}(X^{1}\!\Sigma^{+}) + \mathrm{N}(^{4}\!S)
+       &= -11.09\ \text{eV} \quad (\text{deepest}) \\
+   \mathrm{CO}(X^{1}\!\Sigma^{+}) + \mathrm{N}(^{2}\!D)
+       &= -8.71\ \text{eV} \\
+   \mathrm{CN}(X^{2}\!\Sigma^{+}) + \mathrm{O}(^{3}\!P)
+       &= -7.74\ \text{eV} \\
+   \mathrm{NO}(X^{2}\!\Pi) + \mathrm{C}(^{3}\!P)
+       &= -6.50\ \text{eV} \\
+   \mathrm{C} + \mathrm{N}(^{2}\!D) + \mathrm{O}
+       &= +2.38\ \text{eV}.
+   \end{aligned}
 
-- **Dissociation** — C + N + O at high energy.
+Per collision entry, the adiabatic final-state channels open on the
+three CoarseAIR surfaces — annotated with the entry-to-product
+energy difference (negative = exothermic, positive = endothermic) —
+are:
+
+**NO + C** (entry at :math:`-6.50` eV):
+
+.. math::
+
+   \mathrm{NO}(v,J) + \mathrm{C}(^{3}\!P)
+   \;\longrightarrow\;
+   \begin{cases}
+     \mathrm{NO}(v',J') + \mathrm{C}(^{3}\!P)
+        & \text{inelastic}\\
+     \mathrm{CN}(v',J') + \mathrm{O}(^{3}\!P)
+        & \text{exo, } \Delta = -1.24\ \text{eV}\\
+     \mathrm{CO}(v',J') + \mathrm{N}(^{2}\!D)
+        & \text{exo, } \Delta = -2.21\ \text{eV}\ (\text{doublet PES})\\
+     \mathrm{CO}(v',J') + \mathrm{N}(^{4}\!S)
+        & \text{exo, } \Delta = -4.59\ \text{eV}\ (\text{quartet PES})\\
+     \mathrm{C}(^{3}\!P) + \mathrm{N}(^{4}\!S) + \mathrm{O}(^{3}\!P)
+        & \text{endo, } \Delta = +6.50\ \text{eV}\ (\text{dissociation}).
+   \end{cases}
+
+**CN + O** (entry at :math:`-7.74` eV):
+
+.. math::
+
+   \mathrm{CN}(v,J) + \mathrm{O}(^{3}\!P)
+   \;\longrightarrow\;
+   \begin{cases}
+     \mathrm{CN}(v',J') + \mathrm{O}(^{3}\!P)
+        & \text{inelastic}\\
+     \mathrm{NO}(v',J') + \mathrm{C}(^{3}\!P)
+        & \text{endo, } \Delta = +1.24\ \text{eV}\\
+     \mathrm{CO}(v',J') + \mathrm{N}(^{2}\!D)
+        & \text{exo, } \Delta = -0.97\ \text{eV}\ (\text{doublet PES})\\
+     \mathrm{CO}(v',J') + \mathrm{N}(^{4}\!S)
+        & \text{exo, } \Delta = -3.35\ \text{eV}\ (\text{quartet PES})\\
+     \mathrm{C}(^{3}\!P) + \mathrm{N}(^{4}\!S) + \mathrm{O}(^{3}\!P)
+        & \text{endo, } \Delta = +7.74\ \text{eV}\ (\text{dissociation}).
+   \end{cases}
+
+**CO + N(\ :sup:`4`\ S)** (entry at :math:`-11.09` eV — the deepest
+asymptote) — opens **only on the** :math:`{}^{4}A''` **(UCI_4A2)
+surface** because the N ground-state asymptote correlates exclusively
+with the quartet manifold; every reactive channel from this entry is
+therefore endothermic:
+
+.. math::
+
+   \mathrm{CO}(v,J) + \mathrm{N}(^{4}\!S)
+   \;\longrightarrow\;
+   \begin{cases}
+     \mathrm{CO}(v',J') + \mathrm{N}(^{4}\!S)
+        & \text{inelastic}\\
+     \mathrm{CN}(v',J') + \mathrm{O}(^{3}\!P)
+        & \text{endo, } \Delta = +3.35\ \text{eV}\\
+     \mathrm{NO}(v',J') + \mathrm{C}(^{3}\!P)
+        & \text{endo, } \Delta = +4.59\ \text{eV}\\
+     \mathrm{C}(^{3}\!P) + \mathrm{N}(^{4}\!S) + \mathrm{O}(^{3}\!P)
+        & \text{endo, } \Delta = +11.09\ \text{eV}\ (\text{dissociation}).
+   \end{cases}
+
+**CO + N(\ :sup:`2`\ D)** (entry at :math:`-8.71` eV) — opens **only
+on the** :math:`{}^{2}A'` **(UCI_2A1) and** :math:`{}^{2}A''`
+**(UCI_2A2) surfaces**:
+
+.. math::
+
+   \mathrm{CO}(v,J) + \mathrm{N}(^{2}\!D)
+   \;\longrightarrow\;
+   \begin{cases}
+     \mathrm{CO}(v',J') + \mathrm{N}(^{2}\!D)
+        & \text{inelastic}\\
+     \mathrm{CN}(v',J') + \mathrm{O}(^{3}\!P)
+        & \text{endo, } \Delta = +0.97\ \text{eV}\\
+     \mathrm{NO}(v',J') + \mathrm{C}(^{3}\!P)
+        & \text{endo, } \Delta = +2.21\ \text{eV}\\
+     \mathrm{C}(^{3}\!P) + \mathrm{N}(^{2}\!D) + \mathrm{O}(^{3}\!P)
+        & \text{endo, } \Delta = +8.71\ \text{eV}\ (\text{dissociation}).
+   \end{cases}
+
+The N(\ :sup:`2`\ D) :math:`\to` N(\ :sup:`4`\ S) electronic quenching
+channel — exothermic by 2.38 eV — requires a doublet–quartet electronic
+transition that is not modelled here: each CoarseAIR trajectory stays
+on its assigned PES throughout integration.
 
 Multi-surface structure
 -----------------------
@@ -45,20 +147,19 @@ their electronic degeneracies (see :doc:`/theory/sampling`). Results are
 combined at post-processing to produce degeneracy-weighted state-to-state
 rates.
 
-Nonadiabatic couplings between these surfaces — which would modify the
-resulting kinetics via surface hopping — are handled in CoarseAIR+, not
-in the adiabatic workflow.
+Each trajectory stays on its assigned surface throughout integration;
+results are combined at post-processing using the electronic
+degeneracies.
 
 PES models
 ----------
 
 Available surfaces: ``UCI_2A1``, ``UCI_2A2``, ``UCI_4A2`` (UC Irvine
 group — see :doc:`/reference/bibliography` for the three DMBE-surface
-DOIs), ``Basel``. Example inputs target thermal rate coefficients around
+DOIs). Example inputs target thermal rate coefficients around
 :math:`T \sim 10\,000` K.
 
-Diatomic partners: ``CN_UCI``, ``CO_UCI``, ``NO_UCI`` (or the Basel
-counterparts when the Basel PES is selected).
+Diatomic partners: ``CN_UCI``, ``CO_UCI``, ``NO_UCI``.
 
 
 Input file walkthrough
@@ -241,9 +342,3 @@ reactive arrangements, three electronic surfaces:
 
    ###########################################################################################
 
-Swap the three ``UCI_*`` PES models for ``Basel`` to use the
-Meuwly-group surfaces; the diatomic potentials and the level-file
-names also need to be swapped consistently
-(``CN_Basel.inp``, ``CO_Basel.inp``, ``NO_Basel.inp`` under
-``dtb/Molecules/``). See :doc:`/developer/adding_a_system` for the
-provider-swap workflow.

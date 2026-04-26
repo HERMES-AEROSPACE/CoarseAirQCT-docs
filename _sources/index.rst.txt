@@ -64,9 +64,7 @@ are required and conventional rate models break down.
    :caption: Reference
 
    reference/about
-   reference/validation
    reference/bibliography
-   reference/changelog
 
 .. toctree::
    :maxdepth: 2
@@ -75,7 +73,6 @@ are required and conventional rate models break down.
    developer/architecture
    developer/adding_a_system
    developer/regression_tests
-   developer/roadmap
 
 Indices and tables
 ==================

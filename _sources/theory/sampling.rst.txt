@@ -239,9 +239,8 @@ input file. The per-PES trajectory counter
 to each surface, so the final statistics (cross-sections, rates) are
 weighted consistently.
 
-In adiabatic CoarseAIR, ``iPES(iTraj)`` never changes after this initial
-assignment — see :doc:`pes_formats` for the multi-surface machinery and the
-CoarseAIR+ documentation for surface-hopping extensions.
+``iPES(iTraj)`` never changes after this initial assignment — see
+:doc:`pes_formats` for the multi-surface machinery.
 
 
 Derivations and further detail

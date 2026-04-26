@@ -11,8 +11,8 @@ without any rebuild.
 
 This chapter describes the PES abstract base class, the factory mechanism,
 the functional families currently supported, and the multi-surface
-infrastructure that enables both degeneracy-weighted branching and (in
-CoarseAIR+) surface hopping.
+infrastructure that enables degeneracy-weighted branching across
+electronic surfaces.
 
 
 The PES abstract base class
@@ -161,17 +161,12 @@ The per-trajectory PES call in ``HamiltonODESystem`` is:
            Compute( Q(:,iTraj), V(iTraj), dVdQ(:,iTraj), Rpi(:,iTraj) )
    end do
 
-In adiabatic CoarseAIR, ``iPES(iTraj)`` is set at initialisation by
-``SetPESIndx()`` (with the degeneracy-weighted distribution described in
-:doc:`sampling`) and is **never modified** during integration — each
-trajectory stays on its assigned surface until termination.
-
-In CoarseAIR+ the same infrastructure is reused, but ``iPES(iTraj)`` is
-updated inside the integration loop by a fewest-switches surface-hopping
-(FSSH) algorithm. The adiabatic code already writes ``iPES`` per
-trajectory to the output, so the post-processing pipeline handles
-multi-surface data transparently; the only extension needed in
-CoarseAIR+ is the hopping decision and the post-hop velocity rescaling.
+``iPES(iTraj)`` is set at initialisation by ``SetPESIndx()`` (with the
+degeneracy-weighted distribution described in :doc:`sampling`) and is
+**never modified** during integration — each trajectory stays on its
+assigned surface until termination. The post-processing pipeline reads
+``iPES`` per trajectory so it can resolve final-state observables by
+electronic surface.
 
 
 Adding a new PES

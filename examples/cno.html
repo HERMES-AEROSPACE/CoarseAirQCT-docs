@@ -307,18 +307,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../reference/about.html#authorship-and-license">Authorship and license</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/about.html#development-team">Development team</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/about.html#related-codes">Related codes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/about.html#coarseair-surface-hopping-extension">CoarseAIR+ (surface-hopping extension)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/about.html#citation-guidance">Citation guidance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/about.html#acknowledgements">Acknowledgements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/about.html#contact">Contact</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../reference/validation.html">Validation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../reference/validation.html#reference-comparison-against-vvtc">Reference comparison against VVTC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/validation.html#self-consistency-diagnostics">Self-consistency diagnostics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/validation.html#benchmark-systems">Benchmark systems</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/validation.html#body-validation">4-body validation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/validation.html#continuous-integration">Continuous integration</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
@@ -334,18 +325,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#source-code-review">Source-code review</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html#recommended-reading">Recommended reading</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../reference/changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../reference/changelog.html#unreleased-clement-adiabatic-branch">Unreleased (Clement-Adiabatic branch)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../reference/changelog.html#documentation">Documentation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../reference/changelog.html#features">Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../reference/changelog.html#bug-fixes">Bug fixes</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/changelog.html#version-1-1-baseline-for-this-documentation">Version 1.1 (baseline for this documentation)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/changelog.html#historical-milestones">Historical milestones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/changelog.html#looking-ahead">Looking ahead</a></li>
 </ul>
 </li>
 </ul>
@@ -379,14 +358,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#typical-output">Typical output</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../developer/roadmap.html">Development Roadmap</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../developer/roadmap.html#in-progress">In progress</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/roadmap.html#short-term-goals-next-13-months">Short-term goals (next 1–3 months)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/roadmap.html#medium-term-goals-312-months">Medium-term goals (3–12 months)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/roadmap.html#longer-term-directions">Longer-term directions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/roadmap.html#how-to-contribute">How to contribute</a></li>
 </ul>
 </li>
 </ul>
@@ -431,18 +402,104 @@ pair 1 = CN, pair 2 = CO, pair 3 = NO.</p></li>
 </section>
 <section id="kinetic-processes">
 <h2>Kinetic processes<a class="headerlink" href="#kinetic-processes" title="Link to this heading"></a></h2>
-<p>Three distinct diatomic products are possible, connected via the
-OCN / NCO / CON intermediates on the PES:</p>
-<ul>
-<li><p><strong>Inelastic scattering</strong> — on the incoming arrangement.</p></li>
-<li><p><strong>Reactive exchange</strong> among the three channels:</p>
+<p>Three distinct diatomic products and one fully-dissociated arrangement
+are possible, connected via the OCN / NCO / CON intermediates on the
+PES. The ground-state asymptotic correlations split into a quartet
+manifold (which correlates with N(<sup>4</sup>S), the nitrogen ground
+term) and a doublet manifold (which correlates with N(<sup>2</sup>D),
+2.38 eV above N(<sup>4</sup>S)).</p>
+<p>The five asymptotic energies, taken relative to the fully-dissociated
+ground-state limit C(<sup>3</sup>P) + N(<sup>4</sup>S) + O(<sup>3</sup>P)
+<span class="math notranslate nohighlight">\(\equiv 0\)</span>, are (using <span class="math notranslate nohighlight">\(D_{0}(\mathrm{CO}) = 11.09\)</span> eV,
+<span class="math notranslate nohighlight">\(D_{0}(\mathrm{CN}) = 7.74\)</span> eV, <span class="math notranslate nohighlight">\(D_{0}(\mathrm{NO}) = 6.50\)</span>
+eV, <span class="math notranslate nohighlight">\(E[\mathrm{N}(^{2}\!D)] - E[\mathrm{N}(^{4}\!S)] = 2.38\)</span> eV):</p>
 <div class="math notranslate nohighlight">
-\[\mathrm{CN} + \mathrm{O} \;\leftrightarrow\;
-\mathrm{CO} + \mathrm{N} \;\leftrightarrow\;
-\mathrm{NO} + \mathrm{C}.\]</div>
-</li>
-<li><p><strong>Dissociation</strong> — C + N + O at high energy.</p></li>
-</ul>
+\[\begin{split}\begin{aligned}
+\mathrm{CO}(X^{1}\!\Sigma^{+}) + \mathrm{N}(^{4}\!S)
+    &amp;= -11.09\ \text{eV} \quad (\text{deepest}) \\
+\mathrm{CO}(X^{1}\!\Sigma^{+}) + \mathrm{N}(^{2}\!D)
+    &amp;= -8.71\ \text{eV} \\
+\mathrm{CN}(X^{2}\!\Sigma^{+}) + \mathrm{O}(^{3}\!P)
+    &amp;= -7.74\ \text{eV} \\
+\mathrm{NO}(X^{2}\!\Pi) + \mathrm{C}(^{3}\!P)
+    &amp;= -6.50\ \text{eV} \\
+\mathrm{C} + \mathrm{N}(^{2}\!D) + \mathrm{O}
+    &amp;= +2.38\ \text{eV}.
+\end{aligned}\end{split}\]</div>
+<p>Per collision entry, the adiabatic final-state channels open on the
+three CoarseAIR surfaces — annotated with the entry-to-product
+energy difference (negative = exothermic, positive = endothermic) —
+are:</p>
+<p><strong>NO + C</strong> (entry at <span class="math notranslate nohighlight">\(-6.50\)</span> eV):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathrm{NO}(v,J) + \mathrm{C}(^{3}\!P)
+\;\longrightarrow\;
+\begin{cases}
+  \mathrm{NO}(v',J') + \mathrm{C}(^{3}\!P)
+     &amp; \text{inelastic}\\
+  \mathrm{CN}(v',J') + \mathrm{O}(^{3}\!P)
+     &amp; \text{exo, } \Delta = -1.24\ \text{eV}\\
+  \mathrm{CO}(v',J') + \mathrm{N}(^{2}\!D)
+     &amp; \text{exo, } \Delta = -2.21\ \text{eV}\ (\text{doublet PES})\\
+  \mathrm{CO}(v',J') + \mathrm{N}(^{4}\!S)
+     &amp; \text{exo, } \Delta = -4.59\ \text{eV}\ (\text{quartet PES})\\
+  \mathrm{C}(^{3}\!P) + \mathrm{N}(^{4}\!S) + \mathrm{O}(^{3}\!P)
+     &amp; \text{endo, } \Delta = +6.50\ \text{eV}\ (\text{dissociation}).
+\end{cases}\end{split}\]</div>
+<p><strong>CN + O</strong> (entry at <span class="math notranslate nohighlight">\(-7.74\)</span> eV):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathrm{CN}(v,J) + \mathrm{O}(^{3}\!P)
+\;\longrightarrow\;
+\begin{cases}
+  \mathrm{CN}(v',J') + \mathrm{O}(^{3}\!P)
+     &amp; \text{inelastic}\\
+  \mathrm{NO}(v',J') + \mathrm{C}(^{3}\!P)
+     &amp; \text{endo, } \Delta = +1.24\ \text{eV}\\
+  \mathrm{CO}(v',J') + \mathrm{N}(^{2}\!D)
+     &amp; \text{exo, } \Delta = -0.97\ \text{eV}\ (\text{doublet PES})\\
+  \mathrm{CO}(v',J') + \mathrm{N}(^{4}\!S)
+     &amp; \text{exo, } \Delta = -3.35\ \text{eV}\ (\text{quartet PES})\\
+  \mathrm{C}(^{3}\!P) + \mathrm{N}(^{4}\!S) + \mathrm{O}(^{3}\!P)
+     &amp; \text{endo, } \Delta = +7.74\ \text{eV}\ (\text{dissociation}).
+\end{cases}\end{split}\]</div>
+<p><strong>CO + N(:sup:`4`S)</strong> (entry at <span class="math notranslate nohighlight">\(-11.09\)</span> eV — the deepest
+asymptote) — opens <strong>only on the</strong> <span class="math notranslate nohighlight">\({}^{4}A''\)</span> <strong>(UCI_4A2)
+surface</strong> because the N ground-state asymptote correlates exclusively
+with the quartet manifold; every reactive channel from this entry is
+therefore endothermic:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathrm{CO}(v,J) + \mathrm{N}(^{4}\!S)
+\;\longrightarrow\;
+\begin{cases}
+  \mathrm{CO}(v',J') + \mathrm{N}(^{4}\!S)
+     &amp; \text{inelastic}\\
+  \mathrm{CN}(v',J') + \mathrm{O}(^{3}\!P)
+     &amp; \text{endo, } \Delta = +3.35\ \text{eV}\\
+  \mathrm{NO}(v',J') + \mathrm{C}(^{3}\!P)
+     &amp; \text{endo, } \Delta = +4.59\ \text{eV}\\
+  \mathrm{C}(^{3}\!P) + \mathrm{N}(^{4}\!S) + \mathrm{O}(^{3}\!P)
+     &amp; \text{endo, } \Delta = +11.09\ \text{eV}\ (\text{dissociation}).
+\end{cases}\end{split}\]</div>
+<p><strong>CO + N(:sup:`2`D)</strong> (entry at <span class="math notranslate nohighlight">\(-8.71\)</span> eV) — opens <strong>only
+on the</strong> <span class="math notranslate nohighlight">\({}^{2}A'\)</span> <strong>(UCI_2A1) and</strong> <span class="math notranslate nohighlight">\({}^{2}A''\)</span>
+<strong>(UCI_2A2) surfaces</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathrm{CO}(v,J) + \mathrm{N}(^{2}\!D)
+\;\longrightarrow\;
+\begin{cases}
+  \mathrm{CO}(v',J') + \mathrm{N}(^{2}\!D)
+     &amp; \text{inelastic}\\
+  \mathrm{CN}(v',J') + \mathrm{O}(^{3}\!P)
+     &amp; \text{endo, } \Delta = +0.97\ \text{eV}\\
+  \mathrm{NO}(v',J') + \mathrm{C}(^{3}\!P)
+     &amp; \text{endo, } \Delta = +2.21\ \text{eV}\\
+  \mathrm{C}(^{3}\!P) + \mathrm{N}(^{2}\!D) + \mathrm{O}(^{3}\!P)
+     &amp; \text{endo, } \Delta = +8.71\ \text{eV}\ (\text{dissociation}).
+\end{cases}\end{split}\]</div>
+<p>The N(<sup>2</sup>D) <span class="math notranslate nohighlight">\(\to\)</span> N(<sup>4</sup>S) electronic quenching
+channel — exothermic by 2.38 eV — requires a doublet–quartet electronic
+transition that is not modelled here: each CoarseAIR trajectory stays
+on its assigned PES throughout integration.</p>
 </section>
 <section id="multi-surface-structure">
 <h2>Multi-surface structure<a class="headerlink" href="#multi-surface-structure" title="Link to this heading"></a></h2>
@@ -457,18 +514,17 @@ run as independent adiabatic PES in CoarseAIR:</p>
 their electronic degeneracies (see <a class="reference internal" href="../theory/sampling.html"><span class="doc">Sampling</span></a>). Results are
 combined at post-processing to produce degeneracy-weighted state-to-state
 rates.</p>
-<p>Nonadiabatic couplings between these surfaces — which would modify the
-resulting kinetics via surface hopping — are handled in CoarseAIR+, not
-in the adiabatic workflow.</p>
+<p>Each trajectory stays on its assigned surface throughout integration;
+results are combined at post-processing using the electronic
+degeneracies.</p>
 </section>
 <section id="pes-models">
 <h2>PES models<a class="headerlink" href="#pes-models" title="Link to this heading"></a></h2>
 <p>Available surfaces: <code class="docutils literal notranslate"><span class="pre">UCI_2A1</span></code>, <code class="docutils literal notranslate"><span class="pre">UCI_2A2</span></code>, <code class="docutils literal notranslate"><span class="pre">UCI_4A2</span></code> (UC Irvine
 group — see <a class="reference internal" href="../reference/bibliography.html"><span class="doc">Bibliography</span></a> for the three DMBE-surface
-DOIs), <code class="docutils literal notranslate"><span class="pre">Basel</span></code>. Example inputs target thermal rate coefficients around
+DOIs). Example inputs target thermal rate coefficients around
 <span class="math notranslate nohighlight">\(T \sim 10\,000\)</span> K.</p>
-<p>Diatomic partners: <code class="docutils literal notranslate"><span class="pre">CN_UCI</span></code>, <code class="docutils literal notranslate"><span class="pre">CO_UCI</span></code>, <code class="docutils literal notranslate"><span class="pre">NO_UCI</span></code> (or the Basel
-counterparts when the Basel PES is selected).</p>
+<p>Diatomic partners: <code class="docutils literal notranslate"><span class="pre">CN_UCI</span></code>, <code class="docutils literal notranslate"><span class="pre">CO_UCI</span></code>, <code class="docutils literal notranslate"><span class="pre">NO_UCI</span></code>.</p>
 </section>
 <section id="input-file-walkthrough">
 <h2>Input file walkthrough<a class="headerlink" href="#input-file-walkthrough" title="Link to this heading"></a></h2>
@@ -647,12 +703,6 @@ reactive arrangements, three electronic surfaces:</p>
 ###########################################################################################
 </pre></div>
 </div>
-<p>Swap the three <code class="docutils literal notranslate"><span class="pre">UCI_*</span></code> PES models for <code class="docutils literal notranslate"><span class="pre">Basel</span></code> to use the
-Meuwly-group surfaces; the diatomic potentials and the level-file
-names also need to be swapped consistently
-(<code class="docutils literal notranslate"><span class="pre">CN_Basel.inp</span></code>, <code class="docutils literal notranslate"><span class="pre">CO_Basel.inp</span></code>, <code class="docutils literal notranslate"><span class="pre">NO_Basel.inp</span></code> under
-<code class="docutils literal notranslate"><span class="pre">dtb/Molecules/</span></code>). See <a class="reference internal" href="../developer/adding_a_system.html"><span class="doc">Adding a New Collision System</span></a> for the
-provider-swap workflow.</p>
 </section>
 </section>
 
