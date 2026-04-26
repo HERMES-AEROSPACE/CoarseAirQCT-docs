@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CoarseAIR portrait / square logo (v9).
+     Circular badge + stacked wordmark. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 460" width="360" height="460" role="img" aria-labelledby="t d">
+  <title id="t">CoarseAIR</title>
+  <desc id="d">Circular brand-mark badge with the CoarseAIR wordmark beneath. The badge contains a colored 3D reactive PES with a golden trajectory and two cartoon-sphere atoms.</desc>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#e0f2fe"/>
+      <stop offset="1"   stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="pes-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0.00" stop-color="#0891b2"/>
+      <stop offset="0.35" stop-color="#1e3a8a"/>
+      <stop offset="0.70" stop-color="#f97316"/>
+      <stop offset="1.00" stop-color="#b91c1c"/>
+    </linearGradient>
+    <radialGradient id="atom-blue" cx="35%" cy="30%" r="75%">
+      <stop offset="0"   stop-color="#eff6ff"/>
+      <stop offset="0.3" stop-color="#60a5fa"/>
+      <stop offset="1"   stop-color="#1e3a8a"/>
+    </radialGradient>
+    <radialGradient id="atom-red" cx="35%" cy="30%" r="75%">
+      <stop offset="0"   stop-color="#fee2e2"/>
+      <stop offset="0.3" stop-color="#f87171"/>
+      <stop offset="1"   stop-color="#7f1d1d"/>
+    </radialGradient>
+    <filter id="soft-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="0" dy="2"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.32"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="badge-clip">
+      <circle cx="180" cy="160" r="134"/>
+    </clipPath>
+    <style><![CDATA[
+      .coarse { fill: #1f3b5a; }
+      .air    { fill: #c92a2a; }
+    ]]></style>
+  </defs>
+
+  <!-- Badge -->
+  <circle cx="180" cy="160" r="142" fill="url(#sky)"/>
+  <circle cx="180" cy="160" r="142" fill="none" stroke="#1f3b5a" stroke-width="7"/>
+
+  <g clip-path="url(#badge-clip)">
+    <path fill="url(#pes-grad)" opacity="0.92"
+          d="M  70 200
+             C 120 200, 145 208, 168 240
+             C 188 265, 205 272, 225 270
+             C 244 268, 263 252, 286 228
+             C 324 188, 360 144, 398 110
+             L 398 300
+             L  70 300 Z"/>
+
+    <path fill="url(#pes-grad)" opacity="0.55"
+          d="M  70 200
+             C 120 200, 145 208, 168 240
+             C 188 265, 205 272, 225 270
+             C 244 268, 263 252, 286 228
+             C 324 188, 360 144, 398 110
+             L 422  88
+             C 384 122, 348 168, 310 206
+             C 287 228, 268 245, 249 247
+             C 230 249, 213 244, 193 217
+             C 170 185, 145 177,  92 177
+             Z"/>
+
+    <path stroke="#1f3b5a" stroke-width="5" fill="none" stroke-linejoin="round" stroke-linecap="round"
+          d="M  70 200
+             C 120 200, 145 208, 168 240
+             C 188 265, 205 272, 225 270
+             C 244 268, 263 252, 286 228
+             C 324 188, 360 144, 398 110"/>
+
+    <path stroke="#1f3b5a" stroke-width="2.8" fill="none" opacity="0.45" stroke-linejoin="round" stroke-linecap="round"
+          d="M  92 177
+             C 145 177, 170 185, 193 217
+             C 213 244, 230 249, 249 247
+             C 268 245, 287 228, 310 206
+             C 348 168, 384 122, 422  88"/>
+
+    <path stroke="#1f3b5a" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.2"
+          d="M  90 198
+             C 138 205, 168 218, 192 252
+             C 213 270, 232 268, 255 250
+             C 287 226, 322 186, 370 150"/>
+    <path stroke="#fde68a" stroke-width="6.5" fill="none" stroke-linecap="round"
+          d="M  90 198
+             C 138 205, 168 218, 192 252
+             C 213 270, 232 268, 255 250
+             C 287 226, 322 186, 370 150"/>
+
+    <g filter="url(#soft-shadow)">
+      <circle cx=" 90" cy="198" r="15" fill="url(#atom-blue)"/>
+      <circle cx="370" cy="150" r="15" fill="url(#atom-red)"/>
+    </g>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="180" y="400" text-anchor="middle"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="76" font-weight="700" letter-spacing="-2.2">
+    <tspan class="coarse">Coarse</tspan><tspan class="air">AIR</tspan>
+  </text>
+</svg>

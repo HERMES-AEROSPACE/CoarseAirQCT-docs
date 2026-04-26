@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CoarseAIR horizontal wordmark logo (v9).
+     Form-factor pivot: dropped the rectangular comic panel (which
+     read as "scene") in favour of a circular badge — the standard
+     container for software product marks. The badge contains the
+     coloured 3D PES + golden trajectory + two atoms, clipped to a
+     clean circle. Paired with a bold CoarseAIR wordmark. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 260" width="900" height="260" role="img" aria-labelledby="title desc">
+  <title id="title">CoarseAIR — solver brand mark</title>
+  <desc id="desc">Circular badge brand mark: navy-rimmed sky-blue disc containing a colored 3D reactive PES with a golden trajectory and two cartoon-sphere atoms. Wordmark "CoarseAIR" to the right.</desc>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#e0f2fe"/>
+      <stop offset="1"   stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="pes-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0.00" stop-color="#0891b2"/>
+      <stop offset="0.35" stop-color="#1e3a8a"/>
+      <stop offset="0.70" stop-color="#f97316"/>
+      <stop offset="1.00" stop-color="#b91c1c"/>
+    </linearGradient>
+    <radialGradient id="atom-blue" cx="35%" cy="30%" r="75%">
+      <stop offset="0"   stop-color="#eff6ff"/>
+      <stop offset="0.3" stop-color="#60a5fa"/>
+      <stop offset="1"   stop-color="#1e3a8a"/>
+    </radialGradient>
+    <radialGradient id="atom-red" cx="35%" cy="30%" r="75%">
+      <stop offset="0"   stop-color="#fee2e2"/>
+      <stop offset="0.3" stop-color="#f87171"/>
+      <stop offset="1"   stop-color="#7f1d1d"/>
+    </radialGradient>
+    <filter id="soft-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="0" dy="2"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.32"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Clip path for interior content -->
+    <clipPath id="badge-clip">
+      <circle cx="130" cy="130" r="104"/>
+    </clipPath>
+
+    <style><![CDATA[
+      .coarse { fill: #1f3b5a; }
+      .air    { fill: #c92a2a; }
+    ]]></style>
+  </defs>
+
+  <!-- ================================================================
+       Circular badge: sky-blue fill + thick navy ring
+       ================================================================ -->
+  <circle cx="130" cy="130" r="110" fill="url(#sky)"/>
+  <circle cx="130" cy="130" r="110" fill="none" stroke="#1f3b5a" stroke-width="6"/>
+
+  <!-- ================================================================
+       Badge interior: coloured 3D PES + trajectory + two atoms,
+       clipped to the circle.
+       ================================================================ -->
+  <g clip-path="url(#badge-clip)">
+
+    <!-- Coloured PES side face -->
+    <path fill="url(#pes-grad)" opacity="0.92"
+          d="M  30 165
+             C  70 165,  90 172, 108 200
+             C 125 220, 138 225, 155 223
+             C 172 221, 188 208, 208 188
+             C 240 154, 272 118, 305  90
+             L 305 230
+             L  30 230 Z"/>
+
+    <!-- Lighter top-surface band (back profile offset +22, -18) -->
+    <path fill="url(#pes-grad)" opacity="0.55"
+          d="M  30 165
+             C  70 165,  90 172, 108 200
+             C 125 220, 138 225, 155 223
+             C 172 221, 188 208, 208 188
+             C 240 154, 272 118, 305  90
+             L 327  72
+             C 294 100, 262 136, 230 170
+             C 210 190, 194 203, 177 205
+             C 160 207, 147 202, 130 182
+             C 112 154,  92 147,  52 147
+             Z"/>
+
+    <!-- Bold front-ridge outline -->
+    <path stroke="#1f3b5a" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round"
+          d="M  30 165
+             C  70 165,  90 172, 108 200
+             C 125 220, 138 225, 155 223
+             C 172 221, 188 208, 208 188
+             C 240 154, 272 118, 305  90"/>
+
+    <!-- Faded back-ridge -->
+    <path stroke="#1f3b5a" stroke-width="2.2" fill="none" opacity="0.45" stroke-linejoin="round" stroke-linecap="round"
+          d="M  52 147
+             C  92 147, 112 154, 130 182
+             C 147 202, 160 207, 177 205
+             C 194 203, 210 190, 230 170
+             C 262 136, 294 100, 327  72"/>
+
+    <!-- Single golden trajectory arcing across the PES -->
+    <path stroke="#1f3b5a" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.2"
+          d="M  45 163
+             C  85 170, 110 180, 130 208
+             C 148 222, 166 220, 187 205
+             C 215 185, 245 152, 285 122"/>
+    <path stroke="#fde68a" stroke-width="5" fill="none" stroke-linecap="round"
+          d="M  45 163
+             C  85 170, 110 180, 130 208
+             C 148 222, 166 220, 187 205
+             C 215 185, 245 152, 285 122"/>
+
+    <!-- Two cartoon atoms: reactant and product -->
+    <g filter="url(#soft-shadow)">
+      <circle cx=" 45" cy="163" r="12" fill="url(#atom-blue)"/>
+      <circle cx="285" cy="122" r="12" fill="url(#atom-red)"/>
+    </g>
+  </g>
+
+  <!-- ================================================================
+       Wordmark
+       ================================================================ -->
+  <text x="290" y="168"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="108" font-weight="700" letter-spacing="-2.8">
+    <tspan class="coarse">Coarse</tspan><tspan class="air">AIR</tspan>
+  </text>
+</svg>
