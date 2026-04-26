@@ -26,6 +26,16 @@ Kinetic processes
   exchange rates; inspect the final-time distribution for long-lived
   events (see :doc:`/theory/arrangement_classification`).
 
+Correlation diagram
+-------------------
+
+.. figure:: /_static/correlation_diagrams/o4.svg
+   :width: 100%
+   :align: center
+
+   Asymptotic correlation diagram for O$_4$ on the UMN surface, showing the diatom-diatom, diatom-plus-two-atom, and fully-atomised limits.
+
+
 PES models
 ----------
 

@@ -25,6 +25,16 @@ Kinetic processes
   \mathrm{N}_{2} + 2\,\mathrm{N}`.
 - **Full dissociation / atomisation** — :math:`\to 4\,\mathrm{N}`.
 
+Correlation diagram
+-------------------
+
+.. figure:: /_static/correlation_diagrams/n4.svg
+   :width: 100%
+   :align: center
+
+   Asymptotic correlation diagram for N$_4$ on the NASA / UMN surfaces. Three asymptotic limits are accessible: N$_2$ + N$_2$, N$_2$ + 2 N, and the fully-atomised 4 N.
+
+
 PES models
 ----------
 

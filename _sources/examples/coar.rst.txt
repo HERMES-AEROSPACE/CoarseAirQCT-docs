@@ -31,6 +31,16 @@ potentials so the Ar atom contributes only to the kinetic-energy exchange,
 not to reactive bonding. See :doc:`/theory/pes_formats` for the dummy
 mechanism.
 
+Correlation diagram
+-------------------
+
+.. figure:: /_static/correlation_diagrams/coar.svg
+   :width: 100%
+   :align: center
+
+   Asymptotic correlation diagram for CO + Ar on the NASA surface. Ar is a closed-shell spectator; the system supports only the bound CO + Ar arrangement and its fully-atomised limit (no exchange channel).
+
+
 PES models
 ----------
 

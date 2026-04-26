@@ -32,6 +32,16 @@ NASA and UMN surfaces each cover several; trajectories are distributed
 across them with degeneracy weights at initialisation. See
 :doc:`/theory/sampling`.
 
+Correlation diagram
+-------------------
+
+.. figure:: /_static/correlation_diagrams/n3.svg
+   :width: 100%
+   :align: center
+
+   Asymptotic correlation diagram for N$_3$ (N + N$_2$) on the NASA / UMN surfaces. The N$_3$ ground state is unbound; the single bound asymptote shown is N$_2$ + N at D$_0$(N$_2$) = 9.755 eV below the atomized limit.
+
+
 PES models
 ----------
 

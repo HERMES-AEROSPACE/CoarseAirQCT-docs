@@ -29,6 +29,16 @@ Kinetic processes
 Because the two H atoms are identical, the two "equivalent" final-state
 pathways are aggregated in indistinguishable mode.
 
+Correlation diagram
+-------------------
+
+.. figure:: /_static/correlation_diagrams/h2he.svg
+   :width: 100%
+   :align: center
+
+   Asymptotic correlation diagram for H$_2$ + He on the BMPmod surface. The He atom is a closed-shell spectator, so the system supports only the bound H$_2$ + He arrangement and its fully-atomised limit; no exchange channel exists.
+
+
 PES models
 ----------
 

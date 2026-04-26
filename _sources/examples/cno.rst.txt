@@ -151,6 +151,16 @@ Each trajectory stays on its assigned surface throughout integration;
 results are combined at post-processing using the electronic
 degeneracies.
 
+Correlation diagram
+-------------------
+
+.. figure:: /_static/correlation_diagrams/cno.svg
+   :width: 100%
+   :align: center
+
+   Correlation diagram for the CNO system on the $^2A^\prime$, $^2A^{\prime\prime}$, and $^4A^{\prime\prime}$ surfaces of Galvao and co-workers. Asymptotes are placed using D$_0$(CO) = 11.09 eV, D$_0$(CN) = 7.74 eV, D$_0$(NO) = 6.50 eV, and the N($^2$D)-N($^4$S) splitting of 2.38 eV. Linear and non-linear minima of each PES are shown alongside their symmetry-resolved correlations to the asymptotic channels; grey solid lines mark the dissociation pathways. PES contour insets used in the corresponding TikZ source are not reproduced here.
+
+
 PES models
 ----------
 

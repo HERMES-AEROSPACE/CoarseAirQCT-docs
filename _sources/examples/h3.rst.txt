@@ -32,6 +32,16 @@ CoarseAIR's indistinguishable-atom accounting. A labelled-atom run (all
 three H atoms treated as distinguishable) can be compared against the
 indistinguishable result as a self-consistency check.
 
+Correlation diagram
+-------------------
+
+.. figure:: /_static/correlation_diagrams/h3.svg
+   :width: 100%
+   :align: center
+
+   Asymptotic correlation diagram for H$_3$ on the BKMP2 (H3_BH) surface. The three permutations of H$_2$ + H are isoenergetic, so a single H$_2$ + H level is shown for the diatom-plus-atom limit.
+
+
 PES models
 ----------
 

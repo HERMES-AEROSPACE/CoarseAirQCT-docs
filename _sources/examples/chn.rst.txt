@@ -101,6 +101,16 @@ All three diatomic channels are chemically distinct (different binding
 energies and vibrational structure), so labelled vs indistinguishable
 averaging does not apply — every pathway is resolved on its own.
 
+Correlation diagram
+-------------------
+
+.. figure:: /_static/correlation_diagrams/chn.svg
+   :width: 100%
+   :align: center
+
+   Correlation diagram for the CHN system on the UIUC NN surface. Asymptotes use D$_0$(CN) = 7.74 eV, D$_0$(CH) = 3.46 eV, D$_0$(NH) = 3.42 eV. The HCN and HNC bound minima are shown schematically (HCN well at -12.94 eV, HNC isomer ~+0.6 eV above HCN); dashed coloured lines indicate symmetry-allowed correlations and grey lines mark the dissociation pathways.
+
+
 PES models
 ----------
 

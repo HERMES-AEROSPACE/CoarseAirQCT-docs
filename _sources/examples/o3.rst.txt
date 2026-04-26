@@ -98,6 +98,16 @@ Each trajectory stays on its assigned surface throughout integration;
 results from the nine surfaces are combined at post-processing using
 their electronic degeneracies.
 
+Correlation diagram
+-------------------
+
+.. figure:: /_static/correlation_diagrams/o3.svg
+   :width: 100%
+   :align: center
+
+   Asymptotic correlation diagram for O$_3$ on the UMN / NN / BNN / GP / LEPS surfaces. The ground O$_2$ + O($^3$P) asymptote sits 5.115 eV below atomization, and the excited O$_2$ + O($^1$D) asymptote 1.967 eV above it. The ground-state O$_3$(X $^1A_1$) well lies 1.13 eV below the ground asymptote (-6.245 eV total). Each electronic surface correlates with one of these asymptotes; the figure shows the schematic average and the bound-state well.
+
+
 PES models
 ----------
 

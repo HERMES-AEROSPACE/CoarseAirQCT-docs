@@ -37,6 +37,16 @@ surfaces:
 plus the corresponding :math:`{}^{2,4}A''` components. Multi-surface
 runs are degeneracy-weighted in the adiabatic pipeline.
 
+Correlation diagram
+-------------------
+
+.. figure:: /_static/correlation_diagrams/no2.svg
+   :width: 100%
+   :align: center
+
+   Correlation diagram for the NO$_2$ system on the Basel / UMN surfaces. Four asymptotic channels are shown: NO + O($^3$P), NO + O($^1$D), O$_2$ + N($^4$S), and O$_2$ + N($^2$D). The ground-state NO$_2$(X $^2A_1$) well lies at -9.61 eV (D(NO-O) = 3.116 eV).
+
+
 PES models
 ----------
 

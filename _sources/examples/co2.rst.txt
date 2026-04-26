@@ -43,6 +43,16 @@ As for all multi-surface systems, trajectories are degeneracy-weighted
 across the surfaces; each trajectory stays on its assigned surface
 throughout integration.
 
+Correlation diagram
+-------------------
+
+.. figure:: /_static/correlation_diagrams/co2.svg
+   :width: 100%
+   :align: center
+
+   Correlation diagram for the CO$_2$ system on the NASA / Basel surfaces. Four asymptotic channels are shown: CO + O($^3$P), CO + O($^1$D), O$_2$ + C($^3$P), and O$_2$ + C($^1$D). The ground-state CO$_2$(X $^1\Sigma_g^+$) well lies at -16.54 eV (D(OC-O) = 5.45 eV).
+
+
 PES models
 ----------
 

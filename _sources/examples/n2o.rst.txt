@@ -37,6 +37,16 @@ Low-lying N\ :sub:`2`\ O surfaces of relevance: :math:`{}^{1}A'`
 (``Basel_13A1``), :math:`{}^{1}A''` (``Basel_13A2``). Multi-surface
 runs are degeneracy-weighted.
 
+Correlation diagram
+-------------------
+
+.. figure:: /_static/correlation_diagrams/n2o.svg
+   :width: 100%
+   :align: center
+
+   Correlation diagram for the N$_2$O system on the UMN / Basel surfaces. Four asymptotic channels are shown: N$_2$ + O($^3$P), N$_2$ + O($^1$D), NO + N($^4$S), and NO + N($^2$D). The ground-state N$_2$O(X $^1\Sigma^+$) well sits at -11.43 eV (D(N$_2$-O) = 1.677 eV).
+
+
 PES models
 ----------
 

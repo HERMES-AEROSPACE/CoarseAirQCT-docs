@@ -40,6 +40,16 @@ Kinetic processes
   \to \mathrm{H}_{2} + 2\,\mathrm{H}` (single dissociation) or
   :math:`\to 4\,\mathrm{H}` (full atomisation).
 
+Correlation diagram
+-------------------
+
+.. figure:: /_static/correlation_diagrams/h4.svg
+   :width: 100%
+   :align: center
+
+   Asymptotic correlation diagram for H$_4$ on the BMKP surface, showing the diatom-diatom, diatom-plus-two-atom, and fully-atomised limits.
+
+
 PES models
 ----------
 
