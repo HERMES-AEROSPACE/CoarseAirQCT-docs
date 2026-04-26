@@ -16,12 +16,42 @@ Arrangement
 Kinetic processes
 -----------------
 
-Three distinct diatomic products and one fully-dissociated arrangement
-are possible, connected via the OCN / NCO / CON intermediates on the
-PES. The ground-state asymptotic correlations split into a quartet
-manifold (which correlates with N(\ :sup:`4`\ S), the nitrogen ground
-term) and a doublet manifold (which correlates with N(\ :sup:`2`\ D),
-2.38 eV above N(\ :sup:`4`\ S)).
+The CNO reactive landscape is shaped by **three deep linear minima**
+— ONC (NCO when read C–N–O), CON, and OCN (CNO) — together with a
+**cyclic** ²A″ minimum, all of which correlate to three distinct
+diatomic + atom asymptotes (NO + C, CN + O, CO + N) plus the fully
+dissociated 3-atom limit. The three CoarseAIR surfaces split this
+landscape into two manifolds:
+
+- **Doublet manifold** (²A′ and ²A″, ``UCI_2A1`` / ``UCI_2A2``) —
+  contains the deepest well (NCO, :math:`-13.64` eV) and correlates
+  the CO + N channel with **N(\ :sup:`2`\ D)**, the excited atomic
+  term 2.38 eV above the nitrogen ground state.
+- **Quartet manifold** (⁴A″, ``UCI_4A2``) — shallower wells (NCO at
+  :math:`-10.55` eV, CNO at :math:`-8.29` eV) and correlates the
+  CO + N channel with **N(\ :sup:`4`\ S)**, the nitrogen ground
+  term.
+
+Because the doublet and quartet wells overlap in energy, both
+manifolds support every *atom + diatom* arrangement (NO + C, CN + O,
+and a CO + N variant whose nitrogen electronic state is set by the
+manifold). The N(\ :sup:`2`\ D) :math:`\to` N(\ :sup:`4`\ S)
+electronic quenching channel — exothermic by 2.38 eV — would require
+a doublet–quartet hop and is **not** produced by the adiabatic
+trajectories shipped here: every CoarseAIR trajectory stays on its
+assigned PES throughout integration.
+
+The kinetic processes are therefore, **per surface**:
+
+- **Inelastic scattering** on the entry arrangement —
+  :math:`XY(v, J) + Z \to XY(v', J') + Z` with the same atomic
+  partners and electronic state on both sides;
+- **Reactive exchange** through the linear / cyclic NCO / CNO / CON
+  intermediate, producing one of the three other diatomic + atom
+  channels accessible on that manifold;
+- **Three-body dissociation** :math:`XY + Z \to X + Y + Z` at high
+  collision energy (or initial vibrational excitation), with the
+  atomic products in the manifold-correlated electronic states.
 
 The five asymptotic energies, taken relative to the fully-dissociated
 ground-state limit C(\ :sup:`3`\ P) + N(\ :sup:`4`\ S) + O(\ :sup:`3`\ P)
@@ -43,6 +73,14 @@ eV, :math:`E[\mathrm{N}(^{2}\!D)] - E[\mathrm{N}(^{4}\!S)] = 2.38` eV):
    \mathrm{C} + \mathrm{N}(^{2}\!D) + \mathrm{O}
        &= +2.38\ \text{eV}.
    \end{aligned}
+
+CO + N(\ :sup:`4`\ S) is the deepest asymptote of the system: every
+non-trivial reaction starting from CO + N(\ :sup:`4`\ S) is therefore
+*endothermic* (a barrier of at least 3.4 eV must be overcome to reach
+CN + O, and 4.6 eV to reach NO + C). Conversely, *every* reaction
+starting from NO + C is *exothermic* on at least one surface, since
+NO + C is the highest of the three diatomic asymptotes. CN + O sits
+in between.
 
 Per collision entry, the adiabatic final-state channels open on the
 three CoarseAIR surfaces — annotated with the entry-to-product
@@ -127,10 +165,14 @@ on the** :math:`{}^{2}A'` **(UCI_2A1) and** :math:`{}^{2}A''`
         & \text{endo, } \Delta = +8.71\ \text{eV}\ (\text{dissociation}).
    \end{cases}
 
-The N(\ :sup:`2`\ D) :math:`\to` N(\ :sup:`4`\ S) electronic quenching
-channel — exothermic by 2.38 eV — requires a doublet–quartet electronic
-transition that is not modelled here: each CoarseAIR trajectory stays
-on its assigned PES throughout integration.
+All three atoms (C, N, O) are chemically distinct, so every channel
+above is resolved on its own at post-processing — no labelled vs
+indistinguishable-atom averaging applies. The post-processor does
+distinguish *which* of the three exchange products was produced
+(``Distinguish Exchanges between Each Other? = yes``), so a single
+state-to-state run yields the full 3 :math:`\times` 3 reactive +
+inelastic rate matrix per electronic surface, plus the dissociation
+rate.
 
 Multi-surface structure
 -----------------------
