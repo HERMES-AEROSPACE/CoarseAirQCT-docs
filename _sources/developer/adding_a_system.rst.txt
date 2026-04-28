@@ -172,18 +172,3 @@ This is a significant project — budget weeks, not days, and plan to
 extend the regression suite before merging.
 
 
-Checklist
----------
-
-Before requesting review of a new-system PR:
-
-- [ ] ``COARSEAIR_INSTALL`` builds cleanly on a fresh clone.
-- [ ] The system's H\ :sub:`3`-equivalent smoke test passes (a small
-  trajectory run producing the expected structure of
-  ``trajectories.csv`` / ``statistics.csv`` / ``Proc*.csv``).
-- [ ] Energy conservation diagnostic reports < 1 % drift across
-  representative trajectories.
-- [ ] Regression reference file is checked in and manually reviewed.
-- [ ] A new ``examples/<system>.rst`` page exists, the ``index.rst``
-  toctree includes it, and ``make html`` produces no Sphinx
-  warnings.

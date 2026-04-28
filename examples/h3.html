@@ -95,6 +95,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#secondary-input-files">Secondary input files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#postprocessing-block">Postprocessing block</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#boltzmann-postprocessing-boltzmann-runs">Boltzmann postprocessing (<code class="docutils literal notranslate"><span class="pre">Boltzmann</span></code> runs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#fixedrele-postprocessing-fixedrele-runs">FixedRelE postprocessing (<code class="docutils literal notranslate"><span class="pre">FixedRelE</span></code> runs)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../user/postprocessing.html">Post-processing</a><ul>
@@ -359,18 +364,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#phase-4-input-template-test-documentation">Phase 4 — Input template, test, documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#a-new-4-atom-pes-of-an-existing-system-minimal-diff">A new 4-atom PES of an existing system — minimal diff</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#larger-scale-additions-a-new-arrangement-count-5-atom">Larger-scale additions: a new arrangement count (5-atom)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#checklist">Checklist</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#layout">Layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#generating-refreshing-the-references">Generating / refreshing the references</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#tolerance-policy">Tolerance policy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#disabling-the-tests">Disabling the tests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#typical-output">Typical output</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
 </ul>
 </li>
 </ul>
@@ -453,7 +446,7 @@ Use this one unless you have a specific reason not to.</p></li>
 analytic form, retained for historical benchmarks only.</p></li>
 </ul>
 <p>The production Diatomic Potential Model paired with <code class="docutils literal notranslate"><span class="pre">H3_BH</span></code> is
-<code class="docutils literal notranslate"><span class="pre">Schwenke1988</span></code> — the canonical Schwenke 1988 H<sub>2</sub> analytic
+<code class="docutils literal notranslate"><span class="pre">Schwenke</span></code> — the canonical Schwenke 1988 H<sub>2</sub> analytic
 form. The same class is used across the H<sub>2`+He, H:sub:`3</sub>,
 and H<sub>4</sub> systems for cross-system consistency: every H-system
 PES in CoarseAIR ultimately uses the Schwenke 1988 H–H curve as its
@@ -509,14 +502,14 @@ three identical H atoms, one PES, one diatomic potential:</p>
      Model, PES 1      = H3_BH     ! BKMP2 surface; Boothroyd 1996
      Degeneracy, PES 1 = 1.0
 
-   Diatomic Potential Model, Molecule 1 = Schwenke1988
+   Diatomic Potential Model, Molecule 1 = Schwenke
 
    Initial Impact Parameter Model = Stratified
 </pre></div>
 </div>
 <p>The legacy LEPS input lives under <code class="docutils literal notranslate"><span class="pre">input/H3/LEPS/input/</span></code> and
 differs only in the PES model (<code class="docutils literal notranslate"><span class="pre">LEPS</span></code> instead of <code class="docutils literal notranslate"><span class="pre">H3_BH</span></code>) and
-in the diatomic potential (<code class="docutils literal notranslate"><span class="pre">Morse</span></code> instead of <code class="docutils literal notranslate"><span class="pre">Schwenke1988</span></code>).</p>
+in the diatomic potential (<code class="docutils literal notranslate"><span class="pre">Morse</span></code> instead of <code class="docutils literal notranslate"><span class="pre">Schwenke</span></code>).</p>
 <p>Because all three H atoms are identical, the natural configuration is
 <code class="docutils literal notranslate"><span class="pre">Identical</span> <span class="pre">Diatoms?</span> <span class="pre">=</span> <span class="pre">yes</span></code> and <code class="docutils literal notranslate"><span class="pre">Distinguish</span> <span class="pre">Exchanges</span> <span class="pre">between</span> <span class="pre">Each</span>
 <span class="pre">Other?</span> <span class="pre">=</span> <span class="pre">no</span></code> — the three symmetric exchange pathways sum into a

@@ -72,7 +72,6 @@ are required and conventional rate models break down.
 
    developer/architecture
    developer/adding_a_system
-   developer/regression_tests
 
 Indices and tables
 ==================

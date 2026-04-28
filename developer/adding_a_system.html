@@ -23,7 +23,6 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Regression Tests" href="regression_tests.html" />
     <link rel="prev" title="Architecture Reference" href="architecture.html" /> 
 </head>
 
@@ -95,6 +94,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#secondary-input-files">Secondary input files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#postprocessing-block">Postprocessing block</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#boltzmann-postprocessing-boltzmann-runs">Boltzmann postprocessing (<code class="docutils literal notranslate"><span class="pre">Boltzmann</span></code> runs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#fixedrele-postprocessing-fixedrele-runs">FixedRelE postprocessing (<code class="docutils literal notranslate"><span class="pre">FixedRelE</span></code> runs)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../user/postprocessing.html">Post-processing</a><ul>
@@ -359,18 +363,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#phase-4-input-template-test-documentation">Phase 4 — Input template, test, documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#a-new-4-atom-pes-of-an-existing-system-minimal-diff">A new 4-atom PES of an existing system — minimal diff</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#larger-scale-additions-a-new-arrangement-count-5-atom">Larger-scale additions: a new arrangement count (5-atom)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#checklist">Checklist</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="regression_tests.html">Regression Tests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#layout">Layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#generating-refreshing-the-references">Generating / refreshing the references</a></li>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#tolerance-policy">Tolerance policy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#disabling-the-tests">Disabling the tests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#typical-output">Typical output</a></li>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
 </ul>
 </li>
 </ul>
@@ -547,22 +539,6 @@ initial-condition sampler).</p></li>
 <p>This is a significant project — budget weeks, not days, and plan to
 extend the regression suite before merging.</p>
 </section>
-<section id="checklist">
-<h2>Checklist<a class="headerlink" href="#checklist" title="Link to this heading"></a></h2>
-<p>Before requesting review of a new-system PR:</p>
-<ul class="simple">
-<li><p>[ ] <code class="docutils literal notranslate"><span class="pre">COARSEAIR_INSTALL</span></code> builds cleanly on a fresh clone.</p></li>
-<li><p>[ ] The system’s H<sub>3</sub>-equivalent smoke test passes (a small
-trajectory run producing the expected structure of
-<code class="docutils literal notranslate"><span class="pre">trajectories.csv</span></code> / <code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> / <code class="docutils literal notranslate"><span class="pre">Proc*.csv</span></code>).</p></li>
-<li><p>[ ] Energy conservation diagnostic reports &lt; 1 % drift across
-representative trajectories.</p></li>
-<li><p>[ ] Regression reference file is checked in and manually reviewed.</p></li>
-<li><p>[ ] A new <code class="docutils literal notranslate"><span class="pre">examples/&lt;system&gt;.rst</span></code> page exists, the <code class="docutils literal notranslate"><span class="pre">index.rst</span></code>
-toctree includes it, and <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code> produces no Sphinx
-warnings.</p></li>
-</ul>
-</section>
 </section>
 
 
@@ -570,7 +546,6 @@ warnings.</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="architecture.html" class="btn btn-neutral float-left" title="Architecture Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="regression_tests.html" class="btn btn-neutral float-right" title="Regression Tests" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

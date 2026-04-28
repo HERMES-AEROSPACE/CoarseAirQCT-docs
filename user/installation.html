@@ -94,6 +94,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="input_reference.html#secondary-input-files">Secondary input files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_reference.html#postprocessing-block">Postprocessing block</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#boltzmann-postprocessing-boltzmann-runs">Boltzmann postprocessing (<code class="docutils literal notranslate"><span class="pre">Boltzmann</span></code> runs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#fixedrele-postprocessing-fixedrele-runs">FixedRelE postprocessing (<code class="docutils literal notranslate"><span class="pre">FixedRelE</span></code> runs)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing</a><ul>
@@ -358,18 +363,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#phase-4-input-template-test-documentation">Phase 4 — Input template, test, documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#a-new-4-atom-pes-of-an-existing-system-minimal-diff">A new 4-atom PES of an existing system — minimal diff</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#larger-scale-additions-a-new-arrangement-count-5-atom">Larger-scale additions: a new arrangement count (5-atom)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#checklist">Checklist</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#layout">Layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#generating-refreshing-the-references">Generating / refreshing the references</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#tolerance-policy">Tolerance policy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#disabling-the-tests">Disabling the tests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#typical-output">Typical output</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
 </ul>
 </li>
 </ul>
@@ -593,7 +586,7 @@ under <code class="docutils literal notranslate"><span class="pre">test/</span><
 and 10 trajectories per system, the suite runs in well under 10
 minutes and flags any recompile that changes the numerical output.
 Details and the disable flag are documented in
-<a class="reference internal" href="../developer/regression_tests.html"><span class="doc">Regression Tests</span></a>; the short version:</p>
+<span class="xref std std-doc">/developer/regression_tests</span>; the short version:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Suppress the post-install tests:</span>
 <span class="nv">COARSEAIR_SKIP_TESTS</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>COARSEAIR_INSTALL
 

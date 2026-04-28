@@ -131,7 +131,7 @@ Class hierarchies
 
    DiatomicPotential_Type (abstract)
    ├── Generic: Morse, ModMorse, Null
-   ├── H2:  Schwenke, Schwenke1988, BMKP
+   ├── H2:  Schwenke, Schwenke_Refit_SMJo, BMKP
    ├── N2:  LeRoy, UMN_ForN4, UMN_PIPNN_ForN4, UMN_ForN2O2,
    │        UMN_PIPMEG_ForN3, UMN_PIPMEG3_ForN4
    ├── O2:  Varandas, Basel, NASA, UMN, Basel_ForCO2

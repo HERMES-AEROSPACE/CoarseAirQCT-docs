@@ -95,6 +95,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#secondary-input-files">Secondary input files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html#postprocessing-block">Postprocessing block</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#boltzmann-postprocessing-boltzmann-runs">Boltzmann postprocessing (<code class="docutils literal notranslate"><span class="pre">Boltzmann</span></code> runs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#fixedrele-postprocessing-fixedrele-runs">FixedRelE postprocessing (<code class="docutils literal notranslate"><span class="pre">FixedRelE</span></code> runs)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../user/postprocessing.html">Post-processing</a><ul>
@@ -359,18 +364,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#phase-4-input-template-test-documentation">Phase 4 — Input template, test, documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#a-new-4-atom-pes-of-an-existing-system-minimal-diff">A new 4-atom PES of an existing system — minimal diff</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#larger-scale-additions-a-new-arrangement-count-5-atom">Larger-scale additions: a new arrangement count (5-atom)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#checklist">Checklist</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#layout">Layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#generating-refreshing-the-references">Generating / refreshing the references</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#tolerance-policy">Tolerance policy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#disabling-the-tests">Disabling the tests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#typical-output">Typical output</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
 </ul>
 </li>
 </ul>
@@ -451,7 +444,7 @@ H_a H_d + H_b H_c.\]</div>
 <section id="pes-models">
 <h2>PES models<a class="headerlink" href="#pes-models" title="Link to this heading"></a></h2>
 <p>Available: <code class="docutils literal notranslate"><span class="pre">BMKP</span></code> (Boothroyd–Martin–Keogh–Peterson H<sub>4</sub> PES).</p>
-<p>Diatomic partner: <code class="docutils literal notranslate"><span class="pre">H2_Schwenke1988</span></code> (the canonical Schwenke 1988
+<p>Diatomic partner: <code class="docutils literal notranslate"><span class="pre">H2_Schwenke</span></code> (the canonical Schwenke 1988
 H<sub>2</sub> analytic form). The same class is used across the
 H<sub>2`+He, H:sub:`3</sub>, and H<sub>4</sub> systems for cross-system
 consistency: the H–H form hard-coded inside <code class="docutils literal notranslate"><span class="pre">H4_BMKP</span></code> (module
@@ -515,12 +508,12 @@ partitions:</p>
      Degeneracy, PES 1 = 1.0
 
    ! All six atom-pair potentials are identical H2 diatomics.
-   Diatomic Potential Model, Molecule 1 = Schwenke1988
-   Diatomic Potential Model, Molecule 2 = Schwenke1988
-   Diatomic Potential Model, Molecule 3 = Schwenke1988
-   Diatomic Potential Model, Molecule 4 = Schwenke1988
-   Diatomic Potential Model, Molecule 5 = Schwenke1988
-   Diatomic Potential Model, Molecule 6 = Schwenke1988
+   Diatomic Potential Model, Molecule 1 = Schwenke
+   Diatomic Potential Model, Molecule 2 = Schwenke
+   Diatomic Potential Model, Molecule 3 = Schwenke
+   Diatomic Potential Model, Molecule 4 = Schwenke
+   Diatomic Potential Model, Molecule 5 = Schwenke
+   Diatomic Potential Model, Molecule 6 = Schwenke
 
    Initial Impact Parameter Model = Stratified
 </pre></div>

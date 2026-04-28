@@ -95,6 +95,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#secondary-input-files">Secondary input files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#postprocessing-block">Postprocessing block</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#boltzmann-postprocessing-boltzmann-runs">Boltzmann postprocessing (<code class="docutils literal notranslate"><span class="pre">Boltzmann</span></code> runs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fixedrele-postprocessing-fixedrele-runs">FixedRelE postprocessing (<code class="docutils literal notranslate"><span class="pre">FixedRelE</span></code> runs)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Post-processing</a><ul>
@@ -359,18 +364,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#phase-4-input-template-test-documentation">Phase 4 — Input template, test, documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#a-new-4-atom-pes-of-an-existing-system-minimal-diff">A new 4-atom PES of an existing system — minimal diff</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#larger-scale-additions-a-new-arrangement-count-5-atom">Larger-scale additions: a new arrangement count (5-atom)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_system.html#checklist">Checklist</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#layout">Layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#generating-refreshing-the-references">Generating / refreshing the references</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#tolerance-policy">Tolerance policy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#disabling-the-tests">Disabling the tests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#typical-output">Typical output</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#what-it-does-and-does-not-catch">What it does and does not catch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html#historical-note-the-vvtc-comparison">Historical note: the VVTC comparison</a></li>
 </ul>
 </li>
 </ul>
@@ -598,6 +591,18 @@ is what matters, the sign is an internal flag.</p>
 weighting — requires Jacobian correction during rate extraction):</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Initial Impact Parameter Model = Random
   Initial Impact Parameter = -14.0d0
+</pre></div>
+</div>
+<p><strong>Uniform</strong> — uniform sampling in <em>area</em> (i.e. uniform in
+<span class="math notranslate nohighlight">\(b^2\)</span>) over a single disc of radius <span class="math notranslate nohighlight">\(b_{\max}\)</span>. Each
+trajectory draws <span class="math notranslate nohighlight">\(b = \sqrt{\xi}\,b_{\max}\)</span> where
+<span class="math notranslate nohighlight">\(\xi \sim \mathcal{U}(0,1)\)</span>, so the points are uniformly
+distributed across the disc and the cross-section reduction needs no
+extra Jacobian. The same <code class="docutils literal notranslate"><span class="pre">Initial</span> <span class="pre">Impact</span> <span class="pre">Parameter</span></code> line as the
+other single-<span class="math notranslate nohighlight">\(b_{\max}\)</span> models supplies the magnitude (in bohr,
+sign convention as above):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Initial Impact Parameter Model = Uniform
+  Initial Impact Parameter = -14.0d0      ! b_max in bohr (magnitude)
 </pre></div>
 </div>
 <p><strong>Stratified</strong> — divides the impact-parameter range into <em>N</em> strata,
@@ -1099,6 +1104,106 @@ and <code class="docutils literal notranslate"><span class="pre">input/NaNbNcNd/
 grid of atomic configurations at which the PES is sampled for
 visualisation. Whether a diatomic or triatomic surface is plotted is
 selected via the line <code class="docutils literal notranslate"><span class="pre">PES</span> <span class="pre">or</span> <span class="pre">Diatomic</span> <span class="pre">=</span> <span class="pre">PES</span></code>.</p>
+</section>
+<section id="postprocessing-block">
+<h2>Postprocessing block<a class="headerlink" href="#postprocessing-block" title="Link to this heading"></a></h2>
+<p>How CoarseAIR converts trajectories into rate coefficients depends on
+which <code class="docutils literal notranslate"><span class="pre">Relative</span> <span class="pre">Translational</span> <span class="pre">Energy</span> <span class="pre">Model</span></code> was used to <em>generate</em>
+those trajectories. Two paths exist; pick the one that matches your
+sampling.</p>
+<section id="boltzmann-postprocessing-boltzmann-runs">
+<h3>Boltzmann postprocessing (<code class="docutils literal notranslate"><span class="pre">Boltzmann</span></code> runs)<a class="headerlink" href="#boltzmann-postprocessing-boltzmann-runs" title="Link to this heading"></a></h3>
+<p>When trajectories were sampled with</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Relative Translational Energy Model = Boltzmann
+Nb of Translational Temperatures   = N
+  Translational Temperature [K] 1 = T₁
+  ...
+  Translational Temperature [K] N = T_N
+</pre></div>
+</div>
+<p>each trajectory draws its relative kinetic energy from a
+Maxwell–Boltzmann distribution at the given <span class="math notranslate nohighlight">\(T\)</span>. The
+post-processing pipeline is fully in-tree:</p>
+<ol class="arabic">
+<li><p><code class="docutils literal notranslate"><span class="pre">coarseair-trajectoriesstats.x</span></code> reduces the per-process
+<code class="docutils literal notranslate"><span class="pre">trajectories.csv</span></code> to a per-bin <code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> of
+cross-sections.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">coarseair-posttrajectories.x</span></code> then converts those
+cross-sections to thermally averaged rate coefficients by
+multiplying by the appropriate mean velocity and partition-
+function factors. The result is written one file per
+<span class="math notranslate nohighlight">\((T_\text{tra}, T_\text{int})\)</span> pair under</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Test/&lt;System&gt;/Rates/T_&lt;Ttra&gt;_&lt;Tint&gt;/i&lt;initLev&gt;.csv
+</pre></div>
+</div>
+<p>with header lines reporting the system, PES name, initial
+molecule, total number of processes, total number of converged
+trajectories, partition-function ratio, and translational/internal
+temperatures, followed by <code class="docutils literal notranslate"><span class="pre">Process,</span> <span class="pre">Rate,</span> <span class="pre">Rate</span> <span class="pre">SD</span></code> rows.</p>
+</li>
+</ol>
+<p>This is the default flow when <code class="docutils literal notranslate"><span class="pre">Postprocessing</span> <span class="pre">Trajectories?</span> <span class="pre">=</span> <span class="pre">yes</span></code>
+and <code class="docutils literal notranslate"><span class="pre">Relative</span> <span class="pre">Translational</span> <span class="pre">Energy</span> <span class="pre">Model</span> <span class="pre">=</span> <span class="pre">Boltzmann</span></code>: the bash
+driver simply calls both binaries inside the per-temperature loop and
+no extra inputs are needed.</p>
+</section>
+<section id="fixedrele-postprocessing-fixedrele-runs">
+<h3>FixedRelE postprocessing (<code class="docutils literal notranslate"><span class="pre">FixedRelE</span></code> runs)<a class="headerlink" href="#fixedrele-postprocessing-fixedrele-runs" title="Link to this heading"></a></h3>
+<p>When trajectories were sampled at a fixed grid of relative collision
+energies</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Relative Translational Energy Model = FixedRelE
+Nb of Translational Energies        = M
+  Translational Energy [Eh] 1 = E₁
+  ...
+  Translational Energy [Eh] M = E_M
+</pre></div>
+</div>
+<p>each <code class="docutils literal notranslate"><span class="pre">coarseair-trajectoriesstats.x</span></code> invocation produces a per-bin
+<code class="docutils literal notranslate"><span class="pre">statistics.csv</span></code> of energy-resolved cross-sections, but rate
+coefficients are not yet defined: they require an integration of
+<span class="math notranslate nohighlight">\(\sigma(E)\)</span> against the Maxwell–Boltzmann weight <span class="math notranslate nohighlight">\(E\,
+\exp(-E/k_\mathrm{B}T)\)</span>. That last step is done by
+<code class="docutils literal notranslate"><span class="pre">coarseair-postpro-ecol.x</span></code> (built as a CMake target alongside the
+other binaries; standalone source under <code class="docutils literal notranslate"><span class="pre">Postpro_Ecol/</span></code>). The
+<code class="docutils literal notranslate"><span class="pre">CoarseAIR.sh</span></code> driver invokes it automatically once at the end of
+the per-energy loop when <code class="docutils literal notranslate"><span class="pre">TranFlg</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p>
+<p>Specify the temperatures at which the Boltzmann integration is
+evaluated <strong>inside</strong> <code class="docutils literal notranslate"><span class="pre">CoarseAIR.inp</span></code> itself, just below the
+<code class="docutils literal notranslate"><span class="pre">Translational</span> <span class="pre">Energy</span> <span class="pre">[Eh]</span></code> block:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Nb of Temperatures to Postprocess = 16
+  Translational Temperature to Postprocess [K]  1 =   300.d0
+  Translational Temperature to Postprocess [K]  2 =   500.d0
+  Translational Temperature to Postprocess [K]  3 =  1000.d0
+  ...
+  Translational Temperature to Postprocess [K] 16 = 25000.d0
+</pre></div>
+</div>
+<p>The driver auto-generates <code class="docutils literal notranslate"><span class="pre">Postpro_Ecol/input/{ecol,temp}.inp</span></code> from
+<code class="docutils literal notranslate"><span class="pre">Tran_vec</span></code> and the block above before invoking the binary, so the
+single <code class="docutils literal notranslate"><span class="pre">CoarseAIR.inp</span></code> is the source of truth — no separate
+<code class="docutils literal notranslate"><span class="pre">temp.inp</span></code>/<code class="docutils literal notranslate"><span class="pre">ecol.inp</span></code> to keep in sync.</p>
+<p>Output files match the Boltzmann-postprocessing layout exactly:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Test/&lt;System&gt;/Rates/T_&lt;T&gt;_&lt;T&gt;/i&lt;initLev&gt;.csv
+</pre></div>
+</div>
+<p>with the same header (<code class="docutils literal notranslate"><span class="pre">System</span> <span class="pre">|</span> <span class="pre">PES</span> <span class="pre">|</span> <span class="pre">In.</span> <span class="pre">Molecules</span> <span class="pre">|</span> <span class="pre">No</span> <span class="pre">Processes</span>
+<span class="pre">|</span> <span class="pre">No</span> <span class="pre">Trajectories</span></code>, then <code class="docutils literal notranslate"><span class="pre">In.</span> <span class="pre">Lev.s/Bins</span> <span class="pre">|</span> <span class="pre">Part.</span> <span class="pre">Func.s</span> <span class="pre">Ratios</span> <span class="pre">|</span>
+<span class="pre">Trans</span> <span class="pre">Temperature</span> <span class="pre">|</span> <span class="pre">Int</span> <span class="pre">Temperature</span></code>, then <code class="docutils literal notranslate"><span class="pre">Process,</span> <span class="pre">Rate,</span> <span class="pre">Rate</span>
+<span class="pre">SD</span></code> rows). The <code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">Trajectories</span></code> field aggregates the per-Ecol
+<code class="docutils literal notranslate"><span class="pre">NConvTraj.dat</span></code> counts and the <code class="docutils literal notranslate"><span class="pre">Part.</span> <span class="pre">Func.s</span> <span class="pre">Ratios</span></code> field is
+<span class="math notranslate nohighlight">\(g_i\,e^{-E_i/k_\mathrm{B}T}/Q(T)\)</span> for the initial state.
+Process indices follow the same convention as the Boltzmann path
+(<span class="math notranslate nohighlight">\(Idx = N_{\text{prev proc}}(iP) + iLevel + 1\)</span> for bound
+products; <span class="math notranslate nohighlight">\(Idx = N_{\text{prev proc}}(iP) + 1\)</span> for pair-iP
+dissociation).</p>
+<p><strong>Reliability window.</strong> Boltzmann integration is well-supported when
+the integrand peak (around <span class="math notranslate nohighlight">\(k_\mathrm{B}T\)</span>) lies inside the
+sampled <code class="docutils literal notranslate"><span class="pre">Translational</span> <span class="pre">Energy</span> <span class="pre">[Eh]</span></code> grid. As a rule of thumb, an
+Ecol grid spanning <span class="math notranslate nohighlight">\(E_\min\)</span> to <span class="math notranslate nohighlight">\(E_\max\)</span> produces
+trustworthy rates for <span class="math notranslate nohighlight">\(T \in [E_\min/k_\mathrm{B},\,
+E_\max/k_\mathrm{B}]\)</span>; outside that window the integrand is dominated
+by extrapolated tails and the rate is unreliable.</p>
+</section>
 </section>
 </section>
 

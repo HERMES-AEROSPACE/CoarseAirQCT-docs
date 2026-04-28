@@ -214,6 +214,20 @@ weighting — requires Jacobian correction during rate extraction):
    Initial Impact Parameter Model = Random
      Initial Impact Parameter = -14.0d0
 
+**Uniform** — uniform sampling in *area* (i.e. uniform in
+:math:`b^2`) over a single disc of radius :math:`b_{\max}`. Each
+trajectory draws :math:`b = \sqrt{\xi}\,b_{\max}` where
+:math:`\xi \sim \mathcal{U}(0,1)`, so the points are uniformly
+distributed across the disc and the cross-section reduction needs no
+extra Jacobian. The same ``Initial Impact Parameter`` line as the
+other single-:math:`b_{\max}` models supplies the magnitude (in bohr,
+sign convention as above):
+
+.. code-block:: text
+
+   Initial Impact Parameter Model = Uniform
+     Initial Impact Parameter = -14.0d0      ! b_max in bohr (magnitude)
+
 **Stratified** — divides the impact-parameter range into *N* strata,
 each with its own trajectory budget. Produces much tighter
 cross-section error bars at fixed cost. The ``Strata Type`` is either
@@ -715,3 +729,119 @@ and ``input/NaNbNcNd/NASA/input/ProcessesToRunList.inp`` (4-atom
 grid of atomic configurations at which the PES is sampled for
 visualisation. Whether a diatomic or triatomic surface is plotted is
 selected via the line ``PES or Diatomic = PES``.
+
+
+Postprocessing block
+--------------------
+
+How CoarseAIR converts trajectories into rate coefficients depends on
+which ``Relative Translational Energy Model`` was used to *generate*
+those trajectories. Two paths exist; pick the one that matches your
+sampling.
+
+Boltzmann postprocessing (``Boltzmann`` runs)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When trajectories were sampled with
+
+.. code-block:: text
+
+   Relative Translational Energy Model = Boltzmann
+   Nb of Translational Temperatures   = N
+     Translational Temperature [K] 1 = T₁
+     ...
+     Translational Temperature [K] N = T_N
+
+each trajectory draws its relative kinetic energy from a
+Maxwell–Boltzmann distribution at the given :math:`T`. The
+post-processing pipeline is fully in-tree:
+
+1. ``coarseair-trajectoriesstats.x`` reduces the per-process
+   ``trajectories.csv`` to a per-bin ``statistics.csv`` of
+   cross-sections.
+2. ``coarseair-posttrajectories.x`` then converts those
+   cross-sections to thermally averaged rate coefficients by
+   multiplying by the appropriate mean velocity and partition-
+   function factors. The result is written one file per
+   :math:`(T_\text{tra}, T_\text{int})` pair under
+
+   .. code-block:: text
+
+      Test/<System>/Rates/T_<Ttra>_<Tint>/i<initLev>.csv
+
+   with header lines reporting the system, PES name, initial
+   molecule, total number of processes, total number of converged
+   trajectories, partition-function ratio, and translational/internal
+   temperatures, followed by ``Process, Rate, Rate SD`` rows.
+
+This is the default flow when ``Postprocessing Trajectories? = yes``
+and ``Relative Translational Energy Model = Boltzmann``: the bash
+driver simply calls both binaries inside the per-temperature loop and
+no extra inputs are needed.
+
+FixedRelE postprocessing (``FixedRelE`` runs)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When trajectories were sampled at a fixed grid of relative collision
+energies
+
+.. code-block:: text
+
+   Relative Translational Energy Model = FixedRelE
+   Nb of Translational Energies        = M
+     Translational Energy [Eh] 1 = E₁
+     ...
+     Translational Energy [Eh] M = E_M
+
+each ``coarseair-trajectoriesstats.x`` invocation produces a per-bin
+``statistics.csv`` of energy-resolved cross-sections, but rate
+coefficients are not yet defined: they require an integration of
+:math:`\sigma(E)` against the Maxwell–Boltzmann weight :math:`E\,
+\exp(-E/k_\mathrm{B}T)`. That last step is done by
+``coarseair-postpro-ecol.x`` (built as a CMake target alongside the
+other binaries; standalone source under ``Postpro_Ecol/``). The
+``CoarseAIR.sh`` driver invokes it automatically once at the end of
+the per-energy loop when ``TranFlg = 0``.
+
+Specify the temperatures at which the Boltzmann integration is
+evaluated **inside** ``CoarseAIR.inp`` itself, just below the
+``Translational Energy [Eh]`` block:
+
+.. code-block:: text
+
+   Nb of Temperatures to Postprocess = 16
+     Translational Temperature to Postprocess [K]  1 =   300.d0
+     Translational Temperature to Postprocess [K]  2 =   500.d0
+     Translational Temperature to Postprocess [K]  3 =  1000.d0
+     ...
+     Translational Temperature to Postprocess [K] 16 = 25000.d0
+
+The driver auto-generates ``Postpro_Ecol/input/{ecol,temp}.inp`` from
+``Tran_vec`` and the block above before invoking the binary, so the
+single ``CoarseAIR.inp`` is the source of truth — no separate
+``temp.inp``/``ecol.inp`` to keep in sync.
+
+Output files match the Boltzmann-postprocessing layout exactly:
+
+.. code-block:: text
+
+   Test/<System>/Rates/T_<T>_<T>/i<initLev>.csv
+
+with the same header (``System | PES | In. Molecules | No Processes
+| No Trajectories``, then ``In. Lev.s/Bins | Part. Func.s Ratios |
+Trans Temperature | Int Temperature``, then ``Process, Rate, Rate
+SD`` rows). The ``No Trajectories`` field aggregates the per-Ecol
+``NConvTraj.dat`` counts and the ``Part. Func.s Ratios`` field is
+:math:`g_i\,e^{-E_i/k_\mathrm{B}T}/Q(T)` for the initial state.
+Process indices follow the same convention as the Boltzmann path
+(:math:`Idx = N_{\text{prev proc}}(iP) + iLevel + 1` for bound
+products; :math:`Idx = N_{\text{prev proc}}(iP) + 1` for pair-iP
+dissociation).
+
+**Reliability window.** Boltzmann integration is well-supported when
+the integrand peak (around :math:`k_\mathrm{B}T`) lies inside the
+sampled ``Translational Energy [Eh]`` grid. As a rule of thumb, an
+Ecol grid spanning :math:`E_\min` to :math:`E_\max` produces
+trustworthy rates for :math:`T \in [E_\min/k_\mathrm{B},\,
+E_\max/k_\mathrm{B}]`; outside that window the integrand is dominated
+by extrapolated tails and the rate is unreliable.

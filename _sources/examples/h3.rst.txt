@@ -53,7 +53,7 @@ PES models
   analytic form, retained for historical benchmarks only.
 
 The production Diatomic Potential Model paired with ``H3_BH`` is
-``Schwenke1988`` — the canonical Schwenke 1988 H\ :sub:`2` analytic
+``Schwenke`` — the canonical Schwenke 1988 H\ :sub:`2` analytic
 form. The same class is used across the H\ :sub:`2`+He, H\ :sub:`3`,
 and H\ :sub:`4` systems for cross-system consistency: every H-system
 PES in CoarseAIR ultimately uses the Schwenke 1988 H–H curve as its
@@ -114,13 +114,13 @@ three identical H atoms, one PES, one diatomic potential:
         Model, PES 1      = H3_BH     ! BKMP2 surface; Boothroyd 1996
         Degeneracy, PES 1 = 1.0
 
-      Diatomic Potential Model, Molecule 1 = Schwenke1988
+      Diatomic Potential Model, Molecule 1 = Schwenke
 
       Initial Impact Parameter Model = Stratified
 
 The legacy LEPS input lives under ``input/H3/LEPS/input/`` and
 differs only in the PES model (``LEPS`` instead of ``H3_BH``) and
-in the diatomic potential (``Morse`` instead of ``Schwenke1988``).
+in the diatomic potential (``Morse`` instead of ``Schwenke``).
 
 Because all three H atoms are identical, the natural configuration is
 ``Identical Diatoms? = yes`` and ``Distinguish Exchanges between Each
